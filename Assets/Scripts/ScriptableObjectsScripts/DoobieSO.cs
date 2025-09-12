@@ -11,6 +11,7 @@ public class DoobieSO : ScriptableObject, ICombatantSO
     public bool unlockedByDefault;
     public int zurp; // mana 
     public int baseDamage;
+    public int baseDefence;
 
     public int baseHealth;
     public bool hasHealth = true;

@@ -9,6 +9,7 @@ public class VangurrSO : ScriptableObject, ICombatantSO
     public string vangurrName;
     public Sprite portrait;
     public int baseDamage;
+    public int baseDefence;
     public int baseHealth;
     public string VangurrText;
     public int difficultyLevel;

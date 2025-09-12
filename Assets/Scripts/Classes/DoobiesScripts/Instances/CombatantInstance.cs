@@ -11,6 +11,7 @@ public abstract class CombatantInstance
     public abstract ScriptableObject so { get; }
     public abstract string CharacterName { get; }
     public abstract int CurrentHealth { get; set; }
+    public abstract int CurrentDefence { get; set; }
 
     public WeaponInstance EquippedWeaponInstance;
 
@@ -19,6 +20,12 @@ public abstract class CombatantInstance
 
     public abstract List<SkillSO> GetAllSkills();
 
+    /// <summary>
+    /// The instance takes damage, reduced by defence.
+    /// </summary>
+    /// <param name="amount">The amount of damage before defence</param>
+    /// <param name="isSkill">wheter the dmg came from a skill</param>
+    /// <returns></returns>
     public virtual DamageResult TakeDamage(int amount, bool isSkill = false)
     {
         if (DeflectNextAttack && !isSkill)
@@ -27,7 +34,9 @@ public abstract class CombatantInstance
             return DamageResult.Deflected;
         }
 
-        CurrentHealth = Mathf.Max(CurrentHealth - amount, 0);
+        int reducedDamage = Mathf.CeilToInt(amount / (float)CurrentDefence);
+
+        CurrentHealth = Mathf.Max(CurrentHealth - reducedDamage, 0);
         return DamageResult.Hit;
     }
 

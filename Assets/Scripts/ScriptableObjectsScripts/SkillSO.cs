@@ -31,7 +31,7 @@ public class SkillSO : ScriptableObject
                     doobie.CurrentHealth -= resourceCost;
                     break;
                 case ResourceType.Mana:
-                    doobie.currentZurp -= resourceCost;
+                    doobie.ChangeZurp(resourceCost, false);
                     break;
             }
         }
@@ -43,7 +43,7 @@ public class SkillSO : ScriptableObject
             var doobieSO = spellcaster.so as DoobieSO;
             if (doobieSO != null && Random.value < zurpRegainChance)
             {
-                spellcaster.GainZurp(zurpRegainAmount); // You’ll want this method in DoobieInstance
+                spellcaster.ChangeZurp(zurpRegainAmount, true);
                 Debug.Log($"{spellcaster.CharacterName} regains 1 Zurp from casting {skillName}!");
             }
         }
