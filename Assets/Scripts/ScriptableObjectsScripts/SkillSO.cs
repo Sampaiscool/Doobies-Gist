@@ -11,7 +11,7 @@ public class SkillSO : ScriptableObject
     public string description;
     public int resourceCost;
     public ResourceType resourceUsed; // HP or Zurp
-    public Debuff debuffToApply;
+    public Buff debuffToApply;
     public float zurpRegainChance;
     public int zurpRegainAmount;
 
@@ -35,6 +35,7 @@ public class SkillSO : ScriptableObject
                     break;
             }
         }
+
         string result = effect.ApplyEffect(user, target);
 
         // Roll for Zurp restore only if user is Doobie and this was a spell
@@ -44,7 +45,8 @@ public class SkillSO : ScriptableObject
             if (doobieSO != null && Random.value < zurpRegainChance)
             {
                 spellcaster.ChangeZurp(zurpRegainAmount, true);
-                Debug.Log($"{spellcaster.CharacterName} regains 1 Zurp from casting {skillName}!");
+                Debug.Log($"{spellcaster.CharacterName} regains " + zurpRegainAmount + " Zurp from casting {skillName}!");
+                result += "\nYou also regain " + zurpRegainAmount + " zurp!";
             }
         }
 

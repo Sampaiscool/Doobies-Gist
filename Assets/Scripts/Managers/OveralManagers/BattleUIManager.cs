@@ -26,6 +26,14 @@ public class BattleUIManager : MonoBehaviour
     public List<Button> AllSkillButtons;
     public List<TMP_Text> SkillButtonLabels;
 
+    [Header("buff Icons")]
+    public Sprite defaultSprite;
+    public Sprite defenceDownSprite;
+    
+
+    public GameObject BuffIconPrefab;
+    public GameObject BuffDescriptionPrefab;
+
     public static BattleUIManager Instance { get; private set; }
     private void Awake()
     {
@@ -142,7 +150,7 @@ public class BattleUIManager : MonoBehaviour
         {
             if (combatant is DoobieInstance doobie && doobie._so is DoobieSO doobieSO)
             {
-                extraText.text = $"{doobieSO.zurp} {extraLabel}";
+                extraText.text = $"{doobie.currentZurp} {extraLabel}";
                 extraText.gameObject.SetActive(true);
             }
             else
@@ -150,6 +158,41 @@ public class BattleUIManager : MonoBehaviour
                 extraText.gameObject.SetActive(false);
             }
         }
+    }
+    public void UpdateBuffsUI(CombatantInstance combatant, Transform buffContainer)
+    {
+        // Eerst oude iconen opruimen
+        foreach (var icon in combatant.ActiveBuffIcons)
+            Destroy(icon);
+
+        combatant.ActiveBuffIcons.Clear();
+
+        // Voor elke actieve buff een icoon maken
+        foreach (var buff in combatant.ActiveBuffs)
+        {
+            GameObject iconGO = Instantiate(BuffIconPrefab, buffContainer, false);
+
+            Image iconImage = iconGO.GetComponent<Image>();
+            iconImage.sprite = GetSpriteForBuffs(buff.type);
+
+            // Hover tooltip instellen
+            var hover = iconGO.GetComponent<DebuffIconHover>();
+            if (hover != null)
+            {
+                hover.linkedBuff = buff;
+                hover.tooltipPrefab = BuffDescriptionPrefab;
+            }
+
+            combatant.ActiveBuffIcons.Add(iconGO);
+        }
+    }
+    private Sprite GetSpriteForBuffs(BuffType type)
+    {
+        return type switch
+        {
+            BuffType.DefenceDown => defenceDownSprite,
+            _ => defaultSprite
+        };
     }
 
     private void ShowPanel(GameObject panelToShow)

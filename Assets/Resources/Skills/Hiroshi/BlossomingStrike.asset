@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Blossoming Strike
   icon: {fileID: 0}
+  animation: {fileID: 0}
   description: Deals small damage and deflects the next attack.
   resourceCost: 3
   resourceUsed: 0
@@ -21,6 +22,6 @@ MonoBehaviour:
     type: 0
     duration: 0
     intensity: 0
-  zurpRegainChance: 1
+  zurpRegainChance: 0.2
   zurpRegainAmount: 2
   effect: {fileID: 11400000, guid: b4825012decd7b04b85a751057320aea, type: 2}

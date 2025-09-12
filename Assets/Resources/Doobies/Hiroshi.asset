@@ -17,6 +17,7 @@ MonoBehaviour:
   unlockedByDefault: 1
   zurp: 5
   baseDamage: 2
+  baseDefence: 1
   baseHealth: 20
   hasHealth: 1
   baseSkills:

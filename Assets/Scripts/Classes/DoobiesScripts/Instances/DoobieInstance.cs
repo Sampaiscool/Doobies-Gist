@@ -7,7 +7,7 @@ public class DoobieInstance : CombatantInstance
     public override ScriptableObject so => _so;
     public override string CharacterName => _so.doobieName;
     public override int CurrentHealth { get; set; }
-    public override int CurrentDefence { get; set; }
+    public override float CurrentDefence { get; set; }
 
     public int currentZurp;
 

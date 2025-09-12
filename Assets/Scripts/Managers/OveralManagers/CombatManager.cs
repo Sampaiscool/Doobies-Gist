@@ -15,6 +15,10 @@ public class CombatManager : MonoBehaviour
     private CombatantInstance playerDoobie;
     private CombatantInstance enemyVangurr;
 
+    [Header("Buff Containers")]
+    public Transform playerBuffContainer;
+    public Transform enemyBuffContainer;
+
     [SerializeField] private Transform doobieAnchor;
     [SerializeField] private Transform vangurrAnchor;
 
@@ -61,14 +65,32 @@ public class CombatManager : MonoBehaviour
 
     void OnSkillChosen(SkillSO chosenSkill)
     {
-        string result = chosenSkill.UseSkill(playerDoobie, enemyVangurr);
-        Debug.Log(result);
+        switch (chosenSkill.resourceUsed)
+        {
+            case ResourceType.Mana:
+                if (GameManager.Instance.currentDoobie.currentZurp >= chosenSkill.resourceCost)
+                {
+                    string result = chosenSkill.UseSkill(playerDoobie, enemyVangurr);
+                    Debug.Log(result);
 
-        BattleUIManager.AddLog(result);
-        BattleUIManager.UpdateUI();
+                    BattleUIManager.AddLog(result);
+                    BattleUIManager.UpdateUI();
 
-        IsPlayerTurn = false;
-        waitingForNext = true;
+                    IsPlayerTurn = false;
+                    waitingForNext = true;
+                }
+                else
+                {
+                    BattleUIManager.AddLog("You dont have enough zurp!");
+                    BattleUIManager.UpdateUI();
+                }
+                break;
+            case ResourceType.Health: 
+                
+                break;
+            default:
+                break;
+        }
     }
 
     public void OnNextButtonClicked()
@@ -89,7 +111,11 @@ public class CombatManager : MonoBehaviour
 
         if (!IsPlayerTurn)
         {
-            // Vangurr's turn
+            // Enemy's turn: eerst debuffs aftikken
+            enemyVangurr.TickBuffs();
+            BattleUIManager.UpdateBuffsUI(playerDoobie, playerBuffContainer);
+            BattleUIManager.UpdateBuffsUI(enemyVangurr, enemyBuffContainer);
+
             string result = enemyVangurr.PerformBasicAttack(playerDoobie);
             BattleUIManager.AddLog(result);
             BattleUIManager.UpdateUI();
@@ -98,7 +124,11 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
-            // Back to player
+            // Player's turn: eerst debuffs aftikken
+            playerDoobie.TickBuffs();
+            BattleUIManager.UpdateBuffsUI(playerDoobie, playerBuffContainer);
+            BattleUIManager.UpdateBuffsUI(enemyVangurr, enemyBuffContainer);
+
             BattleUIManager.NextClicked();
             waitingForNext = false;
         }

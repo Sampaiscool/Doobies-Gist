@@ -11,7 +11,7 @@ public abstract class CombatantInstance
     public abstract ScriptableObject so { get; }
     public abstract string CharacterName { get; }
     public abstract int CurrentHealth { get; set; }
-    public abstract int CurrentDefence { get; set; }
+    public abstract float CurrentDefence { get; set; }
 
     public WeaponInstance EquippedWeaponInstance;
 
@@ -19,6 +19,9 @@ public abstract class CombatantInstance
     public int GetEffectiveCritChance() => EquippedWeaponInstance?.GetEffectiveCritChance() ?? 0;
 
     public abstract List<SkillSO> GetAllSkills();
+    public List<Buff> ActiveBuffs { get; private set; } = new List<Buff>();
+    public List<GameObject> ActiveBuffIcons = new List<GameObject>();
+
 
     /// <summary>
     /// The instance takes damage, reduced by defence.
@@ -34,7 +37,8 @@ public abstract class CombatantInstance
             return DamageResult.Deflected;
         }
 
-        int reducedDamage = Mathf.CeilToInt(amount / (float)CurrentDefence);
+        float defence = GetEffectiveDefence();
+        int reducedDamage = Mathf.CeilToInt(amount / defence);
 
         CurrentHealth = Mathf.Max(CurrentHealth - reducedDamage, 0);
         return DamageResult.Hit;
@@ -89,6 +93,35 @@ public abstract class CombatantInstance
                 return $"{CharacterName} attacks, but something strange happens...";
         }
     }
+    public void AddBuff(Buff buff)
+    {
+        ActiveBuffs.Add(buff);
+    }
+
+    public void TickBuffs()
+    {
+        for (int i = ActiveBuffs.Count - 1; i >= 0; i--)
+        {
+            ActiveBuffs[i].duration--;
+            if (ActiveBuffs[i].duration <= 0)
+                ActiveBuffs.RemoveAt(i);
+        }
+    }
+    public float GetEffectiveDefence()
+    {
+        float defence = CurrentDefence;
+
+        foreach (var Buffs in ActiveBuffs)
+        {
+            if (Buffs.type == BuffType.DefenceDown)
+            {
+                defence *= 0.8f; // 20% minder defence per stack
+            }
+        }
+
+        return Mathf.Max(0.1f, defence); // nooit 0 of negatief
+    }
+
     /// <summary>
     /// Activate the animation of the weapon
     /// </summary>
