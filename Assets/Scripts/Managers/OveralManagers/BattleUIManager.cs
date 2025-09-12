@@ -33,7 +33,9 @@ public class BattleUIManager : MonoBehaviour
     public Sprite defaultSprite;
     public Sprite defenceDownSprite;
     public Sprite deflectionSprite;
-    
+    public Sprite HardenSprite;
+    public Sprite BloomBlossomSprite;
+
 
     public GameObject BuffIconPrefab;
     public GameObject BuffDescriptionPrefab;
@@ -199,6 +201,8 @@ public class BattleUIManager : MonoBehaviour
         {
             BuffType.DefenceDown => defenceDownSprite,
             BuffType.Deflecion => deflectionSprite,
+            BuffType.Harden => HardenSprite,
+            BuffType.BloomBlossom => BloomBlossomSprite,
             _ => defaultSprite
         };
     }

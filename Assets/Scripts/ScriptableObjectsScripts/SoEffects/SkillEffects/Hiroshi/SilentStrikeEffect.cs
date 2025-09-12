@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Skill/Effects/SilentStrike")]
+[CreateAssetMenu(menuName = "SO/Skill/Effects/Hiroshi/SilentStrike")]
 public class SilentStrikeEffect : SkillEffectSO
 {
     /// <summary>

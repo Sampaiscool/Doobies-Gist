@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Skill/Effects/BlossomingStrike")]
+[CreateAssetMenu(menuName = "SO/Skill/Effects/Hiroshi/BlossomingStrike")]
 public class BlossomingStrikeEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target)

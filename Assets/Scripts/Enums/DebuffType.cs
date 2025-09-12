@@ -9,6 +9,7 @@ public enum BuffType
     Harden,
     Strenghten,
     Deflecion,
+    BloomBlossom,
 
     // --- Debuffs ---
     Burn,

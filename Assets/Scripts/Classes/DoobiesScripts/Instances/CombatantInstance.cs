@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class CombatantInstance
@@ -30,11 +31,9 @@ public abstract class CombatantInstance
     /// <returns></returns>
     public virtual DamageResult TakeDamage(int amount, bool isSkill = false)
     {
-        // Check of de target een DeflectNextAttack buff heeft
-        Buff deflectBuff = ActiveBuffs.Find(b => b.type == BuffType.Deflecion);
-        if (deflectBuff != null && !isSkill)
+        // Eerst kijken of er deflection is
+        if (!isSkill && HandleDeflection())
         {
-            ActiveBuffs.Remove(deflectBuff); // buff gaat op
             return DamageResult.Deflected;
         }
 
@@ -43,6 +42,31 @@ public abstract class CombatantInstance
 
         CurrentHealth = Mathf.Max(CurrentHealth - reducedDamage, 0);
         return DamageResult.Hit;
+    }
+    private bool HandleDeflection()
+    {
+        var deflectBuffs = ActiveBuffs.FindAll(b => b.type == BuffType.Deflecion);
+
+        if (deflectBuffs.Count == 0)
+            return false; // niks om te doen
+
+        // Harden buff geven als er een sterke deflect was
+        if (deflectBuffs.Any(b => b.intensity >= 10))
+        {
+            AddBuff(new Buff(BuffType.Harden, 3, false, 3));
+        }
+
+        // Alle deflects weghalen
+        ActiveBuffs.RemoveAll(b => b.type == BuffType.Deflecion);
+
+        // Check voor BloomBlossom ? herplaats deflection
+        Buff bloomBlossomBuff = ActiveBuffs.Find(b => b.type == BuffType.BloomBlossom);
+        if (bloomBlossomBuff != null)
+        {
+            AddBuff(new Buff(BuffType.Deflecion, 999, false, 10));
+        }
+
+        return true; // een deflect is afgehandeld
     }
 
     /// <summary>
@@ -94,9 +118,25 @@ public abstract class CombatantInstance
                 return $"{CharacterName} attacks, but something strange happens...";
         }
     }
-    public void AddBuff(Buff buff)
+    public void AddBuff(Buff newBuff)
     {
-        ActiveBuffs.Add(buff);
+        // Look for an existing buff of the same type
+        Buff existing = ActiveBuffs.Find(b => b.type == newBuff.type);
+
+        if (existing != null)
+        {
+            // Stack them: add duration and intensity
+            existing.duration += newBuff.duration;
+            existing.intensity += newBuff.intensity;
+        }
+        else
+        {
+            // Otherwise just add it fresh
+            ActiveBuffs.Add(newBuff);
+        }
+
+        // Update the UI immediately so the change is visible
+        BattleUIManager.Instance.UpdateUI();
     }
 
     public void TickBuffs()
@@ -116,11 +156,25 @@ public abstract class CombatantInstance
         {
             if (Buffs.type == BuffType.DefenceDown)
             {
-                defence *= 0.8f; // 20% minder defence per stack
+                int i = Buffs.intensity;
+                while (i > 1)
+                {
+                    defence *= 0.8f;
+                    i--;
+                }
+            }
+            else if (Buffs.type == BuffType.Harden)
+            {
+                int i = Buffs.intensity;
+                while (i > 1)
+                {
+                    defence *= 1.2f;
+                    i--;
+                }
             }
         }
 
-        return Mathf.Max(0.1f, defence); // nooit 0 of negatief
+        return defence;
     }
 
     /// <summary>

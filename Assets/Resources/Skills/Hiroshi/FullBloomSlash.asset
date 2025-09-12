@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: FullBloomSlash
   m_EditorClassIdentifier: 
   skillName: Full Bloom Slash
-  description: A powerfull strike that removes all of your debuffs
   icon: {fileID: 0}
-  resourceCost: 4
+  animation: {fileID: 0}
+  description: Empower yourself with the Bloom Blossom
+  resourceCost: 5
   resourceUsed: 0
-  cooldown: 3
   debuffToApply:
     type: 0
     duration: 0
     intensity: 0
+    isDebuff: 0
+  zurpRegainChance: 0.7
+  zurpRegainAmount: 1
+  effect: {fileID: 11400000, guid: d4310060bddaea844bf16e084cf281d5, type: 2}
