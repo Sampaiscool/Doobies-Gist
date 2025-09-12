@@ -15,10 +15,6 @@ public class CombatManager : MonoBehaviour
     private CombatantInstance playerDoobie;
     private CombatantInstance enemyVangurr;
 
-    [Header("Buff Containers")]
-    public Transform playerBuffContainer;
-    public Transform enemyBuffContainer;
-
     [SerializeField] private Transform doobieAnchor;
     [SerializeField] private Transform vangurrAnchor;
 
@@ -113,8 +109,7 @@ public class CombatManager : MonoBehaviour
         {
             // Enemy's turn: eerst debuffs aftikken
             enemyVangurr.TickBuffs();
-            BattleUIManager.UpdateBuffsUI(playerDoobie, playerBuffContainer);
-            BattleUIManager.UpdateBuffsUI(enemyVangurr, enemyBuffContainer);
+            BattleUIManager.UpdateUI();
 
             string result = enemyVangurr.PerformBasicAttack(playerDoobie);
             BattleUIManager.AddLog(result);
@@ -126,8 +121,7 @@ public class CombatManager : MonoBehaviour
         {
             // Player's turn: eerst debuffs aftikken
             playerDoobie.TickBuffs();
-            BattleUIManager.UpdateBuffsUI(playerDoobie, playerBuffContainer);
-            BattleUIManager.UpdateBuffsUI(enemyVangurr, enemyBuffContainer);
+            BattleUIManager.UpdateUI();
 
             BattleUIManager.NextClicked();
             waitingForNext = false;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class CombatantInstance
 {
-    public bool DeflectNextAttack = false;
 
     public Transform animationAnchor;
 
@@ -31,9 +30,11 @@ public abstract class CombatantInstance
     /// <returns></returns>
     public virtual DamageResult TakeDamage(int amount, bool isSkill = false)
     {
-        if (DeflectNextAttack && !isSkill)
+        // Check of de target een DeflectNextAttack buff heeft
+        Buff deflectBuff = ActiveBuffs.Find(b => b.type == BuffType.Deflecion);
+        if (deflectBuff != null && !isSkill)
         {
-            DeflectNextAttack = false;
+            ActiveBuffs.Remove(deflectBuff); // buff gaat op
             return DamageResult.Deflected;
         }
 

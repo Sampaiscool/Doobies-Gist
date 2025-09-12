@@ -1864,6 +1864,8 @@ MonoBehaviour:
   CombatLogText: {fileID: 114723691}
   BattleOptionsPanel: {fileID: 1742563176}
   SkillOptions: {fileID: 672786977}
+  DoobieBuffsContainer: {fileID: 1205574242}
+  VangurrBuffsContainer: {fileID: 2085472037}
   BackFromSkillsButton: {fileID: 757010355}
   AllSkillButtons:
   - {fileID: 1171087477}
@@ -1877,6 +1879,7 @@ MonoBehaviour:
   - {fileID: 1030429316}
   defaultSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   defenceDownSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  deflectionSprite: {fileID: 21300000, guid: 1f69065700db8a944b89b1c21e044d31, type: 3}
   BuffIconPrefab: {fileID: 8727585946917096499, guid: 3865fb4965dd7714f8502c665b7d8190, type: 3}
   BuffDescriptionPrefab: {fileID: 7399243327277128440, guid: 9ca2d5d67a8f1bb499a0171ffc237151, type: 3}
 --- !u!1 &757010351
@@ -2647,7 +2650,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -198, y: 113.2}
+  m_AnchoredPosition: {x: -613, y: 260}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1171087473
@@ -2846,8 +2849,6 @@ MonoBehaviour:
   BattleUIManager: {fileID: 723630621}
   IsPlayerTurn: 1
   waitingForNext: 0
-  playerBuffContainer: {fileID: 1205574242}
-  enemyBuffContainer: {fileID: 2085472037}
   doobieAnchor: {fileID: 1122929993}
   vangurrAnchor: {fileID: 1451044796}
 --- !u!1 &1198755536
@@ -3601,7 +3602,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 201.6, y: 113.2}
+  m_AnchoredPosition: {x: 606, y: 260}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1474369830

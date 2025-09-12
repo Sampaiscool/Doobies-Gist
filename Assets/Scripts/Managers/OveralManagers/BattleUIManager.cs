@@ -22,6 +22,9 @@ public class BattleUIManager : MonoBehaviour
     public GameObject BattleOptionsPanel;
     public GameObject SkillOptions;
 
+    public Transform DoobieBuffsContainer;
+    public Transform VangurrBuffsContainer;
+
     public Button BackFromSkillsButton;
     public List<Button> AllSkillButtons;
     public List<TMP_Text> SkillButtonLabels;
@@ -29,6 +32,7 @@ public class BattleUIManager : MonoBehaviour
     [Header("buff Icons")]
     public Sprite defaultSprite;
     public Sprite defenceDownSprite;
+    public Sprite deflectionSprite;
     
 
     public GameObject BuffIconPrefab;
@@ -73,6 +77,9 @@ public class BattleUIManager : MonoBehaviour
     {
         UpdateCombatantUI(GameManager.Instance.currentDoobie, DoobieImage, DoobieName, DoobieHP, DoobieVurp, "Zurp");
         UpdateCombatantUI(GameManager.Instance.currentVangurr, VangurrImage, VangurrName, VangurrHP, null);
+
+        UpdateBuffsUI(GameManager.Instance.currentDoobie, DoobieBuffsContainer);
+        UpdateBuffsUI(GameManager.Instance.currentVangurr, VangurrBuffsContainer);
     }
 
     public void ShowSpellUI(System.Action<SkillSO> onSkillClicked)
@@ -191,6 +198,7 @@ public class BattleUIManager : MonoBehaviour
         return type switch
         {
             BuffType.DefenceDown => defenceDownSprite,
+            BuffType.Deflecion => deflectionSprite,
             _ => defaultSprite
         };
     }

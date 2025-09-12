@@ -16,7 +16,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   animation: {fileID: 0}
   description: Pierce your opponents soul, reduce their defence for 5 turns
-  resourceCost: 5
+  resourceCost: 2
   resourceUsed: 0
   debuffToApply:
     type: 0

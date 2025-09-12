@@ -5,6 +5,12 @@ using UnityEngine;
 public enum BuffType
 {
     None,
+    // --- Buffs ---
+    Harden,
+    Strenghten,
+    Deflecion,
+
+    // --- Debuffs ---
     Burn,
     Poison,
     Weaken,

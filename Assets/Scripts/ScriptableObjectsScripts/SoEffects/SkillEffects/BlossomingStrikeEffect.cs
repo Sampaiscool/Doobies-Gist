@@ -11,7 +11,9 @@ public class BlossomingStrikeEffect : SkillEffectSO
         int blossomDamage = Mathf.RoundToInt(baseDamage * 0.5f);
 
         target.TakeDamage(blossomDamage, isSkill: true);
-        user.DeflectNextAttack = true;
+
+        Buff deflectBuff = new Buff(BuffType.Deflecion, duration: 999, isDebuff: false);
+        user.AddBuff(deflectBuff);
 
         return $"{user.CharacterName} dances forward with a Blossoming Strike, dealing {blossomDamage} damage and readying to deflect the next attack!";
     }
