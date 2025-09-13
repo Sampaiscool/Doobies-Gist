@@ -11,10 +11,12 @@ public class GameManager : MonoBehaviour
     public DoobieInstance currentDoobie; //The players current Doobie
     public VangurrInstance currentVangurr; //The Chosen Vangurr the player is going to fight / is fighting.
 
-    public int CurrentPlayerSploont = 0; //The players current Money 
+    public int CurrentPlayerSploont = 0; //The players current Money 1
+    public int CurrentPlayerHP = 20;
     public CombatManager CombatManager;
 
     public bool debugMode = false;
+    public bool HasDoneTutorial = false;
 
     private void Awake()
     {
@@ -24,5 +26,61 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+    }
+
+    public void ChangeHp(int hpAmount, bool isGain, bool maxHpIncrease)
+    {
+        if (isGain)
+        {
+            if (maxHpIncrease)
+            {
+                CurrentPlayerHP += hpAmount;
+                return;
+            }
+            else
+            {
+                CurrentPlayerHP += hpAmount;
+                if (CurrentPlayerHP >= 20)
+                {
+                    CurrentPlayerHP = 20;
+                }
+            }
+        }
+        else
+        {
+            CurrentPlayerHP -= hpAmount;
+            if (CurrentPlayerHP <= 0)
+            {
+                CurrentPlayerHP = 0;
+                Debug.Log("Game Over! Player has run out of HP.");
+            }
+        }
+    }
+    /// <summary>
+    /// Changes the players current Sploonnt amount.
+    /// </summary>
+    /// <param name="sploontAmount">The amout that it gets changed by</param>
+    /// <param name="isGain">true = player gains sploont / false = player loses sploont</param>
+    /// <returns>Wheter the player has enough sploont to reduce</returns>
+    public bool ChangeSploont(int sploontAmount, bool isGain)
+    {
+        if (isGain)
+        {
+            CurrentPlayerSploont += sploontAmount;
+            return true;
+        }
+        else
+        {
+            if (CurrentPlayerSploont - sploontAmount < 0)
+            {
+                Debug.Log("Not enough Sploont!");
+                return false;
+            }
+            else
+            {
+                CurrentPlayerSploont -= sploontAmount;
+                return true;
+            }
+        }
     }
 }

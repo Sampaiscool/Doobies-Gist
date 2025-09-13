@@ -7,9 +7,13 @@ public class DoobieInstance : CombatantInstance
     public override ScriptableObject so => _so;
     public override string CharacterName => _so.doobieName;
     public override int CurrentHealth { get; set; }
+    public override int MaxHealth { get; set; }
     public override float CurrentDefence { get; set; }
 
-    public int currentZurp;
+    public override int CurrentSkillDmg { get; set; }
+
+    public int CurrentZurp { get; set; }
+    public int MaxZurp { get; set; }
 
     public override List<SkillSO> GetAllSkills() => new List<SkillSO>(_so.baseSkills);
 
@@ -17,36 +21,28 @@ public class DoobieInstance : CombatantInstance
     {
         _so = so;
 
-        CurrentHealth = _so.hasHealth ? _so.baseHealth : -1;
+        MaxHealth = so.baseHealth;
+        CurrentHealth = MaxHealth;
 
         CurrentDefence = _so.baseDefence;
 
-        currentZurp = _so.zurp;
+        MaxZurp = so.zurp;
+        CurrentZurp = MaxZurp;
+
+        CurrentSkillDmg = _so.skillDmg;
 
         EquippedWeaponInstance = new WeaponInstance(_so.defaultWeapon);
     }
 
-    public void ChangeZurp(int amount, bool isZurpGain)
+    public void ChangeZurp(int amount, bool isGain)
     {
-        if (!isZurpGain)
+        if (isGain)
         {
-            // Zurp cannot go lower than 0
-            currentZurp -= amount;
-            if (currentZurp <= 0)
-            {
-                currentZurp = 0;
-            }
-            return;
+            CurrentZurp = Mathf.Min(CurrentZurp + amount, MaxZurp);
         }
         else
         {
-            // Zurp cannot go higher than max Zurp
-            currentZurp += amount;
-            if (currentZurp >= _so.zurp)
-            {
-                currentZurp = _so.zurp;
-            }
-            return;
+            CurrentZurp = Mathf.Max(CurrentZurp - amount, 0);
         }
     }
 }

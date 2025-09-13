@@ -3,38 +3,53 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+[System.Serializable]
+public struct BuffVisual
+{
+    public BuffType type;
+    public Sprite icon;
+    public GameObject effectPrefab;
+}
+
 public class BattleUIManager : MonoBehaviour
 {
+    [Header("Doobie UI")]
     public Image DoobieImage;
     public TMP_Text DoobieName;
     public TMP_Text DoobieHP;
     public TMP_Text DoobieVurp;
 
+    [Header("Vangurr UI")]
     public Image VangurrImage;
     public TMP_Text VangurrName;
     public TMP_Text VangurrHP;
 
+    [Header("Panels")]
     public GameObject SkillDescriptionPanel;
     public TMP_Text SkillDescriptionText;
 
     public GameObject CombatLogPanel;
     public TMP_Text CombatLogText;
+
     public GameObject BattleOptionsPanel;
     public GameObject SkillOptions;
 
+    [Header("Buff Containers")]
     public Transform DoobieBuffsContainer;
     public Transform VangurrBuffsContainer;
 
+    [Header("Skill UI")]
     public Button BackFromSkillsButton;
     public List<Button> AllSkillButtons;
     public List<TMP_Text> SkillButtonLabels;
 
-    [Header("buff Icons")]
+    [Header("Buff Visuals")]
     public Sprite defaultSprite;
-    public Sprite defenceDownSprite;
-    public Sprite deflectionSprite;
-    public Sprite HardenSprite;
-    public Sprite BloomBlossomSprite;
+    public GameObject defaultEffectPrefab;
+
+    [Tooltip("Assign each BuffType its icon and effect here")]
+    public List<BuffVisual> buffVisuals = new List<BuffVisual>();
+
 
 
     public GameObject BuffIconPrefab;
@@ -153,13 +168,13 @@ public class BattleUIManager : MonoBehaviour
 
         portraitImage.sprite = so.portrait;
         nameText.text = combatant.CharacterName;
-        hpText.text = $"{combatant.CurrentHealth}/{so.baseHealth} HP";
+        hpText.text = $"{combatant.CurrentHealth}/{combatant.MaxHealth} HP";
 
         if (extraText != null)
         {
-            if (combatant is DoobieInstance doobie && doobie._so is DoobieSO doobieSO)
+            if (combatant is DoobieInstance doobie)
             {
-                extraText.text = $"{doobie.currentZurp} {extraLabel}";
+                extraText.text = $"{doobie.CurrentZurp}/{doobie.MaxZurp} {extraLabel}";
                 extraText.gameObject.SetActive(true);
             }
             else
@@ -170,41 +185,73 @@ public class BattleUIManager : MonoBehaviour
     }
     public void UpdateBuffsUI(CombatantInstance combatant, Transform buffContainer)
     {
-        // Eerst oude iconen opruimen
-        foreach (var icon in combatant.ActiveBuffIcons)
-            Destroy(icon);
-
-        combatant.ActiveBuffIcons.Clear();
-
-        // Voor elke actieve buff een icoon maken
         foreach (var buff in combatant.ActiveBuffs)
         {
-            GameObject iconGO = Instantiate(BuffIconPrefab, buffContainer, false);
+            BuffIcon buffIcon = buff.iconInstance;
 
-            Image iconImage = iconGO.GetComponent<Image>();
-            iconImage.sprite = GetSpriteForBuffs(buff.type);
-
-            // Hover tooltip instellen
-            var hover = iconGO.GetComponent<DebuffIconHover>();
-            if (hover != null)
+            if (buffIcon == null)
             {
-                hover.linkedBuff = buff;
-                hover.tooltipPrefab = BuffDescriptionPrefab;
+                // Spawn new icon if it doesn't exist
+                GameObject iconGO = Instantiate(BuffIconPrefab, buffContainer, false);
+                buffIcon = iconGO.GetComponent<BuffIcon>();
+                buff.iconInstance = buffIcon;
+
+                buffIcon.Initialize(buff, GetSpriteForBuffs(buff.type), BuffDescriptionPrefab, GetEffectForBuffs(buff.type));
+
+                // Play effect on first application
+                buffIcon.PlayEffect();
             }
 
-            combatant.ActiveBuffIcons.Add(iconGO);
+            // Optional: update hover
+            if (buffIcon.hoverPrefab != null)
+            {
+                var hover = buffIcon.GetComponent<DebuffIconHover>();
+                if (hover != null)
+                {
+                    hover.linkedBuff = buff;
+                    hover.tooltipPrefab = BuffDescriptionPrefab;
+                }
+            }
+
+            if (!combatant.ActiveBuffIcons.Contains(buffIcon.gameObject))
+                combatant.ActiveBuffIcons.Add(buffIcon.gameObject);
+        }
+
+        // Remove icons for buffs that no longer exist
+        for (int i = combatant.ActiveBuffIcons.Count - 1; i >= 0; i--)
+        {
+            var iconGO = combatant.ActiveBuffIcons[i];
+            if (!combatant.ActiveBuffs.Exists(b => b.iconInstance != null && b.iconInstance.gameObject == iconGO))
+            {
+                Destroy(iconGO);
+                combatant.ActiveBuffIcons.RemoveAt(i);
+            }
         }
     }
-    private Sprite GetSpriteForBuffs(BuffType type)
+
+
+    public Sprite GetSpriteForBuffs(BuffType type)
     {
-        return type switch
-        {
-            BuffType.DefenceDown => defenceDownSprite,
-            BuffType.Deflecion => deflectionSprite,
-            BuffType.Harden => HardenSprite,
-            BuffType.BloomBlossom => BloomBlossomSprite,
-            _ => defaultSprite
-        };
+        foreach (var visual in buffVisuals)
+            if (visual.type == type && visual.icon != null)
+                return visual.icon;
+        return defaultSprite;
+    }
+
+    public GameObject GetEffectForBuffs(BuffType type)
+    {
+        foreach (var visual in buffVisuals)
+            if (visual.type == type)
+            {
+                if (visual.effectPrefab != null)
+                {
+                    Debug.Log($"Returning effectPrefab for {type}: {visual.effectPrefab}");
+                    return visual.effectPrefab;
+                }
+            }
+
+        Debug.Log($"Returning defaultEffectPrefab for {type}: {defaultEffectPrefab}");
+        return defaultEffectPrefab;
     }
 
     private void ShowPanel(GameObject panelToShow)

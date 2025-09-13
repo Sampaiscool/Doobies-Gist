@@ -8,7 +8,7 @@ public class VangurrSO : ScriptableObject, ICombatantSO
 {
     public string vangurrName;
     public Sprite portrait;
-    public int baseDamage;
+    public int skillDmg;
     public float baseDefence;
     public int baseHealth;
     public string VangurrText;

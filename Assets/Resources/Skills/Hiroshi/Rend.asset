@@ -18,11 +18,7 @@ MonoBehaviour:
   description: Pierce your opponents soul, reduce their defence for 5 turns
   resourceCost: 2
   resourceUsed: 0
-  debuffToApply:
-    type: 0
-    duration: 0
-    intensity: 0
-    isDebuff: 0
+  isWeaponSkill: 1
   zurpRegainChance: 0.1
   zurpRegainAmount: 5
   effect: {fileID: 11400000, guid: abc40c22fd0aadf47b89344b5fefb535, type: 2}

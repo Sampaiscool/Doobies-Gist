@@ -23,8 +23,17 @@ public class TeamLoader : MonoBehaviour
 
             if (selectedDoobie != null)
             {
-                // The Chosen One awakens!
-                GameManager.Instance.currentDoobie = new DoobieInstance(selectedDoobie);
+                // Only create a new Doobie if one doesn't already exist
+                if (GameManager.Instance.currentDoobie == null)
+                {
+                    GameManager.Instance.currentDoobie = new DoobieInstance(selectedDoobie);
+                    Debug.Log("Created NEW DoobieInstance.");
+                }
+                else
+                {
+                    Debug.Log("Reusing existing DoobieInstance with current HP/Zurp.");
+                    GameManager.Instance.currentDoobie.ActiveBuffs.Clear(); // Clear any existing buffs
+                }
             }
             else
             {

@@ -11,7 +11,9 @@ public abstract class CombatantInstance
     public abstract ScriptableObject so { get; }
     public abstract string CharacterName { get; }
     public abstract int CurrentHealth { get; set; }
+    public abstract int MaxHealth { get; set; }
     public abstract float CurrentDefence { get; set; }
+    public abstract int CurrentSkillDmg { get; set; }
 
     public WeaponInstance EquippedWeaponInstance;
 
@@ -28,20 +30,17 @@ public abstract class CombatantInstance
     /// </summary>
     /// <param name="amount">The amount of damage before defence</param>
     /// <param name="isSkill">wheter the dmg came from a skill</param>
-    /// <returns></returns>
-    public virtual DamageResult TakeDamage(int amount, bool isSkill = false)
+    /// <returns>The actual damage</returns>
+    public virtual (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill = false)
     {
-        // Eerst kijken of er deflection is
-        if (!isSkill && HandleDeflection())
-        {
-            return DamageResult.Deflected;
-        }
+        if (HandleDeflection())
+            return (DamageResult.Deflected, 0);
 
         float defence = GetEffectiveDefence();
         int reducedDamage = Mathf.CeilToInt(amount / defence);
 
         CurrentHealth = Mathf.Max(CurrentHealth - reducedDamage, 0);
-        return DamageResult.Hit;
+        return (DamageResult.Hit, reducedDamage);
     }
     private bool HandleDeflection()
     {
@@ -87,7 +86,11 @@ public abstract class CombatantInstance
         }
 
         float multiplier = Random.Range(0.5f, 1.5f);
+
         int baseDamage = Mathf.RoundToInt(attack.damage * multiplier);
+
+        // Apply any attack-affecting buffs
+        baseDamage = GetEffectiveDamageAfterBuffs(baseDamage);
 
         bool isCrit = Random.Range(0, 100) < GetEffectiveCritChance();
         int finalDamage = isCrit ? baseDamage * 2 : baseDamage;
@@ -98,7 +101,7 @@ public abstract class CombatantInstance
             target.PlayAttackAnimation(EquippedWeaponInstance.Animation);
         }
 
-        DamageResult result = target.TakeDamage(finalDamage);
+        var (result, actualDamage) = target.TakeDamage(finalDamage);
 
         switch (result)
         {
@@ -106,8 +109,8 @@ public abstract class CombatantInstance
                 return $"{CharacterName} strikes, but {target.CharacterName} deflects the blow with finesse!";
             case DamageResult.Hit:
                 return isCrit
-                    ? $"{CharacterName} lands a CRITICAL HIT on {target.CharacterName} for {finalDamage} damage!"
-                    : $"{CharacterName} strikes {target.CharacterName} for {finalDamage} damage!";
+                    ? $"{CharacterName} lands a CRITICAL HIT on {target.CharacterName} for {actualDamage} damage!"
+                    : $"{CharacterName} strikes {target.CharacterName} for {actualDamage} damage!";
             case DamageResult.Missed:
                 return $"{CharacterName}'s attack phases through thin air!";
             case DamageResult.Immune:
@@ -118,25 +121,56 @@ public abstract class CombatantInstance
                 return $"{CharacterName} attacks, but something strange happens...";
         }
     }
+    public int GetEffectiveDamageAfterBuffs(int baseDamage)
+    {
+        int modifiedDamage = baseDamage;
+
+        foreach (var buff in ActiveBuffs)
+        {
+            switch (buff.type)
+            {
+                case BuffType.Weaken:
+                    for (int i = 0; i < buff.intensity; i++)
+                        modifiedDamage = Mathf.FloorToInt(modifiedDamage * 0.8f);
+                    break;
+                case BuffType.Strenghten:
+                    for (int i = 0; i < buff.intensity; i++)
+                        modifiedDamage = Mathf.CeilToInt(modifiedDamage * 1.2f);
+                    break;
+            }
+        }
+        return Mathf.Max(modifiedDamage, 0);
+    }
+
+    public int GetEffectiveSkillDamage(int baseDmg)
+    {
+        int finalDmg;
+        return finalDmg = GetEffectiveDamageAfterBuffs(baseDmg);
+    }
+
     public void AddBuff(Buff newBuff)
     {
-        // Look for an existing buff of the same type
         Buff existing = ActiveBuffs.Find(b => b.type == newBuff.type);
 
         if (existing != null)
         {
-            // Stack them: add duration and intensity
             existing.duration += newBuff.duration;
             existing.intensity += newBuff.intensity;
+
+            // Play stacking effect
+            if (existing.iconInstance != null)
+                existing.iconInstance.PlayEffect();
         }
         else
         {
-            // Otherwise just add it fresh
             ActiveBuffs.Add(newBuff);
         }
 
-        // Update the UI immediately so the change is visible
-        BattleUIManager.Instance.UpdateUI();
+        Transform buffContainer = this is DoobieInstance
+            ? BattleUIManager.Instance.DoobieBuffsContainer
+            : BattleUIManager.Instance.VangurrBuffsContainer;
+
+        BattleUIManager.Instance.UpdateBuffsUI(this, buffContainer);
     }
 
     public void TickBuffs()
@@ -188,7 +222,7 @@ public abstract class CombatantInstance
 
         GameObject spawned = GameObject.Instantiate(animationPrefab, animationAnchor.position, Quaternion.identity);
         spawned.transform.SetParent(animationAnchor);
-        spawned.transform.localScale = new Vector3(75, 75, 75);
+        spawned.transform.localScale = new Vector3(100, 100, 100);
 
         var ps = spawned.GetComponent<ParticleSystem>();
         if (ps != null)
@@ -200,6 +234,5 @@ public abstract class CombatantInstance
 
         GameObject.Destroy(spawned, 2f);
     }
-
 }
 

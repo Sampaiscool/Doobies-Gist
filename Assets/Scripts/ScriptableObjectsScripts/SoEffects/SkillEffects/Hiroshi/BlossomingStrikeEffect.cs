@@ -7,25 +7,30 @@ public class BlossomingStrikeEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
     {
-        int baseDamage = GetBaseDamageFromSO(user);
-        int blossomDamage = Mathf.RoundToInt(baseDamage * 0.5f);
-
-        target.TakeDamage(blossomDamage, isSkill: true);
-
-        Buff deflectBuff = new Buff(BuffType.Deflecion, duration: 999, isDebuff: false);
-        user.AddBuff(deflectBuff);
-
-        return $"{user.CharacterName} dances forward with a Blossoming Strike, dealing {blossomDamage} damage and readying to deflect the next attack!";
-    }
-
-    private int GetBaseDamageFromSO(CombatantInstance user)
-    {
-        if (user == null)
+        if (user == null || target == null)
         {
-            Debug.LogWarning("CombatantInstance user is null.");
-            return 0;
+            Debug.LogWarning("CombatantInstance user or target is null.");
+            return "The strike fizzles...";
         }
 
-        return user.GetEffectiveWeaponDamage();
+        // Get base damage from weapon or attack stats
+        int baseDamage = user.GetEffectiveWeaponDamage();
+
+        // Apply outgoing damage buffs/debuffs (Weaken, etc.)
+        int modifiedDamage = user.GetEffectiveDamageAfterBuffs(baseDamage);
+
+        // Blossom portion: half of modified damage
+        int blossomDamage = Mathf.RoundToInt(modifiedDamage * 0.5f);
+
+        // Deal damage to the target
+        int targetBefore = target.CurrentHealth;
+        target.TakeDamage(blossomDamage, isSkill: true);
+        int actualDamage = targetBefore - target.CurrentHealth;
+
+        // Apply Deflection buff to the user
+        Buff deflectBuff = new Buff(BuffType.Deflecion, duration: 999, isDebuff: false, 1);
+        user.AddBuff(deflectBuff);
+
+        return $"{user.CharacterName} dances forward with a Blossoming Strike, dealing {actualDamage} damage and readying to deflect the next attack!";
     }
 }

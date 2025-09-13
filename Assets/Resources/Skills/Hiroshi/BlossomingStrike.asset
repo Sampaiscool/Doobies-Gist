@@ -18,10 +18,7 @@ MonoBehaviour:
   description: Deals small damage and deflects the next attack.
   resourceCost: 3
   resourceUsed: 0
-  debuffToApply:
-    type: 0
-    duration: 0
-    intensity: 0
+  isWeaponSkill: 1
   zurpRegainChance: 0.2
   zurpRegainAmount: 2
   effect: {fileID: 11400000, guid: b4825012decd7b04b85a751057320aea, type: 2}

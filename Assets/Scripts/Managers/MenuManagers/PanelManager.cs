@@ -13,7 +13,15 @@ public class PanelManager : MonoBehaviour
 
     void Start()
     {
-        ShowPanel(TutorialPanel);
+        if (GameManager.Instance.HasDoneTutorial)
+        {
+            ShowLocationPanel();
+        }
+        else
+        {
+            ShowPanel(TutorialPanel);
+            GameManager.Instance.HasDoneTutorial = true;
+        }
     }
 
     public void ShowPanel(GameObject panelToShow)

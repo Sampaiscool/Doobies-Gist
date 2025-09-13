@@ -18,10 +18,7 @@ MonoBehaviour:
   description: Stab your opponent and heal for damage dealt
   resourceCost: 2
   resourceUsed: 0
-  debuffToApply:
-    type: 0
-    duration: 0
-    intensity: 0
+  isWeaponSkill: 1
   zurpRegainChance: 0.5
   zurpRegainAmount: 1
   effect: {fileID: 11400000, guid: f5b4ba7b0a442484a83bd956fb1eb74d, type: 2}

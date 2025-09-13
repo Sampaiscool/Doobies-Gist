@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,9 @@ public class CombatManager : MonoBehaviour
     private CombatantInstance playerDoobie;
     private CombatantInstance enemyVangurr;
 
+    private DoobieInstance playerDoobieInstance;
+    private VangurrInstance enemyVangurrInstance;
+
     [SerializeField] private Transform doobieAnchor;
     [SerializeField] private Transform vangurrAnchor;
 
@@ -23,13 +27,16 @@ public class CombatManager : MonoBehaviour
         playerDoobie = GameManager.Instance.currentDoobie;
         enemyVangurr = GameManager.Instance.currentVangurr;
 
+        playerDoobieInstance = playerDoobie as DoobieInstance;
+        enemyVangurrInstance = enemyVangurr as VangurrInstance;
+
         playerDoobie.animationAnchor = doobieAnchor;
         enemyVangurr.animationAnchor = vangurrAnchor;
 
-        if (playerDoobie is DoobieInstance doobie)
-        {
-            doobie.currentZurp = doobie._so.zurp;
-        }
+        //if (playerDoobie is DoobieInstance doobie)
+        //{
+        //    doobie.currentZurp = doobie._so.zurp;
+        //}
 
         AttackButton.onClick.AddListener(OnAttackButtonClicked);
         SkillButton.onClick.AddListener(OnSkillButtonClicked);
@@ -64,7 +71,7 @@ public class CombatManager : MonoBehaviour
         switch (chosenSkill.resourceUsed)
         {
             case ResourceType.Mana:
-                if (GameManager.Instance.currentDoobie.currentZurp >= chosenSkill.resourceCost)
+                if (GameManager.Instance.currentDoobie.CurrentZurp >= chosenSkill.resourceCost)
                 {
                     string result = chosenSkill.UseSkill(playerDoobie, enemyVangurr);
                     Debug.Log(result);
@@ -81,8 +88,23 @@ public class CombatManager : MonoBehaviour
                     BattleUIManager.UpdateUI();
                 }
                 break;
-            case ResourceType.Health: 
-                
+            case ResourceType.Health:
+                if (GameManager.Instance.currentDoobie.CurrentHealth > chosenSkill.resourceCost)
+                {
+                    string result = chosenSkill.UseSkill(playerDoobie, enemyVangurr);
+                    Debug.Log(result);
+
+                    BattleUIManager.AddLog(result);
+                    BattleUIManager.UpdateUI();
+
+                    IsPlayerTurn = false;
+                    waitingForNext = true;
+                }
+                else
+                {
+                    BattleUIManager.AddLog("You dont have enough zurp!");
+                    BattleUIManager.UpdateUI();
+                }
                 break;
             default:
                 break;
@@ -98,33 +120,42 @@ public class CombatManager : MonoBehaviour
             BattleUIManager.AddLog("You have fallen. The forest grows darker...");
             return;
         }
-
-        if (enemyVangurr.CurrentHealth <= 0)
+        else if (enemyVangurr.CurrentHealth <= 0)
         {
             BattleUIManager.AddLog($"You have defeated {enemyVangurr.CharacterName}!");
+
+            StartCoroutine(ReturnToAdventureAfterDelay(2f));
             return;
-        }
-
-        if (!IsPlayerTurn)
-        {
-            // Enemy's turn: eerst debuffs aftikken
-            enemyVangurr.TickBuffs();
-            BattleUIManager.UpdateUI();
-
-            string result = enemyVangurr.PerformBasicAttack(playerDoobie);
-            BattleUIManager.AddLog(result);
-            BattleUIManager.UpdateUI();
-
-            IsPlayerTurn = true;
         }
         else
         {
-            // Player's turn: eerst debuffs aftikken
-            playerDoobie.TickBuffs();
-            BattleUIManager.UpdateUI();
+            if (!IsPlayerTurn)
+            {
+                // Enemy's turn: eerst debuffs aftikken
+                enemyVangurr.TickBuffs();
+                BattleUIManager.UpdateUI();
 
-            BattleUIManager.NextClicked();
-            waitingForNext = false;
+                string result = enemyVangurrInstance.PerformTurn(playerDoobie);
+
+                BattleUIManager.AddLog(result);
+                BattleUIManager.UpdateUI();
+
+                IsPlayerTurn = true;
+            }
+            else
+            {
+                // Player's turn: eerst debuffs aftikken
+                playerDoobie.TickBuffs();
+                BattleUIManager.UpdateUI();
+
+                BattleUIManager.NextClicked();
+                waitingForNext = false;
+            }
         }
+    }
+    private IEnumerator ReturnToAdventureAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("AdventureScene");
     }
 }

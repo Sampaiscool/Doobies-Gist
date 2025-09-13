@@ -10,7 +10,7 @@ public class DoobieSO : ScriptableObject, ICombatantSO
     public Sprite portrait;
     public bool unlockedByDefault;
     public int zurp; // mana 
-    public int baseDamage;
+    public int skillDmg;
     public float baseDefence;
 
     public int baseHealth;

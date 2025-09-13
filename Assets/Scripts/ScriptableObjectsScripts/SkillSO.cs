@@ -11,7 +11,7 @@ public class SkillSO : ScriptableObject
     public string description;
     public int resourceCost;
     public ResourceType resourceUsed; // HP or Zurp
-    public Buff debuffToApply;
+    public bool isWeaponSkill; // If true, damage is based on weapon. If false, damage is based on skillDmg.
     public float zurpRegainChance;
     public int zurpRegainAmount;
 

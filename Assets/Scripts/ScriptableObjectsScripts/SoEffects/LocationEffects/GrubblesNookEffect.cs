@@ -7,16 +7,8 @@ public class GrubblesNookEffect : LocationEffectSO
 {
     public override void ApplyEffect()
     {
-        var combatant = GameManager.Instance.currentDoobie; // This is a CombatantInstance reference
+        GameManager.Instance.ChangeHp(5, false, false);
 
-        if (combatant is DoobieInstance doobie)
-        {
-            combatant.EquippedWeaponInstance.bonusDamage += 2;
-            Debug.Log("Gained +2 damage");
-        }
-        else
-        {
-            Debug.LogWarning("GrubblesNookEffect can only be applied to a DoobieInstance.");
-        }
+        GameManager.Instance.currentDoobie.EquippedWeaponInstance.bonusDamage += 2;
     }
 }

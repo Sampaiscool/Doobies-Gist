@@ -11,16 +11,18 @@ public class SilentStrikeEffect : SkillEffectSO
     /// <returns></returns>
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
     {
-        // Check if user.so is a DoobieSO or VangurrSO
-        int damage = 0;
+        // Get the base damage (weapon or spell-defined)
+        int baseDamage = user.GetEffectiveWeaponDamage();
 
-        damage = user.GetEffectiveWeaponDamage();
+        // Apply buffs/debuffs that modify outgoing damage
+        int finalDamage = user.GetEffectiveDamageAfterBuffs(baseDamage);
 
+        // Deal damage
         int targetBefore = target.CurrentHealth;
-
-        target.TakeDamage(damage);
+        target.TakeDamage(finalDamage, isSkill: true);
         int actualDamage = targetBefore - target.CurrentHealth;
 
+        // Heal the user for the same amount
         user.CurrentHealth += actualDamage;
 
         return $"{user.CharacterName} strikes silently for {actualDamage} damage and heals for the same.";
