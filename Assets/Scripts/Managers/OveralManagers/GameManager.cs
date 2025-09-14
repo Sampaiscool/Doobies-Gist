@@ -30,11 +30,16 @@ public class GameManager : MonoBehaviour
 
     public void ChangeHp(int hpAmount, bool isGain, bool maxHpIncrease)
     {
+        PlayerStatsUIManager playerStatsUIManager = FindObjectOfType<PlayerStatsUIManager>();
+
         if (isGain)
         {
             if (maxHpIncrease)
             {
                 CurrentPlayerHP += hpAmount;
+
+                playerStatsUIManager.UpdatePlayerInfo();
+
                 return;
             }
             else
@@ -44,6 +49,10 @@ public class GameManager : MonoBehaviour
                 {
                     CurrentPlayerHP = 20;
                 }
+
+                playerStatsUIManager.UpdatePlayerInfo();
+
+                return;
             }
         }
         else
@@ -54,6 +63,8 @@ public class GameManager : MonoBehaviour
                 CurrentPlayerHP = 0;
                 Debug.Log("Game Over! Player has run out of HP.");
             }
+
+            playerStatsUIManager.UpdatePlayerInfo();
         }
     }
     /// <summary>
@@ -64,9 +75,14 @@ public class GameManager : MonoBehaviour
     /// <returns>Wheter the player has enough sploont to reduce</returns>
     public bool ChangeSploont(int sploontAmount, bool isGain)
     {
+        PlayerStatsUIManager playerStatsUIManager = FindObjectOfType<PlayerStatsUIManager>();
+
         if (isGain)
         {
             CurrentPlayerSploont += sploontAmount;
+
+            playerStatsUIManager.UpdatePlayerInfo();
+
             return true;
         }
         else
@@ -79,6 +95,9 @@ public class GameManager : MonoBehaviour
             else
             {
                 CurrentPlayerSploont -= sploontAmount;
+
+                playerStatsUIManager.UpdatePlayerInfo();
+
                 return true;
             }
         }

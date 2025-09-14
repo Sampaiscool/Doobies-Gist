@@ -17,7 +17,7 @@ public class BlossomingStrikeEffect : SkillEffectSO
         int baseDamage = user.GetEffectiveWeaponDamage();
 
         // Apply outgoing damage buffs/debuffs (Weaken, etc.)
-        int modifiedDamage = user.GetEffectiveDamageAfterBuffs(baseDamage);
+        int modifiedDamage = user.GetEffectiveWeaponDamageAfterBuffs(baseDamage);
 
         // Blossom portion: half of modified damage
         int blossomDamage = Mathf.RoundToInt(modifiedDamage * 0.5f);

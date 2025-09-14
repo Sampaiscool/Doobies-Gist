@@ -5,19 +5,24 @@ using UnityEngine;
 public enum BuffType
 {
     None,
-    // --- Buffs ---
-    Harden,
-    Strenghten,
-    Deflecion,
-    BloomBlossom,
 
-    // --- Debuffs ---
-    Burn,
-    Poison,
-    Weaken,
-    DefenceDown,
-    Stun,
-    Blind,
+    Harden,                     // Buff - Increases defense against all damage types
+    WeaponStrenghten,           // Buff - Increases weapon damage
+    SpellStrenghten,            // Buff - Increases spell damage
+    Deflecion,                  // Buff - deflect incoming attacks
+    BloomBlossom,               // Buff - If you deflect an attack, gain 10 deflection, if you deflect with 10 or more deflection, gain 1 harden
+
+    Burn,                       // Debuff - Takes damage each turn
+    Poison,                     // Debuff - Takes damage each turn, ...
+    WeaponWeaken,               // Debuff - Decreases weapon damage
+    SpellWeaken,                // Debuff - Decreases spell damage
+    DefenceDown,                // Debuff - Decreases defense against all damage types
+    Stun,                       // Debuff - Skip turn
+    Blind,                      // Debuff - Miss all basic attacks
     Slow,
     Curse,
+
+    Evasion,                    // Buff that gives a chance to completely avoid an attack
+    CriticalEye,                // Buff that gives an increased chance to land a critical hit
+    Bleed,                      // Debuff - Takes damage when performing Weapon-Style attacks
 }

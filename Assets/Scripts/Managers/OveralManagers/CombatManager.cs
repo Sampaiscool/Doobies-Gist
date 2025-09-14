@@ -37,6 +37,15 @@ public class CombatManager : MonoBehaviour
         {
             doobie.ChangeZurp(2, true); // Regain some zurp at start of combat
         }
+        
+        if (enemyVangurr is VangurrInstance vangurr)
+        {
+            if (vangurr._so.characterPool == CharacterPool.LittleGremlin)
+            {
+                vangurr.AddUpgrade(new Upgrade("Sneaky", "description", 0, UpgradeNames.Sneaky, CharacterPool.LittleGremlin, 1));
+                vangurr.AddUpgrade(new Upgrade("BloodyWeapon", "description", 0, UpgradeNames.BloodyWeapon, CharacterPool.LittleGremlin, 1));
+            }
+        }
 
         AttackButton.onClick.AddListener(OnAttackButtonClicked);
         SkillButton.onClick.AddListener(OnSkillButtonClicked);
@@ -133,41 +142,60 @@ public class CombatManager : MonoBehaviour
         {
             if (!IsPlayerTurn)
             {
-                // Enemy's turn: eerst debuffs aftikken
-                enemyVangurr.TickBuffs();
-                BattleUIManager.UpdateUI();
+                if (CheckForTurnDebuffs(enemyVangurr, out string log))
+                {
+                    BattleUIManager.AddLog(log);
+                    BattleUIManager.UpdateUI();
+                    IsPlayerTurn = true;
+                    return;
+                }
 
                 string result = enemyVangurrInstance.PerformTurn(playerDoobie);
-
                 BattleUIManager.AddLog(result);
                 BattleUIManager.UpdateUI();
-
                 IsPlayerTurn = true;
             }
             else
             {
-                var StunDebuffs = GameManager.Instance.currentDoobie.ActiveBuffs.FindAll(b => b.type == BuffType.Stun);
-                if (StunDebuffs.Count > 0)
+                if (CheckForTurnDebuffs(GameManager.Instance.currentDoobie, out string log))
                 {
-                    BattleUIManager.AddLog("You are stunned and miss your turn!");
-
-                    playerDoobie.TickBuffs();
+                    BattleUIManager.AddLog(log);
                     BattleUIManager.UpdateUI();
-
                     IsPlayerTurn = false;
                     return;
                 }
-                else
-                {
-                    // Player's turn: eerst debuffs aftikken
-                    playerDoobie.TickBuffs();
-                    BattleUIManager.UpdateUI();
 
-                    BattleUIManager.NextClicked();
-                    waitingForNext = false;
-                }
+                BattleUIManager.NextClicked();
+                waitingForNext = false;
             }
         }
+    }
+    private bool CheckForTurnDebuffs(CombatantInstance combatant, out string logMessage)
+    {
+        logMessage = "";
+
+        // Check for Stun first
+        var stunDebuffs = combatant.ActiveBuffs.FindAll(b => b.type == BuffType.Stun);
+        if (stunDebuffs.Count > 0)
+        {
+            logMessage = $"{combatant.CharacterName} is stunned and misses their turn!";
+            combatant.TickBuffs();
+            return true; // turn is skipped
+        }
+
+        // Apply burn damage if present
+        var burnDebuffs = combatant.ActiveBuffs.FindAll(b => b.type == BuffType.Burn);
+        foreach (var burn in burnDebuffs)
+        {
+            int burnDamage = burn.intensity;
+            var(resutl, actualDamage)  = combatant.TakeDamage(burnDamage);
+            logMessage += $"\n{combatant.CharacterName} takes {actualDamage} burn damage!";
+        }
+
+        // Tick all buffs after applying effects
+        combatant.TickBuffs();
+
+        return false; // turn proceeds normally
     }
     private IEnumerator ReturnToAdventureAfterDelay(float delay)
     {

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbfc10e7ba8736a43ad4b34a75fcce42, type: 3}
+  m_Name: LittleGremlin
+  m_EditorClassIdentifier: 
+  vangurrName: LittleGremlin
+  portrait: {fileID: 21300000, guid: 7da9babac6589a144ba175d696bd7241, type: 3}
+  skillDmg: 1
+  baseDefence: 0.5
+  baseHealth: 3
+  VangurrText: A sneaky target, with its rusty knife called "Rusty" it believes it
+    can take on anyone!
+  difficultyLevel: 1
+  characterPool: 2
+  baseSkills:
+  - {fileID: 11400000, guid: 074628dbc612a9c4e8e46c6e80544344, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: bfc1e8aff124d474cbc0a25421e81233, type: 2}

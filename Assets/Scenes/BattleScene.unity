@@ -1888,22 +1888,22 @@ MonoBehaviour:
   - type: 1
     icon: {fileID: 21300000, guid: cf01aca18ada9044c83966ea3a668af7, type: 3}
     effectPrefab: {fileID: 3982581360179883478, guid: e4d18f06eb5b722478d61fc4c318e021, type: 3}
-  - type: 3
+  - type: 4
     icon: {fileID: 21300000, guid: f18e424e96cd3dd408e802dd19670cdb, type: 3}
     effectPrefab: {fileID: 7856939199014537196, guid: 5e6473fa9342605459c46b30746b60f9, type: 3}
-  - type: 4
+  - type: 5
     icon: {fileID: 21300000, guid: a669847810066bf4dacb35c9376f9e4d, type: 3}
     effectPrefab: {fileID: 4515497926535975121, guid: 51d8c5955281a7c49b118582dea02372, type: 3}
-  - type: 8
+  - type: 10
     icon: {fileID: 21300000, guid: 22f1f27f824927a4e954e28fb8fe1b39, type: 3}
     effectPrefab: {fileID: 7281378182209018676, guid: cb7edf805a494434d9ca4b5e68d1e4ac, type: 3}
-  - type: 5
-    icon: {fileID: 0}
+  - type: 6
+    icon: {fileID: 21300000, guid: 88c400c637aae0444bf44ad7135d5507, type: 3}
     effectPrefab: {fileID: 162584487599433031, guid: c88d4203aa3d417429196efc5ff6548f, type: 3}
   - type: 2
     icon: {fileID: 21300000, guid: 2d2985602770b4a4996ab4ac602c0315, type: 3}
     effectPrefab: {fileID: 3982581360179883478, guid: e4d18f06eb5b722478d61fc4c318e021, type: 3}
-  - type: 7
+  - type: 8
     icon: {fileID: 21300000, guid: 6f37b77f3c62f2b4494d6beda806a9fe, type: 3}
     effectPrefab: {fileID: 7281378182209018676, guid: cb7edf805a494434d9ca4b5e68d1e4ac, type: 3}
   BuffIconPrefab: {fileID: 8727585946917096499, guid: 3865fb4965dd7714f8502c665b7d8190, type: 3}

@@ -18,6 +18,7 @@ MonoBehaviour:
   zurp: 5
   skillDmg: 1
   baseDefence: 1
+  characterPool: 1
   baseHealth: 20
   hasHealth: 1
   baseSkills:

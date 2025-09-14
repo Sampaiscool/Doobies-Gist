@@ -15,7 +15,7 @@ public class SilentStrikeEffect : SkillEffectSO
         int baseDamage = user.GetEffectiveWeaponDamage();
 
         // Apply buffs/debuffs that modify outgoing damage
-        int finalDamage = user.GetEffectiveDamageAfterBuffs(baseDamage);
+        int finalDamage = user.GetEffectiveWeaponDamageAfterBuffs(baseDamage);
 
         // Deal damage
         int targetBefore = target.CurrentHealth;
