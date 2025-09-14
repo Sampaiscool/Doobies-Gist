@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Skill")]
+[CreateAssetMenu(menuName = "SO/Skill/SkillSO")]
 public class SkillSO : ScriptableObject
 {
     public string skillName;
@@ -37,6 +37,8 @@ public class SkillSO : ScriptableObject
         }
 
         string result = effect.ApplyEffect(user, target);
+
+        target.PlayAttackAnimation(animation);
 
         // Roll for Zurp restore only if user is Doobie and this was a spell
         if (user is DoobieInstance spellcaster)

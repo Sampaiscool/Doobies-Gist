@@ -494,6 +494,7 @@ MonoBehaviour:
   VangurrTextObject: {fileID: 416033314}
   VangurrList:
   - {fileID: 11400000, guid: 95f700ebe44e2784c97121f01d07c471, type: 2}
+  - {fileID: 11400000, guid: cd838c396a06d164fb91cff9abcdb4d6, type: 2}
   ChosenVangurr: {fileID: 0}
 --- !u!1 &304150279
 GameObject:

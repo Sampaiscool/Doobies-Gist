@@ -34,7 +34,7 @@ public class BuffIcon : MonoBehaviour
 
         GameObject spawned = Instantiate(EffectPrefab, transform);
         spawned.transform.localPosition = Vector3.zero;
-        spawned.transform.localScale = new Vector3(100, 100, 100);
+        spawned.transform.localScale.Normalize();
 
         var ps = spawned.GetComponent<ParticleSystem>();
         if (ps != null)

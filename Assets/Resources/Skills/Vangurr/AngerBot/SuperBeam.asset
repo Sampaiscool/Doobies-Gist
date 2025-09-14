@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
-  m_Name: BlossomingStrike
+  m_Name: SuperBeam
   m_EditorClassIdentifier: 
-  skillName: Blossoming Strike
+  skillName: Super Beam
   icon: {fileID: 0}
-  animation: {fileID: 0}
-  description: Deals small damage and deflects the next attack.
-  resourceCost: 3
+  animation: {fileID: 8762405910555896786, guid: a2739a6c99f5425498e36354c20b8fa4, type: 3}
+  description: Fire a powerfull beam but also take some recoil damage
+  resourceCost: 0
   resourceUsed: 0
-  isWeaponSkill: 1
-  zurpRegainChance: 0.2
-  zurpRegainAmount: 2
-  effect: {fileID: 11400000, guid: b4825012decd7b04b85a751057320aea, type: 2}
+  isWeaponSkill: 0
+  zurpRegainChance: 0
+  zurpRegainAmount: 0
+  effect: {fileID: 11400000, guid: 982c4b720cc575c43930ddf9faaca5e6, type: 2}

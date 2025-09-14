@@ -42,6 +42,7 @@ public class BattleUIManager : MonoBehaviour
     public Button BackFromSkillsButton;
     public List<Button> AllSkillButtons;
     public List<TMP_Text> SkillButtonLabels;
+    public List<Image> SkillButtonIcons;
 
     [Header("Buff Visuals")]
     public Sprite defaultSprite;
@@ -133,6 +134,8 @@ public class BattleUIManager : MonoBehaviour
 
                 AllSkillButtons[i].gameObject.SetActive(true);
                 SkillButtonLabels[i].text = skill.skillName;
+                if (skill.icon != null)
+                    SkillButtonIcons[i].sprite = skill.icon;
 
                 // Make the button *use* the skill
                 int capturedIndex = i;

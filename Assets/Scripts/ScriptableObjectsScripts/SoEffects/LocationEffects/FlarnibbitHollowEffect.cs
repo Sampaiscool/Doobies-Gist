@@ -11,5 +11,6 @@ public class FlarnibbitHollowEffect : LocationEffectSO
         GameManager.Instance.ChangeHp(5, true, false);
 
         GameManager.Instance.currentDoobie.MaxHealth += 5;
+        GameManager.Instance.currentDoobie.CurrentHealth += 5;
     }
 }

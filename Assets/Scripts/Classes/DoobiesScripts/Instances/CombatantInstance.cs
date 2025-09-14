@@ -80,7 +80,8 @@ public abstract class CombatantInstance
 
         var attack = EquippedWeaponInstance.BasicAttack;
 
-        if (Random.value < EquippedWeaponInstance.MissChance)
+        Buff BlindDeBuff = ActiveBuffs.Find(b => b.type == BuffType.Blind);
+        if (Random.value < EquippedWeaponInstance.MissChance || BlindDeBuff != null)
         {
             return $"{CharacterName} swings at {target.CharacterName}, but misses!";
         }
@@ -90,10 +91,10 @@ public abstract class CombatantInstance
         int baseDamage = Mathf.RoundToInt(attack.damage * multiplier);
 
         // Apply any attack-affecting buffs
-        baseDamage = GetEffectiveDamageAfterBuffs(baseDamage);
+        int baseDamageAfterBuffs = GetEffectiveDamageAfterBuffs(baseDamage);
 
         bool isCrit = Random.Range(0, 100) < GetEffectiveCritChance();
-        int finalDamage = isCrit ? baseDamage * 2 : baseDamage;
+        int finalDamage = isCrit ? baseDamageAfterBuffs * 2 : baseDamageAfterBuffs;
 
         // Activate Effects
         if (EquippedWeaponInstance.Animation != null)
@@ -222,7 +223,7 @@ public abstract class CombatantInstance
 
         GameObject spawned = GameObject.Instantiate(animationPrefab, animationAnchor.position, Quaternion.identity);
         spawned.transform.SetParent(animationAnchor);
-        spawned.transform.localScale = new Vector3(100, 100, 100);
+        spawned.transform.localScale.Normalize();
 
         var ps = spawned.GetComponent<ParticleSystem>();
         if (ps != null)

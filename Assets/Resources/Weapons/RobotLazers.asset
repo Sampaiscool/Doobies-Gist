@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 974679ec063986c4faad8d7bad71d518, type: 3}
-  m_Name: Bonkertron
+  m_Name: RobotLazers
   m_EditorClassIdentifier: 
-  weaponName: Bonkertron
+  weaponName: Robot Lazers
   icon: {fileID: 0}
-  baseDamage: 5
-  baseCritChance: 5
-  grantedSkill: {fileID: 0}
-  upgradeLevels: []
-  possibleEnchantments:
-  - {fileID: 11400000, guid: 68fb96179f5341447b939f59f1daf47c, type: 2}
+  animation: {fileID: 8762405910555896786, guid: 35d4dd234d5a1064fbde52662a770da1, type: 3}
+  baseDamage: 2
+  baseCritChance: 0
+  missChance: 0.3
+  basicAttack:
+    damage: 1
+    type: 1

@@ -33,10 +33,10 @@ public class CombatManager : MonoBehaviour
         playerDoobie.animationAnchor = doobieAnchor;
         enemyVangurr.animationAnchor = vangurrAnchor;
 
-        //if (playerDoobie is DoobieInstance doobie)
-        //{
-        //    doobie.currentZurp = doobie._so.zurp;
-        //}
+        if (playerDoobie is DoobieInstance doobie)
+        {
+            doobie.ChangeZurp(2, true); // Regain some zurp at start of combat
+        }
 
         AttackButton.onClick.AddListener(OnAttackButtonClicked);
         SkillButton.onClick.AddListener(OnSkillButtonClicked);
@@ -44,6 +44,8 @@ public class CombatManager : MonoBehaviour
         // Open log at start, using CharacterName from CombatantInstance
         BattleUIManager.AddLog($"You face {enemyVangurr.CharacterName}!");
         waitingForNext = true;
+
+        BattleUIManager.UpdateUI();
     }
 
     void OnAttackButtonClicked()
@@ -144,12 +146,26 @@ public class CombatManager : MonoBehaviour
             }
             else
             {
-                // Player's turn: eerst debuffs aftikken
-                playerDoobie.TickBuffs();
-                BattleUIManager.UpdateUI();
+                var StunDebuffs = GameManager.Instance.currentDoobie.ActiveBuffs.FindAll(b => b.type == BuffType.Stun);
+                if (StunDebuffs.Count > 0)
+                {
+                    BattleUIManager.AddLog("You are stunned and miss your turn!");
 
-                BattleUIManager.NextClicked();
-                waitingForNext = false;
+                    playerDoobie.TickBuffs();
+                    BattleUIManager.UpdateUI();
+
+                    IsPlayerTurn = false;
+                    return;
+                }
+                else
+                {
+                    // Player's turn: eerst debuffs aftikken
+                    playerDoobie.TickBuffs();
+                    BattleUIManager.UpdateUI();
+
+                    BattleUIManager.NextClicked();
+                    waitingForNext = false;
+                }
             }
         }
     }

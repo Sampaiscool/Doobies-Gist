@@ -9,16 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
-  m_Name: TestSkill
+  m_Script: {fileID: 11500000, guid: 4b7370fdaa2ac6e4eb91ba366a635643, type: 3}
+  m_Name: New Robot Defence Effect
   m_EditorClassIdentifier: 
-  skillName: TestSkill
-  description: '-'
-  icon: {fileID: 0}
-  resourceCost: 1
-  resourceUsed: 0
-  cooldown: 1
-  debuffToApply:
-    type: 0
-    duration: 0
-    intensity: 0

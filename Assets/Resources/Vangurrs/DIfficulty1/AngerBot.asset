@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbfc10e7ba8736a43ad4b34a75fcce42, type: 3}
+  m_Name: AngerBot
+  m_EditorClassIdentifier: 
+  vangurrName: Anger Bot
+  portrait: {fileID: 21300000, guid: 5076401086595104fa6d791b4fbce439, type: 3}
+  skillDmg: 1
+  baseDefence: 2
+  baseHealth: 7
+  VangurrText: The face of an angry robot is quite shocking.
+  difficultyLevel: 1
+  baseSkills:
+  - {fileID: 11400000, guid: f71dd932e23fe2242a390590aa090c86, type: 2}
+  - {fileID: 11400000, guid: c8386c09da33518478273e5fc937724f, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: 87a4a77a43d70874c98feabf87b5538a, type: 2}
