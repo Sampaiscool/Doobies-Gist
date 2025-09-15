@@ -120,7 +120,7 @@ public class TeamSelectUI : MonoBehaviour
         if (selectedDoobie != null)
         {
             PlayerPrefs.SetString("SelectedDoobie_Name", selectedDoobie.doobieName);
-            PlayerPrefs.SetInt("SelectedDoobie_Zurp", selectedDoobie.zurp);
+            PlayerPrefs.SetInt("SelectedDoobie_BaseResourceMax", selectedDoobie.baseResourceMax);
             PlayerPrefs.SetInt("SelectedDoobie_BaseHealth", selectedDoobie.baseHealth);
             PlayerPrefs.SetInt("SelectedDoobie_HasHealth", selectedDoobie.hasHealth ? 1 : 0);
             PlayerPrefs.SetString("SelectedDoobie_Weapon", selectedDoobie.defaultWeapon != null ? selectedDoobie.defaultWeapon.name : "");

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public enum ResourceType
 {
-    Mana,
+    Zurp,
     Health,
-    TimeFragments,
-    Rage,
 }

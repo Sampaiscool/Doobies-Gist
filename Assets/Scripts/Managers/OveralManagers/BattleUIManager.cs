@@ -180,9 +180,9 @@ public class BattleUIManager : MonoBehaviour
 
         if (extraText != null)
         {
-            if (combatant is DoobieInstance doobie)
+            if (combatant is DoobieInstance doobie && doobie.MainResource != null)
             {
-                extraText.text = $"{doobie.CurrentZurp}/{doobie.MaxZurp} {extraLabel}";
+                extraText.text = $"{doobie.MainResource.Current}/{doobie.MainResource.Max} {doobie.MainResource.Type}";
                 extraText.gameObject.SetActive(true);
             }
             else

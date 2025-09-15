@@ -49,16 +49,22 @@ public abstract class CombatantInstance
         if (HandleDeflection())
             return (DamageResult.Deflected, 0);
 
+        // alleen melee / weapon attacks (niet skills) mogen dodges via Sneaky/Evasion doen
         if (!isSkill)
         {
-            if (HandleSneaky() || HasEvasionBuff())
+            // 1) Als er al een Evasion-buff is, dit is een "Evasion dodge" -> trigger follow-ups
+            if (HasEvasionBuff())
             {
-                HandleDodgeEffects(); // Apply follow-up buffs
+                HandleDodgeEffects(); // grants WeaponStrenghten / TargetLocked etc.
+                return (DamageResult.Dodged, 0);
+            }
+
+            // 2) Anders: probeer Sneaky te proccen. Als Sneaky slaagt, geef Evasion maar NIET de follow-ups nu.
+            if (HandleSneaky())
+            {
                 return (DamageResult.Dodged, 0);
             }
         }
-
-        
 
         // Normal damage calculation if no shield
         float defence = GetEffectiveDefence();
@@ -136,43 +142,35 @@ public abstract class CombatantInstance
     }
     private bool HandleSneaky()
     {
-        // Find all Sneaky upgrades
         int sneakyStacks = ActiveUpgrades.Count(u => u.type == UpgradeNames.Sneaky);
-        if (sneakyStacks == 0)
-            return false; // No Sneaky upgrades, no extra dodge
+        if (sneakyStacks == 0) return false;
 
-        // Each stack gives 20% dodge
         float dodgeChance = sneakyStacks * 0.20f;
 
-        // Roll to see if dodge triggers
         if (Random.value < dodgeChance)
         {
-            // Apply Evasion buff
-            AddBuff(new Buff(BuffType.Evasion, duration: sneakyStacks, isDebuff: false, intensity: 1));
-            return true; // Dodge successful
+            AddBuff(new Buff(BuffType.Evasion, sneakyStacks, false, sneakyStacks));
+
+            return true;
         }
 
-        return false; // Dodge failed
+        return false;
     }
     private void HandleDodgeEffects()
     {
-        // Check if the combatant has an active Evasion buff
         var evasionBuff = ActiveBuffs.Find(b => b.type == BuffType.Evasion);
-        if (evasionBuff != null)
-        {
-            // For dodges with Evasion, add WeaponStrengthen and TargetLocked buffs
-            for (int i = 0; i < evasionBuff.intensity; i++)
-            {
-                AddBuff(new Buff(BuffType.WeaponStrenghten, duration: 2, isDebuff: false, intensity: 1));
-                AddBuff(new Buff(BuffType.CriticalEye, duration: 2, isDebuff: false, intensity: 1));
-            }
+        if (evasionBuff == null) return;
 
-            // Optional: remove or tick down the Evasion buff after triggering
-            evasionBuff.duration--;
-            if (evasionBuff.duration <= 0)
-                ActiveBuffs.Remove(evasionBuff);
-        }
+        // Voor elke stack (intensity) van Evasion: geef follow-up buffs
+        int stacks = Mathf.Max(1, evasionBuff.intensity); // defensive
+        AddBuff(new Buff(BuffType.WeaponStrenghten, 2, false, stacks));
+        AddBuff(new Buff(BuffType.CriticalEye, 2, false, stacks));
+
+        evasionBuff.duration--;
+        if (evasionBuff.duration <= 0)
+            ActiveBuffs.Remove(evasionBuff);
     }
+
     private bool HasEvasionBuff()
     {
         return ActiveBuffs.Exists(b => b.type == BuffType.Evasion);
@@ -488,9 +486,9 @@ public abstract class CombatantInstance
             Upgrade whiteFlowerUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.WhiteFlower);
             if (whiteFlowerUpgrade != null)
             {
-                if (this is DoobieInstance doobie)
+                if (this is DoobieInstance doobie && doobie.MainResource != null && doobie.MainResource.Type == ResourceType.Zurp)
                 {
-                    doobie.ChangeZurp(whiteFlowerUpgrade.intensity, true);
+                    doobie.MainResource.Gain(whiteFlowerUpgrade.intensity);
                 }
             }
         }

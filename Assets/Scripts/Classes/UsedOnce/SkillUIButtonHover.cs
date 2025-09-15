@@ -13,7 +13,7 @@ public class SkillUIButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerE
         BattleUIManager.Instance.SkillDescriptionPanel.SetActive(true);
         BattleUIManager.Instance.SkillDescriptionText.text =
             $"<b>{skill.skillName}</b>\n" +
-            $"Cost: {skill.resourceCost} {(skill.resourceUsed == ResourceType.Mana ? "Zurp" : "HP")}\n" +
+            $"Cost: {skill.resourceCost} {(skill.resourceUsed == ResourceType.Zurp ? "Zurp" : "HP")}\n" +
             $"Type: {(skill.isWeaponSkill ? "Weapon-based" : "Skill-based")}\n\n" +
             $"{skill.description}";
     }

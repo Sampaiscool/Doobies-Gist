@@ -22,44 +22,37 @@ public class SkillSO : ScriptableObject
         if (effect == null)
             return $"{skillName} fizzles into the void...";
 
-        // Only apply cost if user is a Doobie
         if (user is DoobieInstance doobie)
         {
-            switch (resourceUsed)
+            if (resourceUsed == ResourceType.Health)
             {
-                case ResourceType.Health:
-                    doobie.CurrentHealth -= resourceCost;
-                    break;
-                case ResourceType.Mana:
-                    doobie.ChangeZurp(resourceCost, false);
-                    break;
+                doobie.CurrentHealth -= resourceCost;
+            }
+            else if (doobie.MainResource != null && doobie.MainResource.Type == resourceUsed)
+            {
+                bool success = doobie.MainResource.Spend(resourceCost);
+                if (!success)
+                    return $"{doobie.CharacterName} tried to cast {skillName}, but lacked enough {resourceUsed}!";
             }
         }
 
         string result = effect.ApplyEffect(user, target);
 
         if (isWeaponSkill)
-        {
             user.CheckForWeaponOnUseEffects();
-            //user.CheckForWeaponOnUseBuffs();
-        }
         else
-        {
             user.CheckForSkillOnUseEffects();
-            //user.CheckForSkillOnUseBuffs();
-        }
 
         target.PlayAttackAnimation(animation);
 
-        // Roll for Zurp restore only if user is Doobie and this was a spell
-        if (user is DoobieInstance spellcaster)
+        // Resource restore (only if matches MainResource)
+        if (user is DoobieInstance spellcaster && spellcaster.MainResource?.Type == ResourceType.Zurp)
         {
-            var doobieSO = spellcaster.so as DoobieSO;
-            if (doobieSO != null && Random.value < zurpRegainChance)
+            if (Random.value < zurpRegainChance)
             {
-                spellcaster.ChangeZurp(zurpRegainAmount, true);
-                Debug.Log($"{spellcaster.CharacterName} regains " + zurpRegainAmount + " Zurp from casting {skillName}!");
-                result += "\nYou also regain " + zurpRegainAmount + " zurp!";
+                spellcaster.MainResource.Gain(zurpRegainAmount);
+                Debug.Log($"{spellcaster.CharacterName} regains {zurpRegainAmount} Zurp from casting {skillName}!");
+                result += $"\nYou also regain {zurpRegainAmount} zurp!";
             }
         }
 

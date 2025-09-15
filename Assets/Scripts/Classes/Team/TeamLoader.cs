@@ -53,7 +53,7 @@ public class TeamLoader : MonoBehaviour
 
         string log = $" Selected Doobie:\n" +
                      $"- Name: {selectedDoobie.doobieName}\n" +
-                     $"- Zurp (Mana): {selectedDoobie.zurp}\n" +
+                     $"- Resource : {selectedDoobie.baseResourceMax}\n" +
                      $"- Base Health: {selectedDoobie.baseHealth}\n" +
                      $"- Has Health?: {selectedDoobie.hasHealth}\n" +
                      $"- Default Weapon: {(selectedDoobie.defaultWeapon != null ? selectedDoobie.defaultWeapon.weaponName : "None")}\n";

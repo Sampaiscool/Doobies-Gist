@@ -46,9 +46,9 @@ public class CombatManager : MonoBehaviour
         combatantTurnCounters[playerDoobie] = 0;
         combatantTurnCounters[enemyVangurr] = 0;
 
-        if (playerDoobie is DoobieInstance doobie)
+        if (playerDoobie is DoobieInstance doobie && doobie.MainResource != null && doobie.MainResource.Type == ResourceType.Zurp)
         {
-            doobie.ChangeZurp(2, true); // Regain some zurp at start of combat
+            doobie.MainResource.Gain(2);
         }
 
         OnBattleStartEffects();
@@ -86,48 +86,41 @@ public class CombatManager : MonoBehaviour
 
     void OnSkillChosen(SkillSO chosenSkill)
     {
+        var doobie = GameManager.Instance.currentDoobie;
+
+        bool canPay = false;
+
         switch (chosenSkill.resourceUsed)
         {
-            case ResourceType.Mana:
-                if (GameManager.Instance.currentDoobie.CurrentZurp >= chosenSkill.resourceCost)
-                {
-                    string result = chosenSkill.UseSkill(playerDoobie, enemyVangurr);
-                    Debug.Log(result);
-
-                    BattleUIManager.AddLog(result);
-                    BattleUIManager.UpdateUI();
-
-                    IsPlayerTurn = false;
-                    waitingForNext = true;
-                }
-                else
-                {
-                    BattleUIManager.AddLog("You dont have enough zurp!");
-                    BattleUIManager.UpdateUI();
-                }
-                break;
+            // Any "Universal" resource
             case ResourceType.Health:
-                if (GameManager.Instance.currentDoobie.CurrentHealth > chosenSkill.resourceCost)
-                {
-                    string result = chosenSkill.UseSkill(playerDoobie, enemyVangurr);
-                    Debug.Log(result);
-
-                    BattleUIManager.AddLog(result);
-                    BattleUIManager.UpdateUI();
-
-                    IsPlayerTurn = false;
-                    waitingForNext = true;
-                }
-                else
-                {
-                    BattleUIManager.AddLog("You dont have enough zurp!");
-                    BattleUIManager.UpdateUI();
-                }
+                canPay = doobie.CurrentHealth > chosenSkill.resourceCost;
                 break;
-            default:
+
+            default: // Any "main" resource
+                if (doobie.MainResource != null && doobie.MainResource.Type == chosenSkill.resourceUsed)
+                    canPay = doobie.MainResource.Current >= chosenSkill.resourceCost;
                 break;
         }
+
+        if (canPay)
+        {
+            string result = chosenSkill.UseSkill(playerDoobie, enemyVangurr);
+            Debug.Log(result);
+
+            BattleUIManager.AddLog(result);
+            BattleUIManager.UpdateUI();
+
+            IsPlayerTurn = false;
+            waitingForNext = true;
+        }
+        else
+        {
+            BattleUIManager.AddLog($"You don’t have enough {chosenSkill.resourceUsed}!");
+            BattleUIManager.UpdateUI();
+        }
     }
+
     void OnHealButtonClicked()
     {
 
