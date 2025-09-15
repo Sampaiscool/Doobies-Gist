@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Robot Lazers
   icon: {fileID: 0}
-  animation: {fileID: 8762405910555896786, guid: 35d4dd234d5a1064fbde52662a770da1, type: 3}
+  animation: {fileID: 0}
   baseDamage: 2
   baseCritChance: 0
   missChance: 0.3

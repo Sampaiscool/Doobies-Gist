@@ -12,6 +12,7 @@ public class DoobieSO : ScriptableObject, ICombatantSO
     public bool unlockedByDefault;
     public int zurp; // mana 
     public int skillDmg;
+    public int healPower;
     public float baseDefence;
     public CharacterPool characterPool;
 

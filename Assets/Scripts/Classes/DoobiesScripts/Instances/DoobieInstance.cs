@@ -11,6 +11,7 @@ public class DoobieInstance : CombatantInstance
     public override float CurrentDefence { get; set; }
 
     public override int CurrentSkillDmg { get; set; }
+    public override int CurrentHealPower { get ; set ; }
 
     public int CurrentZurp { get; set; }
     public int MaxZurp { get; set; }
@@ -30,6 +31,7 @@ public class DoobieInstance : CombatantInstance
         CurrentZurp = MaxZurp;
 
         CurrentSkillDmg = _so.skillDmg;
+        CurrentHealPower = _so.healPower;
 
         EquippedWeaponInstance = new WeaponInstance(_so.defaultWeapon);
 
@@ -54,10 +56,15 @@ public class DoobieInstance : CombatantInstance
         if (isGain)
         {
             CurrentZurp = Mathf.Min(CurrentZurp + amount, MaxZurp);
+            OnZurpGainEffects();
         }
         else
         {
             CurrentZurp = Mathf.Max(CurrentZurp - amount, 0);
         }
+    }
+    void OnZurpGainEffects()
+    {
+
     }
 }

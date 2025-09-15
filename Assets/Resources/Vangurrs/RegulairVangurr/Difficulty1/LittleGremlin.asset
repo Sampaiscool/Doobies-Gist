@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfc10e7ba8736a43ad4b34a75fcce42, type: 3}
   m_Name: LittleGremlin
   m_EditorClassIdentifier: 
-  vangurrName: LittleGremlin
+  vangurrName: Little Gremlin
   portrait: {fileID: 21300000, guid: 7da9babac6589a144ba175d696bd7241, type: 3}
   skillDmg: 1
+  healPower: 0
   baseDefence: 0.5
   baseHealth: 3
   VangurrText: A sneaky target, with its rusty knife called "Rusty" it believes it
@@ -35,7 +36,7 @@ MonoBehaviour:
     type: 6
     Pool: 2
     intensity: 1
-  - upgradeName: BloodyWeapon
+  - upgradeName: Bloody Weapon
     description: if you use a Weapon-Style Attack your opponent gains +1 "Bleed".
     cost: 0
     icon: {fileID: 0}

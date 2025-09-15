@@ -37,6 +37,15 @@ public enum UpgradeNames
     Sneaky,                               //None
     BloodyWeapon,                         //None
 
-    ArcaneMind,                            //Menta
-    ViolentAttacks,                        //None
+    ArcaneMind,                           //Menta
+
+    ViolentAttacks,                       //None
+
+    OffensiveFlow,                        //Hiroshi
+    WhiteFlower,                          //Hiroshi
+    StayPrepared,                         //Hiroshi
+
+    HealtySupplies,                       //None
+
+    GremlinHunger,                        //FatGremlin
 }

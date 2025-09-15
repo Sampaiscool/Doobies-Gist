@@ -2699,7 +2699,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000019073486}
+  m_AnchoredPosition: {x: 0, y: -0.0000028474153}
   m_SizeDelta: {x: 0, y: 391}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1529649243
@@ -3310,6 +3310,7 @@ MonoBehaviour:
   CurrentPlayerSploont: 0
   CurrentPlayerHP: 20
   CombatManager: {fileID: 0}
+  damageAnimationPrefab: {fileID: 3277231419243905917, guid: fb1d3b6dc5160dc419114ab272462ba7, type: 3}
   debugMode: 1
   HasDoneTutorial: 0
 --- !u!1 &2066916025
@@ -3637,7 +3638,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 776884009}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.93056446
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -38,6 +38,17 @@ public class SkillSO : ScriptableObject
 
         string result = effect.ApplyEffect(user, target);
 
+        if (isWeaponSkill)
+        {
+            user.CheckForWeaponOnUseEffects();
+            //user.CheckForWeaponOnUseBuffs();
+        }
+        else
+        {
+            user.CheckForSkillOnUseEffects();
+            //user.CheckForSkillOnUseBuffs();
+        }
+
         target.PlayAttackAnimation(animation);
 
         // Roll for Zurp restore only if user is Doobie and this was a spell

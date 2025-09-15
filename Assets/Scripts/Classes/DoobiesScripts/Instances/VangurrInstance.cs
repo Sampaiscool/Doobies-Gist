@@ -10,6 +10,7 @@ public class VangurrInstance : CombatantInstance
     public override int MaxHealth { get; set; }
     public override float CurrentDefence { get; set; }
     public override int CurrentSkillDmg { get; set; }
+    public override int CurrentHealPower { get; set; }
 
     public override List<SkillSO> GetAllSkills() => new List<SkillSO>(_so.baseSkills);
 
@@ -20,6 +21,7 @@ public class VangurrInstance : CombatantInstance
         MaxHealth = _so.baseHealth;
         CurrentDefence = _so.baseDefence;
         CurrentSkillDmg = _so.skillDmg;
+        CurrentHealPower = _so.healPower;
         EquippedWeaponInstance = new WeaponInstance(_so.defaultWeapon);
 
         foreach (var upgrade in _so.startingUpgrades)

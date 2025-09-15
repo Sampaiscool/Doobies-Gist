@@ -58,14 +58,24 @@ public class PanelManager : MonoBehaviour
     {
         ShowPanel(VangurrPanel);
 
-        // Choose a random Vangurr based on difficulty
-        VangurrSO selectedVangurr = vangurrManager.ChooseVangurr();
+        // Only choose a new vangurr if we don't already have one
+        if (vangurrManager.ChosenVangurr == null)
+        {
+            VangurrSO selectedVangurr = vangurrManager.ChooseVangurr();
+            GameManager.Instance.currentVangurr = new VangurrInstance(selectedVangurr);
 
-        // Create a new VangurrInstance and assign it
-        GameManager.Instance.currentVangurr = new VangurrInstance(selectedVangurr);
+            vangurrManager.UpdateVangurrText(selectedVangurr);
+        }
+        else
+        {
+            // Reuse the chosen one
+            if (GameManager.Instance.currentVangurr == null)
+            {
+                GameManager.Instance.currentVangurr = new VangurrInstance(vangurrManager.ChosenVangurr);
+            }
 
-        // Update the text
-        vangurrManager.UpdateVangurrText(selectedVangurr);
+            vangurrManager.UpdateVangurrText(vangurrManager.ChosenVangurr);
+        }
     }
     public void ShowShopPanel()
     {

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Evil Eraser
   icon: {fileID: 0}
-  animation: {fileID: 447409866740539227, guid: dbd22318630485e4aa43eb2544a6a3bb, type: 3}
+  animation: {fileID: 0}
   baseDamage: 1
   baseCritChance: 0
   missChance: 0.1

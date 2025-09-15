@@ -23,7 +23,7 @@ public class VangurrManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        ResetChosenVangurr();
     }
 
     /// <summary>
@@ -67,10 +67,9 @@ public class VangurrManager : MonoBehaviour
             VangurrTextObject.text = "Geen Vangurr gevonden...";
         }
     }
-
-    public void OnBattleClick()
+    public void ResetChosenVangurr()
     {
-
+        ChosenVangurr = null;
     }
 }
 

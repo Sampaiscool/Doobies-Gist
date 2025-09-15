@@ -16,7 +16,7 @@ MonoBehaviour:
   portrait: {fileID: 21300000, guid: 84a5727eb566d3641a802751e9d97a83, type: 3}
   skillDmg: 3
   baseDefence: 0.8
-  baseHealth: 6
+  baseHealth: 15
   VangurrText: 'The powerfull wizard "Menta"! It seems '
   difficultyLevel: 1
   skillChance: 80

@@ -17,6 +17,7 @@ MonoBehaviour:
   unlockedByDefault: 1
   zurp: 5
   skillDmg: 1
+  healPower: 2
   baseDefence: 1
   characterPool: 1
   baseHealth: 20
@@ -27,3 +28,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1eadaec84e6c61445bdf102f0c46041f, type: 2}
   - {fileID: 11400000, guid: 1f6a00573125ad249a4673ee2c6a154e, type: 2}
   defaultWeapon: {fileID: 11400000, guid: 22f1e6801e4030e49ad80b8339ba2e92, type: 2}
+  startingUpgrades: []

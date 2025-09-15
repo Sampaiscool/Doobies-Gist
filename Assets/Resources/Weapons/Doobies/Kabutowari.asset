@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: 'Kabutowari '
   icon: {fileID: 0}
-  animation: {fileID: 5238538877814813142, guid: 6346ede2db41eda4da35930dccb4fa15, type: 3}
+  animation: {fileID: 0}
   baseDamage: 3
   baseCritChance: 10
   missChance: 0.2

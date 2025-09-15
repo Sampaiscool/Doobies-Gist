@@ -7,6 +7,8 @@ public class CombatManager : MonoBehaviour
 {
     public Button AttackButton;
     public Button SkillButton;
+    public Button HealButton;
+
     //public Button NextButton;
     public BattleUIManager BattleUIManager;
 
@@ -22,6 +24,9 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private Transform doobieAnchor;
     [SerializeField] private Transform vangurrAnchor;
 
+    [SerializeField] private CombatantClickable doobieImageBinder;
+    [SerializeField] private CombatantClickable vangurrImageBinder;
+
     private Dictionary<CombatantInstance, int> combatantTurnCounters = new Dictionary<CombatantInstance, int>();
 
     void Start()
@@ -35,6 +40,9 @@ public class CombatManager : MonoBehaviour
         playerDoobie.animationAnchor = doobieAnchor;
         enemyVangurr.animationAnchor = vangurrAnchor;
 
+        doobieImageBinder.Bind(playerDoobie);
+        vangurrImageBinder.Bind(enemyVangurr);
+
         combatantTurnCounters[playerDoobie] = 0;
         combatantTurnCounters[enemyVangurr] = 0;
 
@@ -43,8 +51,11 @@ public class CombatManager : MonoBehaviour
             doobie.ChangeZurp(2, true); // Regain some zurp at start of combat
         }
 
+        OnBattleStartEffects();
+
         AttackButton.onClick.AddListener(OnAttackButtonClicked);
         SkillButton.onClick.AddListener(OnSkillButtonClicked);
+        HealButton.onClick.AddListener(OnHealButtonClicked);
 
         // Open log at start, using CharacterName from CombatantInstance
         BattleUIManager.AddLog($"You face {enemyVangurr.CharacterName}!");
@@ -116,6 +127,24 @@ public class CombatManager : MonoBehaviour
             default:
                 break;
         }
+    }
+    void OnHealButtonClicked()
+    {
+
+        
+
+        float multiplier = Random.Range(0.5f, 1.5f);
+
+        int healed = Mathf.RoundToInt(playerDoobie.CurrentHealPower * multiplier);
+
+        int actualHealed = playerDoobie.HealCombatant(healed);
+
+        string combatResult = $"{playerDoobie.CharacterName} heals for {actualHealed} health!";
+        BattleUIManager.AddLog(combatResult);
+        BattleUIManager.UpdateUI();
+
+        IsPlayerTurn = false;
+        waitingForNext = true;
     }
 
     public void OnNextButtonClicked()
@@ -192,6 +221,12 @@ public class CombatManager : MonoBehaviour
             int burnDamage = burn.intensity;
             var(resutl, actualDamage)  = combatant.TakeDamage(burnDamage);
             logMessage += $"\n{combatant.CharacterName} takes {actualDamage} burn damage!";
+
+            if (combatant.CurrentHealth <= 0)
+            {
+                logMessage += $"\n{combatant.CharacterName} has fallen!";
+                return true;
+            }
         }
 
         // Tick all buffs after applying effects
@@ -218,9 +253,54 @@ public class CombatManager : MonoBehaviour
                         BattleUIManager.AddLog($"{combatant.CharacterName}'s Arcane Mind empowers them! Spell Strengthen applied.");
                     }
                     break;
+
+                case UpgradeNames.GremlinHunger:
+                    CombatantInstance target = (combatant is DoobieInstance)
+                        ? GameManager.Instance.currentVangurr
+                        : GameManager.Instance.currentDoobie;
+
+                    if (!combatantTurnCounters.ContainsKey(combatant))
+                        combatantTurnCounters[combatant] = 0;
+
+                    int eatDamage = combatantTurnCounters[combatant];
+                    target.TakeDamage(eatDamage);
+
+                    BattleUIManager.AddLog($"{combatant.CharacterName} feasts on {target.CharacterName}, dealing {eatDamage} damage!");
+                    break;
             }
         }
     }
+    void OnBattleStartEffects()
+    {
+        List<CombatantInstance> combatants = new List<CombatantInstance> { playerDoobie, enemyVangurr };
+
+        foreach (var combatant in combatants)
+        {
+            if (combatant.ActiveUpgrades != null)
+            {
+                foreach (var upgrade in combatant.ActiveUpgrades)
+                {
+                    if (upgrade.type == UpgradeNames.StayPrepared)
+                    {
+                        combatant.AddBuff(new Buff(BuffType.Deflecion, 999, false, upgrade.intensity));
+                    }
+
+                    if (upgrade.type == UpgradeNames.HealtySupplies)
+                    {
+                        combatant.HealCombatant(combatant.CurrentHealPower + upgrade.intensity);
+                    }
+
+                    if (upgrade.type == UpgradeNames.GremlinHunger)
+                    {
+                        combatantTurnCounters[combatant] = 0 + upgrade.intensity;
+                        BattleUIManager.AddLog($"{combatant.CharacterName} prepares to feast this battle...");
+                    }
+                }
+            }
+        }
+    }
+
+
     private IEnumerator ReturnToAdventureAfterDelay(float delay, bool playerWon)
     {
         yield return new WaitForSeconds(delay);

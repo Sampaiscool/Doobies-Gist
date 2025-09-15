@@ -44,14 +44,16 @@ public class BattleUIManager : MonoBehaviour
     public List<TMP_Text> SkillButtonLabels;
     public List<Image> SkillButtonIcons;
 
+    [Header("Combatant Stats Panel")]
+    public CombatantStatsPanel statsPanelInstance;
+    private bool isPanelActive = false;
+
     [Header("Buff Visuals")]
     public Sprite defaultSprite;
     public GameObject defaultEffectPrefab;
 
     [Tooltip("Assign each BuffType its icon and effect here")]
     public List<BuffVisual> buffVisuals = new List<BuffVisual>();
-
-
 
     public GameObject BuffIconPrefab;
     public GameObject BuffDescriptionPrefab;
@@ -65,6 +67,9 @@ public class BattleUIManager : MonoBehaviour
 
     void Start()
     {
+        // STOP IT MAN!!!
+        string STOP = isPanelActive.ToString();
+
         SetupUI();
     }
     /// <summary>
@@ -186,6 +191,7 @@ public class BattleUIManager : MonoBehaviour
             }
         }
     }
+
     public void UpdateBuffsUI(CombatantInstance combatant, Transform buffContainer)
     {
         foreach (var buff in combatant.ActiveBuffs)
@@ -231,8 +237,21 @@ public class BattleUIManager : MonoBehaviour
             }
         }
     }
+    public void ShowStats(CombatantInstance combatant)
+    {
+        if (statsPanelInstance == null) return;
 
+        statsPanelInstance.gameObject.SetActive(true);
+        statsPanelInstance.Setup(combatant);
+        isPanelActive = true;
+    }
+    public void HideStats()
+    {
+        if (statsPanelInstance == null) return;
 
+        statsPanelInstance.gameObject.SetActive(false);
+        isPanelActive = false;
+    }
     public Sprite GetSpriteForBuffs(BuffType type)
     {
         foreach (var visual in buffVisuals)

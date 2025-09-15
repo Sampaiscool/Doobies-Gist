@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Ereasure
   icon: {fileID: 0}
-  animation: {fileID: 0}
+  animation: {fileID: 447409866740539227, guid: dbd22318630485e4aa43eb2544a6a3bb, type: 3}
   description: A powerfull attack that reduces the strenght of the hit target
   resourceCost: 0
   resourceUsed: 0

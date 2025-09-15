@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public int CurrentPlayerSploont = 0; //The players current Money 1
     public int CurrentPlayerHP = 20;
     public CombatManager CombatManager;
+    public GameObject damageAnimationPrefab;
 
     public bool debugMode = false;
     public bool HasDoneTutorial = false;

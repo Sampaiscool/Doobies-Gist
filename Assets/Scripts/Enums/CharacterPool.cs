@@ -9,4 +9,5 @@ public enum CharacterPool
     Hiroshi,            // Doobie
     LittleGremlin,      //Vangurr
     Menta,              //Vangurr
+    FatGremlin,         //Vangurr
 }

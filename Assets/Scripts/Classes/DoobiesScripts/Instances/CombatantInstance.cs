@@ -15,6 +15,7 @@ public abstract class CombatantInstance
     public abstract int MaxHealth { get; set; }
     public abstract float CurrentDefence { get; set; }
     public abstract int CurrentSkillDmg { get; set; }
+    public abstract int CurrentHealPower { get; set; }
 
     public WeaponInstance EquippedWeaponInstance;
 
@@ -29,7 +30,9 @@ public abstract class CombatantInstance
 
     public int HealCombatant(int amount)
     {
-        int healAmount = Mathf.Min(amount, MaxHealth - CurrentHealth);
+        int effectiveHeal = GetEffectiveHealPower(amount);
+
+        int healAmount = Mathf.Min(effectiveHeal, MaxHealth - CurrentHealth);
         CurrentHealth += healAmount;
         return healAmount;
     }
@@ -67,6 +70,14 @@ public abstract class CombatantInstance
         HandeCurseEffect(reducedDamage);
 
         CurrentHealth = Mathf.Max(CurrentHealth - reducedDamage, 0);
+
+        // Trigger hit animation if available
+        GameObject HitAnimationPrefab = GameManager.Instance.damageAnimationPrefab;
+        if (HitAnimationPrefab != null)
+        {
+            PlayHitAnimation(HitAnimationPrefab);
+        }
+
         return (DamageResult.Hit, reducedDamage);
     }
     private bool HandleDeflection()
@@ -217,7 +228,7 @@ public abstract class CombatantInstance
         if (EquippedWeaponInstance == null)
             return $"{CharacterName} tries to attack, but is unarmed!";
 
-        var attack = EquippedWeaponInstance.BasicAttack;
+        var attack = EquippedWeaponInstance.GetEffectiveDamage();
 
         Buff BlindDeBuff = ActiveBuffs.Find(b => b.type == BuffType.Blind);
         if (Random.value < EquippedWeaponInstance.MissChance || BlindDeBuff != null)
@@ -227,7 +238,7 @@ public abstract class CombatantInstance
 
         float multiplier = Random.Range(0.5f, 1.5f);
 
-        int baseDamage = Mathf.RoundToInt(attack.damage * multiplier);
+        int baseDamage = Mathf.RoundToInt(attack * multiplier);
 
         // Apply any attack-affecting buffs
         int baseDamageAfterBuffs = GetEffectiveWeaponDamageAfterBuffs(baseDamage);
@@ -285,7 +296,28 @@ public abstract class CombatantInstance
             }
         }
 
-        CheckForWeaponOnUseUpgrades();
+        CheckForWeaponOnUseEffects();
+
+        return Mathf.Max(modifiedDamage, 0);
+    }
+    public int GetEffectiveWeaponDamageAfterBuffsForUI(int baseDamage)
+    {
+        int modifiedDamage = baseDamage;
+
+        foreach (var buff in ActiveBuffs)
+        {
+            switch (buff.type)
+            {
+                case BuffType.WeaponWeaken:
+                    for (int i = 0; i < buff.intensity; i++)
+                        modifiedDamage = Mathf.FloorToInt(modifiedDamage * 0.8f);
+                    break;
+                case BuffType.WeaponStrenghten:
+                    for (int i = 0; i < buff.intensity; i++)
+                        modifiedDamage = Mathf.CeilToInt(modifiedDamage * 1.2f);
+                    break;
+            }
+        }
 
         return Mathf.Max(modifiedDamage, 0);
     }
@@ -314,12 +346,32 @@ public abstract class CombatantInstance
     {
         int finalDmg;
 
-        CheckForSkillOnUseUpgrades();
+        CheckForSkillOnUseEffects();
 
         return finalDmg = GetEffectiveSkillDamageAfterBuffs(baseDmg);
     }
+    public int GetEffectiveSkillDamageForUI(int baseDmg)
+    {
+        int finalDmg;
 
-    public void CheckForSkillOnUseUpgrades()
+        return finalDmg = GetEffectiveSkillDamageAfterBuffs(baseDmg);
+    }
+    public int GetEffectiveHealPower(int baseHeal)
+    {
+        int modifiedHeal = baseHeal;
+        foreach (var buff in ActiveBuffs)
+        {
+            switch (buff.type)
+            {
+                default:
+                    break;
+            }
+        }
+
+        return Mathf.Max(modifiedHeal, 0);
+    }
+
+    public void CheckForSkillOnUseEffects()
     {
         if (ActiveUpgrades == null) return;
         foreach (var upgrade in ActiveUpgrades)
@@ -339,7 +391,7 @@ public abstract class CombatantInstance
             }
         }
     }
-    public void CheckForWeaponOnUseUpgrades()
+    public void CheckForWeaponOnUseEffects()
     {
         if (ActiveUpgrades != null)
         {
@@ -374,6 +426,16 @@ public abstract class CombatantInstance
                             GameManager.Instance.currentVangurr.AddBuff(new Buff(BuffType.WeaponStrenghten, 3, true, upgrade.intensity));
                         }
                         break;
+                    case UpgradeNames.OffensiveFlow:
+                        // Each intensity adds 5% chance to gain 1 Deflection
+                        float chancePerIntensity = 0.05f;
+                        float totalChance = upgrade.intensity * chancePerIntensity;
+
+                        if (Random.value < totalChance)
+                        {
+                            AddBuff(new Buff(BuffType.Deflecion, 999, false, upgrade.intensity));
+                        }
+                        break;
                 }
             }
         }
@@ -388,6 +450,8 @@ public abstract class CombatantInstance
                         {
                             TakeDamage(1);
                         }
+                        break;
+                    default:
                         break;
                 }
             }
@@ -417,7 +481,16 @@ public abstract class CombatantInstance
             {
                 for (int i = 0; i < fleetingPetalsUpgrade.intensity; i++)
                 {
-                    CurrentHealth = Mathf.Min(CurrentHealth + 1, MaxHealth);
+                    HealCombatant(1);
+                }
+            }
+
+            Upgrade whiteFlowerUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.WhiteFlower);
+            if (whiteFlowerUpgrade != null)
+            {
+                if (this is DoobieInstance doobie)
+                {
+                    doobie.ChangeZurp(whiteFlowerUpgrade.intensity, true);
                 }
             }
         }
@@ -519,6 +592,29 @@ public abstract class CombatantInstance
             var renderer = ps.GetComponent<Renderer>();
             renderer.sortingLayerName = "Foreground";
             renderer.sortingOrder = 10;
+        }
+
+        GameObject.Destroy(spawned, 2f);
+    }
+    /// <summary>
+    /// Play a hit/damage animation on this combatant.
+    /// </summary>
+    /// <param name="animationPrefab">The animation prefab to play</param>
+    public void PlayHitAnimation(GameObject animationPrefab)
+    {
+        if (animationPrefab == null || animationAnchor == null)
+            return;
+
+        GameObject spawned = GameObject.Instantiate(animationPrefab, animationAnchor.position, Quaternion.identity);
+        spawned.transform.SetParent(animationAnchor);
+        spawned.transform.localScale.Normalize();
+
+        var ps = spawned.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            var renderer = ps.GetComponent<Renderer>();
+            renderer.sortingLayerName = "Foreground";
+            renderer.sortingOrder = 20; 
         }
 
         GameObject.Destroy(spawned, 2f);

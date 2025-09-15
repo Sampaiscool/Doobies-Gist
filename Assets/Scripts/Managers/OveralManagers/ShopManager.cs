@@ -11,6 +11,8 @@ public class UpgradeGroup
 
 public class ShopManager : MonoBehaviour
 {
+    public int refreshCost = 50;
+
     [SerializeField] private Transform shopContent;
     [SerializeField] private UpgradeButton upgradeButtonPrefab;
 
@@ -86,15 +88,49 @@ public class ShopManager : MonoBehaviour
             return;
         }
 
+        // Give the upgrade to the player (stacking allowed)
         GameManager.Instance.currentDoobie.AddUpgrade(upgrade);
 
+        // Remove only the button visually, but keep the upgrade in the pool
+        foreach (Transform child in shopContent)
+        {
+            UpgradeButton btn = child.GetComponent<UpgradeButton>();
+            if (btn != null && btn.UpgradeData == upgrade)
+            {
+                Destroy(child.gameObject);
+                break;
+            }
+        }
+
+        // Remove from current shop list to prevent duplicate buttons in the same refresh
+        currentUpgrades.Remove(upgrade);
 
         Debug.Log($"Bought {upgrade.upgradeName} for {upgrade.cost} gold!");
     }
 
+
     public List<Upgrade> GetCurrentUpgrades()
     {
         return currentUpgrades;
+    }
+    public void RefreshShop(int count = 3)
+    {
+        if (!GameManager.Instance.ChangeSploont(refreshCost, false))
+        {
+            Debug.Log("Not enough Sploont to refresh");
+            return;
+        }
+
+        if (!shopInitialized) return;
+
+        // Get the current character pool
+        var currentPool = GameManager.Instance.currentDoobie._so.characterPool;
+
+        // Generate a fresh set of upgrades
+        List<Upgrade> newUpgrades = GenerateRandomUpgrades(count, currentPool);
+
+        // Open shop with the new upgrades
+        OpenShop(newUpgrades);
     }
 
     public void ResetShop()
