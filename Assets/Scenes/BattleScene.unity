@@ -1906,6 +1906,24 @@ MonoBehaviour:
   - type: 8
     icon: {fileID: 21300000, guid: 6f37b77f3c62f2b4494d6beda806a9fe, type: 3}
     effectPrefab: {fileID: 7281378182209018676, guid: cb7edf805a494434d9ca4b5e68d1e4ac, type: 3}
+  - type: 8
+    icon: {fileID: 21300000, guid: 6f37b77f3c62f2b4494d6beda806a9fe, type: 3}
+    effectPrefab: {fileID: 7281378182209018676, guid: cb7edf805a494434d9ca4b5e68d1e4ac, type: 3}
+  - type: 3
+    icon: {fileID: 21300000, guid: e4dc611fd08f8dd4d942f05c65bb0a43, type: 3}
+    effectPrefab: {fileID: 3982581360179883478, guid: e4d18f06eb5b722478d61fc4c318e021, type: 3}
+  - type: 9
+    icon: {fileID: 21300000, guid: 6e80c296209ebd64790415abf7488604, type: 3}
+    effectPrefab: {fileID: 7281378182209018676, guid: cb7edf805a494434d9ca4b5e68d1e4ac, type: 3}
+  - type: 17
+    icon: {fileID: 21300000, guid: a2a009417e9b2d44baa03e3894db9dcc, type: 3}
+    effectPrefab: {fileID: 0}
+  - type: 11
+    icon: {fileID: 0}
+    effectPrefab: {fileID: 0}
+  - type: 18
+    icon: {fileID: 21300000, guid: 2cb6cd4bb2193c1409545c4646d47ae6, type: 3}
+    effectPrefab: {fileID: 0}
   BuffIconPrefab: {fileID: 8727585946917096499, guid: 3865fb4965dd7714f8502c665b7d8190, type: 3}
   BuffDescriptionPrefab: {fileID: 7399243327277128440, guid: 9ca2d5d67a8f1bb499a0171ffc237151, type: 3}
 --- !u!1 &757010351

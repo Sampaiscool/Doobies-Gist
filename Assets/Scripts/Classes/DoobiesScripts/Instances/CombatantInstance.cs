@@ -27,7 +27,12 @@ public abstract class CombatantInstance
 
     public List<Upgrade> ActiveUpgrades { get; private set; } = new List<Upgrade>();
 
-
+    public int HealCombatant(int amount)
+    {
+        int healAmount = Mathf.Min(amount, MaxHealth - CurrentHealth);
+        CurrentHealth += healAmount;
+        return healAmount;
+    }
     /// <summary>
     /// The instance takes damage, reduced by defence.
     /// </summary>
@@ -36,17 +41,30 @@ public abstract class CombatantInstance
     /// <returns>The actual damage</returns>
     public virtual (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill = false)
     {
+        Debug.Log("Taking base damage: " + amount);
+
         if (HandleDeflection())
             return (DamageResult.Deflected, 0);
 
-        if (HandleSneaky() || HasEvasionBuff())
+        if (!isSkill)
         {
-            HandleDodgeEffects(); // Apply follow-up buffs
-            return (DamageResult.Dodged, 0);
+            if (HandleSneaky() || HasEvasionBuff())
+            {
+                HandleDodgeEffects(); // Apply follow-up buffs
+                return (DamageResult.Dodged, 0);
+            }
         }
 
+        
+
+        // Normal damage calculation if no shield
         float defence = GetEffectiveDefence();
         int reducedDamage = Mathf.CeilToInt(amount / defence);
+
+        if (HandleShield(reducedDamage))
+            return (DamageResult.Blocked, 0);
+
+        HandeCurseEffect(reducedDamage);
 
         CurrentHealth = Mathf.Max(CurrentHealth - reducedDamage, 0);
         return (DamageResult.Hit, reducedDamage);
@@ -112,14 +130,14 @@ public abstract class CombatantInstance
         if (sneakyStacks == 0)
             return false; // No Sneaky upgrades, no extra dodge
 
-        // Each stack gives 25% dodge
-        float dodgeChance = sneakyStacks * 0.25f;
+        // Each stack gives 20% dodge
+        float dodgeChance = sneakyStacks * 0.20f;
 
         // Roll to see if dodge triggers
         if (Random.value < dodgeChance)
         {
             // Apply Evasion buff
-            AddBuff(new Buff(BuffType.Evasion, duration: 1, isDebuff: false, intensity: 1));
+            AddBuff(new Buff(BuffType.Evasion, duration: sneakyStacks, isDebuff: false, intensity: 1));
             return true; // Dodge successful
         }
 
@@ -147,6 +165,45 @@ public abstract class CombatantInstance
     private bool HasEvasionBuff()
     {
         return ActiveBuffs.Exists(b => b.type == BuffType.Evasion);
+    }
+    private bool HandleShield(int damage)
+    {
+        Buff shieldBuff = ActiveBuffs.Find(b => b.type == BuffType.Shield);
+        if (shieldBuff != null && shieldBuff.intensity > 0)
+        {
+            shieldBuff.intensity -= damage;
+
+            if (shieldBuff.intensity <= 0)
+            {
+                ActiveBuffs.Remove(shieldBuff);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+    private bool HandeCurseEffect(int damage)
+    {
+        Buff vampireCurse = ActiveBuffs.Find(b => b.type == BuffType.VampireCurse);
+        if (vampireCurse != null)
+        {
+            for (int i = 0; i < vampireCurse.intensity; i++)
+            {
+                int healAmount = Mathf.CeilToInt(0.5f * damage);
+                if (this is DoobieInstance)
+                {
+                    GameManager.Instance.currentVangurr.HealCombatant(healAmount);
+                }
+                else
+                {
+                    GameManager.Instance.currentDoobie.HealCombatant(healAmount);
+                }
+            }
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -270,16 +327,13 @@ public abstract class CombatantInstance
             switch (upgrade.type)
             {
                 case UpgradeNames.SpellSlinger:
-                    for (int i = 0; i < upgrade.intensity; i++)
+                    if (this is DoobieInstance)
                     {
-                        if (this is DoobieInstance)
-                        {
-                            GameManager.Instance.currentVangurr.TakeDamage(1);
-                        }
-                        else
-                        {
-                            GameManager.Instance.currentDoobie.TakeDamage(1);
-                        }
+                        GameManager.Instance.currentVangurr.TakeDamage(upgrade.intensity);
+                    }
+                    else
+                    {
+                        GameManager.Instance.currentDoobie.TakeDamage(upgrade.intensity);
                     }
                     break;
             }
@@ -294,22 +348,30 @@ public abstract class CombatantInstance
                 switch (upgrade.type)
                 {
                     case UpgradeNames.WeaponMastery:
-                        for (int i = 0; i < upgrade.intensity; i++)
-                        {
-                            AddBuff(new Buff(BuffType.WeaponStrenghten, 1, false, 1));
-                        }
+                        AddBuff(new Buff(BuffType.WeaponStrenghten, 1, false, upgrade.intensity));
                         break;
                     case UpgradeNames.BloodyWeapon:
-                        for (int i = 0; i < upgrade.intensity; i++)
+                        if (this is DoobieInstance)
                         {
-                            if (this is DoobieInstance)
-                            {
-                                GameManager.Instance.currentVangurr.AddBuff(new Buff(BuffType.Bleed, 3, true, 1));
-                            }
-                            else
-                            {
-                                GameManager.Instance.currentDoobie.AddBuff(new Buff(BuffType.Bleed, 3, true, 1));
-                            }
+                            GameManager.Instance.currentVangurr.AddBuff(new Buff(BuffType.Bleed, 3, true, upgrade.intensity));
+                        }
+                        else
+                        {
+                            GameManager.Instance.currentDoobie.AddBuff(new Buff(BuffType.Bleed, 3, true, upgrade.intensity));
+                        }
+                        break;
+                    case UpgradeNames.ViolentAttacks:
+                        if (this is DoobieInstance)
+                        {
+                            GameManager.Instance.currentDoobie.AddBuff(new Buff(BuffType.Bleed, 2, true, 2));
+
+                            GameManager.Instance.currentDoobie.AddBuff(new Buff(BuffType.WeaponStrenghten, 3, true, upgrade.intensity));
+                        }
+                        else
+                        {
+                            GameManager.Instance.currentVangurr.AddBuff(new Buff(BuffType.Bleed, 2, true, 2));
+
+                            GameManager.Instance.currentVangurr.AddBuff(new Buff(BuffType.WeaponStrenghten, 3, true, upgrade.intensity));
                         }
                         break;
                 }

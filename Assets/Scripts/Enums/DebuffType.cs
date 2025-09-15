@@ -19,10 +19,11 @@ public enum BuffType
     DefenceDown,                // Debuff - Decreases defense against all damage types
     Stun,                       // Debuff - Skip turn
     Blind,                      // Debuff - Miss all basic attacks
-    Slow,
-    Curse,
+    Slow,                       // Debuff - ...
+    VampireCurse,               // Debuff - Any damage taken heals the opponent for half the damage dealt
 
     Evasion,                    // Buff that gives a chance to completely avoid an attack
     CriticalEye,                // Buff that gives an increased chance to land a critical hit
     Bleed,                      // Debuff - Takes damage when performing Weapon-Style attacks
+    Shield,                     // Buff - Absorbs damage
 }

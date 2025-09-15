@@ -1,6 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class UpgradeGroup
+{
+    public string groupName; // optional for editor clarity
+    public CharacterPool characterPool; // Which character this group belongs to
+    public List<UpgradeSO> upgrades; // All upgrades in this group
+}
+
 public class ShopManager : MonoBehaviour
 {
     [SerializeField] private Transform shopContent;
@@ -9,12 +17,21 @@ public class ShopManager : MonoBehaviour
     private bool shopInitialized = false;
     private List<Upgrade> currentUpgrades = new List<Upgrade>();
 
-    [SerializeField] private List<UpgradeSO> allPossibleUpgrades;
+    [Header("Organized Upgrade Pools")]
+    [SerializeField] private List<UpgradeGroup> upgradeGroups;
 
     public List<Upgrade> GenerateRandomUpgrades(int count, CharacterPool currentPool)
     {
-        List<UpgradeSO> pool = allPossibleUpgrades.FindAll(u =>
-            u.pool == currentPool || u.pool == CharacterPool.None);
+        // Find the pool for the current character, plus generic upgrades (None)
+        var pool = new List<UpgradeSO>();
+
+        foreach (var group in upgradeGroups)
+        {
+            if (group.characterPool == currentPool || group.characterPool == CharacterPool.None)
+            {
+                pool.AddRange(group.upgrades);
+            }
+        }
 
         List<Upgrade> randomUpgrades = new List<Upgrade>();
 
@@ -24,7 +41,7 @@ public class ShopManager : MonoBehaviour
             UpgradeSO chosen = pool[index];
             pool.RemoveAt(index);
 
-            // Convert SO into runtime instance
+            // Convert SO into runtime Upgrade instance
             Upgrade upgradeInstance = new Upgrade(
                 chosen.upgradeName,
                 chosen.description,
@@ -63,13 +80,11 @@ public class ShopManager : MonoBehaviour
     }
     private void HandleBuyUpgrade(Upgrade upgrade)
     {
-        if (GameManager.Instance.CurrentPlayerSploont < upgrade.cost)
+        if (!GameManager.Instance.ChangeSploont(upgrade.cost, false))
         {
             Debug.Log("Not enough Sploont to buy " + upgrade.upgradeName);
             return;
         }
-
-        GameManager.Instance.CurrentPlayerSploont -= upgrade.cost;
 
         GameManager.Instance.currentDoobie.AddUpgrade(upgrade);
 

@@ -36,4 +36,7 @@ public enum UpgradeNames
 
     Sneaky,                               //None
     BloodyWeapon,                         //None
+
+    ArcaneMind,                            //Menta
+    ViolentAttacks,                        //None
 }

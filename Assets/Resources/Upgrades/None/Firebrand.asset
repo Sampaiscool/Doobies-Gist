@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeName: Firebrand
   description: Whenever you hit a basic attack; inflict +1 Burn on the enemy
-  cost: 0
+  cost: 300
   icon: {fileID: 0}
   type: 2
   pool: 0

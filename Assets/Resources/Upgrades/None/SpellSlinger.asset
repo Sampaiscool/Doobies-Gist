@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ffe80665f4ca94c8860dc62dafa2e4, type: 3}
   m_Name: SpellSlinger
   m_EditorClassIdentifier: 
-  upgradeName: SpellSlinger
+  upgradeName: Spell Slinger
   description: If you use a Spell-Style Skill; Deal +1 damage.
-  cost: 0
+  cost: 100
   icon: {fileID: 0}
   type: 1
   pool: 0

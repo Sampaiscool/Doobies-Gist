@@ -32,6 +32,21 @@ public class DoobieInstance : CombatantInstance
         CurrentSkillDmg = _so.skillDmg;
 
         EquippedWeaponInstance = new WeaponInstance(_so.defaultWeapon);
+
+        foreach (var upgrade in _so.startingUpgrades)
+        {
+            AddUpgrade(new Upgrade(
+                upgrade.upgradeName,
+                upgrade.description,
+                upgrade.cost,
+                upgrade.type,
+                upgrade.Pool,
+                upgrade.intensity
+            )
+            {
+                icon = upgrade.icon
+            });
+        }
     }
 
     public void ChangeZurp(int amount, bool isGain)

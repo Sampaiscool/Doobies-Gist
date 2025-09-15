@@ -23,7 +23,7 @@ public class SilentStrikeEffect : SkillEffectSO
         int actualDamage = targetBefore - target.CurrentHealth;
 
         // Heal the user for the same amount
-        user.CurrentHealth += actualDamage;
+        user.HealCombatant(actualDamage);
 
         return $"{user.CharacterName} strikes silently for {actualDamage} damage and heals for the same.";
     }

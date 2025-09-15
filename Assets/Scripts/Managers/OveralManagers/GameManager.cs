@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public int CurrentDifficulty = 1; //Current Difficulty the player is playing on
+    public int BattlesFought = 0; //How many battles the player has fought
+    public int MaxBattlesBeforeBoss; //How many battles the player has to fight before a boss battle
 
     public DoobieInstance currentDoobie; //The players current Doobie
     public VangurrInstance currentVangurr; //The Chosen Vangurr the player is going to fight / is fighting.
@@ -38,7 +40,10 @@ public class GameManager : MonoBehaviour
             {
                 CurrentPlayerHP += hpAmount;
 
-                playerStatsUIManager.UpdatePlayerInfo();
+                if (playerStatsUIManager != null)
+                {
+                    playerStatsUIManager.UpdatePlayerInfo();
+                }
 
                 return;
             }
@@ -50,7 +55,10 @@ public class GameManager : MonoBehaviour
                     CurrentPlayerHP = 20;
                 }
 
-                playerStatsUIManager.UpdatePlayerInfo();
+                if (playerStatsUIManager != null)
+                {
+                    playerStatsUIManager.UpdatePlayerInfo();
+                }
 
                 return;
             }
@@ -64,7 +72,10 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Game Over! Player has run out of HP.");
             }
 
-            playerStatsUIManager.UpdatePlayerInfo();
+            if (playerStatsUIManager != null)
+            {
+                playerStatsUIManager.UpdatePlayerInfo();
+            }
         }
     }
     /// <summary>
@@ -81,7 +92,10 @@ public class GameManager : MonoBehaviour
         {
             CurrentPlayerSploont += sploontAmount;
 
-            playerStatsUIManager.UpdatePlayerInfo();
+            if (playerStatsUIManager != null)
+            {
+                playerStatsUIManager.UpdatePlayerInfo();
+            }
 
             return true;
         }
@@ -96,10 +110,50 @@ public class GameManager : MonoBehaviour
             {
                 CurrentPlayerSploont -= sploontAmount;
 
-                playerStatsUIManager.UpdatePlayerInfo();
+                if (playerStatsUIManager != null)
+                {
+                    playerStatsUIManager.UpdatePlayerInfo();
+                }
 
                 return true;
             }
+        }
+    }
+
+    public void AfterFight(bool hasWonBattle)
+    {
+        if (hasWonBattle)
+        {
+            ChangeSploont(50, true);
+
+            bool isBossFight = BattlesFought >= MaxBattlesBeforeBoss;
+
+            if (!isBossFight)
+            {
+                // Regular fight: increment counter
+                BattlesFought++;
+            }
+            else
+            {
+                // Boss fight won: reset counter AND increase difficulty
+                BattlesFought = 0;
+                CurrentDifficulty++;
+                Debug.Log("Boss defeated! Difficulty increased to " + CurrentDifficulty);
+            }
+        }
+        else
+        {
+            // Penalties for losing
+            ChangeSploont(10, true);
+            ChangeHp(5, false, false); // Lose 5 Player HP
+            currentDoobie.MaxHealth -= 5; // Lose 5 doobie max HP
+            currentDoobie.CurrentHealth = 5; // Survive with 5 doobie HP
+        }
+
+        PlayerStatsUIManager playerStatsUIManager = FindObjectOfType<PlayerStatsUIManager>();
+        if (playerStatsUIManager != null)
+        {
+            playerStatsUIManager.UpdatePlayerInfo();
         }
     }
 }

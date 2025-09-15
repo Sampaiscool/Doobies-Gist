@@ -19,6 +19,9 @@ MonoBehaviour:
   baseHealth: 7
   VangurrText: The face of an angry robot is quite shocking.
   difficultyLevel: 1
+  skillChance: 20
+  isBoss: 0
+  characterPool: 0
   baseSkills:
   - {fileID: 11400000, guid: f71dd932e23fe2242a390590aa090c86, type: 2}
   - {fileID: 11400000, guid: c8386c09da33518478273e5fc937724f, type: 2}

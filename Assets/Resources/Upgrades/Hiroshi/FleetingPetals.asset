@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeName: Fleeting Petals
   description: If you gain the deflection buff; heal +1
-  cost: 0
+  cost: 100
   icon: {fileID: 0}
   type: 3
   pool: 0

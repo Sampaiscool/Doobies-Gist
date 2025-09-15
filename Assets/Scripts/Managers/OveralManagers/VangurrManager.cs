@@ -3,10 +3,22 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[System.Serializable]
+public class VangurrGroup
+{
+    public string label;           // e.g. "Difficulty 1 Enemies" 
+    public int difficulty;         // difficulty this pool belongs to
+    public bool isBossGroup;       // true = bosses, false = normal enemies
+    public List<VangurrSO> vangurrs = new List<VangurrSO>();
+}
+
 public class VangurrManager : MonoBehaviour
 {
     public TMP_Text VangurrTextObject;
-    public List<VangurrSO> VangurrList = new List<VangurrSO>();
+
+    [Header("Organized Vangurr Pools")]
+    public List<VangurrGroup> vangurrGroups = new List<VangurrGroup>();
+
     public VangurrSO ChosenVangurr;
     // Start is called before the first frame update
     void Start()
@@ -21,21 +33,23 @@ public class VangurrManager : MonoBehaviour
     public VangurrSO ChooseVangurr()
     {
         int currentDifficulty = GameManager.Instance.CurrentDifficulty;
+        bool isBossFight = GameManager.Instance.BattlesFought >= GameManager.Instance.MaxBattlesBeforeBoss;
 
-        // Filter de lijst op moeilijkheidsgraad
-        List<VangurrSO> filteredList = VangurrList.FindAll(v => v.difficultyLevel == currentDifficulty);
+        // Find the right group
+        VangurrGroup group = vangurrGroups.Find(g =>
+            g.difficulty == currentDifficulty &&
+            g.isBossGroup == isBossFight);
 
-        if (filteredList.Count == 0)
+        if (group == null || group.vangurrs.Count == 0)
         {
-            Debug.LogWarning("Geen Vangurrs gevonden voor difficulty " + currentDifficulty);
+            Debug.LogWarning($"Geen Vangurrs gevonden voor difficulty {currentDifficulty} (Boss? {isBossFight})");
             return null;
         }
 
-        int chosenIndex = Random.Range(0, filteredList.Count);
-        VangurrSO chosen = filteredList[chosenIndex];
-
-        ChosenVangurr = chosen;
-        return chosen;
+        // Random pick from that group
+        int chosenIndex = Random.Range(0, group.vangurrs.Count);
+        ChosenVangurr = group.vangurrs[chosenIndex];
+        return ChosenVangurr;
     }
 
     /// <summary>

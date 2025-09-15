@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeName: Deflector
   description: Whenever you deflect deal +1 damage to the attacker
-  cost: 0
+  cost: 100
   icon: {fileID: 0}
   type: 5
   pool: 1

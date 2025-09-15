@@ -15,7 +15,7 @@ MonoBehaviour:
   upgradeName: Ultimate Bloom
   description: Once you deflect with the Bloom Blossom buff; gain +1 WeaponStrenghten
     for +1 turn.
-  cost: 0
+  cost: 50
   icon: {fileID: 0}
   type: 4
   pool: 1

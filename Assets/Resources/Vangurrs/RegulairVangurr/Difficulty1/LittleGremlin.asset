@@ -20,7 +20,25 @@ MonoBehaviour:
   VangurrText: A sneaky target, with its rusty knife called "Rusty" it believes it
     can take on anyone!
   difficultyLevel: 1
+  skillChance: 30
+  isBoss: 0
   characterPool: 2
   baseSkills:
   - {fileID: 11400000, guid: 074628dbc612a9c4e8e46c6e80544344, type: 2}
   defaultWeapon: {fileID: 11400000, guid: bfc1e8aff124d474cbc0a25421e81233, type: 2}
+  startingUpgrades:
+  - upgradeName: Sneaky
+    description: Gain +20% Dodge change if your opponent uses a basic attack. if
+      you dodge an attack you gain +1 "Evasion" Buff.
+    cost: 0
+    icon: {fileID: 0}
+    type: 6
+    Pool: 2
+    intensity: 1
+  - upgradeName: BloodyWeapon
+    description: if you use a Weapon-Style Attack your opponent gains +1 "Bleed".
+    cost: 0
+    icon: {fileID: 0}
+    type: 7
+    Pool: 2
+    intensity: 1

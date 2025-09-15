@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbfc10e7ba8736a43ad4b34a75fcce42, type: 3}
+  m_Name: WarChief
+  m_EditorClassIdentifier: 
+  vangurrName: War Chief
+  portrait: {fileID: 21300000, guid: e243ec3215f962244ad0e7f42e278ff8, type: 3}
+  skillDmg: 1
+  baseDefence: 3
+  baseHealth: 6
+  VangurrText: This war chief got kicked out of his tribe due to being "too violent"
+  difficultyLevel: 1
+  skillChance: 20
+  isBoss: 0
+  characterPool: 0
+  baseSkills:
+  - {fileID: 11400000, guid: abd3cf910586264458fc136961394766, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: 33ffe5fb59437ca40859367d47d38ca6, type: 2}
+  startingUpgrades:
+  - upgradeName: Violent Attacks
+    description: Everytime you use a weapon-style attack you gain 2 "Bleed" stacks
+      and you gain +1 "Weapon Strenghten" buff
+    cost: 0
+    icon: {fileID: 0}
+    type: 9
+    Pool: 0
+    intensity: 1

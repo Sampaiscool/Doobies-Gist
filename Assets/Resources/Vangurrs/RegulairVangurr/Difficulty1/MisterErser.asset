@@ -20,6 +20,9 @@ MonoBehaviour:
   VangurrText: Once a normal eraser, But he got enhanced by the powerfull wizard
     "Menta".
   difficultyLevel: 1
+  skillChance: 30
+  isBoss: 0
+  characterPool: 0
   baseSkills:
   - {fileID: 11400000, guid: 8fd43062a2c29b84497fd9d306838080, type: 2}
   defaultWeapon: {fileID: 11400000, guid: 50dcf5f566986d742adc2206587d816d, type: 2}

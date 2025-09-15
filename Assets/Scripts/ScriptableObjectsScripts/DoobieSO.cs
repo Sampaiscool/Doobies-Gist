@@ -22,6 +22,8 @@ public class DoobieSO : ScriptableObject, ICombatantSO
 
     public WeaponSO defaultWeapon; // The weapon this Doobie starts with
 
+    public List<Upgrade> startingUpgrades = new List<Upgrade>(); // Upgrades the Doobie starts with
+
 
     Sprite ICombatantSO.portrait => portrait;
     int ICombatantSO.baseHealth => baseHealth;

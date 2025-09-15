@@ -21,19 +21,37 @@ public class VangurrInstance : CombatantInstance
         CurrentDefence = _so.baseDefence;
         CurrentSkillDmg = _so.skillDmg;
         EquippedWeaponInstance = new WeaponInstance(_so.defaultWeapon);
+
+        foreach (var upgrade in _so.startingUpgrades)
+        {
+            AddUpgrade(new Upgrade(
+                upgrade.upgradeName,
+                upgrade.description,
+                upgrade.cost,
+                upgrade.type,
+                upgrade.Pool,
+                upgrade.intensity
+            )
+            {
+                icon = upgrade.icon
+            });
+        }
     }
     public string PerformTurn(CombatantInstance target)
     {
-        // Decide: basic attack or skill
+        // Grab all skills
         List<SkillSO> skills = GetAllSkills();
-
         SkillSO chosenSkill = null;
 
         if (skills.Count > 0)
         {
-            // Simple AI: 50/50 chance to use a skill
-            if (Random.value < 0.5f)
+            // Skill chance is percentage (e.g. 30 = 30%)
+            float chance = _so.skillChance / 100f;
+
+            if (Random.value < chance)
+            {
                 chosenSkill = skills[Random.Range(0, skills.Count)];
+            }
         }
 
         if (chosenSkill != null)

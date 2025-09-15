@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
+  m_Name: ArcaneShield
+  m_EditorClassIdentifier: 
+  skillName: Arcane Shield
+  icon: {fileID: 0}
+  animation: {fileID: 0}
+  description: Gain 3 "Shield", absorbing future damage.
+  resourceCost: 0
+  resourceUsed: 0
+  isWeaponSkill: 0
+  zurpRegainChance: 0
+  zurpRegainAmount: 0
+  effect: {fileID: 11400000, guid: 5dd552868eaf9ea4fb8ffe5d3e8bd020, type: 2}

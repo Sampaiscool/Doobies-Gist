@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeName: Weapon Mastery
   description: If you use a weapon-style attack; gain +1 Weapon Strenghten Buff;
-  cost: 0
+  cost: 300
   icon: {fileID: 0}
   type: 0
   pool: 0

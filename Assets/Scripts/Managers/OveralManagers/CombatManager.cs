@@ -22,6 +22,8 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private Transform doobieAnchor;
     [SerializeField] private Transform vangurrAnchor;
 
+    private Dictionary<CombatantInstance, int> combatantTurnCounters = new Dictionary<CombatantInstance, int>();
+
     void Start()
     {
         playerDoobie = GameManager.Instance.currentDoobie;
@@ -33,18 +35,12 @@ public class CombatManager : MonoBehaviour
         playerDoobie.animationAnchor = doobieAnchor;
         enemyVangurr.animationAnchor = vangurrAnchor;
 
+        combatantTurnCounters[playerDoobie] = 0;
+        combatantTurnCounters[enemyVangurr] = 0;
+
         if (playerDoobie is DoobieInstance doobie)
         {
             doobie.ChangeZurp(2, true); // Regain some zurp at start of combat
-        }
-        
-        if (enemyVangurr is VangurrInstance vangurr)
-        {
-            if (vangurr._so.characterPool == CharacterPool.LittleGremlin)
-            {
-                vangurr.AddUpgrade(new Upgrade("Sneaky", "description", 0, UpgradeNames.Sneaky, CharacterPool.LittleGremlin, 1));
-                vangurr.AddUpgrade(new Upgrade("BloodyWeapon", "description", 0, UpgradeNames.BloodyWeapon, CharacterPool.LittleGremlin, 1));
-            }
         }
 
         AttackButton.onClick.AddListener(OnAttackButtonClicked);
@@ -129,19 +125,23 @@ public class CombatManager : MonoBehaviour
         if (playerDoobie.CurrentHealth <= 0)
         {
             BattleUIManager.AddLog("You have fallen. The forest grows darker...");
+
+            StartCoroutine(ReturnToAdventureAfterDelay(2f, false));
             return;
         }
         else if (enemyVangurr.CurrentHealth <= 0)
         {
             BattleUIManager.AddLog($"You have defeated {enemyVangurr.CharacterName}!");
 
-            StartCoroutine(ReturnToAdventureAfterDelay(2f));
+            StartCoroutine(ReturnToAdventureAfterDelay(2f, true));
             return;
         }
         else
         {
             if (!IsPlayerTurn)
             {
+                CheckTurnBasedUpgrades(enemyVangurr);
+
                 if (CheckForTurnDebuffs(enemyVangurr, out string log))
                 {
                     BattleUIManager.AddLog(log);
@@ -157,7 +157,9 @@ public class CombatManager : MonoBehaviour
             }
             else
             {
-                if (CheckForTurnDebuffs(GameManager.Instance.currentDoobie, out string log))
+                CheckTurnBasedUpgrades(playerDoobie);
+
+                if (CheckForTurnDebuffs(playerDoobie, out string log))
                 {
                     BattleUIManager.AddLog(log);
                     BattleUIManager.UpdateUI();
@@ -197,9 +199,34 @@ public class CombatManager : MonoBehaviour
 
         return false; // turn proceeds normally
     }
-    private IEnumerator ReturnToAdventureAfterDelay(float delay)
+    private void CheckTurnBasedUpgrades(CombatantInstance combatant)
+    {
+        if (!combatantTurnCounters.ContainsKey(combatant))
+            combatantTurnCounters[combatant] = 0;
+
+        // Increment turn counter
+        combatantTurnCounters[combatant]++;
+
+        foreach (var upgrade in combatant.ActiveUpgrades)
+        {
+            switch (upgrade.type)
+            {
+                case UpgradeNames.ArcaneMind:
+                    if (combatantTurnCounters[combatant] % 3 == 0)
+                    {
+                        combatant.AddBuff(new Buff(BuffType.SpellStrenghten, 999, false, upgrade.intensity));
+                        BattleUIManager.AddLog($"{combatant.CharacterName}'s Arcane Mind empowers them! Spell Strengthen applied.");
+                    }
+                    break;
+            }
+        }
+    }
+    private IEnumerator ReturnToAdventureAfterDelay(float delay, bool playerWon)
     {
         yield return new WaitForSeconds(delay);
+
         UnityEngine.SceneManagement.SceneManager.LoadScene("AdventureScene");
+
+        GameManager.Instance.AfterFight(playerWon);
     }
 }
