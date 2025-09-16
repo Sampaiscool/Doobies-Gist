@@ -10,4 +10,6 @@ public enum CharacterPool
     LittleGremlin,      //Vangurr
     Menta,              //Vangurr
     FatGremlin,         //Vangurr
+    CultistMember,      //Vangurr
+    GiggyGrass,         //Vangurr
 }

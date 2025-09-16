@@ -204,6 +204,14 @@ public class CombatManager : MonoBehaviour
             return true; // turn is skipped
         }
 
+        var hiddenBuffs = combatant.ActiveBuffs.FindAll(b => b.type == BuffType.Hidden);
+        if (hiddenBuffs.Count > 0)
+        {
+            logMessage = $"{combatant.CharacterName} is hidden and cannot take actions!";
+            combatant.TickBuffs();
+            return true; // turn is skipped
+        }
+
         // Apply burn damage if present
         var burnDebuffs = combatant.ActiveBuffs.FindAll(b => b.type == BuffType.Burn);
         foreach (var burn in burnDebuffs)
@@ -256,6 +264,22 @@ public class CombatManager : MonoBehaviour
                     target.TakeDamage(eatDamage);
 
                     BattleUIManager.AddLog($"{combatant.CharacterName} feasts on {target.CharacterName}, dealing {eatDamage} damage!");
+                    break;
+                case UpgradeNames.PhanthomTouch:
+                    if (combatantTurnCounters[combatant] % 5 == 0)
+                    {
+                        if(combatant is VangurrInstance vangurr)
+                        {
+                            playerDoobieInstance.KillInstance();
+                        }
+                        else if(combatant is DoobieInstance doobie)
+                        {
+                            enemyVangurrInstance.KillInstance();
+                        }
+
+                    }
+                    break;
+                default:
                     break;
             }
         }

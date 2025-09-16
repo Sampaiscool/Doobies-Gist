@@ -3068,6 +3068,12 @@ MonoBehaviour:
   - type: 14
     icon: {fileID: 21300000, guid: 4988417cbb75f694b87434273453978c, type: 3}
     effectPrefab: {fileID: 0}
+  - type: 19
+    icon: {fileID: 21300000, guid: 0c7014868b1f2244fa3c4470794bec51, type: 3}
+    effectPrefab: {fileID: 0}
+  - type: 20
+    icon: {fileID: 21300000, guid: 41670476aadcf474f9a05844aead5fdb, type: 3}
+    effectPrefab: {fileID: 0}
   BuffIconPrefab: {fileID: 8727585946917096499, guid: 3865fb4965dd7714f8502c665b7d8190, type: 3}
   BuffDescriptionPrefab: {fileID: 7399243327277128440, guid: 9ca2d5d67a8f1bb499a0171ffc237151, type: 3}
 --- !u!1 &757010351
@@ -5946,7 +5952,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 2.5, y: 196.21}
+  m_AnchoredPosition: {x: -2.5, y: 196.21}
   m_SizeDelta: {x: -95, y: 372.427}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1742563178

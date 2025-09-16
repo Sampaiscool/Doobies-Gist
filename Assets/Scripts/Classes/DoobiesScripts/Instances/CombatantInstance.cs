@@ -49,6 +49,12 @@ public abstract class CombatantInstance
         if (HandleDeflection())
             return (DamageResult.Deflected, 0);
 
+        if (HandleHidden())
+        {
+            BattleUIManager.Instance.AddLog($"{CharacterName} was hidden and avoided the damage!");
+            return (DamageResult.Missed, 0);
+        }
+
         // alleen melee / weapon attacks (niet skills) mogen dodges via Sneaky/Evasion doen
         if (!isSkill)
         {
@@ -174,6 +180,15 @@ public abstract class CombatantInstance
     private bool HasEvasionBuff()
     {
         return ActiveBuffs.Exists(b => b.type == BuffType.Evasion);
+    }
+    private bool HandleHidden()
+    {
+        Buff hiddenBuff = ActiveBuffs.Find(b => b.type == BuffType.Hidden);
+        if (hiddenBuff != null)
+        {
+            return true;
+        }
+        return false;
     }
     private bool HandleShield(int damage)
     {
@@ -493,7 +508,10 @@ public abstract class CombatantInstance
             }
         }
     }
-
+    public void KillInstance()
+    {
+        CurrentHealth = 0;
+    }
     public void AddBuff(Buff newBuff)
     {
         Buff existing = ActiveBuffs.Find(b => b.type == newBuff.type);
@@ -545,7 +563,13 @@ public abstract class CombatantInstance
         {
             ActiveBuffs[i].duration--;
             if (ActiveBuffs[i].duration <= 0)
+            {
+                if (ActiveBuffs[i].type == BuffType.TargetLocked)
+                {
+                    TakeDamage(ActiveBuffs[i].intensity);
+                }
                 ActiveBuffs.RemoveAt(i);
+            }
         }
     }
     public float GetEffectiveDefence()

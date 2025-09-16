@@ -26,4 +26,6 @@ public enum BuffType
     CriticalEye,                // Buff that gives an increased chance to land a critical hit
     Bleed,                      // Debuff - Takes damage when performing Weapon-Style attacks
     Shield,                     // Buff - Absorbs damage
+    Hidden,                     // Buff - Cannot take damage but also cannot attack
+    TargetLocked,               // Debuff - Takes its in
 }

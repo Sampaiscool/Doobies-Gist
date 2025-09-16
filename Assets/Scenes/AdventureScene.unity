@@ -802,6 +802,7 @@ MonoBehaviour:
     vangurrs:
     - {fileID: 11400000, guid: 36164ef2cd925864ba3c74f3926dfcbc, type: 2}
     - {fileID: 11400000, guid: 613e95433cc72cc4d89a7fdc55dc7418, type: 2}
+    - {fileID: 11400000, guid: 9d67430e622fff24ea029a8fba1d4097, type: 2}
   - label: Difficulty 2 boss
     difficulty: 2
     isBossGroup: 1
@@ -3151,6 +3152,7 @@ MonoBehaviour:
   upgradeGroups:
   - groupName: None
     characterPool: 0
+    resourceType: 2
     upgrades:
     - {fileID: 11400000, guid: 9ec3df08d8527904bae3296e3a62b609, type: 2}
     - {fileID: 11400000, guid: 37b1d772898e37c419d3fa859d15bbad, type: 2}
@@ -3161,6 +3163,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 6dd4f7a579c9caf41a75a8ea2e8b7ffc, type: 2}
   - groupName: Hiroshi
     characterPool: 1
+    resourceType: 2
     upgrades:
     - {fileID: 11400000, guid: 0815059d687ca874fb0681a03b6b7e01, type: 2}
     - {fileID: 11400000, guid: e4b88632e669e274788e1004ae142cad, type: 2}

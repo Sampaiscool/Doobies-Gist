@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbfc10e7ba8736a43ad4b34a75fcce42, type: 3}
+  m_Name: CultistMember
+  m_EditorClassIdentifier: 
+  vangurrName: Cultist Member
+  portrait: {fileID: 21300000, guid: 1f7a68ace1735f4478ef49878d8abca4, type: 3}
+  skillDmg: 1
+  healPower: 0
+  baseDefence: 3
+  baseHealth: 20
+  VangurrText: Wants to invite you to his dance party.
+  difficultyLevel: 2
+  skillChance: 0
+  isBoss: 0
+  characterPool: 5
+  baseSkills: []
+  defaultWeapon: {fileID: 11400000, guid: 9b7cbf26208efad42aac74ed118958c2, type: 2}
+  startingUpgrades:
+  - upgradeName: PhanthomTouch
+    description: Kill your opponent in 5 turns.
+    cost: 0
+    icon: {fileID: 0}
+    type: 15
+    Pool: 5
+    intensity: 1

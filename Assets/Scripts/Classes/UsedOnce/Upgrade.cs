@@ -48,4 +48,6 @@ public enum UpgradeNames
     HealtySupplies,                       //None
 
     GremlinHunger,                        //FatGremlin
+
+    PhanthomTouch,                        //Cultist Member
 }
