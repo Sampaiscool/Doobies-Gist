@@ -6,4 +6,5 @@ public enum ResourceType
 {
     Zurp,
     Health,
+    None,
 }

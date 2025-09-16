@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Snibbleheim
   m_EditorClassIdentifier: 
   locationName: Snibbelheim
-  locationImage: {fileID: 21300000, guid: 1f69065700db8a944b89b1c21e044d31, type: 3}
+  locationImage: {fileID: 21300000, guid: 4a8439ee06d068a44ac42b27e75f0238, type: 3}
   locationChance: 99
   description: Gain ALOT of Skill + Weapon Dmg + Weapon Crit Chance
   effect: {fileID: 11400000, guid: 0456f7269d98af949be1b23e2640c5da, type: 2}

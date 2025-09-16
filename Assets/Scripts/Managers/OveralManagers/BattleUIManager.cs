@@ -1,6 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -19,6 +20,10 @@ public class BattleUIManager : MonoBehaviour
     public TMP_Text DoobieHP;
     public TMP_Text DoobieVurp;
 
+    [Header("Skill UI")]
+    [SerializeField] private Transform skillButtonContainer; // Where buttons go
+    [SerializeField] private SkillButton skillButtonPrefab;  // Your prefab
+
     [Header("Vangurr UI")]
     public Image VangurrImage;
     public TMP_Text VangurrName;
@@ -28,8 +33,11 @@ public class BattleUIManager : MonoBehaviour
     public GameObject SkillDescriptionPanel;
     public TMP_Text SkillDescriptionText;
 
-    public GameObject CombatLogPanel;
-    public TMP_Text CombatLogText;
+    [Header("Combat Log")]
+    public GameObject CombatLogPanel;      // ScrollView panel
+    public Transform CombatLogContent;     // Content inside ScrollView
+    public GameObject CombatLogEntryPrefab;// Prefab for each log line
+    public Button ExpandLogButton;         // Optional: expands the panel
 
     public GameObject BattleOptionsPanel;
     public GameObject SkillOptions;
@@ -90,7 +98,7 @@ public class BattleUIManager : MonoBehaviour
 
         BattleOptionsPanel.SetActive(false);
         SkillOptions.SetActive(false);
-        CombatLogText.text = $"You start the fight against {VangurrName.text}";
+        AddLog($"You start the fight against {VangurrName.text}");
         ShowPanel(CombatLogPanel);
     }
     /// <summary>
@@ -123,47 +131,69 @@ public class BattleUIManager : MonoBehaviour
         ShowPanel(BattleOptionsPanel);
     }
 
-    public void AddLog(string result)
+    public void AddLog(string message)
     {
         ShowPanel(CombatLogPanel);
-        CombatLogText.text = $"{result} ";
+
+        float time = Time.time;
+        int minutes = Mathf.FloorToInt(time / 60f);
+        int seconds = Mathf.FloorToInt(time % 60f);
+        string timestamp = $"[{minutes:00}:{seconds:00}]";
+
+        GameObject entryGO = Instantiate(CombatLogEntryPrefab, CombatLogContent);
+        TMP_Text entryText = entryGO.GetComponentInChildren<TMP_Text>();
+        if (entryText != null)
+            entryText.text = $"{timestamp} {message}";
+
+        // Wait until end of frame so the layout updates
+        StartCoroutine(SlideInAfterLayout(entryGO, 0.3f));
+
+        // Flash background on child panel
+        Image bg = entryGO.GetComponentInChildren<Image>();
+        if (bg != null)
+            StartCoroutine(FlashBackground(bg, Color.yellow, 0.2f));
+
+        ScrollToBottom();
     }
 
-    public void DisplaySkills(List<SkillSO> skills, System.Action<SkillSO> onSkillClicked)
+    public void ScrollToBottom()
     {
-        for (int i = 0; i < AllSkillButtons.Count; i++)
+        StartCoroutine(ScrollToBottomNextFrame());
+    }
+    private IEnumerator ScrollToBottomNextFrame()
+    {
+        // wait until the end of the frame so Unity finishes laying out
+        yield return new WaitForEndOfFrame();
+
+        Canvas.ForceUpdateCanvases();
+        ScrollRect scroll = CombatLogContent.GetComponentInParent<ScrollRect>();
+        if (scroll != null)
+            scroll.verticalNormalizedPosition = 1f; // works with bottom-left pivot
+    }
+    public void ToggleCombatLogSize()
+    {
+        RectTransform rt = CombatLogPanel.GetComponent<RectTransform>();
+        if (rt != null)
         {
-            if (i < skills.Count)
-            {
-                var skill = skills[i];
-
-                AllSkillButtons[i].gameObject.SetActive(true);
-                SkillButtonLabels[i].text = skill.skillName;
-                if (skill.icon != null)
-                    SkillButtonIcons[i].sprite = skill.icon;
-
-                // Make the button *use* the skill
-                int capturedIndex = i;
-                AllSkillButtons[i].onClick.RemoveAllListeners();
-                AllSkillButtons[i].onClick.AddListener(() =>
-                {
-                    onSkillClicked(skill);
-                });
-
-                // Add or update hover behavior
-                var hover = AllSkillButtons[i].GetComponent<SkillUIButtonHover>();
-                if (hover == null)
-                    hover = AllSkillButtons[i].gameObject.AddComponent<SkillUIButtonHover>();
-
-                hover.skill = skill;
-            }
-            else
-            {
-                AllSkillButtons[i].gameObject.SetActive(false);
-            }
+            rt.sizeDelta = rt.sizeDelta.y > 200 ? new Vector2(rt.sizeDelta.x, 200) : new Vector2(rt.sizeDelta.x, 400);
         }
+    }
 
+    public void DisplaySkills(List<SkillSO> skills, System.Action<SkillSO> onSkillChosen)
+    {
+        // Hide the action panel and show the skill panel
         ShowPanel(SkillOptions);
+
+        // Clear old buttons
+        foreach (Transform child in skillButtonContainer)
+            Destroy(child.gameObject);
+
+        // Spawn new buttons
+        foreach (var skill in skills)
+        {
+            var button = Instantiate(skillButtonPrefab, skillButtonContainer);
+            button.Setup(skill, onSkillChosen);
+        }
     }
 
     private void UpdateCombatantUI(CombatantInstance combatant, Image portraitImage, TMP_Text nameText, TMP_Text hpText, TMP_Text extraText = null, string extraLabel = "")
@@ -286,5 +316,42 @@ public class BattleUIManager : MonoBehaviour
     public void DisableSkillDescription()
     {
         SkillDescriptionPanel.SetActive(false);
+    }
+    private IEnumerator SlideInAfterLayout(GameObject entryGO, float duration)
+    {
+        // Wait until layout is updated
+        yield return new WaitForEndOfFrame();
+
+        RectTransform rect = entryGO.GetComponent<RectTransform>();
+        Vector2 target = rect.anchoredPosition;
+
+        // Slide from 50 units above
+        Vector2 start = target + new Vector2(0, 50f);
+        rect.anchoredPosition = start;
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0, 1, elapsed / duration);
+            rect.anchoredPosition = Vector2.Lerp(start, target, t);
+            yield return null;
+        }
+
+        rect.anchoredPosition = target;
+    }
+
+    private IEnumerator FlashBackground(Image bg, Color flashColor, float duration)
+    {
+        Color original = bg.color;
+        bg.color = flashColor;
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            bg.color = Color.Lerp(flashColor, original, elapsed / duration);
+            yield return null;
+        }
+        bg.color = original;
     }
 }

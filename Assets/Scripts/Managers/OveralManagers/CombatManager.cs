@@ -76,12 +76,12 @@ public class CombatManager : MonoBehaviour
         waitingForNext = true;
     }
 
-    void OnSkillButtonClicked()
+    public void OnSkillButtonClicked()
     {
         if (!IsPlayerTurn || waitingForNext) return;
 
         List<SkillSO> doobieSkills = playerDoobie.GetAllSkills();
-        BattleUIManager.DisplaySkills(doobieSkills, OnSkillChosen);
+        BattleUIManager.Instance.DisplaySkills(doobieSkills, OnSkillChosen);
     }
 
     void OnSkillChosen(SkillSO chosenSkill)
@@ -123,9 +123,6 @@ public class CombatManager : MonoBehaviour
 
     void OnHealButtonClicked()
     {
-
-        
-
         float multiplier = Random.Range(0.5f, 1.5f);
 
         int healed = Mathf.RoundToInt(playerDoobie.CurrentHealPower * multiplier);

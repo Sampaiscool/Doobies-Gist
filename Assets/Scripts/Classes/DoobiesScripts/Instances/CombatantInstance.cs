@@ -519,7 +519,13 @@ public abstract class CombatantInstance
             : BattleUIManager.Instance.VangurrBuffsContainer;
 
         BattleUIManager.Instance.UpdateBuffsUI(this, buffContainer);
+
+        // --- Add quick combat log entry ---
+        string buffName = newBuff.iconGO != null ? newBuff.iconGO.name : newBuff.type.ToString();
+        string logMessage = $"{CharacterName} gains {newBuff.intensity} \"{buffName}\"!";
+        BattleUIManager.Instance.AddLog(logMessage);
     }
+
     public void AddUpgrade(Upgrade newUpgrade)
     {
         Upgrade existing = ActiveUpgrades.Find(b => b.type == newUpgrade.type);

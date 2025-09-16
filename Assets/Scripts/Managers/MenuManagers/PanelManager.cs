@@ -87,7 +87,9 @@ public class PanelManager : MonoBehaviour
             if (!shopManager.IsShopInitialized)
             {
                 var currentPool = GameManager.Instance.currentDoobie._so.characterPool;
-                List<Upgrade> upgradesForSale = shopManager.GenerateRandomUpgrades(3, currentPool);
+                var mainResource = GameManager.Instance.currentDoobie._so.doobieMainResource;
+
+                List<Upgrade> upgradesForSale = shopManager.GenerateRandomUpgrades(3, currentPool, mainResource);
                 shopManager.OpenShop(upgradesForSale);
             }
             else

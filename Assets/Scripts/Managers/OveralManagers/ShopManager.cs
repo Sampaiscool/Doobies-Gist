@@ -4,9 +4,10 @@ using UnityEngine;
 [System.Serializable]
 public class UpgradeGroup
 {
-    public string groupName; // optional for editor clarity
-    public CharacterPool characterPool; // Which character this group belongs to
-    public List<UpgradeSO> upgrades; // All upgrades in this group
+    public string groupName;
+    public CharacterPool characterPool = CharacterPool.None;
+    public ResourceType resourceType = ResourceType.None;
+    public List<UpgradeSO> upgrades;
 }
 
 public class ShopManager : MonoBehaviour
@@ -22,14 +23,26 @@ public class ShopManager : MonoBehaviour
     [Header("Organized Upgrade Pools")]
     [SerializeField] private List<UpgradeGroup> upgradeGroups;
 
-    public List<Upgrade> GenerateRandomUpgrades(int count, CharacterPool currentPool)
+    public List<Upgrade> GenerateRandomUpgrades(int count, CharacterPool currentPool, ResourceType mainResource)
     {
-        // Find the pool for the current character, plus generic upgrades (None)
         var pool = new List<UpgradeSO>();
 
         foreach (var group in upgradeGroups)
         {
-            if (group.characterPool == currentPool || group.characterPool == CharacterPool.None)
+            // 1. Generic upgrades
+            if (group.characterPool == CharacterPool.None && group.resourceType == ResourceType.None)
+            {
+                pool.AddRange(group.upgrades);
+            }
+
+            // 2. Doobie-specific upgrades
+            if (group.characterPool == currentPool)
+            {
+                pool.AddRange(group.upgrades);
+            }
+
+            // 3. Main resource upgrades
+            if (group.resourceType == mainResource)
             {
                 pool.AddRange(group.upgrades);
             }
@@ -43,7 +56,6 @@ public class ShopManager : MonoBehaviour
             UpgradeSO chosen = pool[index];
             pool.RemoveAt(index);
 
-            // Convert SO into runtime Upgrade instance
             Upgrade upgradeInstance = new Upgrade(
                 chosen.upgradeName,
                 chosen.description,
@@ -124,12 +136,11 @@ public class ShopManager : MonoBehaviour
         if (!shopInitialized) return;
 
         // Get the current character pool
-        var currentPool = GameManager.Instance.currentDoobie._so.characterPool;
+        var currentDoobie = GameManager.Instance.currentDoobie;
+        var currentPool = currentDoobie._so.characterPool;
+        var mainResource = currentDoobie._so.doobieMainResource;
 
-        // Generate a fresh set of upgrades
-        List<Upgrade> newUpgrades = GenerateRandomUpgrades(count, currentPool);
-
-        // Open shop with the new upgrades
+        List<Upgrade> newUpgrades = GenerateRandomUpgrades(count, currentPool, mainResource);
         OpenShop(newUpgrades);
     }
 

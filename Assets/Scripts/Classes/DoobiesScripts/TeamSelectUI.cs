@@ -5,20 +5,21 @@ using UnityEngine.UI;
 
 public class TeamSelectUI : MonoBehaviour
 {
-    public Transform doobieHolder; // Parent for buttons
-    public GameObject doobieButtonPrefab; // Assign DoobieButtonPrefab here
+    public Transform doobieHolder;
+    public GameObject doobieButtonPrefab;
 
     public static TeamSelectUI Instance;
+    public MenuManager menuManager;
 
-    public GameObject[] teamSlots; // drag Slot0-3 in here
-    public GameObject myTeamPanel;          // Assign in Inspector
-    public GameObject doobieSelectionPanel; // Assign in Inspector
-    public GameObject addButtonPrefab;  // Drag your AddButton prefab here
+    public GameObject[] teamSlots;
+    public GameObject doobieSelectionPanel;
+    public GameObject addButtonPrefab;
+
     private DoobieSO selectedDoobie;
-
     public int selectedSlot;
 
-    private DoobieSO[] team = new DoobieSO[4]; // Or however many members
+    private DoobieSO[] team = new DoobieSO[4];
+
     private void Awake()
     {
         if (Instance == null)
@@ -28,6 +29,7 @@ public class TeamSelectUI : MonoBehaviour
         }
         else Destroy(gameObject);
     }
+
     void Start()
     {
         LoadDoobies();
@@ -35,24 +37,16 @@ public class TeamSelectUI : MonoBehaviour
 
     void LoadDoobies()
     {
-        if (doobieHolder == null)
+        if (doobieHolder == null || doobieButtonPrefab == null)
         {
-            Debug.LogError("DoobieHolder is not assigned!");
-            return;
-        }
-
-        if (doobieButtonPrefab == null)
-        {
-            Debug.LogError("DoobieButtonPrefab is not assigned!");
+            Debug.LogError("DoobieHolder or Prefab not assigned!");
             return;
         }
 
         DoobieSO[] allDoobies = Resources.LoadAll<DoobieSO>("Doobies");
 
         foreach (Transform child in doobieHolder)
-        {
             Destroy(child.gameObject);
-        }
 
         foreach (DoobieSO doobie in allDoobies)
         {
@@ -62,24 +56,16 @@ public class TeamSelectUI : MonoBehaviour
             {
                 GameObject buttonObj = Instantiate(doobieButtonPrefab, doobieHolder);
                 DoobieButton buttonScript = buttonObj.GetComponent<DoobieButton>();
-
-                if (buttonScript == null)
-                {
-                    Debug.LogError("DoobieButton script is missing on the prefab!");
-                    continue;
-                }
-
-                buttonScript.SetupButton(doobie);
+                buttonScript?.SetupButton(doobie);
             }
         }
     }
+
     public void UpdateTeamUI()
     {
         // Clear previous contents
         foreach (Transform child in teamSlots[0].transform)
-        {
             Destroy(child.gameObject);
-        }
 
         if (selectedDoobie != null)
         {
@@ -96,12 +82,12 @@ public class TeamSelectUI : MonoBehaviour
             btn.onClick.AddListener(() => OpenDoobieSelection(0));
         }
     }
+
     public void OpenDoobieSelection(int slotIndex)
     {
         selectedSlot = slotIndex;
-        myTeamPanel.SetActive(false);
         doobieSelectionPanel.SetActive(true);
-        LoadDoobies(); // Show available Doobies
+        LoadDoobies();
     }
 
     public void OnDoobieSelected(DoobieSO doobie, int teamSlotIndex)
@@ -109,12 +95,15 @@ public class TeamSelectUI : MonoBehaviour
         selectedDoobie = doobie;
         UpdateTeamUI();
         doobieSelectionPanel.SetActive(false);
-        myTeamPanel.SetActive(true);
+
+        menuManager.ShowPanel(menuManager.TownPanel);
     }
+
     public void UnlockDoobie(DoobieSO doobie)
     {
         PlayerPrefs.SetInt("Unlocked_" + doobie.doobieName, 1);
     }
+
     public void SaveTeamData()
     {
         if (selectedDoobie != null)
@@ -131,7 +120,7 @@ public class TeamSelectUI : MonoBehaviour
 
     public void LoadTeamData()
     {
-        string name = PlayerPrefs.GetString("SelectedDoobie", "");
+        string name = PlayerPrefs.GetString("SelectedDoobie_Name", "");
         if (!string.IsNullOrEmpty(name))
         {
             selectedDoobie = Resources.Load<DoobieSO>($"Doobies/{name}");

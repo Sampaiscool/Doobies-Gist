@@ -48,9 +48,10 @@ public class MenuManager : MonoBehaviour
 
     public void OpenDoobies()
     {
-        TeamSelectUI.Instance.UpdateTeamUI(); // show current team
-        ShowPanel(TeamPanel);
+        TeamSelectUI.Instance.UpdateTeamUI();
+        ShowPanel(DoobieSelectionPanel);
     }
+
     public void StartGame()
     {
         TeamSelectUI.Instance.SaveTeamData(); // Save the selected team data

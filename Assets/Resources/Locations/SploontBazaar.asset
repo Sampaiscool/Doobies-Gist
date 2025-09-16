@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SploontBazaar
   m_EditorClassIdentifier: 
   locationName: Sploont Bazaar
-  locationImage: {fileID: 21300000, guid: 1f69065700db8a944b89b1c21e044d31, type: 3}
+  locationImage: {fileID: 21300000, guid: 0fa0d8425c512764ea12170da6dbba8d, type: 3}
   locationChance: 5
   description: Gain some shiny new Sploont.
   effect: {fileID: 11400000, guid: c304c4615cf717e45b09aa46db2c8d36, type: 2}
