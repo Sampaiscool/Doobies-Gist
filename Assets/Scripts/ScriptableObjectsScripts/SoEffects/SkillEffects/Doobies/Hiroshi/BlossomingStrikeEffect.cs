@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Skill/Effects/Hiroshi/BlossomingStrike")]
+[CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Hiroshi/BlossomingStrike")]
 public class BlossomingStrikeEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
@@ -17,7 +17,7 @@ public class BlossomingStrikeEffect : SkillEffectSO
         int baseDamage = user.GetEffectiveWeaponDamage();
 
         // Apply outgoing damage buffs/debuffs (Weaken, etc.)
-        int modifiedDamage = user.GetEffectiveWeaponDamageAfterBuffs(baseDamage);
+        int modifiedDamage = user.GetEffectiveWeaponDamageAfterEffects(baseDamage);
 
         // Blossom portion: half of modified damage
         int blossomDamage = Mathf.RoundToInt(modifiedDamage * 0.5f);
@@ -28,8 +28,8 @@ public class BlossomingStrikeEffect : SkillEffectSO
         int actualDamage = targetBefore - target.CurrentHealth;
 
         // Apply Deflection buff to the user
-        Buff deflectBuff = new Buff(BuffType.Deflecion, duration: 999, isDebuff: false, 1);
-        user.AddBuff(deflectBuff);
+        Effect deflectEffect = new Effect(EffectType.Deflecion, duration: 999, isDebuff: false, 1);
+        user.AddEffect(deflectEffect);
 
         return $"{user.CharacterName} dances forward with a Blossoming Strike, dealing {actualDamage} damage and readying to deflect the next attack!";
     }

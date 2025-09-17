@@ -5,9 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public struct BuffVisual
+public struct EffectVisual
 {
-    public BuffType type;
+    public string label;
+    public EffectType type;
     public Sprite icon;
     public GameObject effectPrefab;
 }
@@ -42,9 +43,9 @@ public class BattleUIManager : MonoBehaviour
     public GameObject BattleOptionsPanel;
     public GameObject SkillOptions;
 
-    [Header("Buff Containers")]
-    public Transform DoobieBuffsContainer;
-    public Transform VangurrBuffsContainer;
+    [Header("Effect Containers")]
+    public Transform DoobieEffectsContainer;
+    public Transform VangurrEffectsContainer;
 
     [Header("Skill UI")]
     public Button BackFromSkillsButton;
@@ -56,15 +57,15 @@ public class BattleUIManager : MonoBehaviour
     public CombatantStatsPanel statsPanelInstance;
     private bool isPanelActive = false;
 
-    [Header("Buff Visuals")]
+    [Header("Effect Visuals")]
     public Sprite defaultSprite;
     public GameObject defaultEffectPrefab;
 
-    [Tooltip("Assign each BuffType its icon and effect here")]
-    public List<BuffVisual> buffVisuals = new List<BuffVisual>();
+    [Tooltip("Assign each EffectType its icon and effect here")]
+    public List<EffectVisual> EffectVisuals = new List<EffectVisual>();
 
-    public GameObject BuffIconPrefab;
-    public GameObject BuffDescriptionPrefab;
+    public GameObject EffectIconPrefab;
+    public GameObject EffectDescriptionPrefab;
 
     public static BattleUIManager Instance { get; private set; }
     private void Awake()
@@ -109,8 +110,8 @@ public class BattleUIManager : MonoBehaviour
         UpdateCombatantUI(GameManager.Instance.currentDoobie, DoobieImage, DoobieName, DoobieHP, DoobieVurp, "Zurp");
         UpdateCombatantUI(GameManager.Instance.currentVangurr, VangurrImage, VangurrName, VangurrHP, null);
 
-        UpdateBuffsUI(GameManager.Instance.currentDoobie, DoobieBuffsContainer);
-        UpdateBuffsUI(GameManager.Instance.currentVangurr, VangurrBuffsContainer);
+        UpdateEffectsUI(GameManager.Instance.currentDoobie, DoobieEffectsContainer);
+        UpdateEffectsUI(GameManager.Instance.currentVangurr, VangurrEffectsContainer);
     }
 
     public void ShowSpellUI(System.Action<SkillSO> onSkillClicked)
@@ -222,48 +223,48 @@ public class BattleUIManager : MonoBehaviour
         }
     }
 
-    public void UpdateBuffsUI(CombatantInstance combatant, Transform buffContainer)
+    public void UpdateEffectsUI(CombatantInstance combatant, Transform effectContainer)
     {
-        foreach (var buff in combatant.ActiveBuffs)
+        foreach (var effect in combatant.ActiveEffects)
         {
-            BuffIcon buffIcon = buff.iconInstance;
+            EffectIcon effectIcon = effect.iconInstance;
 
-            if (buffIcon == null)
+            if (effectIcon == null)
             {
                 // Spawn new icon if it doesn't exist
-                GameObject iconGO = Instantiate(BuffIconPrefab, buffContainer, false);
-                buffIcon = iconGO.GetComponent<BuffIcon>();
-                buff.iconInstance = buffIcon;
+                GameObject iconGO = Instantiate(EffectIconPrefab, effectContainer, false);
+                effectIcon = iconGO.GetComponent<EffectIcon>();
+                effect.iconInstance = effectIcon;
 
-                buffIcon.Initialize(buff, GetSpriteForBuffs(buff.type), BuffDescriptionPrefab, GetEffectForBuffs(buff.type));
+                effectIcon.Initialize(effect, GetSpriteForEffects(effect.type), EffectDescriptionPrefab, GetAnimationForEffects(effect.type));
 
                 // Play effect on first application
-                buffIcon.PlayEffect();
+                effectIcon.PlayEffect();
             }
 
             // Optional: update hover
-            if (buffIcon.hoverPrefab != null)
+            if (effectIcon.hoverPrefab != null)
             {
-                var hover = buffIcon.GetComponent<DebuffIconHover>();
+                var hover = effectIcon.GetComponent<EffectIconHover>();
                 if (hover != null)
                 {
-                    hover.linkedBuff = buff;
-                    hover.tooltipPrefab = BuffDescriptionPrefab;
+                    hover.linkedEffect = effect;
+                    hover.tooltipPrefab = EffectDescriptionPrefab;
                 }
             }
 
-            if (!combatant.ActiveBuffIcons.Contains(buffIcon.gameObject))
-                combatant.ActiveBuffIcons.Add(buffIcon.gameObject);
+            if (!combatant.ActiveEffectIcons.Contains(effectIcon.gameObject))
+                combatant.ActiveEffectIcons.Add(effectIcon.gameObject);
         }
 
-        // Remove icons for buffs that no longer exist
-        for (int i = combatant.ActiveBuffIcons.Count - 1; i >= 0; i--)
+        // Remove icons for effects that no longer exist
+        for (int i = combatant.ActiveEffectIcons.Count - 1; i >= 0; i--)
         {
-            var iconGO = combatant.ActiveBuffIcons[i];
-            if (!combatant.ActiveBuffs.Exists(b => b.iconInstance != null && b.iconInstance.gameObject == iconGO))
+            var iconGO = combatant.ActiveEffectIcons[i];
+            if (!combatant.ActiveEffects.Exists(b => b.iconInstance != null && b.iconInstance.gameObject == iconGO))
             {
                 Destroy(iconGO);
-                combatant.ActiveBuffIcons.RemoveAt(i);
+                combatant.ActiveEffectIcons.RemoveAt(i);
             }
         }
     }
@@ -282,17 +283,17 @@ public class BattleUIManager : MonoBehaviour
         statsPanelInstance.gameObject.SetActive(false);
         isPanelActive = false;
     }
-    public Sprite GetSpriteForBuffs(BuffType type)
+    public Sprite GetSpriteForEffects(EffectType type)
     {
-        foreach (var visual in buffVisuals)
+        foreach (var visual in EffectVisuals)
             if (visual.type == type && visual.icon != null)
                 return visual.icon;
         return defaultSprite;
     }
 
-    public GameObject GetEffectForBuffs(BuffType type)
+    public GameObject GetAnimationForEffects(EffectType type)
     {
-        foreach (var visual in buffVisuals)
+        foreach (var visual in EffectVisuals)
             if (visual.type == type)
             {
                 if (visual.effectPrefab != null)

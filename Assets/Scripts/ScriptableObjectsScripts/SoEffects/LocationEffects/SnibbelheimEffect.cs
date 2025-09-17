@@ -13,8 +13,8 @@ public class SnibbelheimEffect : LocationEffectSO
             GameManager.Instance.currentDoobie.EquippedWeaponInstance.bonusCritChance = 100;
         }
 
-        GameManager.Instance.currentDoobie.EquippedWeaponInstance.bonusDamage += 15;
+        GameManager.Instance.currentDoobie.EquippedWeaponInstance.bonusDamage += 20;
 
-        GameManager.Instance.currentDoobie.CurrentSkillDmg += 15;
+        GameManager.Instance.currentDoobie.CurrentSkillDmg += 20;
     }
 }

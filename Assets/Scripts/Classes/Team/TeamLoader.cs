@@ -32,7 +32,7 @@ public class TeamLoader : MonoBehaviour
                 else
                 {
                     Debug.Log("Reusing existing DoobieInstance with current HP/Zurp.");
-                    GameManager.Instance.currentDoobie.ActiveBuffs.Clear(); // Clear any existing buffs
+                    GameManager.Instance.currentDoobie.ActiveEffects.Clear(); // Clear any existing buffs
                 }
             }
             else

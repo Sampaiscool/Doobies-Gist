@@ -18,7 +18,7 @@ MonoBehaviour:
   description: Blink behind the target dealing damage, can apply "Blind" + "Stun"
     effects.
   resourceCost: 0
-  resourceUsed: 0
+  resourceUsed: 2
   isWeaponSkill: 0
   zurpRegainChance: 0
   zurpRegainAmount: 0

@@ -9,5 +9,6 @@ public interface IResource
     int Max { get; }
 
     void Gain(int amount);
+    void GainMax(int amount);
     bool Spend(int amount);
 }

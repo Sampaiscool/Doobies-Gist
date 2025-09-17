@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Skill/Effects/Menta/ArcaneBoltEffect")]
+[CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty1/Menta/ArcaneBoltEffect")]
 public class ArcaneBoltEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target)

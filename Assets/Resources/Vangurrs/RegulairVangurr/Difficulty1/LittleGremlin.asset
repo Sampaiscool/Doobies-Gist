@@ -15,7 +15,7 @@ MonoBehaviour:
   vangurrName: Little Gremlin
   portrait: {fileID: 21300000, guid: 7da9babac6589a144ba175d696bd7241, type: 3}
   skillDmg: 1
-  healPower: 0
+  healPower: 1
   baseDefence: 0.5
   baseHealth: 3
   VangurrText: A sneaky target, with its rusty knife called "Rusty" it believes it

@@ -12,9 +12,6 @@ public class CombatManager : MonoBehaviour
     //public Button NextButton;
     public BattleUIManager BattleUIManager;
 
-    public bool IsPlayerTurn = true;
-    public bool waitingForNext = false;
-
     private CombatantInstance playerDoobie;
     private CombatantInstance enemyVangurr;
 
@@ -59,27 +56,20 @@ public class CombatManager : MonoBehaviour
 
         // Open log at start, using CharacterName from CombatantInstance
         BattleUIManager.AddLog($"You face {enemyVangurr.CharacterName}!");
-        waitingForNext = true;
 
         BattleUIManager.UpdateUI();
     }
 
     void OnAttackButtonClicked()
     {
-        if (!IsPlayerTurn || waitingForNext) return;
 
         string combatResult = playerDoobie.PerformBasicAttack(enemyVangurr);
         BattleUIManager.AddLog(combatResult);
         BattleUIManager.UpdateUI();
-
-        IsPlayerTurn = false;
-        waitingForNext = true;
     }
 
     public void OnSkillButtonClicked()
     {
-        if (!IsPlayerTurn || waitingForNext) return;
-
         List<SkillSO> doobieSkills = playerDoobie.GetAllSkills();
         BattleUIManager.Instance.DisplaySkills(doobieSkills, OnSkillChosen);
     }
@@ -110,9 +100,6 @@ public class CombatManager : MonoBehaviour
 
             BattleUIManager.AddLog(result);
             BattleUIManager.UpdateUI();
-
-            IsPlayerTurn = false;
-            waitingForNext = true;
         }
         else
         {
@@ -123,6 +110,7 @@ public class CombatManager : MonoBehaviour
 
     void OnHealButtonClicked()
     {
+
         float multiplier = Random.Range(0.5f, 1.5f);
 
         int healed = Mathf.RoundToInt(playerDoobie.CurrentHealPower * multiplier);
@@ -132,106 +120,136 @@ public class CombatManager : MonoBehaviour
         string combatResult = $"{playerDoobie.CharacterName} heals for {actualHealed} health!";
         BattleUIManager.AddLog(combatResult);
         BattleUIManager.UpdateUI();
-
-        IsPlayerTurn = false;
-        waitingForNext = true;
     }
 
     public void OnNextButtonClicked()
     {
-        if (!waitingForNext) return;
+        GameObject BattleOptionsPanel = BattleUIManager.BattleOptionsPanel;
+        GameObject CombatLogPanel = BattleUIManager.CombatLogPanel;
 
+        // Check defeat conditions first
         if (playerDoobie.CurrentHealth <= 0)
         {
             BattleUIManager.AddLog("You have fallen. The forest grows darker...");
-
             StartCoroutine(ReturnToAdventureAfterDelay(2f, false));
             return;
         }
         else if (enemyVangurr.CurrentHealth <= 0)
         {
             BattleUIManager.AddLog($"You have defeated {enemyVangurr.CharacterName}!");
-
             StartCoroutine(ReturnToAdventureAfterDelay(2f, true));
             return;
         }
-        else
+
+        switch (currentPhase)
         {
-            if (!IsPlayerTurn)
-            {
+            case TurnPhase.Start:
+                currentPhase = TurnPhase.PlayerAction;
+                BattleUIManager.AddLog($"{playerDoobie.CharacterName}'s turn begins!");
+
+                // UI: show options
+                BattleOptionsPanel.SetActive(true);
+                CombatLogPanel.SetActive(false);
+                break;
+
+            case TurnPhase.PlayerAction:
+                // Action was already resolved via Attack/Skill/Heal buttons
+                currentPhase = TurnPhase.EnemyAction;
+                BattleUIManager.AddLog($"{enemyVangurr.CharacterName}'s turn begins!");
+
+                // UI: hide options, show log
+                BattleOptionsPanel.SetActive(false);
+                CombatLogPanel.SetActive(true);
+                break;
+
+            case TurnPhase.EnemyAction:
                 CheckTurnBasedUpgrades(enemyVangurr);
 
-                if (CheckForTurnDebuffs(enemyVangurr, out string log))
+                if (CheckForTurnEffects(enemyVangurr, out string enemyLog))
                 {
-                    BattleUIManager.AddLog(log);
-                    BattleUIManager.UpdateUI();
-                    IsPlayerTurn = true;
-                    return;
+                    BattleUIManager.AddLog(enemyLog);
+                }
+                else
+                {
+                    string result = enemyVangurrInstance.PerformTurn(playerDoobie);
+                    BattleUIManager.AddLog(result);
                 }
 
-                string result = enemyVangurrInstance.PerformTurn(playerDoobie);
-                BattleUIManager.AddLog(result);
-                BattleUIManager.UpdateUI();
-                IsPlayerTurn = true;
-            }
-            else
-            {
-                CheckTurnBasedUpgrades(playerDoobie);
+                currentPhase = TurnPhase.EndOfTurn;
+                BattleUIManager.AddLog("Press Next to resolve end of turn effects.");
 
-                if (CheckForTurnDebuffs(playerDoobie, out string log))
-                {
-                    BattleUIManager.AddLog(log);
-                    BattleUIManager.UpdateUI();
-                    IsPlayerTurn = false;
-                    return;
-                }
+                // UI: still log only
+                BattleOptionsPanel.SetActive(false);
+                CombatLogPanel.SetActive(true);
+                break;
 
-                BattleUIManager.NextClicked();
-                waitingForNext = false;
-            }
+            case TurnPhase.EndOfTurn:
+                TickEndOfRound();
+                BattleUIManager.AddLog("End of turn effects resolve...");
+
+                // Back to player
+                currentPhase = TurnPhase.PlayerAction;
+                BattleUIManager.AddLog($"{playerDoobie.CharacterName}'s turn begins!");
+
+                // UI: back to options
+                BattleOptionsPanel.SetActive(true);
+                CombatLogPanel.SetActive(false);
+                break;
         }
+
+        BattleUIManager.UpdateUI();
     }
-    private bool CheckForTurnDebuffs(CombatantInstance combatant, out string logMessage)
+
+
+
+
+    private bool CheckForTurnEffects(CombatantInstance combatant, out string logMessage)
     {
         logMessage = "";
 
-        // Check for Stun first
-        var stunDebuffs = combatant.ActiveBuffs.FindAll(b => b.type == BuffType.Stun);
-        if (stunDebuffs.Count > 0)
+        // --- Regeneration ---
+        foreach (var regeneration in combatant.ActiveEffects.FindAll(b => b.type == EffectType.Regeneration))
         {
-            logMessage = $"{combatant.CharacterName} is stunned and misses their turn!";
-            combatant.TickBuffs();
-            return true; // turn is skipped
+            combatant.HealCombatant(regeneration.intensity);
         }
 
-        var hiddenBuffs = combatant.ActiveBuffs.FindAll(b => b.type == BuffType.Hidden);
-        if (hiddenBuffs.Count > 0)
+        // --- Hidden ---
+        if (combatant.ActiveEffects.Exists(b => b.type == EffectType.Hidden))
         {
             logMessage = $"{combatant.CharacterName} is hidden and cannot take actions!";
-            combatant.TickBuffs();
-            return true; // turn is skipped
+            combatant.TickEffects(); // single tick
+            return true; // turn skipped
         }
 
-        // Apply burn damage if present
-        var burnDebuffs = combatant.ActiveBuffs.FindAll(b => b.type == BuffType.Burn);
-        foreach (var burn in burnDebuffs)
+        // --- Burn ---
+        foreach (var burn in combatant.ActiveEffects.FindAll(b => b.type == EffectType.Burn))
         {
             int burnDamage = burn.intensity;
-            var(resutl, actualDamage)  = combatant.TakeDamage(burnDamage);
-            logMessage += $"\n{combatant.CharacterName} takes {actualDamage} burn damage!";
+            var (result, actualDamage) = combatant.TakeDamage(burnDamage);
+            BattleUIManager.Instance.AddLog($"{combatant.CharacterName} takes {actualDamage} burn damage!");
 
             if (combatant.CurrentHealth <= 0)
             {
-                logMessage += $"\n{combatant.CharacterName} has fallen!";
+                logMessage = $"{combatant.CharacterName} has fallen!";
+                combatant.TickEffects(); // single tick
                 return true;
             }
         }
 
-        // Tick all buffs after applying effects
-        combatant.TickBuffs();
+        // --- Stun ---
+        if (combatant.ActiveEffects.Exists(b => b.type == EffectType.Stun))
+        {
+            logMessage = $"{combatant.CharacterName} is stunned and misses their turn!";
+            combatant.TickEffects(); // single tick
+            return true;
+        }
 
-        return false; // turn proceeds normally
+        // --- Always tick once at the end ---
+        combatant.TickEffects();
+
+        return false; // proceed normally
     }
+
     private void CheckTurnBasedUpgrades(CombatantInstance combatant)
     {
         if (!combatantTurnCounters.ContainsKey(combatant))
@@ -247,7 +265,7 @@ public class CombatManager : MonoBehaviour
                 case UpgradeNames.ArcaneMind:
                     if (combatantTurnCounters[combatant] % 3 == 0)
                     {
-                        combatant.AddBuff(new Buff(BuffType.SpellStrenghten, 999, false, upgrade.intensity));
+                        combatant.AddEffect(new Effect(EffectType.SpellStrenghten, 999, false, upgrade.intensity));
                         BattleUIManager.AddLog($"{combatant.CharacterName}'s Arcane Mind empowers them! Spell Strengthen applied.");
                     }
                     break;
@@ -284,6 +302,16 @@ public class CombatManager : MonoBehaviour
             }
         }
     }
+    private void TickEndOfRound()
+    {
+        // Tick both combatants’ effects once per full round
+        playerDoobie.TickEffects();
+        enemyVangurr.TickEffects();
+
+        BattleUIManager.UpdateUI();
+        BattleUIManager.AddLog("End of turn effects resolve...");
+    }
+
     void OnBattleStartEffects()
     {
         List<CombatantInstance> combatants = new List<CombatantInstance> { playerDoobie, enemyVangurr };
@@ -296,7 +324,7 @@ public class CombatManager : MonoBehaviour
                 {
                     if (upgrade.type == UpgradeNames.StayPrepared)
                     {
-                        combatant.AddBuff(new Buff(BuffType.Deflecion, 999, false, upgrade.intensity));
+                        combatant.AddEffect(new Effect(EffectType.Deflecion, 999, false, upgrade.intensity));
                     }
 
                     if (upgrade.type == UpgradeNames.HealtySupplies)
@@ -314,7 +342,6 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-
     private IEnumerator ReturnToAdventureAfterDelay(float delay, bool playerWon)
     {
         yield return new WaitForSeconds(delay);
@@ -322,5 +349,14 @@ public class CombatManager : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene("AdventureScene");
 
         GameManager.Instance.AfterFight(playerWon);
+    }
+
+    private TurnPhase currentPhase = TurnPhase.Start;
+    private enum TurnPhase
+    {
+        Start,
+        PlayerAction,
+        EnemyAction,
+        EndOfTurn
     }
 }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
+  m_Name: GardenOfThorns
+  m_EditorClassIdentifier: 
+  skillName: Garden of Thorns
+  icon: {fileID: 0}
+  animation: {fileID: 0}
+  description: Gain 2 "healing Weaken" and heal yourself, Deal damage to your opponent
+    using your Heal Power and Skill Damage
+  resourceCost: 15
+  resourceUsed: 1
+  isWeaponSkill: 0
+  zurpRegainChance: 0
+  zurpRegainAmount: 0
+  effect: {fileID: 11400000, guid: 9b61f6e91bc7fc5438621b5104504184, type: 2}

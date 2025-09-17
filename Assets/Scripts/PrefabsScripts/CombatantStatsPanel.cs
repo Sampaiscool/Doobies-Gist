@@ -58,7 +58,7 @@ public class CombatantStatsPanel : MonoBehaviour
         {
             var weapon = boundInstance.EquippedWeaponInstance;
             weaponNameText.text = $"{weapon.baseSO.weaponName}";
-            weaponDamageText.text = $"Damage: {boundInstance.GetEffectiveWeaponDamageAfterBuffsForUI(boundInstance.GetEffectiveWeaponDamage())}";
+            weaponDamageText.text = $"Damage: {boundInstance.GetEffectiveWeaponDamageAfterEffectsForUI(boundInstance.GetEffectiveWeaponDamage())}";
             weaponCritText.text = $"Crit: {weapon.GetEffectiveCritChance()}%";
             weaponMissText.text = $"Miss: {weapon.MissChance * 100f:F1}%";
         }

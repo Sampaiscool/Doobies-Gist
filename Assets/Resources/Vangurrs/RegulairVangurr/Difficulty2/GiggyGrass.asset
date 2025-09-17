@@ -18,11 +18,20 @@ MonoBehaviour:
   healPower: 4
   baseDefence: 2
   baseHealth: 10
-  VangurrText: Hides in plain sight.
+  VangurrText: The Group of Green Grass... People say they can hide in plain sight!
   difficultyLevel: 2
   skillChance: 70
   isBoss: 0
   characterPool: 6
-  baseSkills: []
-  defaultWeapon: {fileID: 0}
-  startingUpgrades: []
+  baseSkills:
+  - {fileID: 11400000, guid: 9080ada69d3428044ae7df415edd3224, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: cca889ad81bc6ce4d8c948ad12714e06, type: 2}
+  startingUpgrades:
+  - upgradeName: Critical Monster
+    description: If you hit a critical attack; Gain +1 "CriticalEye". Deal +1 damage
+      on critical attacks.
+    cost: 0
+    icon: {fileID: 0}
+    type: 16
+    Pool: 0
+    intensity: 2

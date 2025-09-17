@@ -38,8 +38,6 @@ public class DoobieInstance : CombatantInstance
             case ResourceType.Zurp:
                 MainResource = new ZurpResource(_so.baseResourceMax);
                 break;
-            // case ResourceType.Rage: MainResource = new RageResource(...);
-            // case ResourceType.Goo:  MainResource = new GooResource(...);
             default:
                 MainResource = null;
                 break;

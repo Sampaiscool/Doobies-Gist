@@ -18,7 +18,7 @@ MonoBehaviour:
   description: Trow a Jagged rock at the target dealing a small amount of damage,
     has 50% to stun the target
   resourceCost: 0
-  resourceUsed: 0
+  resourceUsed: 2
   isWeaponSkill: 0
   zurpRegainChance: 0
   zurpRegainAmount: 0

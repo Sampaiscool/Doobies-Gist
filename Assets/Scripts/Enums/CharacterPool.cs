@@ -7,9 +7,10 @@ public enum CharacterPool
 {
     None,
     Hiroshi,            // Doobie
-    LittleGremlin,      //Vangurr
-    Menta,              //Vangurr
-    FatGremlin,         //Vangurr
-    CultistMember,      //Vangurr
-    GiggyGrass,         //Vangurr
+    LittleGremlin,      // Vangurr
+    Menta,              // Vangurr
+    FatGremlin,         // Vangurr
+    CultistMember,      // Vangurr
+    GiggyGrass,         // Vangurr
+    Phlox,              // Doobie
 }

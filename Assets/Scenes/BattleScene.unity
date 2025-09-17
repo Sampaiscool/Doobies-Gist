@@ -2998,8 +2998,8 @@ MonoBehaviour:
   ExpandLogButton: {fileID: 1987287209}
   BattleOptionsPanel: {fileID: 1742563176}
   SkillOptions: {fileID: 672786977}
-  DoobieBuffsContainer: {fileID: 1205574242}
-  VangurrBuffsContainer: {fileID: 2085472037}
+  DoobieEffectsContainer: {fileID: 1205574242}
+  VangurrEffectsContainer: {fileID: 2085472037}
   BackFromSkillsButton: {fileID: 757010355}
   AllSkillButtons:
   - {fileID: 0}
@@ -3019,63 +3019,101 @@ MonoBehaviour:
   statsPanelInstance: {fileID: 7999641590183722367}
   defaultSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   defaultEffectPrefab: {fileID: 362261158077530393, guid: c81daf72794c0a743a585860d3eb0556, type: 3}
-  buffVisuals:
-  - type: 1
+  EffectVisuals:
+  - label: Harden
+    type: 1
     icon: {fileID: 21300000, guid: cf01aca18ada9044c83966ea3a668af7, type: 3}
     effectPrefab: {fileID: 3982581360179883478, guid: e4d18f06eb5b722478d61fc4c318e021, type: 3}
-  - type: 4
-    icon: {fileID: 21300000, guid: f18e424e96cd3dd408e802dd19670cdb, type: 3}
-    effectPrefab: {fileID: 7856939199014537196, guid: 5e6473fa9342605459c46b30746b60f9, type: 3}
-  - type: 5
-    icon: {fileID: 21300000, guid: a669847810066bf4dacb35c9376f9e4d, type: 3}
-    effectPrefab: {fileID: 4515497926535975121, guid: 51d8c5955281a7c49b118582dea02372, type: 3}
-  - type: 10
-    icon: {fileID: 21300000, guid: 22f1f27f824927a4e954e28fb8fe1b39, type: 3}
-    effectPrefab: {fileID: 7281378182209018676, guid: cb7edf805a494434d9ca4b5e68d1e4ac, type: 3}
-  - type: 6
-    icon: {fileID: 21300000, guid: 88c400c637aae0444bf44ad7135d5507, type: 3}
-    effectPrefab: {fileID: 162584487599433031, guid: c88d4203aa3d417429196efc5ff6548f, type: 3}
-  - type: 2
+  - label: Weapon Strenghten
+    type: 2
     icon: {fileID: 21300000, guid: 2d2985602770b4a4996ab4ac602c0315, type: 3}
     effectPrefab: {fileID: 3982581360179883478, guid: e4d18f06eb5b722478d61fc4c318e021, type: 3}
-  - type: 8
-    icon: {fileID: 21300000, guid: 6f37b77f3c62f2b4494d6beda806a9fe, type: 3}
-    effectPrefab: {fileID: 7281378182209018676, guid: cb7edf805a494434d9ca4b5e68d1e4ac, type: 3}
-  - type: 3
+  - label: Spell Strenghten
+    type: 3
     icon: {fileID: 21300000, guid: e4dc611fd08f8dd4d942f05c65bb0a43, type: 3}
     effectPrefab: {fileID: 3982581360179883478, guid: e4d18f06eb5b722478d61fc4c318e021, type: 3}
-  - type: 9
+  - label: Deflection
+    type: 4
+    icon: {fileID: 21300000, guid: f18e424e96cd3dd408e802dd19670cdb, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Bloom Blossom
+    type: 5
+    icon: {fileID: 21300000, guid: a669847810066bf4dacb35c9376f9e4d, type: 3}
+    effectPrefab: {fileID: 4515497926535975121, guid: 51d8c5955281a7c49b118582dea02372, type: 3}
+  - label: Burn
+    type: 6
+    icon: {fileID: 21300000, guid: 88c400c637aae0444bf44ad7135d5507, type: 3}
+    effectPrefab: {fileID: 162584487599433031, guid: c88d4203aa3d417429196efc5ff6548f, type: 3}
+  - label: Poison
+    type: 7
+    icon: {fileID: 0}
+    effectPrefab: {fileID: 0}
+  - label: Weapon Weaken
+    type: 8
+    icon: {fileID: 21300000, guid: 6f37b77f3c62f2b4494d6beda806a9fe, type: 3}
+    effectPrefab: {fileID: 7281378182209018676, guid: cb7edf805a494434d9ca4b5e68d1e4ac, type: 3}
+  - label: Spell Weaken
+    type: 9
     icon: {fileID: 21300000, guid: 6e80c296209ebd64790415abf7488604, type: 3}
     effectPrefab: {fileID: 7281378182209018676, guid: cb7edf805a494434d9ca4b5e68d1e4ac, type: 3}
-  - type: 17
-    icon: {fileID: 21300000, guid: a2a009417e9b2d44baa03e3894db9dcc, type: 3}
-    effectPrefab: {fileID: 0}
-  - type: 11
+  - label: Defence Down
+    type: 10
+    icon: {fileID: 21300000, guid: 22f1f27f824927a4e954e28fb8fe1b39, type: 3}
+    effectPrefab: {fileID: 7281378182209018676, guid: cb7edf805a494434d9ca4b5e68d1e4ac, type: 3}
+  - label: Stun
+    type: 11
     icon: {fileID: 21300000, guid: 007fc5d7ed4eeef428ab71a55b8bfd4a, type: 3}
     effectPrefab: {fileID: 0}
-  - type: 18
-    icon: {fileID: 21300000, guid: 2cb6cd4bb2193c1409545c4646d47ae6, type: 3}
-    effectPrefab: {fileID: 0}
-  - type: 16
-    icon: {fileID: 21300000, guid: 9071faaa71d4e4a40b04e8fa2bedb413, type: 3}
-    effectPrefab: {fileID: 0}
-  - type: 15
-    icon: {fileID: 21300000, guid: 10ec18921a9246f4988dd73fdd4a2339, type: 3}
-    effectPrefab: {fileID: 0}
-  - type: 12
+  - label: Blind
+    type: 12
     icon: {fileID: 21300000, guid: 69ca1a017aad026468122f74fa6c1b6c, type: 3}
     effectPrefab: {fileID: 0}
-  - type: 14
+  - label: Slow
+    type: 13
+    icon: {fileID: 0}
+    effectPrefab: {fileID: 0}
+  - label: Vampire Curse
+    type: 14
     icon: {fileID: 21300000, guid: 4988417cbb75f694b87434273453978c, type: 3}
     effectPrefab: {fileID: 0}
-  - type: 19
+  - label: Evasion
+    type: 15
+    icon: {fileID: 21300000, guid: 10ec18921a9246f4988dd73fdd4a2339, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Critical Eye
+    type: 16
+    icon: {fileID: 21300000, guid: 9071faaa71d4e4a40b04e8fa2bedb413, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Bleed
+    type: 17
+    icon: {fileID: 21300000, guid: a2a009417e9b2d44baa03e3894db9dcc, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Shield
+    type: 18
+    icon: {fileID: 21300000, guid: 2cb6cd4bb2193c1409545c4646d47ae6, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Hidden
+    type: 19
     icon: {fileID: 21300000, guid: 0c7014868b1f2244fa3c4470794bec51, type: 3}
     effectPrefab: {fileID: 0}
-  - type: 20
+  - label: Target Locked
+    type: 20
     icon: {fileID: 21300000, guid: 41670476aadcf474f9a05844aead5fdb, type: 3}
     effectPrefab: {fileID: 0}
-  BuffIconPrefab: {fileID: 8727585946917096499, guid: 3865fb4965dd7714f8502c665b7d8190, type: 3}
-  BuffDescriptionPrefab: {fileID: 7399243327277128440, guid: 9ca2d5d67a8f1bb499a0171ffc237151, type: 3}
+  - label: Regenaration
+    type: 21
+    icon: {fileID: 21300000, guid: 5daa115d69eba4b4e81f90b4b34edfe1, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Healing Strenghten
+    type: 22
+    icon: {fileID: 21300000, guid: f58eb9d150807ee438b09b087fb87ced, type: 3}
+    effectPrefab: {fileID: 3982581360179883478, guid: e4d18f06eb5b722478d61fc4c318e021, type: 3}
+  - label: Healing Weaken
+    type: 23
+    icon: {fileID: 21300000, guid: 8f118f4e291096f4296e369423cceedc, type: 3}
+    effectPrefab: {fileID: 7281378182209018676, guid: cb7edf805a494434d9ca4b5e68d1e4ac, type: 3}
+  EffectIconPrefab: {fileID: 8727585946917096499, guid: 3865fb4965dd7714f8502c665b7d8190, type: 3}
+  EffectDescriptionPrefab: {fileID: 7399243327277128440, guid: 9ca2d5d67a8f1bb499a0171ffc237151, type: 3}
 --- !u!1 &757010351
 GameObject:
   m_ObjectHideFlags: 0

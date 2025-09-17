@@ -20,6 +20,10 @@ public class ZurpResource : IResource
     {
         Current = Mathf.Min(Current + amount, Max);
     }
+    public void GainMax(int amount)
+    {
+        Max += amount;
+    }
 
     public bool Spend(int amount)
     {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Skill/Effects/LittleGremlin/JaggedRockEffect")]
+[CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty1/LittleGremlin/JaggedRockEffect")]
 public class JaggedRockEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
@@ -19,7 +19,7 @@ public class JaggedRockEffect : SkillEffectSO
         // 50% chance to stun for 1 turn
         if (UnityEngine.Random.value <= 0.5f)
         {
-            target.AddBuff(new Buff(BuffType.Stun, 1, true, 1));
+            target.AddEffect(new Effect(EffectType.Stun, 1, true, 1));
             return $"{user.CharacterName} hurls a jagged rock at {target.CharacterName}, " +
                    $"dealing {actualTargetDmg} damage and stunning them for 1 turn!";
         }

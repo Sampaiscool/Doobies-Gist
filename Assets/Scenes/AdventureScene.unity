@@ -653,6 +653,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: add3ad84b5da7224b8dd20d56336347f, type: 2}
   - {fileID: 11400000, guid: 11dadc1e34f7b444d9345c2f8bdd66b9, type: 2}
   - {fileID: 11400000, guid: 4fe07354a212f6a4390280006ea3c1ec, type: 2}
+  - {fileID: 11400000, guid: 2395eca5c86aa7a48a869715a13d7aaf, type: 2}
   PanelManager: {fileID: 931394462}
   locationButtonPrefab: {fileID: 437312863584247690, guid: cd2c76f8995e34f4cadddd2c15bf22d8, type: 3}
   locationButtonHolder: {fileID: 1258595990}
@@ -791,6 +792,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 07e4d62105ed0064286255aca0e9074a, type: 2}
     - {fileID: 11400000, guid: 95f700ebe44e2784c97121f01d07c471, type: 2}
     - {fileID: 11400000, guid: b4de67febf93f544083a433a65568951, type: 2}
+    - {fileID: 11400000, guid: 4bbb6e59492f88d4f878633fda11e28f, type: 2}
   - label: Difficulty 1 boss
     difficulty: 1
     isBossGroup: 1
@@ -803,6 +805,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 36164ef2cd925864ba3c74f3926dfcbc, type: 2}
     - {fileID: 11400000, guid: 613e95433cc72cc4d89a7fdc55dc7418, type: 2}
     - {fileID: 11400000, guid: 9d67430e622fff24ea029a8fba1d4097, type: 2}
+    - {fileID: 11400000, guid: 748a3046e4c96cd4ba5f8f98d3dd78b1, type: 2}
   - label: Difficulty 2 boss
     difficulty: 2
     isBossGroup: 1
@@ -3161,6 +3164,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 6b5358cb22efd7c4892a37d9a4c02118, type: 2}
     - {fileID: 11400000, guid: d5b594577d9e8704b941d0199753532a, type: 2}
     - {fileID: 11400000, guid: 6dd4f7a579c9caf41a75a8ea2e8b7ffc, type: 2}
+    - {fileID: 11400000, guid: 07506404b8f16454bacc5174c5288479, type: 2}
+    - {fileID: 11400000, guid: 4d90906ebd892014ab655987a5527fff, type: 2}
   - groupName: Hiroshi
     characterPool: 1
     resourceType: 2
@@ -3171,6 +3176,10 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 539c277844b6bf84fa320e75904d8244, type: 2}
     - {fileID: 11400000, guid: 58edf4c34a9a1c5498273591e57544f4, type: 2}
     - {fileID: 11400000, guid: 0ca09b0054dfefe4ab63489af8fbc60b, type: 2}
+  - groupName: Phrox
+    characterPool: 7
+    resourceType: 2
+    upgrades: []
 --- !u!1 &1336441296
 GameObject:
   m_ObjectHideFlags: 0

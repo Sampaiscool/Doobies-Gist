@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Skill/Effects/AngerBot/RobotDefenceEffect")]
+[CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty1/AngerBot/RobotDefenceEffect")]
 public class RobotDefenceEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
     {
-        user.AddBuff(new Buff(BuffType.Harden, 3, false, 1));
+        user.AddEffect(new Effect(EffectType.Harden, 3, false, 1));
 
         user.CurrentHealth = Mathf.Min(user.CurrentHealth + 2, user.MaxHealth);
 

@@ -7,10 +7,18 @@ public class DibbletwistSanctumEffect : LocationEffectSO
 {
     public override void ApplyEffect()
     {
-        GameManager.Instance.CurrentDifficulty += 1;
+        int currentHP = GameManager.Instance.currentDoobie.CurrentHealth;
 
-        GameManager.Instance.ChangeSploont(2000, true);
+        currentHP = currentHP/ 2;
 
-        GameManager.Instance.ChangeHp(10, true, true);
+        GameManager.Instance.currentDoobie.CurrentHealth = currentHP;
+
+        GameManager.Instance.ChangeSploont(100, true);
+
+        GameManager.Instance.currentDoobie.EquippedWeaponInstance.bonusDamage += 5;
+
+        GameManager.Instance.currentDoobie.CurrentSkillDmg += 5;
+
+        GameManager.Instance.currentDoobie.CurrentHealPower += 2;
     }
 }

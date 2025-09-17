@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbfc10e7ba8736a43ad4b34a75fcce42, type: 3}
+  m_Name: Puth
+  m_EditorClassIdentifier: 
+  vangurrName: Puth
+  portrait: {fileID: 21300000, guid: 513c1017d055f954dafb29b63850b6bc, type: 3}
+  skillDmg: 3
+  healPower: 1
+  baseDefence: 0.8
+  baseHealth: 5
+  VangurrText: Some say it gives you magical powers if you spin it around enough.
+  difficultyLevel: 1
+  skillChance: 90
+  isBoss: 0
+  characterPool: 0
+  baseSkills:
+  - {fileID: 0}
+  defaultWeapon: {fileID: 11400000, guid: ecca6214cffd4ff4797ea00a90339de2, type: 2}
+  startingUpgrades:
+  - upgradeName: Target Found
+    description: If you take damage from a non-effect; give your opponent +1 "TargetLocked".
+    cost: 0
+    icon: {fileID: 0}
+    type: 18
+    Pool: 0
+    intensity: 1

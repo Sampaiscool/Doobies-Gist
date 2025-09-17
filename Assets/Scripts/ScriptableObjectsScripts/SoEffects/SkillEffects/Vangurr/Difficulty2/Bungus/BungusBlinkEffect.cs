@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Skill/Effects/Bungus/BungusBlinkEffect")]
+[CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty2/Bungus/BungusBlinkEffect")]
 public class BungusBlinkEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
@@ -14,8 +14,8 @@ public class BungusBlinkEffect : SkillEffectSO
         // 50% chance
         if (UnityEngine.Random.value <= 0.5f)
         {
-            target.AddBuff(new Buff(BuffType.Stun, 1, true, 1));
-            target.AddBuff(new Buff(BuffType.Blind, 2, true, 1));
+            target.AddEffect(new Effect(EffectType.Stun, 1, true, 1));
+            target.AddEffect(new Effect(EffectType.Blind, 2, true, 1));
 
 
             return $"{user.CharacterName} blinks behind {target.CharacterName}, dealing {actualTargetDmg} damage, " +

@@ -17,7 +17,7 @@ MonoBehaviour:
   animation: {fileID: 8762405910555896786, guid: a2739a6c99f5425498e36354c20b8fa4, type: 3}
   description: Fire a powerfull beam but also take some recoil damage
   resourceCost: 0
-  resourceUsed: 0
+  resourceUsed: 2
   isWeaponSkill: 0
   zurpRegainChance: 0
   zurpRegainAmount: 0

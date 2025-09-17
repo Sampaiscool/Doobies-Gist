@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Skill/Effects/AngerBot/SuperBeamEffect")]
+[CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty1/AngerBot/SuperBeamEffect")]
 public class SuperBeamEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target)

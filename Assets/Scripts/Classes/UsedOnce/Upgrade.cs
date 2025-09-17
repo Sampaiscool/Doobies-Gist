@@ -50,4 +50,8 @@ public enum UpgradeNames
     GremlinHunger,                        //FatGremlin
 
     PhanthomTouch,                        //Cultist Member
+
+    CriticalMonster,                      //None
+    FlowersOfRot,                         //Phrox
+    TargetFound,                          //None
 }

@@ -15,6 +15,7 @@ MonoBehaviour:
   vangurrName: War Chief
   portrait: {fileID: 21300000, guid: e243ec3215f962244ad0e7f42e278ff8, type: 3}
   skillDmg: 1
+  healPower: 1
   baseDefence: 3
   baseHealth: 6
   VangurrText: This war chief got kicked out of his tribe due to being "too violent"

@@ -15,6 +15,6 @@ MonoBehaviour:
   locationName: Dibbletwist Sanctum
   locationImage: {fileID: 21300000, guid: 4ee210d3f07a9834b809890bfb2029e1, type: 3}
   locationChance: 50
-  description: Increase the difficulty; Gain Alot of Sploont, And increase your max
-    hp by 10
+  description: Half your doobies current HP; gain some sploont, weapon damage, skill
+    damage and heal power.
   effect: {fileID: 11400000, guid: dc281b20b16ddbc4394416a06538497f, type: 2}

@@ -17,7 +17,7 @@ MonoBehaviour:
   animation: {fileID: 0}
   description: Gain some Harden and heal 2 HP
   resourceCost: 0
-  resourceUsed: 0
+  resourceUsed: 2
   isWeaponSkill: 0
   zurpRegainChance: 0
   zurpRegainAmount: 0

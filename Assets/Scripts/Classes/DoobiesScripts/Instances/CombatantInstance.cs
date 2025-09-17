@@ -23,8 +23,8 @@ public abstract class CombatantInstance
     public int GetEffectiveCritChance() => EquippedWeaponInstance?.GetEffectiveCritChance() ?? 0;
 
     public abstract List<SkillSO> GetAllSkills();
-    public List<Buff> ActiveBuffs { get; private set; } = new List<Buff>();
-    public List<GameObject> ActiveBuffIcons = new List<GameObject>();
+    public List<Effect> ActiveEffects { get; private set; } = new List<Effect>();
+    public List<GameObject> ActiveEffectIcons = new List<GameObject>();
 
     public List<Upgrade> ActiveUpgrades { get; private set; } = new List<Upgrade>();
 
@@ -32,8 +32,15 @@ public abstract class CombatantInstance
     {
         int effectiveHeal = GetEffectiveHealPower(amount);
 
+        effectiveHeal += CurrentHealPower;
+
         int healAmount = Mathf.Min(effectiveHeal, MaxHealth - CurrentHealth);
         CurrentHealth += healAmount;
+
+        CheckForOnHealEffects();
+
+        BattleUIManager.Instance.AddLog($"{CharacterName} heals for {healAmount}!");
+
         return healAmount;
     }
     /// <summary>
@@ -42,12 +49,9 @@ public abstract class CombatantInstance
     /// <param name="amount">The amount of damage before defence</param>
     /// <param name="isSkill">wheter the dmg came from a skill</param>
     /// <returns>The actual damage</returns>
-    public virtual (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill = false)
+    public virtual (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill = false, bool isEffect = false)
     {
         Debug.Log("Taking base damage: " + amount);
-
-        if (HandleDeflection())
-            return (DamageResult.Deflected, 0);
 
         if (HandleHidden())
         {
@@ -55,11 +59,14 @@ public abstract class CombatantInstance
             return (DamageResult.Missed, 0);
         }
 
+        if (HandleDeflection())
+            return (DamageResult.Deflected, 0);
+
         // alleen melee / weapon attacks (niet skills) mogen dodges via Sneaky/Evasion doen
         if (!isSkill)
         {
-            // 1) Als er al een Evasion-buff is, dit is een "Evasion dodge" -> trigger follow-ups
-            if (HasEvasionBuff())
+            // 1) Als er al een Evasion-effect is, dit is een "Evasion dodge" -> trigger follow-ups
+            if (HasEvasionEffect())
             {
                 HandleDodgeEffects(); // grants WeaponStrenghten / TargetLocked etc.
                 return (DamageResult.Dodged, 0);
@@ -79,9 +86,9 @@ public abstract class CombatantInstance
         if (HandleShield(reducedDamage))
             return (DamageResult.Blocked, 0);
 
-        HandeCurseEffect(reducedDamage);
-
         CurrentHealth = Mathf.Max(CurrentHealth - reducedDamage, 0);
+
+        HandleOnDamage(reducedDamage);
 
         // Trigger hit animation if available
         GameObject HitAnimationPrefab = GameManager.Instance.damageAnimationPrefab;
@@ -94,34 +101,34 @@ public abstract class CombatantInstance
     }
     private bool HandleDeflection()
     {
-        var deflectBuffs = ActiveBuffs.FindAll(b => b.type == BuffType.Deflecion);
+        var deflectEffects = ActiveEffects.FindAll(b => b.type == EffectType.Deflecion);
 
-        if (deflectBuffs.Count == 0)
+        if (deflectEffects.Count == 0)
             return false; // niks om te doen
 
-        // Harden buff geven als er een sterke deflect was
-        if (deflectBuffs.Any(b => b.intensity >= 10))
+        // Harden effect geven als er een sterke deflect was
+        if (deflectEffects.Any(b => b.intensity >= 10))
         {
-            AddBuff(new Buff(BuffType.Harden, 3, false, 3));
+            AddEffect(new Effect(EffectType.Harden, 3, false, 3));
         }
 
         // Alle deflects weghalen
-        ActiveBuffs.RemoveAll(b => b.type == BuffType.Deflecion);
+        ActiveEffects.RemoveAll(b => b.type == EffectType.Deflecion);
 
         // Check voor BloomBlossom ? herplaats deflection
-        Buff bloomBlossomBuff = ActiveBuffs.Find(b => b.type == BuffType.BloomBlossom);
-        if (bloomBlossomBuff != null)
+        Effect bloomBlossomEffect = ActiveEffects.Find(b => b.type == EffectType.BloomBlossom);
+        if (bloomBlossomEffect != null)
         {
-            AddBuff(new Buff(BuffType.Deflecion, 999, false, 10));
+            AddEffect(new Effect(EffectType.Deflecion, 999, false, 10));
 
-            ActiveBuffs.RemoveAll(b => b.type == BuffType.BloomBlossom);
+            ActiveEffects.RemoveAll(b => b.type == EffectType.BloomBlossom);
 
             Upgrade ultimateBloomUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.UltimateBloom);
             if (ultimateBloomUpgrade != null)
             {
                 for (int i = 0; i < ultimateBloomUpgrade.intensity; i++)
                 {
-                    AddBuff(new Buff(BuffType.WeaponStrenghten, 1, false, 1));
+                    AddEffect(new Effect(EffectType.WeaponStrenghten, 1, false, 1));
                 }
             }
         }
@@ -155,7 +162,7 @@ public abstract class CombatantInstance
 
         if (Random.value < dodgeChance)
         {
-            AddBuff(new Buff(BuffType.Evasion, sneakyStacks, false, sneakyStacks));
+            AddEffect(new Effect(EffectType.Evasion, sneakyStacks, false, sneakyStacks));
 
             return true;
         }
@@ -164,27 +171,27 @@ public abstract class CombatantInstance
     }
     private void HandleDodgeEffects()
     {
-        var evasionBuff = ActiveBuffs.Find(b => b.type == BuffType.Evasion);
-        if (evasionBuff == null) return;
+        var evasionEffect = ActiveEffects.Find(b => b.type == EffectType.Evasion);
+        if (evasionEffect == null) return;
 
-        // Voor elke stack (intensity) van Evasion: geef follow-up buffs
-        int stacks = Mathf.Max(1, evasionBuff.intensity); // defensive
-        AddBuff(new Buff(BuffType.WeaponStrenghten, 2, false, stacks));
-        AddBuff(new Buff(BuffType.CriticalEye, 2, false, stacks));
+        // Voor elke stack (intensity) van Evasion: geef follow-up effects
+        int stacks = Mathf.Max(1, evasionEffect.intensity); // defensive
+        AddEffect(new Effect(EffectType.WeaponStrenghten, 2, false, stacks));
+        AddEffect(new Effect(EffectType.CriticalEye, 2, false, stacks));
 
-        evasionBuff.duration--;
-        if (evasionBuff.duration <= 0)
-            ActiveBuffs.Remove(evasionBuff);
+        evasionEffect.duration--;
+        if (evasionEffect.duration <= 0)
+            ActiveEffects.Remove(evasionEffect);
     }
 
-    private bool HasEvasionBuff()
+    private bool HasEvasionEffect()
     {
-        return ActiveBuffs.Exists(b => b.type == BuffType.Evasion);
+        return ActiveEffects.Exists(b => b.type == EffectType.Evasion);
     }
     private bool HandleHidden()
     {
-        Buff hiddenBuff = ActiveBuffs.Find(b => b.type == BuffType.Hidden);
-        if (hiddenBuff != null)
+        Effect hiddenEffect = ActiveEffects.Find(b => b.type == EffectType.Hidden);
+        if (hiddenEffect != null)
         {
             return true;
         }
@@ -192,14 +199,14 @@ public abstract class CombatantInstance
     }
     private bool HandleShield(int damage)
     {
-        Buff shieldBuff = ActiveBuffs.Find(b => b.type == BuffType.Shield);
-        if (shieldBuff != null && shieldBuff.intensity > 0)
+        Effect shieldEffect = ActiveEffects.Find(b => b.type == EffectType.Shield);
+        if (shieldEffect != null && shieldEffect.intensity > 0)
         {
-            shieldBuff.intensity -= damage;
+            shieldEffect.intensity -= damage;
 
-            if (shieldBuff.intensity <= 0)
+            if (shieldEffect.intensity <= 0)
             {
-                ActiveBuffs.Remove(shieldBuff);
+                ActiveEffects.Remove(shieldEffect);
             }
 
             return true;
@@ -207,9 +214,9 @@ public abstract class CombatantInstance
 
         return false;
     }
-    private bool HandeCurseEffect(int damage)
+    private bool HandleOnDamage(int damage)
     {
-        Buff vampireCurse = ActiveBuffs.Find(b => b.type == BuffType.VampireCurse);
+        Effect vampireCurse = ActiveEffects.Find(b => b.type == EffectType.VampireCurse);
         if (vampireCurse != null)
         {
             for (int i = 0; i < vampireCurse.intensity; i++)
@@ -225,6 +232,25 @@ public abstract class CombatantInstance
                 }
             }
             return true;
+        }
+
+        foreach (Upgrade upgrade in ActiveUpgrades)
+        {
+            switch (upgrade.type)
+            {
+                case UpgradeNames.TargetFound:
+                    if (this is DoobieInstance)
+                    {
+                        GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.TargetLocked, 2, true, upgrade.intensity));
+                    }
+                    else
+                    {
+                        GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.TargetLocked, 2, true, upgrade.intensity));
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         return false;
@@ -243,8 +269,8 @@ public abstract class CombatantInstance
 
         var attack = EquippedWeaponInstance.GetEffectiveDamage();
 
-        Buff BlindDeBuff = ActiveBuffs.Find(b => b.type == BuffType.Blind);
-        if (Random.value < EquippedWeaponInstance.MissChance || BlindDeBuff != null)
+        Effect BlindDeEffect = ActiveEffects.Find(b => b.type == EffectType.Blind);
+        if (Random.value < EquippedWeaponInstance.MissChance || BlindDeEffect != null)
         {
             return $"{CharacterName} swings at {target.CharacterName}, but misses!";
         }
@@ -253,11 +279,21 @@ public abstract class CombatantInstance
 
         int baseDamage = Mathf.RoundToInt(attack * multiplier);
 
-        // Apply any attack-affecting buffs
-        int baseDamageAfterBuffs = GetEffectiveWeaponDamageAfterBuffs(baseDamage);
+        // Apply any attack-affecting effects
+        int baseDamageAfterEffects = GetEffectiveWeaponDamageAfterEffects(baseDamage);
 
-        bool isCrit = Random.Range(0, 100) < GetEffectiveCritChance();
-        int finalDamage = isCrit ? baseDamageAfterBuffs * 2 : baseDamageAfterBuffs;
+        bool isCrit = Random.Range(0, 100) < GetEffectiveCritChanceAfterEffects(GetEffectiveCritChance());
+
+        int damageBeforeCrit = baseDamageAfterEffects;
+
+        if (isCrit)
+        {
+            int damageAfterCrit = ApplyCriticalHitEffects(baseDamageAfterEffects);
+
+            damageBeforeCrit = damageAfterCrit;
+        }
+
+        int finalDamage = damageBeforeCrit;
 
         // Activate Effects
         if (EquippedWeaponInstance.Animation != null)
@@ -290,20 +326,40 @@ public abstract class CombatantInstance
                 return $"{CharacterName} attacks, but something strange happens...";
         }
     }
-    public int GetEffectiveWeaponDamageAfterBuffs(int baseDamage)
+
+    public int ApplyCriticalHitEffects(int baseDamage)
     {
         int modifiedDamage = baseDamage;
 
-        foreach (var buff in ActiveBuffs)
+        foreach (var upgrade in ActiveUpgrades)
         {
-            switch (buff.type)
+            switch (upgrade.type)
             {
-                case BuffType.WeaponWeaken:
-                    for (int i = 0; i < buff.intensity; i++)
+                case UpgradeNames.CriticalMonster:
+                    AddEffect(new Effect(EffectType.CriticalEye, 3, false, upgrade.intensity));
+
+                    modifiedDamage += upgrade.intensity + 1;
+                    break;
+                default:
+                    break;
+            }
+        }
+        return modifiedDamage;
+    }
+    public int GetEffectiveWeaponDamageAfterEffects(int baseDamage)
+    {
+        int modifiedDamage = baseDamage;
+
+        foreach (var effect in ActiveEffects)
+        {
+            switch (effect.type)
+            {
+                case EffectType.WeaponWeaken:
+                    for (int i = 0; i < effect.intensity; i++)
                         modifiedDamage = Mathf.FloorToInt(modifiedDamage * 0.8f);
                     break;
-                case BuffType.WeaponStrenghten:
-                    for (int i = 0; i < buff.intensity; i++)
+                case EffectType.WeaponStrenghten:
+                    for (int i = 0; i < effect.intensity; i++)
                         modifiedDamage = Mathf.CeilToInt(modifiedDamage * 1.2f);
                     break;
             }
@@ -313,20 +369,20 @@ public abstract class CombatantInstance
 
         return Mathf.Max(modifiedDamage, 0);
     }
-    public int GetEffectiveWeaponDamageAfterBuffsForUI(int baseDamage)
+    public int GetEffectiveWeaponDamageAfterEffectsForUI(int baseDamage)
     {
         int modifiedDamage = baseDamage;
 
-        foreach (var buff in ActiveBuffs)
+        foreach (var effect in ActiveEffects)
         {
-            switch (buff.type)
+            switch (effect.type)
             {
-                case BuffType.WeaponWeaken:
-                    for (int i = 0; i < buff.intensity; i++)
+                case EffectType.WeaponWeaken:
+                    for (int i = 0; i < effect.intensity; i++)
                         modifiedDamage = Mathf.FloorToInt(modifiedDamage * 0.8f);
                     break;
-                case BuffType.WeaponStrenghten:
-                    for (int i = 0; i < buff.intensity; i++)
+                case EffectType.WeaponStrenghten:
+                    for (int i = 0; i < effect.intensity; i++)
                         modifiedDamage = Mathf.CeilToInt(modifiedDamage * 1.2f);
                     break;
             }
@@ -334,25 +390,39 @@ public abstract class CombatantInstance
 
         return Mathf.Max(modifiedDamage, 0);
     }
-    public int GetEffectiveSkillDamageAfterBuffs(int baseDamage)
+    public int GetEffectiveSkillDamageAfterEffects(int baseDamage)
     {
         int modifiedDamage = baseDamage;
 
-        foreach (var buff in ActiveBuffs)
+        foreach (var effect in ActiveEffects)
         {
-            switch (buff.type)
+            switch (effect.type)
             {
-                case BuffType.SpellWeaken:
-                    for (int i = 0; i < buff.intensity; i++)
+                case EffectType.SpellWeaken:
+                    for (int i = 0; i < effect.intensity; i++)
                         modifiedDamage = Mathf.FloorToInt(modifiedDamage * 0.8f);
                     break;
-                case BuffType.SpellStrenghten:
-                    for (int i = 0; i < buff.intensity; i++)
+                case EffectType.SpellStrenghten:
+                    for (int i = 0; i < effect.intensity; i++)
                         modifiedDamage = Mathf.CeilToInt(modifiedDamage * 1.2f);
                     break;
             }
         }
         return Mathf.Max(modifiedDamage, 0);
+    }
+    public int GetEffectiveCritChanceAfterEffects(int baseCrit)
+    {
+        int modifiedCrit = baseCrit;
+        foreach (var effect in ActiveEffects)
+        {
+            switch (effect.type)
+            {
+                case EffectType.CriticalEye:
+                    modifiedCrit += effect.intensity * 5;
+                    break;
+            }
+        }
+        return Mathf.Clamp(modifiedCrit, 0, 100);
     }
 
     public int GetEffectiveSkillDamage(int baseDmg)
@@ -361,28 +431,35 @@ public abstract class CombatantInstance
 
         CheckForSkillOnUseEffects();
 
-        return finalDmg = GetEffectiveSkillDamageAfterBuffs(baseDmg);
+        return finalDmg = GetEffectiveSkillDamageAfterEffects(baseDmg);
     }
     public int GetEffectiveSkillDamageForUI(int baseDmg)
     {
         int finalDmg;
 
-        return finalDmg = GetEffectiveSkillDamageAfterBuffs(baseDmg);
+        return finalDmg = GetEffectiveSkillDamageAfterEffects(baseDmg);
     }
     public int GetEffectiveHealPower(int baseHeal)
     {
-        int modifiedHeal = baseHeal;
-        foreach (var buff in ActiveBuffs)
+        float modifiedHeal = baseHeal;
+
+        foreach (var effect in ActiveEffects)
         {
-            switch (buff.type)
+            if (effect.type == EffectType.HealingWeaken)
             {
-                default:
-                    break;
+                for (int i = 0; i < effect.intensity; i++)
+                    modifiedHeal *= 0.8f;
+            }
+            else if (effect.type == EffectType.HealingStrenghten)
+            {
+                for (int i = 0; i < effect.intensity; i++)
+                    modifiedHeal *= 1.2f;
             }
         }
 
-        return Mathf.Max(modifiedHeal, 0);
+        return Mathf.Max(0, Mathf.RoundToInt(modifiedHeal));
     }
+
 
     public void CheckForSkillOnUseEffects()
     {
@@ -413,30 +490,30 @@ public abstract class CombatantInstance
                 switch (upgrade.type)
                 {
                     case UpgradeNames.WeaponMastery:
-                        AddBuff(new Buff(BuffType.WeaponStrenghten, 1, false, upgrade.intensity));
+                        AddEffect(new Effect(EffectType.WeaponStrenghten, 1, false, upgrade.intensity));
                         break;
                     case UpgradeNames.BloodyWeapon:
                         if (this is DoobieInstance)
                         {
-                            GameManager.Instance.currentVangurr.AddBuff(new Buff(BuffType.Bleed, 3, true, upgrade.intensity));
+                            GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Bleed, 3, true, upgrade.intensity));
                         }
                         else
                         {
-                            GameManager.Instance.currentDoobie.AddBuff(new Buff(BuffType.Bleed, 3, true, upgrade.intensity));
+                            GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Bleed, 3, true, upgrade.intensity));
                         }
                         break;
                     case UpgradeNames.ViolentAttacks:
                         if (this is DoobieInstance)
                         {
-                            GameManager.Instance.currentDoobie.AddBuff(new Buff(BuffType.Bleed, 2, true, 2));
+                            GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Bleed, 2, true, 2));
 
-                            GameManager.Instance.currentDoobie.AddBuff(new Buff(BuffType.WeaponStrenghten, 3, true, upgrade.intensity));
+                            GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.WeaponStrenghten, 3, true, upgrade.intensity));
                         }
                         else
                         {
-                            GameManager.Instance.currentVangurr.AddBuff(new Buff(BuffType.Bleed, 2, true, 2));
+                            GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Bleed, 2, true, 2));
 
-                            GameManager.Instance.currentVangurr.AddBuff(new Buff(BuffType.WeaponStrenghten, 3, true, upgrade.intensity));
+                            GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.WeaponStrenghten, 3, true, upgrade.intensity));
                         }
                         break;
                     case UpgradeNames.OffensiveFlow:
@@ -446,27 +523,48 @@ public abstract class CombatantInstance
 
                         if (Random.value < totalChance)
                         {
-                            AddBuff(new Buff(BuffType.Deflecion, 999, false, upgrade.intensity));
+                            AddEffect(new Effect(EffectType.Deflecion, 999, false, upgrade.intensity));
                         }
                         break;
                 }
             }
         }
-        if (ActiveBuffs != null)
+        if (ActiveEffects != null)
         {
-            foreach (var buff in ActiveBuffs)
+            foreach (var effect in ActiveEffects)
             {
-                switch (buff.type)
+                switch (effect.type)
                 {
-                    case BuffType.Bleed:
-                        for (int i = 0; i < buff.intensity; i++)
+                    case EffectType.Bleed:
+                        for (int i = 0; i < effect.intensity; i++)
                         {
-                            TakeDamage(1);
+                            var (result, damageDone) = TakeDamage(1, false);
+                            BattleUIManager.Instance.AddLog($"{CharacterName} takes {damageDone} bleed damage!");
                         }
                         break;
                     default:
                         break;
                 }
+            }
+        }
+    }
+    public void CheckForOnHealEffects()
+    {
+        foreach (var upgrade in ActiveUpgrades)
+        {
+            switch (upgrade.type)
+            {
+                case UpgradeNames.FlowersOfRot:
+                    AddEffect(new Effect(EffectType.HealingStrenghten, 1, false, upgrade.intensity));
+                    if (this is DoobieInstance doobie)
+                    {
+                        GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.TargetLocked, 2, true, upgrade.intensity));
+                    }
+                    else
+                    {
+                        GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.TargetLocked, 2, true, upgrade.intensity));
+                    }
+                        break;
             }
         }
     }
@@ -480,14 +578,14 @@ public abstract class CombatantInstance
             switch (upgrade.type)
             {
                 case UpgradeNames.Firebrand:
-                    target.AddBuff(new Buff(BuffType.Burn, 3, true, upgrade.intensity)); 
+                    target.AddEffect(new Effect(EffectType.Burn, 3, true, upgrade.intensity)); 
                     break;
             }
         }
     }
-    private void AddBuffUpgradesCheck(Buff newBuff)
+    private void AddEffectUpgradesCheck(Effect newEffect)
     {
-        if (newBuff.type == BuffType.Deflecion)
+        if (newEffect.type == EffectType.Deflecion)
         {
             Upgrade fleetingPetalsUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.FleetingPetals);
             if (fleetingPetalsUpgrade != null)
@@ -512,37 +610,47 @@ public abstract class CombatantInstance
     {
         CurrentHealth = 0;
     }
-    public void AddBuff(Buff newBuff)
+    public void AddEffect(Effect newEffect)
     {
-        Buff existing = ActiveBuffs.Find(b => b.type == newBuff.type);
-
-        if (existing != null)
+        // Special case: TargetLocked should NOT stack
+        if (newEffect.type == EffectType.TargetLocked)
         {
-            existing.duration += newBuff.duration;
-            existing.intensity += newBuff.intensity;
-
-            // Play stacking effect
-            if (existing.iconInstance != null)
-                existing.iconInstance.PlayEffect();
+            ActiveEffects.Add(newEffect);
         }
         else
         {
-            ActiveBuffs.Add(newBuff);
+            // For all other effects, stack if already exists
+            Effect existing = ActiveEffects.Find(b => b.type == newEffect.type);
+
+            if (existing != null)
+            {
+                existing.duration += newEffect.duration;
+                existing.intensity += newEffect.intensity;
+
+                // Play stacking effect
+                if (existing.iconInstance != null)
+                    existing.iconInstance.PlayEffect();
+            }
+            else
+            {
+                ActiveEffects.Add(newEffect);
+            }
         }
 
-        AddBuffUpgradesCheck(newBuff);
+        AddEffectUpgradesCheck(newEffect);
 
-        Transform buffContainer = this is DoobieInstance
-            ? BattleUIManager.Instance.DoobieBuffsContainer
-            : BattleUIManager.Instance.VangurrBuffsContainer;
+        Transform effectContainer = this is DoobieInstance
+            ? BattleUIManager.Instance.DoobieEffectsContainer
+            : BattleUIManager.Instance.VangurrEffectsContainer;
 
-        BattleUIManager.Instance.UpdateBuffsUI(this, buffContainer);
+        BattleUIManager.Instance.UpdateEffectsUI(this, effectContainer);
 
         // --- Add quick combat log entry ---
-        string buffName = newBuff.iconGO != null ? newBuff.iconGO.name : newBuff.type.ToString();
-        string logMessage = $"{CharacterName} gains {newBuff.intensity} \"{buffName}\"!";
+        string effectName = newEffect.iconGO != null ? newEffect.iconGO.name : newEffect.type.ToString();
+        string logMessage = $"{CharacterName} gains {newEffect.intensity} \"{effectName}\"!";
         BattleUIManager.Instance.AddLog(logMessage);
     }
+
 
     public void AddUpgrade(Upgrade newUpgrade)
     {
@@ -557,44 +665,47 @@ public abstract class CombatantInstance
         }
     }
 
-    public void TickBuffs()
+    public void TickEffects()
     {
-        for (int i = ActiveBuffs.Count - 1; i >= 0; i--)
+        for (int i = ActiveEffects.Count - 1; i >= 0; i--)
         {
-            ActiveBuffs[i].duration--;
-            if (ActiveBuffs[i].duration <= 0)
+            ActiveEffects[i].duration--;
+
+            if (ActiveEffects[i].duration <= 0)
             {
-                if (ActiveBuffs[i].type == BuffType.TargetLocked)
+                if (ActiveEffects[i].type == EffectType.TargetLocked)
                 {
-                    TakeDamage(ActiveBuffs[i].intensity);
+                    var (result, damageDone) = TakeDamage(ActiveEffects[i].intensity);
+                    BattleUIManager.Instance.AddLog($"Target Locked activates! dealing {damageDone} damage!");
                 }
-                ActiveBuffs.RemoveAt(i);
+
+                ActiveEffects.RemoveAt(i);
             }
         }
+
+        // Immediately refresh UI so you never show duration=0
+        BattleUIManager.Instance.UpdateEffectsUI(this,
+            this is DoobieInstance
+                ? BattleUIManager.Instance.DoobieEffectsContainer
+                : BattleUIManager.Instance.VangurrEffectsContainer
+        );
     }
+
     public float GetEffectiveDefence()
     {
         float defence = CurrentDefence;
 
-        foreach (var Buffs in ActiveBuffs)
+        foreach (var Effects in ActiveEffects)
         {
-            if (Buffs.type == BuffType.DefenceDown)
+            if (Effects.type == EffectType.DefenceDown)
             {
-                int i = Buffs.intensity;
-                while (i > 1)
-                {
+                for (int i = 0; i < Effects.intensity; i++)
                     defence *= 0.8f;
-                    i--;
-                }
             }
-            else if (Buffs.type == BuffType.Harden)
+            else if (Effects.type == EffectType.Harden)
             {
-                int i = Buffs.intensity;
-                while (i > 1)
-                {
+                for (int i = 0; i < Effects.intensity; i++)
                     defence *= 1.2f;
-                    i--;
-                }
             }
         }
 

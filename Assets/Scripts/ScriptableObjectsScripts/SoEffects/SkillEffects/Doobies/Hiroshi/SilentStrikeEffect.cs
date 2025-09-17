@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Skill/Effects/Hiroshi/SilentStrike")]
+[CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Hiroshi/SilentStrike")]
 public class SilentStrikeEffect : SkillEffectSO
 {
     /// <summary>
@@ -14,8 +14,8 @@ public class SilentStrikeEffect : SkillEffectSO
         // Get the base damage (weapon or spell-defined)
         int baseDamage = user.GetEffectiveWeaponDamage();
 
-        // Apply buffs/debuffs that modify outgoing damage
-        int finalDamage = user.GetEffectiveWeaponDamageAfterBuffs(baseDamage);
+        // Apply effects that modify outgoing damage
+        int finalDamage = user.GetEffectiveWeaponDamageAfterEffects(baseDamage);
 
         // Deal damage
         int targetBefore = target.CurrentHealth;
