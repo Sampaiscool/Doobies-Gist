@@ -31,4 +31,6 @@ public enum EffectType
     Regeneration,               // Buff - Each turn; heal equal to its intensity
     HealingStrenghten,          // Buff - Increases your healing
     HealingWeaken,              // Debuff - Decreases your healing
+    Barrel,                     // ??? - Once somebody uses a basic attack; explode the barrel, Deal damage to the one who did not destroy the barrel equel to the intensity.
+    Enflame,                    // Buff - On a Weapon Style Attack; Give the target "burn"
 }

@@ -38,6 +38,12 @@ public class DoobieInstance : CombatantInstance
             case ResourceType.Zurp:
                 MainResource = new ZurpResource(_so.baseResourceMax);
                 break;
+            case ResourceType.Health:
+                MainResource = new HealthResource(_so.baseResourceMax);
+                break;
+            case ResourceType.Rum:
+                MainResource = new RumResource(_so.baseResourceMax);
+                break;
             default:
                 MainResource = null;
                 break;
@@ -51,7 +57,8 @@ public class DoobieInstance : CombatantInstance
                 upgrade.cost,
                 upgrade.type,
                 upgrade.Pool,
-                upgrade.intensity
+                upgrade.intensity,
+                upgrade.isCurse
             )
             {
                 icon = upgrade.icon

@@ -19,7 +19,7 @@ public class JaggedRockEffect : SkillEffectSO
         // 50% chance to stun for 1 turn
         if (UnityEngine.Random.value <= 0.5f)
         {
-            target.AddEffect(new Effect(EffectType.Stun, 1, true, 1));
+            target.AddEffect(new Effect(EffectType.Stun, 2, true, 1));
             return $"{user.CharacterName} hurls a jagged rock at {target.CharacterName}, " +
                    $"dealing {actualTargetDmg} damage and stunning them for 1 turn!";
         }

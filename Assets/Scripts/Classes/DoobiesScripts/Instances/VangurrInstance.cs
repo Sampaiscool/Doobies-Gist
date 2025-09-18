@@ -32,7 +32,8 @@ public class VangurrInstance : CombatantInstance
                 upgrade.cost,
                 upgrade.type,
                 upgrade.Pool,
-                upgrade.intensity
+                upgrade.intensity,
+                upgrade.isCurse
             )
             {
                 icon = upgrade.icon

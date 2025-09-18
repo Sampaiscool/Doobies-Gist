@@ -12,6 +12,9 @@ public class DoobieSO : ScriptableObject, ICombatantSO
 
     public ResourceType doobieMainResource;
 
+    public ScriptableObject resourceActionSO;
+    public ScriptableObject doobieActionSO;
+
     public int baseResourceMax;
 
     public int skillDmg;

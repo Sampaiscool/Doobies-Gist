@@ -3166,6 +3166,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 6dd4f7a579c9caf41a75a8ea2e8b7ffc, type: 2}
     - {fileID: 11400000, guid: 07506404b8f16454bacc5174c5288479, type: 2}
     - {fileID: 11400000, guid: 4d90906ebd892014ab655987a5527fff, type: 2}
+    - {fileID: 11400000, guid: d09e2dc27d3bb8d459ef972f4ff45044, type: 2}
+    - {fileID: 11400000, guid: c5c99d495afe34843b968a56d5ba8ad2, type: 2}
+    - {fileID: 11400000, guid: daa094fd1d84ddc4da0bb086da807c79, type: 2}
   - groupName: Hiroshi
     characterPool: 1
     resourceType: 2

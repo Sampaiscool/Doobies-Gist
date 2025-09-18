@@ -39,3 +39,12 @@ MonoBehaviour:
     type: 17
     Pool: 7
     intensity: 1
+    isCurse: 0
+  - upgradeName: Fleeting Life
+    description: After your turn take +1 Damage
+    cost: 0
+    icon: {fileID: 0}
+    type: 19
+    Pool: 7
+    intensity: 5
+    isCurse: 1

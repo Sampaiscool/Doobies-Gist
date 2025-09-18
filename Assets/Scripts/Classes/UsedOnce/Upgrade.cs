@@ -12,8 +12,9 @@ public class Upgrade
     public UpgradeNames type;
     public CharacterPool Pool;
     public int intensity;
+    public bool isCurse = false;
 
-    public Upgrade(string name, string desc, int cost, UpgradeNames type, CharacterPool pool, int intensity)
+    public Upgrade(string name, string desc, int cost, UpgradeNames type, CharacterPool pool, int intensity, bool isCurse)
     {
         this.upgradeName = name;
         this.description = desc;
@@ -21,6 +22,7 @@ public class Upgrade
         this.type = type;
         this.Pool = pool;
         this.intensity = intensity;
+        this.isCurse = isCurse;
     }
 }
 
@@ -54,4 +56,9 @@ public enum UpgradeNames
     CriticalMonster,                      //None
     FlowersOfRot,                         //Phrox
     TargetFound,                          //None
+
+    FleetingLife,                         //None - Curse
+    SpellSorcerer,                        //None
+    PowerSpells,                          //None
+    FireFlies,                            //None
 }

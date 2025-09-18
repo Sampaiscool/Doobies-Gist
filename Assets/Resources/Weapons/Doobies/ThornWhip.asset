@@ -17,7 +17,7 @@ MonoBehaviour:
   animation: {fileID: 0}
   baseDamage: 1
   baseCritChance: 10
-  missChance: 0.4
+  missChance: 0.7
   basicAttack:
     damage: 0
     type: 0

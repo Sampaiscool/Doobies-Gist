@@ -13,4 +13,5 @@ public enum CharacterPool
     CultistMember,      // Vangurr
     GiggyGrass,         // Vangurr
     Phlox,              // Doobie
+    CobbSilverEye,      // Doobie
 }

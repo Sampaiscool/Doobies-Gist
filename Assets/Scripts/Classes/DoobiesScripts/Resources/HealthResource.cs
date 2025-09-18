@@ -2,17 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthResource
+[System.Serializable]
+public class HealthResource : IResource
 {
-    // Start is called before the first frame update
-    void Start()
+    public ResourceType Type => ResourceType.Health;
+
+    public int Current { get; private set; }
+    public int Max { get; private set; }
+
+    public HealthResource(int max)
     {
-        
+        Max = max;
+        Current = max;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Gain(int amount)
     {
-        
+        Current = Mathf.Min(Current + amount, Max);
+    }
+    public void GainMax(int amount)
+    {
+        Max += amount;
+    }
+
+    public bool Spend(int amount)
+    {
+        if (Current < amount) return false;
+        Current -= amount;
+        return true;
     }
 }
+

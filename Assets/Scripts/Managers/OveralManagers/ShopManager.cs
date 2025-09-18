@@ -62,7 +62,8 @@ public class ShopManager : MonoBehaviour
                 chosen.cost,
                 chosen.type,
                 chosen.pool,
-                chosen.intensity
+                chosen.intensity,
+                chosen.isCurse
             )
             {
                 icon = chosen.icon

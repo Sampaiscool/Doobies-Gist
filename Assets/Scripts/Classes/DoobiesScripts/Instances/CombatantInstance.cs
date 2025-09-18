@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public abstract class CombatantInstance
 {
 
-    public Transform animationAnchor;
+    public UnityEngine.Transform animationAnchor;
 
     public abstract ScriptableObject so { get; }
     public abstract string CharacterName { get; }
@@ -37,7 +38,18 @@ public abstract class CombatantInstance
         int healAmount = Mathf.Min(effectiveHeal, MaxHealth - CurrentHealth);
         CurrentHealth += healAmount;
 
-        CheckForOnHealEffects();
+        if (healAmount > 0)
+        {
+            CheckForOnHealEffects();
+            if (this is VangurrInstance vangurr)
+            {
+                BattleUIManager.Instance.SpawnFloatingText("+" + healAmount, Color.green, BattleUIManager.Instance.VangurrHP.transform, false);
+            }
+            else
+            {
+                BattleUIManager.Instance.SpawnFloatingText("+" + healAmount, Color.green, BattleUIManager.Instance.DoobieHP.transform, false);
+            }
+        }
 
         BattleUIManager.Instance.AddLog($"{CharacterName} heals for {healAmount}!");
 
@@ -88,7 +100,18 @@ public abstract class CombatantInstance
 
         CurrentHealth = Mathf.Max(CurrentHealth - reducedDamage, 0);
 
-        HandleOnDamage(reducedDamage);
+        if (reducedDamage > 0)
+        {
+            HandleOnDamage(reducedDamage);
+            if (this is VangurrInstance vangurr)
+            {
+                BattleUIManager.Instance.SpawnFloatingText("-" + reducedDamage, Color.red, BattleUIManager.Instance.VangurrHP.transform, true);
+            }
+            else
+            {
+                BattleUIManager.Instance.SpawnFloatingText("-" + reducedDamage, Color.red, BattleUIManager.Instance.DoobieHP.transform, true);
+            }
+        }
 
         // Trigger hit animation if available
         GameObject HitAnimationPrefab = GameManager.Instance.damageAnimationPrefab;
@@ -304,7 +327,8 @@ public abstract class CombatantInstance
         var (result, actualDamage) = target.TakeDamage(finalDamage);
 
         // Apply all upgrade effects
-        ApplyUpgradeEffectsOnBasicAttack(target);
+        ApplyEffectsOnBasicAttack(target);
+        CheckForWeaponOnUseEffects();
 
         switch (result)
         {
@@ -364,8 +388,6 @@ public abstract class CombatantInstance
                     break;
             }
         }
-
-        CheckForWeaponOnUseEffects();
 
         return Mathf.Max(modifiedDamage, 0);
     }
@@ -477,6 +499,12 @@ public abstract class CombatantInstance
                     {
                         GameManager.Instance.currentDoobie.TakeDamage(upgrade.intensity);
                     }
+                    BattleUIManager.Instance.AddLog("Spellslinger Activates!");
+                    break;
+                case UpgradeNames.SpellSorcerer:
+                     AddEffect(new Effect(EffectType.SpellStrenghten, 3 ,false, upgrade.intensity));
+                    break;
+                default:
                     break;
             }
         }
@@ -531,15 +559,28 @@ public abstract class CombatantInstance
         }
         if (ActiveEffects != null)
         {
-            foreach (var effect in ActiveEffects)
+            var effectsSnapshot = new List<Effect>(ActiveEffects);
+
+            for (int i = 0; i < effectsSnapshot.Count; i++)
             {
+                var effect = effectsSnapshot[i];
                 switch (effect.type)
                 {
-                    case EffectType.Bleed:
-                        for (int i = 0; i < effect.intensity; i++)
+                    case  EffectType.Bleed:
+                        for (int j = 0; j < effect.intensity; j++)
                         {
                             var (result, damageDone) = TakeDamage(1, false);
                             BattleUIManager.Instance.AddLog($"{CharacterName} takes {damageDone} bleed damage!");
+                        }
+                        break;
+                    case EffectType.Enflame:
+                        if (this is DoobieInstance)
+                        {
+                            GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Burn, 2, true, effect.intensity));
+                        }
+                        else
+                        {
+                            GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Burn, 2, true, effect.intensity));
                         }
                         break;
                     default:
@@ -547,6 +588,7 @@ public abstract class CombatantInstance
                 }
             }
         }
+
     }
     public void CheckForOnHealEffects()
     {
@@ -556,7 +598,7 @@ public abstract class CombatantInstance
             {
                 case UpgradeNames.FlowersOfRot:
                     AddEffect(new Effect(EffectType.HealingStrenghten, 1, false, upgrade.intensity));
-                    if (this is DoobieInstance doobie)
+                    if (this is DoobieInstance)
                     {
                         GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.TargetLocked, 2, true, upgrade.intensity));
                     }
@@ -564,21 +606,49 @@ public abstract class CombatantInstance
                     {
                         GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.TargetLocked, 2, true, upgrade.intensity));
                     }
-                        break;
+                    break;
+                case UpgradeNames.FireFlies:
+                    if (this is DoobieInstance)
+                    {
+                        GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Burn, 2, true, upgrade.intensity));
+                    }
+                    else
+                    {
+                        GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Burn, 2, true, upgrade.intensity));
+                    }
+                    break;
             }
         }
     }
 
-    protected void ApplyUpgradeEffectsOnBasicAttack(CombatantInstance target)
+    protected void ApplyEffectsOnBasicAttack(CombatantInstance target)
     {
-        if (ActiveUpgrades == null) return;
-
         foreach (var upgrade in ActiveUpgrades)
         {
             switch (upgrade.type)
             {
                 case UpgradeNames.Firebrand:
                     target.AddEffect(new Effect(EffectType.Burn, 3, true, upgrade.intensity)); 
+                    break;
+            }
+        }
+        foreach (var effect in ActiveEffects)
+        {
+            switch (effect.type)
+            {
+                case EffectType.Barrel:
+                    if (this is DoobieInstance)
+                    {
+                        var (result, damageDone) = GameManager.Instance.currentVangurr.TakeDamage(effect.intensity, false, true);
+                        BattleUIManager.Instance.AddLog($"{CharacterName} explodes the {effect.intensity} barrels!");
+                    }
+                    else
+                    {
+                        var (result, damageDone) = GameManager.Instance.currentDoobie.TakeDamage(effect.intensity, false, true);
+                        BattleUIManager.Instance.AddLog($"{GameManager.Instance.currentVangurr.CharacterName} explodes the {effect.intensity} barrels!");
+                    }
+                        break;
+                default:
                     break;
             }
         }
@@ -602,6 +672,20 @@ public abstract class CombatantInstance
                 if (this is DoobieInstance doobie && doobie.MainResource != null && doobie.MainResource.Type == ResourceType.Zurp)
                 {
                     doobie.MainResource.Gain(whiteFlowerUpgrade.intensity);
+                }
+            }
+        }
+
+        if (newEffect.type == EffectType.SpellWeaken)
+        {
+            Upgrade powerSpells = ActiveUpgrades.Find(b => b.type == UpgradeNames.PowerSpells);
+            if (powerSpells != null)
+            {
+                Effect spellWeaken = ActiveEffects.Find(s => s.type == EffectType.SpellWeaken);
+                if (spellWeaken != null)
+                {
+                    spellWeaken.duration -= powerSpells.intensity;
+                    spellWeaken.intensity -= powerSpells.intensity;
                 }
             }
         }
@@ -639,7 +723,7 @@ public abstract class CombatantInstance
 
         AddEffectUpgradesCheck(newEffect);
 
-        Transform effectContainer = this is DoobieInstance
+        UnityEngine.Transform effectContainer = this is DoobieInstance
             ? BattleUIManager.Instance.DoobieEffectsContainer
             : BattleUIManager.Instance.VangurrEffectsContainer;
 

@@ -15,6 +15,9 @@ public struct EffectVisual
 
 public class BattleUIManager : MonoBehaviour
 {
+    [Header("GeneralUI")]
+    public TMP_Text nextButtontext;
+
     [Header("Doobie UI")]
     public Image DoobieImage;
     public TMP_Text DoobieName;
@@ -29,6 +32,10 @@ public class BattleUIManager : MonoBehaviour
     public Image VangurrImage;
     public TMP_Text VangurrName;
     public TMP_Text VangurrHP;
+
+    [Header("Floating HP Text")]
+    public GameObject floatingTextPrefab;   // assign prefab in inspector
+    public Transform worldCanvas;           // the canvas to spawn under
 
     [Header("Panels")]
     public GameObject SkillDescriptionPanel;
@@ -318,6 +325,25 @@ public class BattleUIManager : MonoBehaviour
     {
         SkillDescriptionPanel.SetActive(false);
     }
+    public void SpawnFloatingText(string message, Color color, Transform anchor, bool isDamage)
+    {
+        if (floatingTextPrefab == null || anchor == null) return;
+
+        // Spawn as a child of the anchor
+        GameObject obj = Instantiate(floatingTextPrefab, anchor, false);
+        FloatingHPText ft = obj.GetComponent<FloatingHPText>();
+
+        // Reset local transform so it sits right on anchor
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localScale = Vector3.one;
+
+        // Direction: damage goes down, heal goes up
+        Vector3 dir = isDamage ? Vector3.down : Vector3.up;
+
+        ft.Setup(message, color, dir);
+    }
+
+
     private IEnumerator SlideInAfterLayout(GameObject entryGO, float duration)
     {
         // Wait until layout is updated

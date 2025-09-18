@@ -10,4 +10,5 @@ public class UpgradeSO : ScriptableObject
     public UpgradeNames type;
     public CharacterPool pool;
     public int intensity;
+    public bool isCurse;
 }
