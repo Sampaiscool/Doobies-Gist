@@ -17,6 +17,9 @@ public class YippieHibbelEffect : LocationEffectSO
                 GameManager.Instance.currentDoobie.MaxHealth += 5;
                 GameManager.Instance.currentDoobie.CurrentHealth += 5;
                 break;
+            case ResourceType.Rum:
+                GameManager.Instance.currentDoobie.MainResource.GainMax(5);
+                break;
             default:
                 break;
         }

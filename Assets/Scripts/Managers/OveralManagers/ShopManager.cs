@@ -14,37 +14,48 @@ public class ShopManager : MonoBehaviour
 {
     public int refreshCost = 50;
 
+    [SerializeField, Range(0f, 1f)] private float goldenChance = 0.01f;
+    private bool isGoldenRound = false;
+
     [SerializeField] private Transform shopContent;
     [SerializeField] private UpgradeButton upgradeButtonPrefab;
 
     private bool shopInitialized = false;
     private List<Upgrade> currentUpgrades = new List<Upgrade>();
 
+    private Upgrade frozenUpgrade;
+    public Upgrade FrozenUpgrade => frozenUpgrade;
+
     [Header("Organized Upgrade Pools")]
     [SerializeField] private List<UpgradeGroup> upgradeGroups;
 
     public List<Upgrade> GenerateRandomUpgrades(int count, CharacterPool currentPool, ResourceType mainResource)
     {
+        isGoldenRound = Random.value < goldenChance;
+
         var pool = new List<UpgradeSO>();
 
-        foreach (var group in upgradeGroups)
+        if (isGoldenRound)
         {
-            // 1. Generic upgrades
-            if (group.characterPool == CharacterPool.None && group.resourceType == ResourceType.None)
+            // Only from golden group
+            foreach (var group in upgradeGroups)
             {
-                pool.AddRange(group.upgrades);
+                if (group.characterPool == CharacterPool.Golden)
+                    pool.AddRange(group.upgrades);
             }
-
-            // 2. Doobie-specific upgrades
-            if (group.characterPool == currentPool)
+        }
+        else
+        {
+            foreach (var group in upgradeGroups)
             {
-                pool.AddRange(group.upgrades);
-            }
+                if (group.characterPool == CharacterPool.None && group.resourceType == ResourceType.None)
+                    pool.AddRange(group.upgrades);
 
-            // 3. Main resource upgrades
-            if (group.resourceType == mainResource)
-            {
-                pool.AddRange(group.upgrades);
+                if (group.characterPool == currentPool)
+                    pool.AddRange(group.upgrades);
+
+                if (group.resourceType == mainResource)
+                    pool.AddRange(group.upgrades);
             }
         }
 
@@ -78,6 +89,13 @@ public class ShopManager : MonoBehaviour
     public void OpenShop(List<Upgrade> upgradesForSale)
     {
         currentUpgrades = upgradesForSale;
+
+        // Ensure frozen upgrade stays
+        if (frozenUpgrade != null && !currentUpgrades.Contains(frozenUpgrade))
+        {
+            currentUpgrades[0] = frozenUpgrade;
+        }
+
         shopInitialized = true;
 
         // Clear old buttons
@@ -85,26 +103,37 @@ public class ShopManager : MonoBehaviour
             Destroy(child.gameObject);
 
         // Spawn new buttons
-        foreach (var upgrade in upgradesForSale)
+        foreach (var upgrade in currentUpgrades)
         {
             UpgradeButton btn = Instantiate(upgradeButtonPrefab, shopContent);
             btn.Setup(upgrade, HandleBuyUpgrade);
+
+            if (frozenUpgrade == upgrade)
+            {
+                btn.SetFrozenVisual(true);
+                btn.SetLocked(true); // locked so can’t be bought
+            }
         }
 
-        Debug.Log("Shop opened with " + upgradesForSale.Count + " upgrades.");
+        Debug.Log("Shop opened with " + currentUpgrades.Count + " upgrades.");
     }
+
     private void HandleBuyUpgrade(Upgrade upgrade)
     {
+        if (frozenUpgrade == upgrade)
+        {
+            Debug.Log("Cannot buy frozen upgrade: " + upgrade.upgradeName);
+            return;
+        }
+
         if (!GameManager.Instance.ChangeSploont(upgrade.cost, false))
         {
             Debug.Log("Not enough Sploont to buy " + upgrade.upgradeName);
             return;
         }
 
-        // Give the upgrade to the player (stacking allowed)
         GameManager.Instance.currentDoobie.AddUpgrade(upgrade);
 
-        // Remove only the button visually, but keep the upgrade in the pool
         foreach (Transform child in shopContent)
         {
             UpgradeButton btn = child.GetComponent<UpgradeButton>();
@@ -115,9 +144,7 @@ public class ShopManager : MonoBehaviour
             }
         }
 
-        // Remove from current shop list to prevent duplicate buttons in the same refresh
         currentUpgrades.Remove(upgrade);
-
         Debug.Log($"Bought {upgrade.upgradeName} for {upgrade.cost} gold!");
     }
 
@@ -136,19 +163,44 @@ public class ShopManager : MonoBehaviour
 
         if (!shopInitialized) return;
 
-        // Get the current character pool
         var currentDoobie = GameManager.Instance.currentDoobie;
         var currentPool = currentDoobie._so.characterPool;
         var mainResource = currentDoobie._so.doobieMainResource;
 
         List<Upgrade> newUpgrades = GenerateRandomUpgrades(count, currentPool, mainResource);
+
+        // If frozen, make sure it’s still in the shop
+        if (frozenUpgrade != null)
+        {
+            newUpgrades[0] = frozenUpgrade; // replace first slot
+        }
+
         OpenShop(newUpgrades);
+    }
+
+    public void FreezeUpgrade(Upgrade upgrade)
+    {
+        if (frozenUpgrade == upgrade)
+        {
+            frozenUpgrade = null; // unfreeze
+            Debug.Log("Upgrade unfrozen: " + upgrade.upgradeName);
+        }
+        else
+        {
+            frozenUpgrade = upgrade;
+            Debug.Log("Upgrade frozen: " + upgrade.upgradeName);
+        }
     }
 
     public void ResetShop()
     {
         shopInitialized = false;
         currentUpgrades.Clear();
+
+        if (frozenUpgrade != null)
+        {
+            currentUpgrades.Add(frozenUpgrade);
+        }
 
         foreach (Transform child in shopContent)
             Destroy(child.gameObject);

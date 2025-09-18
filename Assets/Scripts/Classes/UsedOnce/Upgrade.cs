@@ -61,4 +61,8 @@ public enum UpgradeNames
     SpellSorcerer,                        //None
     PowerSpells,                          //None
     FireFlies,                            //None
+
+    VineLash,                             //Phrox
+    TargetGarden,                         //Phrox
+    FeelingGreen,                         //Phrox
 }

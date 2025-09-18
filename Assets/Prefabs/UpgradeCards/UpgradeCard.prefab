@@ -131,6 +131,7 @@ MonoBehaviour:
   upgradeNameText: {fileID: 3769503597205441261}
   intensity: {fileID: 9171795381951922694}
   upgradeImage: {fileID: 1942541904487900264}
+  backgroundImage: {fileID: 9094535641163754897}
 --- !u!114 &5324066673702335657
 MonoBehaviour:
   m_ObjectHideFlags: 0

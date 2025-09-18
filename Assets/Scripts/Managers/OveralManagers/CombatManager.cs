@@ -94,13 +94,23 @@ public class CombatManager : MonoBehaviour
         // Resource-specific button
         if (player.so is DoobieSO doobieSO && doobieSO.resourceActionSO is IResourceAction resource)
         {
-            CreateButton(resource.ActionName, () => resource.Execute(player, enemyVangurr));
+            CreateButton(resource.ActionName, () =>
+            {
+                bool success = resource.Execute(player, enemyVangurr);
+                if (success) OnActionButtonClicked();
+                else BattleUIManager.UpdateUI();
+            });
         }
 
         // Doobie-specific button
         if (player.so is DoobieSO doobieSO2 && doobieSO2.doobieActionSO is IDoobieAction action)
         {
-            CreateButton(action.ActionName, () => action.Execute(player, enemyVangurr));
+            CreateButton(action.ActionName, () =>
+            {
+                bool success = action.Execute(player, enemyVangurr);
+                if (success) OnActionButtonClicked();
+                else BattleUIManager.UpdateUI();
+            });
         }
 
         // Force UI rebuild so layout shows right away
@@ -115,16 +125,12 @@ public class CombatManager : MonoBehaviour
     {
         if (ButtonPrefab == null || ButtonContainer == null) return;
 
-        // instantiate without automatic parenting and then set parent with worldPositionStays=false
-        GameObject obj = Instantiate(ButtonPrefab);
-        obj.transform.SetParent(ButtonContainer, false); // false keeps prefab's local transform suitable for UI
+        GameObject obj = Instantiate(ButtonPrefab, ButtonContainer, false);
         obj.SetActive(true);
 
-        // set label
         var tmp = obj.GetComponentInChildren<TextMeshProUGUI>();
         if (tmp != null) tmp.text = label;
 
-        // hook up click
         var btn = obj.GetComponent<Button>();
         if (btn != null)
         {
@@ -136,10 +142,16 @@ public class CombatManager : MonoBehaviour
             Debug.LogWarning("[CombatManager] Instantiated button prefab has no Button component.");
         }
 
-        // small debug
         Debug.Log($"[CombatManager] Created button '{label}'");
     }
+    private void OnActionButtonClicked()
+    {
+        BattleUIManager.UpdateUI();
 
+        waitingForNext = true;
+        currentPhase = TurnPhase.EnemyTurnStart;
+        IsPlayerTurn = false;
+    }
 
     // ---------- Player input handlers ----------
     private void OnAttackButtonClicked()
@@ -198,24 +210,6 @@ public class CombatManager : MonoBehaviour
         string result = chosenSkill.UseSkill(playerDoobie, enemyVangurr);
         Debug.Log(result);
         BattleUIManager.AddLog(result);
-        BattleUIManager.UpdateUI();
-
-        // finalize player action -> require Next to proceed
-        waitingForNext = true;
-        currentPhase = TurnPhase.EnemyTurnStart;
-        IsPlayerTurn = false;
-    }
-
-    void OnHealButtonClicked()
-    {
-        if (currentPhase != TurnPhase.PlayerAction || waitingForNext) return;
-
-        float multiplier = UnityEngine.Random.Range(0.5f, 1.5f);
-        int healed = Mathf.RoundToInt(playerDoobie.CurrentHealPower * multiplier);
-        int actualHealed = playerDoobie.HealCombatant(healed);
-
-        string combatResult = $"{playerDoobie.CharacterName} heals for {actualHealed} health!";
-        BattleUIManager.AddLog(combatResult);
         BattleUIManager.UpdateUI();
 
         // finalize player action -> require Next to proceed
@@ -453,7 +447,15 @@ public class CombatManager : MonoBehaviour
         {
             int healed = combatant.HealCombatant(regen.intensity);
             if (healed > 0)
+            {
                 BattleUIManager.Instance.AddLog($"{name} regenerates {healed} HP.");
+
+                Upgrade feelingGreenUpgrade = combatant.ActiveUpgrades.Find(f => f.type == UpgradeNames.FeelingGreen);
+                if (feelingGreenUpgrade != null)
+                {
+                    combatant.HealCombatant(feelingGreenUpgrade.intensity);
+                }
+            }
         }
 
         // --- Burn ---
@@ -463,6 +465,7 @@ public class CombatManager : MonoBehaviour
             BattleUIManager.Instance.AddLog($"{name} takes {damageDone} burn damage!");
         }
 
+        // --- Fleeting Life ---
         foreach (var upgrade in combatant.ActiveUpgrades.FindAll(e => e.type == UpgradeNames.FleetingLife))
         {
             var (result, damageDone) = combatant.TakeDamage(upgrade.intensity);

@@ -6,7 +6,7 @@ using UnityEngine;
 public class RumActionSO : ScriptableObject, IResourceAction
 {
     public string ActionName => "Make Rum";
-    public void Execute(CombatantInstance user, CombatantInstance target)
+    public bool Execute(CombatantInstance user, CombatantInstance target)
     {
         if (user is DoobieInstance doobie && doobie.MainResource is RumResource rum)
         {
@@ -37,5 +37,6 @@ public class RumActionSO : ScriptableObject, IResourceAction
                 user.AddEffect(new Effect(EffectType.Harden, 5, true, 3));
             }
         }
+        return true;
     }
 }

@@ -218,7 +218,9 @@ public class BattleUIManager : MonoBehaviour
 
         if (extraText != null)
         {
-            if (combatant is DoobieInstance doobie && doobie.MainResource != null)
+            if (combatant is DoobieInstance doobie &&
+                doobie.MainResource != null &&
+                doobie.MainResource.Type != ResourceType.Health)
             {
                 extraText.text = $"{doobie.MainResource.Current}/{doobie.MainResource.Max} {doobie.MainResource.Type}";
                 extraText.gameObject.SetActive(true);
@@ -228,6 +230,7 @@ public class BattleUIManager : MonoBehaviour
                 extraText.gameObject.SetActive(false);
             }
         }
+
     }
 
     public void UpdateEffectsUI(CombatantInstance combatant, Transform effectContainer)
@@ -329,20 +332,22 @@ public class BattleUIManager : MonoBehaviour
     {
         if (floatingTextPrefab == null || anchor == null) return;
 
-        // Spawn as a child of the anchor
         GameObject obj = Instantiate(floatingTextPrefab, anchor, false);
         FloatingHPText ft = obj.GetComponent<FloatingHPText>();
 
-        // Reset local transform so it sits right on anchor
         obj.transform.localPosition = Vector3.zero;
         obj.transform.localScale = Vector3.one;
 
-        // Direction: damage goes down, heal goes up
-        Vector3 dir = isDamage ? Vector3.down : Vector3.up;
+        // Base direction
+        Vector3 baseDir = isDamage ? Vector3.down : Vector3.up;
 
-        ft.Setup(message, color, dir);
+        // Add random offset in X/Y
+        float angle = Random.Range(-30f, 30f);
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+        Vector3 dir = rotation * baseDir;
+
+        ft.Setup(message, color, dir.normalized);
     }
-
 
     private IEnumerator SlideInAfterLayout(GameObject entryGO, float duration)
     {

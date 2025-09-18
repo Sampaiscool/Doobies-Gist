@@ -5,6 +5,6 @@ using UnityEngine;
 public interface IResourceAction
 {
     string ActionName { get; }
-    void Execute(CombatantInstance user, CombatantInstance target);
+    bool Execute(CombatantInstance user, CombatantInstance target);
 }
 

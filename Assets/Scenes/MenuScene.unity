@@ -2548,7 +2548,7 @@ GameObject:
   - component: {fileID: 1477478690}
   - component: {fileID: 1477478689}
   m_Layer: 5
-  m_Name: Button
+  m_Name: DebugButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2702,7 +2702,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 0.000045776367}
   m_SizeDelta: {x: 0, y: 933.52}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1529649243
@@ -3328,7 +3328,7 @@ MonoBehaviour:
   CurrentPlayerHP: 20
   CombatManager: {fileID: 0}
   damageAnimationPrefab: {fileID: 3277231419243905917, guid: fb1d3b6dc5160dc419114ab272462ba7, type: 3}
-  debugMode: 1
+  debugMode: 0
   HasDoneTutorial: 0
 --- !u!1 &2066916025
 GameObject:
@@ -3654,8 +3654,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 776884010}
   m_HandleRect: {fileID: 776884009}
   m_Direction: 2
-  m_Value: 1.015625
-  m_Size: 0.96922654
+  m_Value: 1
+  m_Size: 0.9999958
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

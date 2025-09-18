@@ -44,6 +44,11 @@ public class MenuManager : MonoBehaviour
     {
         GameManager.Instance.debugMode = !GameManager.Instance.debugMode;
         Debug.Log("Debug Mode: " + GameManager.Instance.debugMode);
+        if (GameManager.Instance.debugMode)
+        {
+            GameManager.Instance.ChangeSploont(999999, true);
+            GameManager.Instance.ChangeHp(99999, true, true);
+        }
     }
 
     public void OpenDoobies()

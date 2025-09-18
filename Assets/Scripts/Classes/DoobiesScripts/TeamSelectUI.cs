@@ -63,6 +63,8 @@ public class TeamSelectUI : MonoBehaviour
 
     public void UpdateTeamUI()
     {
+        LoadDoobies();
+
         // Clear previous contents
         foreach (Transform child in teamSlots[0].transform)
             Destroy(child.gameObject);

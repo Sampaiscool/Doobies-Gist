@@ -102,7 +102,7 @@ public abstract class CombatantInstance
 
         if (reducedDamage > 0)
         {
-            HandleOnDamage(reducedDamage);
+            HandleOnDamage(reducedDamage, isSkill);
             if (this is VangurrInstance vangurr)
             {
                 BattleUIManager.Instance.SpawnFloatingText("-" + reducedDamage, Color.red, BattleUIManager.Instance.VangurrHP.transform, true);
@@ -237,7 +237,13 @@ public abstract class CombatantInstance
 
         return false;
     }
-    private bool HandleOnDamage(int damage)
+    /// <summary>
+    /// Handles effects that happen when a Combatant takes more then 0 dmg
+    /// </summary>
+    /// <param name="damage">the damage that is done</param>
+    /// <param name="isSkill">if the damage came from a skill</param>
+    /// <returns>Wheter something happened</returns>
+    private bool HandleOnDamage(int damage, bool isSkill)
     {
         Effect vampireCurse = ActiveEffects.Find(b => b.type == EffectType.VampireCurse);
         if (vampireCurse != null)
@@ -330,6 +336,12 @@ public abstract class CombatantInstance
         ApplyEffectsOnBasicAttack(target);
         CheckForWeaponOnUseEffects();
 
+        // Attacker's barrels explode onto the target
+        ExplodeBarrels(this, target, false, false);
+
+        // Defender's barrels explode back onto themselves
+        ExplodeBarrels(target, this, true, false);
+
         switch (result)
         {
             case DamageResult.Deflected:
@@ -350,7 +362,11 @@ public abstract class CombatantInstance
                 return $"{CharacterName} attacks, but something strange happens...";
         }
     }
-
+    /// <summary>
+    /// Apply all on crit effects/upgrades and double the damage
+    /// </summary>
+    /// <param name="baseDamage">base damage</param>
+    /// <returns>damage after all effects/upgrades</returns>
     public int ApplyCriticalHitEffects(int baseDamage)
     {
         int modifiedDamage = baseDamage;
@@ -368,6 +384,7 @@ public abstract class CombatantInstance
                     break;
             }
         }
+        modifiedDamage *= 2;
         return modifiedDamage;
     }
     public int GetEffectiveWeaponDamageAfterEffects(int baseDamage)
@@ -617,6 +634,30 @@ public abstract class CombatantInstance
                         GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Burn, 2, true, upgrade.intensity));
                     }
                     break;
+                case UpgradeNames.VineLash:
+                    if (this is DoobieInstance)
+                    {
+                        GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Vines, 2, true, upgrade.intensity));
+                    }
+                    else
+                    {
+                        GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Vines, 2, true, upgrade.intensity));
+                    }
+                    break;
+            }
+        }
+        var effectsSnapshot = new List<Effect>(ActiveEffects);
+
+        foreach (var effect in effectsSnapshot)
+        {
+            switch (effect.type)
+            {
+                case EffectType.Vines:
+                    BattleUIManager.Instance.AddLog($"{CharacterName} {effect.intensity} vines activate!");
+                    TakeDamage(effect.intensity);
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -632,22 +673,13 @@ public abstract class CombatantInstance
                     break;
             }
         }
-        foreach (var effect in ActiveEffects)
+
+        var effectsSnapshot = new List<Effect>(ActiveEffects);
+
+        foreach (var effect in effectsSnapshot)
         {
             switch (effect.type)
             {
-                case EffectType.Barrel:
-                    if (this is DoobieInstance)
-                    {
-                        var (result, damageDone) = GameManager.Instance.currentVangurr.TakeDamage(effect.intensity, false, true);
-                        BattleUIManager.Instance.AddLog($"{CharacterName} explodes the {effect.intensity} barrels!");
-                    }
-                    else
-                    {
-                        var (result, damageDone) = GameManager.Instance.currentDoobie.TakeDamage(effect.intensity, false, true);
-                        BattleUIManager.Instance.AddLog($"{GameManager.Instance.currentVangurr.CharacterName} explodes the {effect.intensity} barrels!");
-                    }
-                        break;
                 default:
                     break;
             }
@@ -761,6 +793,22 @@ public abstract class CombatantInstance
                 {
                     var (result, damageDone) = TakeDamage(ActiveEffects[i].intensity);
                     BattleUIManager.Instance.AddLog($"Target Locked activates! dealing {damageDone} damage!");
+                    if (this is DoobieInstance)
+                    {
+                        var opponentTargetGardenUpgrade = GameManager.Instance.currentVangurr.ActiveUpgrades.Find(u => u.type == UpgradeNames.TargetGarden);
+                        if (opponentTargetGardenUpgrade != null)
+                        {
+                            AddEffect(new Effect(EffectType.Regeneration, 2, true, opponentTargetGardenUpgrade.intensity));
+                        }
+                    }
+                    else
+                    {
+                        var opponentTargetGardenUpgrade = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(u => u.type == UpgradeNames.TargetGarden);
+                        if (opponentTargetGardenUpgrade != null)
+                        {
+                            AddEffect(new Effect(EffectType.Regeneration, 2, true, opponentTargetGardenUpgrade.intensity));
+                        }
+                    } 
                 }
 
                 ActiveEffects.RemoveAt(i);
@@ -795,6 +843,61 @@ public abstract class CombatantInstance
 
         return defence;
     }
+    /// <summary>
+    /// Explode all the barrels on the field
+    /// </summary>
+    /// <param name="owner">Owner of the barrel</param>
+    /// <param name="opponent">The enemy of the owner</param>
+    /// <param name="ownerIsBeingAttacked">wheter the owner of the barrels if being attacked</param>
+    /// <param name="cameFromPistolShot">wheter the call came from a pistol shot</param>
+    public void ExplodeBarrels(CombatantInstance owner, CombatantInstance opponent, bool ownerIsBeingAttacked, bool cameFromPistolShot)
+    {
+        var effectsSnapshot = new List<Effect>(owner.ActiveEffects);
+
+        foreach (var effect in effectsSnapshot)
+        {
+            if (effect.type == EffectType.Barrel)
+            {
+                // If owner is being attacked, they get hurt by their own barrels
+                var victim = ownerIsBeingAttacked ? owner : opponent;
+
+                bool isCrit = Random.Range(0, 100) < GetEffectiveCritChanceAfterEffects(GetEffectiveCritChance());
+
+                int damageBeforeCrit = effect.intensity;
+
+                if (isCrit)
+                {
+                    int damageAfterCrit = ApplyCriticalHitEffects(effect.intensity);
+
+                    damageBeforeCrit = damageAfterCrit;
+                }
+
+                if (cameFromPistolShot)
+                {
+                    damageBeforeCrit *= 2;
+                    if (!ownerIsBeingAttacked)
+                    for (int i = 0; i < effect.intensity; i++)
+                    {
+                        GameManager.Instance.ChangeSploont(10, true);
+                    }
+                    BattleUIManager.Instance.AddLog($"{CharacterName} Gains 10 sploont for each barrel intensity");
+                }
+
+                int finalDamage = damageBeforeCrit;
+
+                var (result, damageDone) = victim.TakeDamage(finalDamage, false, true);
+
+                if (ownerIsBeingAttacked)
+                    BattleUIManager.Instance.AddLog($"{owner.CharacterName}'s barrels explode backfiring \n dealing {damageDone} damage to themselves!\n");
+                else
+                    BattleUIManager.Instance.AddLog($"{owner.CharacterName}'s barrels explode \n blasting {opponent.CharacterName} for {damageDone} damage!");
+
+                owner.ActiveEffects.Remove(effect);
+            }
+        }
+    }
+
+
 
     /// <summary>
     /// Activate the animation of the weapon
@@ -843,4 +946,3 @@ public abstract class CombatantInstance
         GameObject.Destroy(spawned, 2f);
     }
 }
-

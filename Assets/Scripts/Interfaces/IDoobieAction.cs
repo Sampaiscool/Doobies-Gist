@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IDoobieAction
 {
     string ActionName { get; }                // what shows on the button
-    void Execute(CombatantInstance user, CombatantInstance target); // what happens when pressed
+    bool Execute(CombatantInstance user, CombatantInstance target); // what happens when pressed
 }

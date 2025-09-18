@@ -14,7 +14,7 @@ public class BungusBlinkEffect : SkillEffectSO
         // 50% chance
         if (UnityEngine.Random.value <= 0.5f)
         {
-            target.AddEffect(new Effect(EffectType.Stun, 1, true, 1));
+            target.AddEffect(new Effect(EffectType.Stun, 2, true, 1));
             target.AddEffect(new Effect(EffectType.Blind, 2, true, 1));
 
 

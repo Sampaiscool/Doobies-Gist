@@ -14,4 +14,5 @@ public enum CharacterPool
     GiggyGrass,         // Vangurr
     Phlox,              // Doobie
     CobbSilverEye,      // Doobie
+    Golden,             // Doobie
 }

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doobieName: Cobb 'Silver Eye'
   portrait: {fileID: 21300000, guid: 00b0255d617cacb4baea9df4dbf316a9, type: 3}
-  unlockedByDefault: 0
+  unlockedByDefault: 1
   doobieMainResource: 3
-  doobieActionSO: {fileID: 11400000, guid: 80867ef886044d741a27b17e75a23ab1, type: 2}
   resourceActionSO: {fileID: 11400000, guid: 670c08c663566d248b53fdac317b99fa, type: 2}
+  doobieActionSO: {fileID: 11400000, guid: 80867ef886044d741a27b17e75a23ab1, type: 2}
   baseResourceMax: 10
   skillDmg: 5
   healPower: 1
@@ -26,6 +26,8 @@ MonoBehaviour:
   baseHealth: 10
   hasHealth: 1
   baseSkills:
+  - {fileID: 11400000, guid: 758dd1efb13c7984a8b78c5b1285f9ca, type: 2}
   - {fileID: 11400000, guid: deed7f2d89da20a4c87155a02d39b53e, type: 2}
+  - {fileID: 11400000, guid: 50c2097979472db4f9fcaa70b872f9fd, type: 2}
   defaultWeapon: {fileID: 11400000, guid: ff607b903afa57f478dd842d6fab23c0, type: 2}
   startingUpgrades: []

@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public DoobieInstance currentDoobie; //The players current Doobie
     public VangurrInstance currentVangurr; //The Chosen Vangurr the player is going to fight / is fighting.
 
-    public int CurrentPlayerSploont = 0; //The players current Money 1
+    public int CurrentPlayerSploont = 0; //The players current Money 
     public int CurrentPlayerHP = 20;
     public CombatManager CombatManager;
     public GameObject damageAnimationPrefab;
@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
         }
         else Destroy(gameObject);
     }
+
 
     public void ChangeHp(int hpAmount, bool isGain, bool maxHpIncrease)
     {

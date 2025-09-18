@@ -3182,6 +3182,13 @@ MonoBehaviour:
   - groupName: Phrox
     characterPool: 7
     resourceType: 2
+    upgrades:
+    - {fileID: 11400000, guid: f9c39f5c39d74a74eb389c6f2a6b2190, type: 2}
+    - {fileID: 11400000, guid: 3f8625d476e7a794f9b3448edab1cc4d, type: 2}
+    - {fileID: 11400000, guid: 56adbcca24acdc347abb3a23c5ab6762, type: 2}
+  - groupName: Cobb 'Silver Eye'
+    characterPool: 8
+    resourceType: 2
     upgrades: []
 --- !u!1 &1336441296
 GameObject:
@@ -3623,7 +3630,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 958518543}
   m_HandleRect: {fileID: 958518542}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
