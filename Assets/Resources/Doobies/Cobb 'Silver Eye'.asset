@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Cobb 'Silver Eye'
   m_EditorClassIdentifier: 
   doobieName: Cobb 'Silver Eye'
+  description: Critical Doobie, Use your critical attacks to deal the most damage
+    and make Rum.
   portrait: {fileID: 21300000, guid: 00b0255d617cacb4baea9df4dbf316a9, type: 3}
   unlockedByDefault: 1
   doobieMainResource: 3

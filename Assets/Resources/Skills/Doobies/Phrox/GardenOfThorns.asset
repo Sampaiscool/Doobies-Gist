@@ -17,7 +17,7 @@ MonoBehaviour:
   animation: {fileID: 0}
   description: Gain 2 "healing Weaken" and heal yourself, Deal damage to your opponent
     using your Heal Power and Skill Damage
-  resourceCost: 15
+  resourceCost: 10
   resourceUsed: 1
   isWeaponSkill: 0
   zurpRegainChance: 0

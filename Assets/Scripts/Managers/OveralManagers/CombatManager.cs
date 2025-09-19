@@ -88,10 +88,10 @@ public class CombatManager : MonoBehaviour
         var player = GameManager.Instance.currentDoobie;
 
         // Always: Attack + Skill
-        CreateButton("Attack", OnAttackButtonClicked);
-        CreateButton("Skill", OnSkillButtonClicked);
+        CreateButton("Attack", OnAttackButtonClicked, "Use your basic attack.");
+        CreateButton("Skill", OnSkillButtonClicked, "Use your skills.");
 
-        // Resource-specific button
+        // Resource button
         if (player.so is DoobieSO doobieSO && doobieSO.resourceActionSO is IResourceAction resource)
         {
             CreateButton(resource.ActionName, () =>
@@ -99,10 +99,10 @@ public class CombatManager : MonoBehaviour
                 bool success = resource.Execute(player, enemyVangurr);
                 if (success) OnActionButtonClicked();
                 else BattleUIManager.UpdateUI();
-            });
+            }, resource.Description);
         }
 
-        // Doobie-specific button
+        // Doobie-specific action
         if (player.so is DoobieSO doobieSO2 && doobieSO2.doobieActionSO is IDoobieAction action)
         {
             CreateButton(action.ActionName, () =>
@@ -110,7 +110,7 @@ public class CombatManager : MonoBehaviour
                 bool success = action.Execute(player, enemyVangurr);
                 if (success) OnActionButtonClicked();
                 else BattleUIManager.UpdateUI();
-            });
+            }, action.Description);
         }
 
         // Force UI rebuild so layout shows right away
@@ -121,16 +121,18 @@ public class CombatManager : MonoBehaviour
         Debug.Log($"[CombatManager] Spawned {ButtonContainer.childCount} buttons.");
     }
 
-    public void CreateButton(string label, UnityEngine.Events.UnityAction onClick)
+    public void CreateButton(string label, UnityEngine.Events.UnityAction onClick, string tooltipText = "")
     {
         if (ButtonPrefab == null || ButtonContainer == null) return;
 
         GameObject obj = Instantiate(ButtonPrefab, ButtonContainer, false);
         obj.SetActive(true);
 
+        // Set label
         var tmp = obj.GetComponentInChildren<TextMeshProUGUI>();
         if (tmp != null) tmp.text = label;
 
+        // Setup button callback
         var btn = obj.GetComponent<Button>();
         if (btn != null)
         {
@@ -140,6 +142,17 @@ public class CombatManager : MonoBehaviour
         else
         {
             Debug.LogWarning("[CombatManager] Instantiated button prefab has no Button component.");
+        }
+
+        // Setup tooltip via the BattleOptionButton script
+        var battleBtn = obj.GetComponent<BattleOptionButton>();
+        if (battleBtn != null)
+        {
+            battleBtn.Setup(label, onClick, tooltipText);
+        }
+        else if (!string.IsNullOrEmpty(tooltipText))
+        {
+            Debug.LogWarning("[CombatManager] Button prefab missing BattleOptionButton script for tooltip.");
         }
 
         Debug.Log($"[CombatManager] Created button '{label}'");
@@ -423,7 +436,17 @@ public class CombatManager : MonoBehaviour
                         }
                     }
                     break;
-                default:
+                case UpgradeNames.Careless:
+                    if (combatantTurnCounters[combatant] % 1 == 0)
+                    {
+                        combatant.AddEffect(new Effect(EffectType.DefenceDown, 2, true, upgrade.intensity));
+                        combatant.AddEffect(new Effect(EffectType.WeaponStrenghten, 2, false, upgrade.intensity));
+                        combatant.AddEffect(new Effect(EffectType.SpellStrenghten, 2, false, upgrade.intensity));
+
+                        BattleUIManager.Instance.AddLog($"{combatant.CharacterName} Tries a careless tactic!");
+                    }
+                    break;
+                        default:
                     break;
             }
         }

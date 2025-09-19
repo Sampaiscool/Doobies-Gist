@@ -809,7 +809,8 @@ MonoBehaviour:
   - label: Difficulty 2 boss
     difficulty: 2
     isBossGroup: 1
-    vangurrs: []
+    vangurrs:
+    - {fileID: 11400000, guid: 6b6ea22417ed36749a4f0eaadf4c7eee, type: 2}
   ChosenVangurr: {fileID: 0}
 --- !u!1 &304150279
 GameObject:
@@ -3016,7 +3017,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000026036852}
+  m_AnchoredPosition: {x: 0, y: -0.0000017829971}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1245902643
@@ -3150,6 +3151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   refreshCost: 50
+  goldenChance: 0.01
   shopContent: {fileID: 1245902642}
   upgradeButtonPrefab: {fileID: -8787248092385984733, guid: 2af4f1f090df70b4682761272cc7e2fe, type: 3}
   upgradeGroups:
@@ -3189,7 +3191,8 @@ MonoBehaviour:
   - groupName: Cobb 'Silver Eye'
     characterPool: 8
     resourceType: 2
-    upgrades: []
+    upgrades:
+    - {fileID: 11400000, guid: 976105d6d2a45bd4e8515a056fd5e4ce, type: 2}
 --- !u!1 &1336441296
 GameObject:
   m_ObjectHideFlags: 0
@@ -3630,7 +3633,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 958518543}
   m_HandleRect: {fileID: 958518542}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

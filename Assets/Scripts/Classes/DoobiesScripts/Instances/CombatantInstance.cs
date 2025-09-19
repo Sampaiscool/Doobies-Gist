@@ -336,17 +336,18 @@ public abstract class CombatantInstance
         ApplyEffectsOnBasicAttack(target);
         CheckForWeaponOnUseEffects();
 
-        // Attacker's barrels explode onto the target
-        ExplodeBarrels(this, target, false, false);
-
-        // Defender's barrels explode back onto themselves
-        ExplodeBarrels(target, this, true, false);
-
         switch (result)
         {
             case DamageResult.Deflected:
                 return $"{CharacterName} strikes, but {target.CharacterName} deflects the blow with finesse!";
             case DamageResult.Hit:
+
+                // Attacker's barrels explode onto the target
+                ExplodeBarrels(this, target, false, false);
+
+                // Defender's barrels explode back onto themselves
+                ExplodeBarrels(target, this, true, false);
+
                 return isCrit
                     ? $"{CharacterName} lands a CRITICAL HIT on {target.CharacterName} for {actualDamage} damage!"
                     : $"{CharacterName} strikes {target.CharacterName} for {actualDamage} damage!";
@@ -861,13 +862,20 @@ public abstract class CombatantInstance
                 // If owner is being attacked, they get hurt by their own barrels
                 var victim = ownerIsBeingAttacked ? owner : opponent;
 
-                bool isCrit = Random.Range(0, 100) < GetEffectiveCritChanceAfterEffects(GetEffectiveCritChance());
+                bool isCrit = Random.Range(0, 101) < GetEffectiveCritChanceAfterEffects(GetEffectiveCritChance());
 
                 int damageBeforeCrit = effect.intensity;
 
                 if (isCrit)
                 {
                     int damageAfterCrit = ApplyCriticalHitEffects(effect.intensity);
+
+                    Upgrade criticalBarrelUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.CriticalBarrels);
+                    if (criticalBarrelUpgrade != null && !ownerIsBeingAttacked)
+                    {
+                        AddEffect(new Effect(EffectType.CriticalEye, 3, false, criticalBarrelUpgrade.intensity));
+                        AddEffect(new Effect(EffectType.Barrel, 100, false, criticalBarrelUpgrade.intensity));
+                    }
 
                     damageBeforeCrit = damageAfterCrit;
                 }
@@ -880,7 +888,7 @@ public abstract class CombatantInstance
                     {
                         GameManager.Instance.ChangeSploont(10, true);
                     }
-                    BattleUIManager.Instance.AddLog($"{CharacterName} Gains 10 sploont for each barrel intensity");
+                    BattleUIManager.Instance.AddLog($"{CharacterName} Gains {10 * effect.intensity} sploont!");
                 }
 
                 int finalDamage = damageBeforeCrit;
@@ -888,9 +896,26 @@ public abstract class CombatantInstance
                 var (result, damageDone) = victim.TakeDamage(finalDamage, false, true);
 
                 if (ownerIsBeingAttacked)
-                    BattleUIManager.Instance.AddLog($"{owner.CharacterName}'s barrels explode backfiring \n dealing {damageDone} damage to themselves!\n");
+                    if (isCrit)
+                    {
+                        BattleUIManager.Instance.AddLog($"{owner.CharacterName}'s barrels explode backfiring \n dealing {damageDone} CRITICAl damage to themselves!\n");
+                    }
+                    else
+                    {
+                        BattleUIManager.Instance.AddLog($"{owner.CharacterName}'s barrels explode backfiring \n dealing {damageDone} damage to themselves!\n");
+                    }
                 else
-                    BattleUIManager.Instance.AddLog($"{owner.CharacterName}'s barrels explode \n blasting {opponent.CharacterName} for {damageDone} damage!");
+                {
+                    if (isCrit)
+                    {
+
+                        BattleUIManager.Instance.AddLog($"{owner.CharacterName}'s barrels explode \n blasting {opponent.CharacterName} for {damageDone} CRITICAL damage!");
+                    }
+                    else
+                    {
+                        BattleUIManager.Instance.AddLog($"{owner.CharacterName}'s barrels explode \n blasting {opponent.CharacterName} for {damageDone} damage!");
+                    }
+                }      
 
                 owner.ActiveEffects.Remove(effect);
             }

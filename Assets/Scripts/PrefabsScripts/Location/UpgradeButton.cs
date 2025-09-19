@@ -52,8 +52,8 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             ShopManager shop = FindObjectOfType<ShopManager>();
             shop.FreezeUpgrade(upgradeData);
 
-            SetFrozenVisual(shop.FrozenUpgrade == upgradeData);
-            SetLocked(shop.FrozenUpgrade == upgradeData); // lock if frozen
+            SetFrozenVisual(GameManager.Instance.frozenUpgrade == upgradeData);
+            SetLocked(GameManager.Instance.frozenUpgrade == upgradeData); // lock if frozen
         }
     }
     public void SetFrozenVisual(bool frozen)

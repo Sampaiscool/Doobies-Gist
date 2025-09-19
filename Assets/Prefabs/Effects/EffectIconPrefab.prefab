@@ -89,13 +89,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f9e3a951dac6d542841b883653d31f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linkedBuff:
+  linkedEffect:
     type: 0
     duration: 0
     intensity: 0
     isDebuff: 0
     iconInstance: {fileID: 0}
   tooltipPrefab: {fileID: 7399243327277128440, guid: 9ca2d5d67a8f1bb499a0171ffc237151, type: 3}
+  animDuration: 0.2
+  shownOffset: {x: 0, y: 150}
+  hiddenOffset: {x: 0, y: 40}
 --- !u!114 &966773161344007636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,4 +115,3 @@ MonoBehaviour:
   EffectPrefab: {fileID: 0}
   hoverPrefab: {fileID: 2070370051966967946}
   TooltipPrefab: {fileID: 7399243327277128440, guid: 9ca2d5d67a8f1bb499a0171ffc237151, type: 3}
-  hasPlayedEffect: 0

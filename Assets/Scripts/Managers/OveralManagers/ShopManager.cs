@@ -23,9 +23,6 @@ public class ShopManager : MonoBehaviour
     private bool shopInitialized = false;
     private List<Upgrade> currentUpgrades = new List<Upgrade>();
 
-    private Upgrade frozenUpgrade;
-    public Upgrade FrozenUpgrade => frozenUpgrade;
-
     [Header("Organized Upgrade Pools")]
     [SerializeField] private List<UpgradeGroup> upgradeGroups;
 
@@ -90,7 +87,10 @@ public class ShopManager : MonoBehaviour
     {
         currentUpgrades = upgradesForSale;
 
-        // Ensure frozen upgrade stays
+        // Always grab frozen upgrade from GameManager
+        Upgrade frozenUpgrade = GameManager.Instance.frozenUpgrade;
+
+        // Ensure frozen upgrade stays in the shop
         if (frozenUpgrade != null && !currentUpgrades.Contains(frozenUpgrade))
         {
             currentUpgrades[0] = frozenUpgrade;
@@ -120,7 +120,7 @@ public class ShopManager : MonoBehaviour
 
     private void HandleBuyUpgrade(Upgrade upgrade)
     {
-        if (frozenUpgrade == upgrade)
+        if (GameManager.Instance.frozenUpgrade == upgrade)
         {
             Debug.Log("Cannot buy frozen upgrade: " + upgrade.upgradeName);
             return;
@@ -169,10 +169,11 @@ public class ShopManager : MonoBehaviour
 
         List<Upgrade> newUpgrades = GenerateRandomUpgrades(count, currentPool, mainResource);
 
-        // If frozen, make sure it’s still in the shop
-        if (frozenUpgrade != null)
+        // Ensure frozen upgrade is included
+        Upgrade frozenUpgrade = GameManager.Instance.frozenUpgrade;
+        if (frozenUpgrade != null && !newUpgrades.Contains(frozenUpgrade))
         {
-            newUpgrades[0] = frozenUpgrade; // replace first slot
+            newUpgrades[0] = frozenUpgrade;
         }
 
         OpenShop(newUpgrades);
@@ -180,16 +181,19 @@ public class ShopManager : MonoBehaviour
 
     public void FreezeUpgrade(Upgrade upgrade)
     {
-        if (frozenUpgrade == upgrade)
+        if (GameManager.Instance.frozenUpgrade == upgrade)
         {
-            frozenUpgrade = null; // unfreeze
+            GameManager.Instance.frozenUpgrade = null; // unfreeze
             Debug.Log("Upgrade unfrozen: " + upgrade.upgradeName);
         }
         else
         {
-            frozenUpgrade = upgrade;
+            GameManager.Instance.frozenUpgrade = upgrade;
             Debug.Log("Upgrade frozen: " + upgrade.upgradeName);
         }
+
+        // Refresh the shop UI so the frozen upgrade is visually locked
+        OpenShop(currentUpgrades);
     }
 
     public void ResetShop()
@@ -197,9 +201,9 @@ public class ShopManager : MonoBehaviour
         shopInitialized = false;
         currentUpgrades.Clear();
 
-        if (frozenUpgrade != null)
+        if (GameManager.Instance.frozenUpgrade != null)
         {
-            currentUpgrades.Add(frozenUpgrade);
+            currentUpgrades.Add(GameManager.Instance.frozenUpgrade);
         }
 
         foreach (Transform child in shopContent)

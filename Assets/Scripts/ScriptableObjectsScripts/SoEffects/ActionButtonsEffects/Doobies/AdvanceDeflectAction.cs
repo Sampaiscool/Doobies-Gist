@@ -6,6 +6,7 @@ using UnityEngine;
 public class AdvanceDeflectAction : ScriptableObject, IDoobieAction
 {
     public string ActionName => "Advance Deflect";
+    public string Description => "Consume all your Deflection; deal 2 times your basic attack damage.";
 
     public bool Execute(CombatantInstance user, CombatantInstance target)
     {
@@ -20,7 +21,7 @@ public class AdvanceDeflectAction : ScriptableObject, IDoobieAction
         BattleUIManager.Instance.AddLog($"{user.CharacterName} consumes all his deflects to unleash a powerful attack!");
 
         int weaponDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
-        weaponDmg += 2;
+        weaponDmg *= 2;
 
         target.TakeDamage(deflectEffect.intensity + weaponDmg);
         user.ActiveEffects.Remove(deflectEffect);

@@ -1,30 +1,45 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using TMPro;
 
 public class EffectIconHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Effect linkedEffect;
     public GameObject tooltipPrefab;
-    private GameObject tooltipInstance;
+
+    private TooltipController tooltip;
+
+    [Header("Animation")]
+    public float animDuration = 0.2f;
+    public Vector2 shownOffset = new Vector2(0, 150);
+    public Vector2 hiddenOffset = new Vector2(0, 40f);
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (tooltipPrefab == null || linkedEffect == null) return;
 
-        tooltipInstance = Instantiate(tooltipPrefab, transform);
-        tooltipInstance.transform.localPosition = new Vector3(0, 125, 0);
+        // Instantiate tooltip as child of this effect
+        GameObject tooltipInstance = Instantiate(tooltipPrefab, transform);
+        tooltip = tooltipInstance.AddComponent<TooltipController>();
 
-        TMP_Text tooltipText = tooltipInstance.GetComponentInChildren<TMP_Text>();
-        if (tooltipText != null)
-            tooltipText.text = $"{linkedEffect.type}\nTurns left: {linkedEffect.duration}\nIntensity: {linkedEffect.intensity}";
+        // Disable raycast so tooltip doesn't block pointer events
+        CanvasGroup cg = tooltipInstance.GetComponent<CanvasGroup>();
+        if (cg == null) cg = tooltipInstance.AddComponent<CanvasGroup>();
+        cg.blocksRaycasts = false;
 
-        tooltipInstance.SetActive(true);
+        string text = $"{linkedEffect.type}\nTurns: {linkedEffect.duration}\nIntensity: {linkedEffect.intensity}";
+        tooltip.Init(text, hiddenOffset, shownOffset, animDuration);
+
+        // Start at hidden offset relative to icon
+        RectTransform iconRect = GetComponent<RectTransform>();
+        tooltipInstance.transform.localPosition = hiddenOffset;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (tooltipInstance != null)
-            Destroy(tooltipInstance);
+        if (tooltip != null)
+        {
+            tooltip.Hide(hiddenOffset, animDuration);
+            tooltip = null;
+        }
     }
 }

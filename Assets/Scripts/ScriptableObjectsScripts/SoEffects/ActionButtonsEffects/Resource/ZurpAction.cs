@@ -6,6 +6,7 @@ using UnityEngine;
 public class ZurpAction : ScriptableObject, IResourceAction
 {
     public string ActionName => "Focus";
+    public string Description => "Gain 2 zurp";
     public bool Execute(CombatantInstance user, CombatantInstance target)
     {
         if (user is DoobieInstance doobie && doobie.MainResource is ZurpResource zurp)

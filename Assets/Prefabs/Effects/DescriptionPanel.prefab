@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 320533971302044855}
   - component: {fileID: 6547857693396392075}
   - component: {fileID: 4783868130692939772}
+  - component: {fileID: 4279704036671148759}
   m_Layer: 5
   m_Name: DescriptionPanel
   m_TagString: Untagged
@@ -194,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.7283019, g: 0.7283019, b: 0.7283019, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -210,3 +211,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4279704036671148759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7399243327277128440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39c1603f3fce0834880c2ef4cc8e3399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

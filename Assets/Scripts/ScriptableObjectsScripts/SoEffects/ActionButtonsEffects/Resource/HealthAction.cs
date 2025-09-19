@@ -6,6 +6,7 @@ using UnityEngine;
 public class HealthAction : ScriptableObject, IResourceAction
 {
     public string ActionName => "Heal";
+    public string Description => "Heal a random amount modified by your heal power";
     public bool Execute(CombatantInstance user, CombatantInstance target)
     {
         if (user.CurrentHealth != user.MaxHealth)

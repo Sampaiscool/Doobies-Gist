@@ -65,4 +65,8 @@ public enum UpgradeNames
     VineLash,                             //Phrox
     TargetGarden,                         //Phrox
     FeelingGreen,                         //Phrox
+
+    Careless,                             //None
+
+    CriticalBarrels,                      //Cobb Silver Eye
 }

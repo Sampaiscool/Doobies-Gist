@@ -6,11 +6,12 @@ using UnityEngine;
 public class BarrelActionSO : ScriptableObject, IDoobieAction
 {
     public string ActionName => "Place Barrel";
+    public string Description => "Place 5 / 10 barrels";
 
     public bool Execute(CombatantInstance user, CombatantInstance target)
     {
         // Empower your cutlass; 
-        int barrelamount = Random.Range(1, 4);
+        int barrelamount = Random.Range(5, 11);
         user.AddEffect(new Effect(EffectType.Barrel, 100, false, barrelamount));
 
         BattleUIManager.Instance.AddLog($"{user.CharacterName} Places down {barrelamount} barrels!");

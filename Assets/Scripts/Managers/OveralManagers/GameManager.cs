@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviour
     public CombatManager CombatManager;
     public GameObject damageAnimationPrefab;
 
+    [Header("Shop Manager")]
+    [System.NonSerialized]
+    public Upgrade frozenUpgrade = null;
+
     public bool debugMode = false;
     public bool HasDoneTutorial = false;
 
@@ -146,10 +150,10 @@ public class GameManager : MonoBehaviour
         else
         {
             // Penalties for losing
-            ChangeSploont(10, true);
-            ChangeHp(5, false, false); // Lose 5 Player HP
-            currentDoobie.MaxHealth -= 5; // Lose 5 doobie max HP
-            currentDoobie.CurrentHealth = 5; // Survive with 5 doobie HP
+            ChangeSploont(25, true);
+            ChangeHp(10, false, false); // Lose 10 Player HP
+            currentDoobie.MaxHealth -= 10; // Lose 10 doobie max HP
+            currentDoobie.CurrentHealth = 10; // Survive with 10 doobie HP
         }
 
         PlayerStatsUIManager playerStatsUIManager = FindObjectOfType<PlayerStatsUIManager>();
