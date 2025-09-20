@@ -68,7 +68,7 @@ public class LocationManager : MonoBehaviour
     public void SelectLocation(LocationSO selected)
     {
         Debug.Log("You selected: " + selected.locationName);
-        locationChoicePanel.SetActive(false);
+        //locationChoicePanel.SetActive(false);
 
         // Call your location's logic here
         TriggerLocationEffect(selected);

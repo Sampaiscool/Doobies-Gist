@@ -96,7 +96,7 @@ public class TeamSelectUI : MonoBehaviour
     {
         selectedDoobie = doobie;
         UpdateTeamUI();
-        doobieSelectionPanel.SetActive(false);
+        //doobieSelectionPanel.SetActive(false);
 
         menuManager.ShowPanel(menuManager.TownPanel);
     }

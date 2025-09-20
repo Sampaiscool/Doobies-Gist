@@ -8,8 +8,10 @@ public class MenuManager : MonoBehaviour
     public GameObject Beginpanel;
     public GameObject StartPanel;
     public GameObject TownPanel;
-    public GameObject TeamPanel;            // shows your current team
-    public GameObject DoobieSelectionPanel; // shows all available doobies
+    public GameObject TeamPanel;
+    public GameObject DoobieSelectionPanel;
+
+    private GameObject currentPanel;
 
     void Start()
     {
@@ -18,27 +20,28 @@ public class MenuManager : MonoBehaviour
 
     public void ShowPanel(GameObject panelToShow)
     {
-        // Deactivate all known panels
-        Beginpanel.SetActive(false);
-        StartPanel.SetActive(false);
-        TownPanel.SetActive(false);
-        TeamPanel.SetActive(false);
-        DoobieSelectionPanel.SetActive(false);
+        if (currentPanel != null && currentPanel != panelToShow)
+        {
+            var animOut = currentPanel.GetComponent<PanelAnimator>();
+            if (animOut != null)
+                animOut.FadeOut();
+            else
+                currentPanel.SetActive(false);
+        }
 
-        // Activate the chosen one
-        panelToShow.SetActive(true);
+        var animIn = panelToShow.GetComponent<PanelAnimator>();
+        if (animIn != null)
+            animIn.FadeIn();
+        else
+            panelToShow.SetActive(true);
+
+        currentPanel = panelToShow;
     }
 
-    // These can be hooked up to buttons
-    public void OnStartButtonClicked()
-    {
-        ShowPanel(StartPanel);
-    }
+    // Button hooks
+    public void OnStartButtonClicked() => ShowPanel(StartPanel);
 
-    public void OnGoClicked()
-    {
-        ShowPanel(TownPanel);
-    }
+    public void OnGoClicked() => ShowPanel(TownPanel);
 
     public void EnableDebug()
     {
@@ -59,7 +62,7 @@ public class MenuManager : MonoBehaviour
 
     public void StartGame()
     {
-        TeamSelectUI.Instance.SaveTeamData(); // Save the selected team data
+        TeamSelectUI.Instance.SaveTeamData();
         SceneManager.LoadScene("AdventureScene");
     }
 }

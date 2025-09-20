@@ -14,6 +14,8 @@ public class PanelManager : MonoBehaviour
     public VangurrManager vangurrManager;
     public PlayerStatsUIManager playerStatsUIManager;
 
+    private GameObject currentPanel;
+
     void Start()
     {
         if (GameManager.Instance.HasDoneTutorial)
@@ -29,26 +31,32 @@ public class PanelManager : MonoBehaviour
 
     public void ShowPanel(GameObject panelToShow)
     {
-        // Deactivate all known panels
-        TutorialPanel.SetActive(false);
-        LocationPanel.SetActive(false);
-        VangurrPanel.SetActive(false);
-        ShopPanel.SetActive(false);
+        if (currentPanel != null && currentPanel != panelToShow)
+        {
+            var animOut = currentPanel.GetComponent<PanelAnimator>();
+            if (animOut != null)
+                animOut.FadeOut();
+            else
+                currentPanel.SetActive(false);
+        }
 
         playerStatsUIManager.UpdatePlayerInfo();
 
-        // Activate the chosen one
-        panelToShow.SetActive(true);
+        var animIn = panelToShow.GetComponent<PanelAnimator>();
+        if (animIn != null)
+            animIn.FadeIn();
+        else
+            panelToShow.SetActive(true);
+
+        currentPanel = panelToShow;
     }
 
     public void ShowLocationPanel()
     {
         ShowPanel(LocationPanel);
 
-        // Generate random locations and display them in the panel
-        locationManager.GenerateRandomLocations(3);  // 3 random locations
+        locationManager.GenerateRandomLocations(3);
 
-        // Reset the shop for a new round
         ShopManager shopManager = FindObjectOfType<ShopManager>();
         if (shopManager != null)
             shopManager.ResetShop();
@@ -58,25 +66,21 @@ public class PanelManager : MonoBehaviour
     {
         ShowPanel(VangurrPanel);
 
-        // Only choose a new vangurr if we don't already have one
         if (vangurrManager.ChosenVangurr == null)
         {
             VangurrSO selectedVangurr = vangurrManager.ChooseVangurr();
             GameManager.Instance.currentVangurr = new VangurrInstance(selectedVangurr);
-
             vangurrManager.UpdateVangurrText(selectedVangurr);
         }
         else
         {
-            // Reuse the chosen one
             if (GameManager.Instance.currentVangurr == null)
-            {
                 GameManager.Instance.currentVangurr = new VangurrInstance(vangurrManager.ChosenVangurr);
-            }
 
             vangurrManager.UpdateVangurrText(vangurrManager.ChosenVangurr);
         }
     }
+
     public void ShowShopPanel()
     {
         ShowPanel(ShopPanel);
@@ -94,14 +98,10 @@ public class PanelManager : MonoBehaviour
             }
             else
             {
-                // If shop is already initialized, just reuse the same upgrades
                 shopManager.OpenShop(shopManager.GetCurrentUpgrades());
             }
         }
     }
 
-    public void OnBattlePressed()
-    {
-        SceneManager.LoadScene("BattleScene");
-    }
+    public void OnBattlePressed() => SceneManager.LoadScene("BattleScene");
 }
