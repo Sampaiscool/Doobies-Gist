@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DoobieInstance : CombatantInstance
@@ -36,18 +37,23 @@ public class DoobieInstance : CombatantInstance
         switch (_so.doobieMainResource)
         {
             case ResourceType.Zurp:
-                MainResource = new ZurpResource(_so.baseResourceMax);
+                var zurp = new ZurpResource(_so.baseResourceMax);
+                zurp.OnZurpGained += HandleZurpGained;
+                MainResource = zurp;
                 break;
             case ResourceType.Health:
                 MainResource = new HealthResource(_so.baseResourceMax);
                 break;
             case ResourceType.Rum:
-                MainResource = new RumResource(_so.baseResourceMax);
+                var rum = new RumResource(_so.baseResourceMax);
+                rum.OnRumGained += HandleRumGained;
+                MainResource = rum;
                 break;
             default:
                 MainResource = null;
                 break;
         }
+
 
         foreach (var upgrade in _so.startingUpgrades)
         {
@@ -64,5 +70,23 @@ public class DoobieInstance : CombatantInstance
                 icon = upgrade.icon
             });
         }
+    }
+    private void HandleRumGained(int amount)
+    {
+        Upgrade criticalRum = ActiveUpgrades.Find(r => r.type == UpgradeNames.CriticalRum);
+        if (criticalRum != null)
+        {
+            AddEffect(new Effect(EffectType.CriticalEye, 2, false, criticalRum.intensity));
+        }
+
+        Upgrade flamingRum = ActiveUpgrades.Find(r => r.type == UpgradeNames.FlamingRum);
+        if (flamingRum != null && GameManager.Instance.currentVangurr != null)
+        {
+            GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Burn, flamingRum.intensity, true, flamingRum.intensity));
+        }
+    }
+    private void HandleZurpGained(int amount)
+    {
+
     }
 }

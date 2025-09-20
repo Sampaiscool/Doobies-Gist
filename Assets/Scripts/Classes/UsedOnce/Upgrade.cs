@@ -69,4 +69,9 @@ public enum UpgradeNames
     Careless,                             //None
 
     CriticalBarrels,                      //Cobb Silver Eye
+    PaddedBarrels,                        //Cobb Silver Eye
+    FiercePowder,                         //Cobb Silver Eye
+    FlamingRum,                           //Cobb Silver Eye
+    CriticalRum,                          //Cobb Silver Eye
+    WalkThePlank,                         //Cobb Silver Eye
 }

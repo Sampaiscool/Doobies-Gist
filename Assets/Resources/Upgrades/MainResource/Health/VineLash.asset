@@ -17,6 +17,6 @@ MonoBehaviour:
   cost: 100
   icon: {fileID: 0}
   type: 0
-  pool: 0
-  intensity: 0
+  pool: 11
+  intensity: 1
   isCurse: 0

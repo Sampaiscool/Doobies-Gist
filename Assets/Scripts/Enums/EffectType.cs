@@ -34,4 +34,5 @@ public enum EffectType
     Barrel,                     // ??? - Once somebody uses a basic attack; explode the barrel, Deal damage to the one who did not destroy the barrel equel to the intensity.
     Enflame,                    // Buff - On a Weapon Style Attack; Give the target "burn"
     Vines,                      // Debuff - Take damage if you heal
+    HardHitter,                 // Buff - On a Weapon Style Attack; have a chance to stun the enemy
 }

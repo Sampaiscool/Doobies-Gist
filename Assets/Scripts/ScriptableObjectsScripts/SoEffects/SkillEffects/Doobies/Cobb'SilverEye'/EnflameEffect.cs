@@ -9,6 +9,15 @@ public class EnflameEffect : SkillEffectSO
     {
         user.AddEffect(new Effect(EffectType.Enflame, 5, false, 1));
 
+        bool extraEffect = Random.Range(0, 100) < user.GetEffectiveCritChanceAfterEffects(user.GetEffectiveCritChance());
+
+        if (extraEffect)
+        {
+            user.AddEffect(new Effect(EffectType.HardHitter, 5, false, 1));
+
+            BattleUIManager.Instance.AddLog($"Enflame had a CRITICAl effect!");
+        }
+
         return $"{user.CharacterName} Enflames his weapon!";
     }
 }

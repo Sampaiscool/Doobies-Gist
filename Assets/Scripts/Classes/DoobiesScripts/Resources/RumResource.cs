@@ -10,20 +10,24 @@ public class RumResource : IResource
     public int Current { get; private set; }
     public int Max { get; private set; }
 
+    public delegate void RumGainHandler(int amount);
+    public event RumGainHandler OnRumGained;
+
     public RumResource(int max)
     {
         Max = max;
-        //Current = max;
     }
 
     public void Gain(int amount)
     {
-        Current = Mathf.Min(Current + amount, Max);
+        int gained = Mathf.Min(amount, Max - Current);
+        if (gained <= 0) return;
+
+        Current += gained;
+        OnRumGained?.Invoke(gained);
     }
-    public void GainMax(int amount)
-    {
-        Max += amount;
-    }
+
+    public void GainMax(int amount) => Max += amount;
 
     public bool Spend(int amount)
     {
@@ -32,4 +36,3 @@ public class RumResource : IResource
         return true;
     }
 }
-

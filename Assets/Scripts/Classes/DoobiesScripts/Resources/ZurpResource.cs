@@ -10,6 +10,9 @@ public class ZurpResource : IResource
     public int Current { get; private set; }
     public int Max { get; private set; }
 
+    public delegate void ZurpGainHandler(int amount);
+    public event ZurpGainHandler OnZurpGained;
+
     public ZurpResource(int max)
     {
         Max = max;
@@ -18,12 +21,13 @@ public class ZurpResource : IResource
 
     public void Gain(int amount)
     {
-        Current = Mathf.Min(Current + amount, Max);
+        int gained = Mathf.Min(amount, Max - Current);
+        if (gained <= 0) return;
+
+        Current += gained;
+        OnZurpGained?.Invoke(gained);
     }
-    public void GainMax(int amount)
-    {
-        Max += amount;
-    }
+    public void GainMax(int amount) => Max += amount;
 
     public bool Spend(int amount)
     {

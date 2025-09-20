@@ -486,6 +486,26 @@ public class CombatManager : MonoBehaviour
         {
             var (result, damageDone) = combatant.TakeDamage(burn.intensity);
             BattleUIManager.Instance.AddLog($"{name} takes {damageDone} burn damage!");
+
+            if (damageDone > 0)
+            {
+                if (combatant is DoobieInstance doobie)
+                {
+                    Upgrade walkThePlank = GameManager.Instance.currentVangurr.ActiveUpgrades.Find(w => w.type == UpgradeNames.WalkThePlank);
+                    if (walkThePlank != null)
+                    {
+                        GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Barrel, 100, false, walkThePlank.intensity));
+                    }
+                }
+                else
+                {
+                    Upgrade walkThePlank = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(w => w.type == UpgradeNames.WalkThePlank);
+                    if (walkThePlank != null)
+                    {
+                        GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Barrel, 100, false, walkThePlank.intensity));
+                    }
+                }
+            }
         }
 
         // --- Fleeting Life ---

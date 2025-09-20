@@ -15,4 +15,6 @@ public enum CharacterPool
     Phlox,              // Doobie
     CobbSilverEye,      // Doobie
     Golden,             // Doobie
+    Rum,                // Resource
+    Health,             // Resource
 }

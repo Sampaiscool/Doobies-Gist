@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40ffe80665f4ca94c8860dc62dafa2e4, type: 3}
-  m_Name: CriticalBarrels
+  m_Name: CriticalRum
   m_EditorClassIdentifier: 
-  upgradeName: Critical Barrels
-  description: If your barrel crits; Gain +1 "Critical Eye" and spawn +1 Barrel before
-    explosion.
-  cost: 200
+  upgradeName: Critical Rum
+  description: if you gain rum; Gain +1 "Critical Eye".
+  cost: 100
   icon: {fileID: 0}
-  type: 0
-  pool: 8
+  type: 31
+  pool: 10
   intensity: 1
   isCurse: 0

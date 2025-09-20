@@ -601,6 +601,36 @@ public abstract class CombatantInstance
                             GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Burn, 2, true, effect.intensity));
                         }
                         break;
+                    case EffectType.HardHitter:
+                        int bonusChance = 10 * effect.intensity;
+
+                        if (this is DoobieInstance doobie)
+                        {
+                            int baseCrit = doobie.GetEffectiveCritChance();
+                            int totalChance = doobie.GetEffectiveCritChanceAfterEffects(baseCrit + bonusChance);
+
+                            totalChance -= 5;
+
+                            bool stunEffect = Random.Range(0, 100) < totalChance;
+                            if (stunEffect)
+                            {
+                                GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Stun, 1, true, effect.intensity));
+                            }
+                        }
+                        else if (this is VangurrInstance vangurr)
+                        {
+                            int baseCrit = vangurr.GetEffectiveCritChance();
+                            int totalChance = vangurr.GetEffectiveCritChanceAfterEffects(baseCrit + bonusChance);
+
+                            totalChance -= 5;
+
+                            bool stunEffect = Random.Range(0, 100) < totalChance;
+                            if (stunEffect)
+                            {
+                                GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Stun, 1, true, effect.intensity));
+                            }
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -866,9 +896,26 @@ public abstract class CombatantInstance
 
                 int damageBeforeCrit = effect.intensity;
 
+                if (!ownerIsBeingAttacked)
+                {
+                    Upgrade fiercePowder = ActiveUpgrades.Find(b => b.type == UpgradeNames.FiercePowder);
+                    if (fiercePowder != null)
+                    {
+                        damageBeforeCrit += fiercePowder.intensity;
+                    }
+                }
+                else
+                {
+                    Upgrade paddedBarrels = ActiveUpgrades.Find(b => b.type == UpgradeNames.PaddedBarrels);
+                    if (paddedBarrels != null)
+                    {
+                        damageBeforeCrit -= paddedBarrels.intensity;
+                    }
+                }
+
                 if (isCrit)
                 {
-                    int damageAfterCrit = ApplyCriticalHitEffects(effect.intensity);
+                    int damageAfterCrit = ApplyCriticalHitEffects(damageBeforeCrit);
 
                     Upgrade criticalBarrelUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.CriticalBarrels);
                     if (criticalBarrelUpgrade != null && !ownerIsBeingAttacked)
