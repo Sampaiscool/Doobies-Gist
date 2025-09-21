@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FiercePowder
   m_EditorClassIdentifier: 
   upgradeName: Fierce Powder
-  description: Your barrels deal +1 damage to the opponent.
+  description: Your barrels deal +1 base damage to the opponent.
   cost: 50
   icon: {fileID: 0}
   type: 29

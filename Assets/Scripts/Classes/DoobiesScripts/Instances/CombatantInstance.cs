@@ -563,7 +563,6 @@ public abstract class CombatantInstance
                         }
                         break;
                     case UpgradeNames.OffensiveFlow:
-                        // Each intensity adds 5% chance to gain 1 Deflection
                         float chancePerIntensity = 0.05f;
                         float totalChance = upgrade.intensity * chancePerIntensity;
 
@@ -636,7 +635,6 @@ public abstract class CombatantInstance
                 }
             }
         }
-
     }
     public void CheckForOnHealEffects()
     {
@@ -829,7 +827,7 @@ public abstract class CombatantInstance
                         var opponentTargetGardenUpgrade = GameManager.Instance.currentVangurr.ActiveUpgrades.Find(u => u.type == UpgradeNames.TargetGarden);
                         if (opponentTargetGardenUpgrade != null)
                         {
-                            AddEffect(new Effect(EffectType.Regeneration, 2, true, opponentTargetGardenUpgrade.intensity));
+                            GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Regeneration, 2, true, opponentTargetGardenUpgrade.intensity));
                         }
                     }
                     else
@@ -837,7 +835,7 @@ public abstract class CombatantInstance
                         var opponentTargetGardenUpgrade = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(u => u.type == UpgradeNames.TargetGarden);
                         if (opponentTargetGardenUpgrade != null)
                         {
-                            AddEffect(new Effect(EffectType.Regeneration, 2, true, opponentTargetGardenUpgrade.intensity));
+                            GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Regeneration, 2, true, opponentTargetGardenUpgrade.intensity));
                         }
                     } 
                 }

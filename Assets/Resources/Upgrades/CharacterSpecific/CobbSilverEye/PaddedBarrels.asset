@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PaddedBarrels
   m_EditorClassIdentifier: 
   upgradeName: Padded Barrels
-  description: Your barrels deal -1 damage to you.
+  description: Your barrels deal -1 base damage to you.
   cost: 50
   icon: {fileID: 0}
   type: 28
