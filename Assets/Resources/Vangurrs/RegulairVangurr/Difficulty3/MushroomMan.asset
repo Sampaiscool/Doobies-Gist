@@ -14,15 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vangurrName: Mushroom Man
   portrait: {fileID: 21300000, guid: 1634ed4fc1c43d746bb6b0948a261a94, type: 3}
-  skillDmg: 0
-  healPower: 0
-  baseDefence: 0
-  baseHealth: 0
-  VangurrText: 
-  difficultyLevel: 0
-  skillChance: 0
+  skillDmg: 5
+  healPower: 4
+  baseDefence: 6
+  baseHealth: 20
+  VangurrText: "He swears he\u2019s not food\u2026 but he smells suspiciously like
+    soup."
+  difficultyLevel: 3
+  skillChance: 90
   isBoss: 0
   characterPool: 0
-  baseSkills: []
-  defaultWeapon: {fileID: 0}
-  startingUpgrades: []
+  baseSkills:
+  - {fileID: 11400000, guid: edaaf6554a94dcb43ab7811c2cd705b4, type: 2}
+  - {fileID: 11400000, guid: bb1d7975dad6a5c40a042c5fa4626e93, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: 73351b890a9fefd42aa7c691bcc6e30f, type: 2}
+  startingUpgrades:
+  - upgradeName: Spore Infection
+    description: At the start of your turn; the opponent takes damage equal to the
+      amount of "Spores" intentity they have.
+    cost: 0
+    icon: {fileID: 0}
+    type: 33
+    Pool: 0
+    intensity: 1
+    isCurse: 0

@@ -35,4 +35,5 @@ public enum EffectType
     Enflame,                    // Buff - On a Weapon Style Attack; Give the target "burn"
     Vines,                      // Debuff - Take damage if you heal
     HardHitter,                 // Buff - On a Weapon Style Attack; have a chance to stun the enemy
+    Spores,                     // Debugg - At the end of the turn gain debuffs for the amount of intensity: At 3 stacks; weapon weaken, at 5 stacks; healing weaken, at 10 strength; defence down
 }

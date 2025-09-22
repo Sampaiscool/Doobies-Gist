@@ -29,7 +29,13 @@ public class BattleOptionButton : MonoBehaviour, IPointerEnterHandler, IPointerE
         labelText.text = label;
         button.onClick.RemoveAllListeners();
         if (callback != null)
-            button.onClick.AddListener(callback);
+        {
+            button.onClick.AddListener(() =>
+            {
+                callback.Invoke();
+                HideTooltip();
+            });
+        }
 
         description = actionDescription;
 
@@ -44,6 +50,16 @@ public class BattleOptionButton : MonoBehaviour, IPointerEnterHandler, IPointerE
             canvasGroup.alpha = 0f;
             tooltipRect.anchoredPosition = hiddenOffset;
         }
+    }
+    private void HideTooltip()
+    {
+        if (tooltipPanel == null) return;
+
+        if (animRoutine != null) StopCoroutine(animRoutine);
+
+        tooltipRect.anchoredPosition = hiddenOffset;
+        canvasGroup.alpha = 0f;
+        tooltipPanel.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

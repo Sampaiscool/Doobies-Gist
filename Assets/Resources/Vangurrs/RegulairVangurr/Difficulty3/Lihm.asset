@@ -14,15 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vangurrName: Lihm
   portrait: {fileID: 21300000, guid: caa408045810fba458335ddb2aa5c45b, type: 3}
-  skillDmg: 0
-  healPower: 0
-  baseDefence: 0
-  baseHealth: 0
-  VangurrText: 
-  difficultyLevel: 0
-  skillChance: 0
+  skillDmg: 2
+  healPower: 5
+  baseDefence: 7
+  baseHealth: 30
+  VangurrText: The stone cold, one and only... Stone twins!
+  difficultyLevel: 3
+  skillChance: 20
   isBoss: 0
   characterPool: 0
-  baseSkills: []
-  defaultWeapon: {fileID: 0}
-  startingUpgrades: []
+  baseSkills:
+  - {fileID: 11400000, guid: fab5c5d70d2659f44bb29ed0cd731dab, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: 8d585e67edafb794d8e76716485a781c, type: 2}
+  startingUpgrades:
+  - upgradeName: Weapon Mastery
+    description: If you use a weapon-style attack; gain +1 Weapon Strenghten Buff;
+    cost: 0
+    icon: {fileID: 0}
+    type: 0
+    Pool: 0
+    intensity: 1
+    isCurse: 0
+  - upgradeName: Critical Monster
+    description: If you hit a critical attack; Gain +1 "CriticalEye". Deal +1 damage
+      on critical attacks.
+    cost: 0
+    icon: {fileID: 0}
+    type: 16
+    Pool: 0
+    intensity: 3
+    isCurse: 0

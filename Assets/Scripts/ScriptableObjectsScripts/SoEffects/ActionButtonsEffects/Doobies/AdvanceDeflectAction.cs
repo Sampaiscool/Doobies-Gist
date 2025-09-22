@@ -6,7 +6,7 @@ using UnityEngine;
 public class AdvanceDeflectAction : ScriptableObject, IDoobieAction
 {
     public string ActionName => "Advance Deflect";
-    public string Description => "Consume all your Deflection; deal 2 times your basic attack damage.";
+    public string Description => "Consume all your Deflection; use your basic attack twice and then attack with increased damage.";
 
     public bool Execute(CombatantInstance user, CombatantInstance target)
     {
@@ -18,15 +18,24 @@ public class AdvanceDeflectAction : ScriptableObject, IDoobieAction
             return false; // FAIL, don’t end turn
         }
 
-        BattleUIManager.Instance.AddLog($"{user.CharacterName} consumes all his deflects to unleash a powerful attack!");
+        BattleUIManager.Instance.AddLog($"{user.CharacterName} consumes all his deflects to unleashing 3 powefull attacks!");
 
         int weaponDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
         weaponDmg *= 2;
 
-        target.TakeDamage(deflectEffect.intensity + weaponDmg);
+        var (result, damageDone) = target.TakeDamage(deflectEffect.intensity + weaponDmg);
+
+        string log1 = user.PerformBasicAttack(GameManager.Instance.currentVangurr);
+        string log2 = user.PerformBasicAttack(GameManager.Instance.currentVangurr);
+
+        BattleUIManager.Instance.AddLog($"{log1}");
+        BattleUIManager.Instance.AddLog($"{log2}");
+        BattleUIManager.Instance.AddLog($"Finaly {user.CharacterName} attacks dealing {damageDone} damage!");
+
+
         user.ActiveEffects.Remove(deflectEffect);
 
-        return true; // SUCCESS, consume turn
+        return true;
     }
 }
 

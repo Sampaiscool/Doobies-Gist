@@ -74,4 +74,6 @@ public enum UpgradeNames
     FlamingRum,                           //Cobb Silver Eye
     CriticalRum,                          //Cobb Silver Eye
     WalkThePlank,                         //Cobb Silver Eye
+
+    SporeInfection,                       //Mushroom Man
 }

@@ -769,8 +769,16 @@ public abstract class CombatantInstance
 
             if (existing != null)
             {
-                existing.duration += newEffect.duration;
-                existing.intensity += newEffect.intensity;
+                // Stun should not extend duration
+                if (newEffect.type == EffectType.Stun)
+                {
+                    existing.intensity += newEffect.intensity;
+                }
+                else
+                {
+                    existing.duration += newEffect.duration;
+                    existing.intensity += newEffect.intensity;
+                }
 
                 // Play stacking effect
                 if (existing.iconInstance != null)

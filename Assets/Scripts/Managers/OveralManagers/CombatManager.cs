@@ -375,7 +375,7 @@ public class CombatManager : MonoBehaviour
     {
         logMessage = "";
 
-        // --- Hidden (skip turn) ---
+        // --- Hidden (skip) ---
         if (combatant.ActiveEffects.Exists(e => e.type == EffectType.Hidden))
         {
             logMessage += $"{combatant.CharacterName} is hidden and cannot take actions!\n";
@@ -389,7 +389,25 @@ public class CombatManager : MonoBehaviour
             return true;
         }
 
-        return false; // no skip/death -> proceed normally
+        // --- Spores ---
+        if (combatant.ActiveEffects.Exists(s => s.type == EffectType.Spores))
+        {
+            Effect spores = combatant.ActiveEffects.Find(s => s.type == EffectType.Spores);
+            if (spores.intensity >= 3)
+            {
+                combatant.AddEffect(new Effect(EffectType.WeaponWeaken, 1, true, spores.intensity));
+                if (spores.intensity >= 5)
+                {
+                    combatant.AddEffect(new Effect(EffectType.HealingWeaken, 1, true, spores.intensity));
+                    if (spores.intensity >= 10)
+                    {
+                        combatant.AddEffect(new Effect(EffectType.DefenceDown, 1, true, spores.intensity));
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     private void CheckTurnBasedUpgrades(CombatantInstance combatant)
@@ -408,19 +426,19 @@ public class CombatManager : MonoBehaviour
                     if (combatantTurnCounters[combatant] % 3 == 0)
                     {
                         combatant.AddEffect(new Effect(EffectType.SpellStrenghten, 999, false, upgrade.intensity));
-                        BattleUIManager.AddLog($"{combatant.CharacterName}'s Arcane Mind empowers them! Spell Strengthen applied.");
+                        BattleUIManager.AddLog($"{combatant.CharacterName}'s Arcane Mind empowers them!");
                     }
                     break;
 
                 case UpgradeNames.GremlinHunger:
-                    CombatantInstance target = (combatant is DoobieInstance)
+                    CombatantInstance targetGremlinHunger = (combatant is DoobieInstance)
                         ? GameManager.Instance.currentVangurr
                         : GameManager.Instance.currentDoobie;
 
                     int eatDamage = combatantTurnCounters[combatant];
-                    target.TakeDamage(eatDamage);
+                    targetGremlinHunger.TakeDamage(eatDamage);
 
-                    BattleUIManager.AddLog($"{combatant.CharacterName} feasts on {target.CharacterName}, dealing {eatDamage} damage!");
+                    BattleUIManager.AddLog($"{combatant.CharacterName} feasts on {targetGremlinHunger.CharacterName}, dealing {eatDamage} damage!");
                     break;
 
                 case UpgradeNames.PhanthomTouch:
@@ -444,6 +462,26 @@ public class CombatManager : MonoBehaviour
                         combatant.AddEffect(new Effect(EffectType.SpellStrenghten, 2, false, upgrade.intensity));
 
                         BattleUIManager.Instance.AddLog($"{combatant.CharacterName} Tries a careless tactic!");
+                    }
+                    break;
+                case UpgradeNames.SporeInfection:
+                    {
+                        if (combatantTurnCounters[combatant] % 1 == 0)
+                        {
+                            CombatantInstance targetSporeInfection = (combatant is DoobieInstance)
+                                ? GameManager.Instance.currentVangurr
+                                : GameManager.Instance.currentDoobie;
+
+                            Effect sporeEffect = targetSporeInfection.ActiveEffects.Find(s => s.type == EffectType.Spores);
+                            if (sporeEffect != null)
+                            {
+                                int sporeDmg = sporeEffect.intensity;
+
+                                var (result, damageDone) = targetSporeInfection.TakeDamage(sporeDmg);
+
+                                BattleUIManager.Instance.AddLog($"{targetSporeInfection.CharacterName} coughs and sputters as spores deal {damageDone} damage!");
+                            }
+                        }
                     }
                     break;
                         default:
