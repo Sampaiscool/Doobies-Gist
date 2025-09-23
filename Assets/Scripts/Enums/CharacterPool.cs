@@ -17,4 +17,5 @@ public enum CharacterPool
     Golden,             // Doobie
     Rum,                // Resource
     Health,             // Resource
+    Zelstine,           // Doobie
 }

@@ -14,18 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doobieName: Zelstine
   description: Follower of the godesses
-  portrait: {fileID: 21300000, guid: 6ce25452f23a9304780c1a71eefdc365, type: 3}
+  portrait: {fileID: 21300000, guid: e4c2f499a9962be4aad53571a3aa0818, type: 3}
   unlockedByDefault: 1
-  doobieMainResource: 0
+  doobieMainResource: 4
   resourceActionSO: {fileID: 0}
   doobieActionSO: {fileID: 0}
-  baseResourceMax: 0
-  skillDmg: 0
-  healPower: 0
-  baseDefence: 0
-  characterPool: 0
-  baseHealth: 0
+  baseResourceMax: 10
+  skillDmg: 3
+  healPower: 1
+  baseDefence: 1
+  characterPool: 12
+  baseHealth: 20
   hasHealth: 1
   baseSkills: []
   defaultWeapon: {fileID: 0}
   startingUpgrades: []
+  skillSet1:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  skillSet2:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  skillSet3:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

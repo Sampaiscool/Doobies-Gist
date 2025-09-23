@@ -17,7 +17,24 @@ public class DoobieInstance : CombatantInstance
 
     public IResource MainResource { get; private set; }
 
-    public override List<SkillSO> GetAllSkills() => new List<SkillSO>(_so.baseSkills);
+    public override List<SkillSO> GetAllSkills()
+    {
+        if (_so.characterPool == CharacterPool.Zelstine)
+        {
+            if (CurrentGoddess != GoddessType.None && goddessSkills.ContainsKey(CurrentGoddess))
+            {
+                return goddessSkills[CurrentGoddess];
+            }
+            return _so.baseSkills;
+        }
+
+        return new List<SkillSO>(_so.baseSkills);
+    }
+
+    //  --- Zelstine ---
+    private Dictionary<GoddessType, List<SkillSO>> goddessSkills = new();
+    public GoddessType CurrentGoddess { get; private set; } = GoddessType.None;
+
 
     public DoobieInstance(DoobieSO so)
     {
@@ -49,6 +66,11 @@ public class DoobieInstance : CombatantInstance
                 rum.OnRumGained += HandleRumGained;
                 MainResource = rum;
                 break;
+            case ResourceType.Faith:
+                var faith = new FaithResource(_so.baseResourceMax);
+                faith.OnFaithGained += HandleFaithGained;
+                MainResource = faith;
+                break;
             default:
                 MainResource = null;
                 break;
@@ -70,7 +92,19 @@ public class DoobieInstance : CombatantInstance
                 icon = upgrade.icon
             });
         }
+
+        if (_so.characterPool == CharacterPool.Zelstine)
+        {
+            goddessSkills[GoddessType.Kaelyth] = new List<SkillSO>(_so.skillSet1);
+            goddessSkills[GoddessType.Velithra] = new List<SkillSO>(_so.skillSet2);
+            goddessSkills[GoddessType.Elenara] = new List<SkillSO>(_so.skillSet3);
+        }
     }
+
+    /// <summary>
+    /// Events that happen when you gain Rum
+    /// </summary>
+    /// <param name="amount">The amount you gain</param>
     private void HandleRumGained(int amount)
     {
         Upgrade criticalRum = ActiveUpgrades.Find(r => r.type == UpgradeNames.CriticalRum);
@@ -84,9 +118,64 @@ public class DoobieInstance : CombatantInstance
         {
             GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Burn, flamingRum.intensity, true, flamingRum.intensity));
         }
+
+        int rumGained = Random.Range(1, 6);
+        MainResource.Gain(rumGained);
+
+        BattleUIManager.Instance.AddLog($"{CharacterName} Has made {rumGained} rum!");
+
+        if (MainResource.Current >= 7)
+        {
+            if (MainResource.Current == MainResource.Max)
+            {
+                AddEffect(new Effect(EffectType.DefenceDown, 5, true, 10));
+                AddEffect(new Effect(EffectType.WeaponStrenghten, 5, true, 10));
+                AddEffect(new Effect(EffectType.SpellStrenghten, 5, true, 10));
+                AddEffect(new Effect(EffectType.Regeneration, 5, true, 10));
+
+                BattleUIManager.Instance.AddLog($"{CharacterName} Has entered a drunken brawl!");
+            }
+            else
+            {
+                AddEffect(new Effect(EffectType.DefenceDown, 5, true, 3));
+                BattleUIManager.Instance.AddLog($"{CharacterName} Had a little to much to drink!");
+            }
+        }
+        else
+        {
+            AddEffect(new Effect(EffectType.Harden, 5, true, 3));
+        }
     }
+
+    /// <summary>
+    /// Events that happen when you gain Zurp
+    /// </summary>
+    /// <param name="amount">The amount you gain</param>
     private void HandleZurpGained(int amount)
     {
 
+    }
+
+    /// <summary>
+    /// Events that happen when you gain Faith
+    /// </summary>
+    /// <param name="amount">The amount you gain</param>
+    private void HandleFaithGained(int amount)
+    {
+
+    }
+
+    public void SetGoddess(GoddessType goddess, bool applyDebuff = false)
+    {
+        if (_so.characterPool != CharacterPool.Zelstine)
+            return; // Other doobies can’t do this
+
+        if (applyDebuff && CurrentGoddess != GoddessType.None && goddess != CurrentGoddess)
+        {
+            //AddEffect(new Effect(EffectType.WeakenedFaith, 3, false, 1));
+        }
+
+        CurrentGoddess = goddess;
+        BattleUIManager.Instance.AddLog($"{CharacterName} now worships {goddess}!");
     }
 }

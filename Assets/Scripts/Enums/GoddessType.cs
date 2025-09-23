@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ResourceType
+public enum GoddessType 
 {
-    Zurp,
-    Health,
     None,
-    Rum,
-    Faith,
+    Elenara,
+    Velithra,
+    Kaelyth,
 }

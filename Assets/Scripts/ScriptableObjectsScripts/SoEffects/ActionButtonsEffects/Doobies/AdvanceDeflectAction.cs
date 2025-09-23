@@ -32,7 +32,6 @@ public class AdvanceDeflectAction : ScriptableObject, IDoobieAction
         BattleUIManager.Instance.AddLog($"{log2}");
         BattleUIManager.Instance.AddLog($"Finaly {user.CharacterName} attacks dealing {damageDone} damage!");
 
-
         user.ActiveEffects.Remove(deflectEffect);
 
         return true;
