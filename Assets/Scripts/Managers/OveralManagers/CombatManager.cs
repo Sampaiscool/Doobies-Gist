@@ -484,6 +484,15 @@ public class CombatManager : MonoBehaviour
                         }
                     }
                     break;
+                case UpgradeNames.ShiningSanctuary:
+                    if (combatant is DoobieInstance doobie && doobie.MainResource.Current >= 10)
+                    {
+                        combatant.AddEffect(new Effect(EffectType.BlessedShield, 5, false, upgrade.intensity));
+                        BattleUIManager.Instance.AddLog($"{combatant.CharacterName} Has gained enough faith to please the Shining Sanctuary!");
+
+                        doobie.MainResource.Spend(5);
+                    }
+                    break;
                         default:
                     break;
             }

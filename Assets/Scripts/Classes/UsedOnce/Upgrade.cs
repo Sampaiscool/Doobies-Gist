@@ -71,13 +71,18 @@ public enum UpgradeNames
     CriticalBarrels,                      //Cobb Silver Eye
     PaddedBarrels,                        //Cobb Silver Eye
     FiercePowder,                         //Cobb Silver Eye
-    FlamingRum,                           //Cobb Silver Eye
-    CriticalRum,                          //Cobb Silver Eye
+    FlamingRum,                           //Rum
+    CriticalRum,                          //Rum
     WalkThePlank,                         //Cobb Silver Eye
 
     SporeInfection,                       //Mushroom Man
 
     HealingFaith,                         //Zelstine
     CursedFaith,                          //Zelstine
-    BattleFaith,                             //Zelstine
+    BattleFaith,                          //Zelstine
+    OverflowingGrace,                     //Zelstine
+    ShiningSanctuary,                     //Faith
+    MaskOfMidnight,                       //Zelstine
+    WrathboundOath,                       //Zelstine
+    SpearOfRadiance,                      //Zelstine
 }

@@ -49,9 +49,13 @@ public abstract class CombatantInstance
             {
                 BattleUIManager.Instance.SpawnFloatingText("+" + healAmount, Color.green, BattleUIManager.Instance.DoobieHP.transform, false);
             }
-        }
 
-        BattleUIManager.Instance.AddLog($"{CharacterName} heals for {healAmount}!");
+            BattleUIManager.Instance.AddLog($"{CharacterName} heals for {healAmount}!");
+        }
+        else if ((effectiveHeal += CurrentHealth) > MaxHealth)
+        {
+            CheckForOverHealEffects();
+        }
 
         return healAmount;
     }
@@ -717,6 +721,20 @@ public abstract class CombatantInstance
             }
         }
     }
+    public void CheckForOverHealEffects()
+    {
+        foreach (var upgrade in ActiveUpgrades)
+        {
+            switch (upgrade.type)
+            {
+                case UpgradeNames.OverflowingGrace:
+                    AddEffect(new Effect(EffectType.Regeneration, 1, false, upgrade.intensity));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     protected void ApplyEffectsOnBasicAttack(CombatantInstance target)
     {
@@ -725,7 +743,14 @@ public abstract class CombatantInstance
             switch (upgrade.type)
             {
                 case UpgradeNames.Firebrand:
-                    target.AddEffect(new Effect(EffectType.Burn, 3, true, upgrade.intensity)); 
+                    target.AddEffect(new Effect(EffectType.Burn, 3, true, upgrade.intensity));
+                    break;
+                case UpgradeNames.WrathboundOath:
+                    if (this is DoobieInstance doobie && doobie.MainResource.Current >= 5)
+                    {
+                        AddEffect(new Effect(EffectType.WeaponStrenghten, 3, false, upgrade.intensity));
+                        AddEffect(new Effect(EffectType.CriticalEye, 3, false, upgrade.intensity));
+                    }
                     break;
             }
         }
@@ -797,13 +822,44 @@ public abstract class CombatantInstance
     }
     public void CheckForAttackEffects()
     {
-        Upgrade battleFaithUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.BattleFaith);
-        if (battleFaithUpgrade != null)
+        foreach (var upgrade in ActiveUpgrades)
         {
-            if (this is DoobieInstance doobie && doobie.CurrentGoddess == GoddessType.Kaelyth)
+            switch (upgrade.type)
             {
-                doobie.MainResource.Gain(battleFaithUpgrade.intensity);
-                BattleUIManager.Instance.AddLog($"{CharacterName} has gained 2 Faith!");
+                case UpgradeNames.BattleFaith:
+                    if (this is DoobieInstance doobie && doobie.CurrentGoddess == GoddessType.Kaelyth)
+                    {
+                        doobie.MainResource.Gain(upgrade.intensity);
+                        BattleUIManager.Instance.AddLog($"{CharacterName} has gained 2 Faith!");
+                    }
+                    break;
+                case UpgradeNames.SpearOfRadiance:
+                    bool hasDebuff = false;
+                    while (hasDebuff == false)
+                    {
+                        foreach (var effect in ActiveEffects)
+                        {
+                            if (effect.isDebuff == true)
+                            {
+                                hasDebuff = true;
+                                return;
+                            }
+                        }
+                    }
+                    if (hasDebuff)
+                    {
+                        if (this is DoobieInstance)
+                        {
+                            GameManager.Instance.currentVangurr.TakeDamage((upgrade.intensity * 3));
+                        }
+                        else
+                        {
+                            GameManager.Instance.currentDoobie.TakeDamage((upgrade.intensity * 3));
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -873,6 +929,15 @@ public abstract class CombatantInstance
     }
     public void BeforeEffectGain(Effect newEffect)
     {
+        if (this is DoobieInstance doobie)
+        {
+            Upgrade maskOfMidnight = GameManager.Instance.currentVangurr.ActiveUpgrades.Find(m => m.type == UpgradeNames.MaskOfMidnight);
+            if (maskOfMidnight != null)
+            {
+                AddEffect(new Effect(EffectType.Holy, 2, true, maskOfMidnight.intensity));
+            }
+        }
+
         Effect holyEffect = ActiveEffects.Find(h => h.type == EffectType.Holy);
         if (holyEffect != null)
         {

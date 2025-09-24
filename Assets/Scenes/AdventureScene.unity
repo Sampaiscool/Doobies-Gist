@@ -3515,6 +3515,19 @@ MonoBehaviour:
     upgrades:
     - {fileID: 11400000, guid: 1c4105bf92b499e4a81d85fa08f1db24, type: 2}
     - {fileID: 11400000, guid: be2cbf7eb4bf3824389b87120b3d4147, type: 2}
+  - groupName: Zelstine
+    characterPool: 12
+    resourceType: 2
+    upgrades:
+    - {fileID: 11400000, guid: e6b10ec54f970314899782cb3b05dde6, type: 2}
+    - {fileID: 11400000, guid: 6e00574432ee47e4b9cdd1ecafd3af14, type: 2}
+    - {fileID: 11400000, guid: f6a8fa32a0d84964a9722facd87c8ec1, type: 2}
+  - groupName: Faith
+    characterPool: 0
+    resourceType: 4
+    upgrades:
+    - {fileID: 11400000, guid: 57555a96b622b664c93f8131f754942c, type: 2}
+    - {fileID: 11400000, guid: e963327837886d94cac4aec8bdf1e473, type: 2}
 --- !u!1 &1336441296
 GameObject:
   m_ObjectHideFlags: 0

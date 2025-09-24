@@ -18,4 +18,5 @@ public enum CharacterPool
     Rum,                // Resource
     Health,             // Resource
     Zelstine,           // Doobie
+    Faith,              // Resource
 }
