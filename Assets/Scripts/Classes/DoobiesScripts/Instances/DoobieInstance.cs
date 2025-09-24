@@ -155,6 +155,8 @@ public class DoobieInstance : CombatantInstance
             AddEffect(new Effect(EffectType.Holy, 3, true, 1));
             AddEffect(new Effect(EffectType.DefenceDown, 3, true, 1));
             AddEffect(new Effect(EffectType.TargetLocked, 3, true, 1));
+
+            BattleUIManager.Instance.UpdateUI();
         }
 
         CurrentGoddess = goddess;

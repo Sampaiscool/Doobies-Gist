@@ -258,7 +258,7 @@ public abstract class CombatantInstance
     /// <param name="damage">the damage that is done</param>
     /// <param name="isSkill">if the damage came from a skill</param>
     /// <returns>Wheter something happened</returns>
-    private bool HandleOnDamage(int damage, bool isSkill)
+    private void HandleOnDamage(int damage, bool isSkill)
     {
         Effect vampireCurse = ActiveEffects.Find(b => b.type == EffectType.VampireCurse);
         if (vampireCurse != null)
@@ -275,7 +275,11 @@ public abstract class CombatantInstance
                     GameManager.Instance.currentDoobie.HealCombatant(healAmount);
                 }
             }
-            return true;
+        }
+        Effect nutouCurse = ActiveEffects.Find(b => b.type == EffectType.NutouCurse);
+        if (nutouCurse != null)
+        {
+            AddEffect(new Effect(EffectType.HealingWeaken, 1, true, nutouCurse.intensity));
         }
 
         foreach (Upgrade upgrade in ActiveUpgrades)
@@ -296,8 +300,6 @@ public abstract class CombatantInstance
                     break;
             }
         }
-
-        return false;
     }
 
 

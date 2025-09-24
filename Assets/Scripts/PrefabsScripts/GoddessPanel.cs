@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class GoddessPanel : MonoBehaviour
@@ -11,18 +13,32 @@ public class GoddessPanel : MonoBehaviour
     public float slideDistance = 500f;
     public float duration = 0.5f;
 
-    public static GoddessPanel ActivePanel { get; private set; }
+    [Header("UI References")]
+    public Button closeButton;
+    public Image elenaraHighlight;
+    public Image velithraHighlight;
+    public Image kaelythHighlight;
+    public Color activeColor = Color.yellow;
+    public Color inactiveColor = Color.white;
 
-    private void OnDestroy()
-    {
-        if (ActivePanel == this)
-            ActivePanel = null;
-    }
+    private Dictionary<GoddessType, Image> highlights;
+
+    public static GoddessPanel ActivePanel { get; private set; }
 
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         rect = GetComponent<RectTransform>();
+
+        highlights = new Dictionary<GoddessType, Image>
+        {
+            { GoddessType.Elenara, elenaraHighlight },
+            { GoddessType.Velithra, velithraHighlight },
+            { GoddessType.Kaelyth, kaelythHighlight }
+        };
+
+        if (closeButton != null)
+            closeButton.onClick.AddListener(ClosePanel);
     }
 
     private void OnEnable()
@@ -38,11 +54,19 @@ public class GoddessPanel : MonoBehaviour
         canvasGroup.alpha = 0f;
 
         StartCoroutine(SlideFade(Vector2.zero, 1f));
+
+        RefreshHighlight();
     }
 
     private void OnDisable()
     {
         StopAllCoroutines();
+    }
+
+    private void OnDestroy()
+    {
+        if (ActivePanel == this)
+            ActivePanel = null;
     }
 
     public void SetGoddess(string goddessName)
@@ -59,10 +83,28 @@ public class GoddessPanel : MonoBehaviour
 
         GameManager.Instance.currentDoobie.SetGoddess(goddessType);
 
-        // Slide out and destroy
+        RefreshHighlight();
+
         StartCoroutine(SlideFade(new Vector2(0, -slideDistance), 0f, destroyAfter: true));
     }
 
+    private void RefreshHighlight()
+    {
+        if (GameManager.Instance.currentDoobie == null) return;
+
+        GoddessType current = GameManager.Instance.currentDoobie.CurrentGoddess;
+
+        foreach (var kvp in highlights)
+        {
+            if (kvp.Value == null) continue;
+            kvp.Value.color = (kvp.Key == current) ? activeColor : inactiveColor;
+        }
+    }
+
+    public void ClosePanel()
+    {
+        StartCoroutine(SlideFade(new Vector2(0, -slideDistance), 0f, destroyAfter: true));
+    }
 
     private IEnumerator SlideFade(Vector2 targetPos, float targetAlpha, bool destroyAfter = false)
     {

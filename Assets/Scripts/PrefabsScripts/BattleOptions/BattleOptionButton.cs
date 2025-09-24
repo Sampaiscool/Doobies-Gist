@@ -82,7 +82,6 @@ public class BattleOptionButton : MonoBehaviour, IPointerEnterHandler, IPointerE
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-
         if (tooltipPanel == null) return;
 
         if (animRoutine != null) StopCoroutine(animRoutine);

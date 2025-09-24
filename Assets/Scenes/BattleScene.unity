@@ -1093,7 +1093,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 119.84525}
+  m_AnchoredPosition: {x: 0, y: 119.845245}
   m_SizeDelta: {x: -84, y: -360.3095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &368433237
@@ -2440,6 +2440,10 @@ MonoBehaviour:
   - label: Holy
     type: 30
     icon: {fileID: 21300000, guid: 9ca26fd409cff124089ba21036137510, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: NutouCurse
+    type: 31
+    icon: {fileID: 21300000, guid: 222ce2a733e7aba418b0eb61654104fe, type: 3}
     effectPrefab: {fileID: 0}
   EffectIconPrefab: {fileID: 8727585946917096499, guid: 3865fb4965dd7714f8502c665b7d8190, type: 3}
   EffectDescriptionPrefab: {fileID: 7399243327277128440, guid: 9ca2d5d67a8f1bb499a0171ffc237151, type: 3}

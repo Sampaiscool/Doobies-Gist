@@ -23,6 +23,6 @@ public class GoddessPunchEffect : SkillEffectSO
             string log = user.PerformBasicAttack(target);
             return log;
         }
-        return $"Kaelyth Attaxcks with {user.CharacterName} dealing {damageDone} damage!";
+        return $"Kaelyth Attacks with {user.CharacterName} dealing {damageDone} damage!";
     }
 }

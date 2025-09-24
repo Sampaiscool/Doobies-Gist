@@ -20,6 +20,9 @@ public class YippieHibbelEffect : LocationEffectSO
             case ResourceType.Rum:
                 GameManager.Instance.currentDoobie.MainResource.GainMax(5);
                 break;
+            case ResourceType.Faith:
+                GameManager.Instance.currentDoobie.MainResource.GainMax(5);
+                break;
             default:
                 break;
         }

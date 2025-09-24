@@ -689,6 +689,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 11dadc1e34f7b444d9345c2f8bdd66b9, type: 2}
   - {fileID: 11400000, guid: 4fe07354a212f6a4390280006ea3c1ec, type: 2}
   - {fileID: 11400000, guid: 2395eca5c86aa7a48a869715a13d7aaf, type: 2}
+  - {fileID: 11400000, guid: 0716f76cbf7601a468379466aae92de8, type: 2}
   PanelManager: {fileID: 931394462}
   locationButtonPrefab: {fileID: 437312863584247690, guid: cd2c76f8995e34f4cadddd2c15bf22d8, type: 3}
   locationButtonHolder: {fileID: 1258595990}

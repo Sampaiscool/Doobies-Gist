@@ -18,7 +18,7 @@ MonoBehaviour:
   unlockedByDefault: 1
   doobieMainResource: 4
   resourceActionSO: {fileID: 11400000, guid: a716ec0d0af4edc4d8156e8a95709bdf, type: 2}
-  doobieActionSO: {fileID: 0}
+  doobieActionSO: {fileID: 11400000, guid: 2038097f3fb0fa44bbda9cf9a2719f34, type: 2}
   baseResourceMax: 10
   skillDmg: 3
   healPower: 1
@@ -59,8 +59,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bce8b1281e4d9644c95b62368c93cbb7, type: 2}
   skillSet2:
   - {fileID: 11400000, guid: 6b46a299b5dc8a34db644f45534a6b00, type: 2}
-  - {fileID: 11400000, guid: 11fee2bcda565874d83fef7b2b9e5e59, type: 2}
   - {fileID: 11400000, guid: 75f9139a0d5bca546b40cbf4750e04d3, type: 2}
+  - {fileID: 11400000, guid: 11fee2bcda565874d83fef7b2b9e5e59, type: 2}
   skillSet3:
   - {fileID: 11400000, guid: dd0e93a8098197747a358acdd6592d4b, type: 2}
   - {fileID: 11400000, guid: 3ab9e499d4ec958409cab3f48fb7902e, type: 2}
