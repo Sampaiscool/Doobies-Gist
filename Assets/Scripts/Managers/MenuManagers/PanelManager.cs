@@ -10,6 +10,9 @@ public class PanelManager : MonoBehaviour
     public GameObject VangurrPanel;
     public GameObject ShopPanel;
 
+    public GameObject GoddessSwapButton;
+    public GameObject GoddessSwapButtonHolder;
+
     public LocationManager locationManager;
     public VangurrManager vangurrManager;
     public PlayerStatsUIManager playerStatsUIManager;
@@ -79,6 +82,15 @@ public class PanelManager : MonoBehaviour
 
             vangurrManager.UpdateVangurrText(vangurrManager.ChosenVangurr);
         }
+
+        if (GameManager.Instance.currentDoobie._so.characterPool == CharacterPool.Zelstine)
+        {
+            GoddessSwapButton.SetActive(true);
+        }
+        else
+        {
+            GoddessSwapButton.SetActive(false);
+        }
     }
 
     public void ShowShopPanel()
@@ -102,6 +114,14 @@ public class PanelManager : MonoBehaviour
             }
         }
     }
+    public void ShowGoddessButtons()
+    {
+        GameManager.Instance.SpawnGoddessButtons();
+    }
 
-    public void OnBattlePressed() => SceneManager.LoadScene("BattleScene");
+    public void OnBattlePressed()
+    {
+        SceneManager.LoadScene("BattleScene");
+        GameManager.Instance.InCombat = true;
+    }
 }

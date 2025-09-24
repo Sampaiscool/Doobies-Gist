@@ -235,6 +235,21 @@ public abstract class CombatantInstance
             return true;
         }
 
+        Effect blessedShieldEffect = ActiveEffects.Find(b => b.type == EffectType.BlessedShield);
+        if (blessedShieldEffect != null && blessedShieldEffect.intensity > 0)
+        {
+            blessedShieldEffect.intensity -= damage;
+
+            if (blessedShieldEffect.intensity <= 0)
+            {
+                ActiveEffects.Remove(blessedShieldEffect);
+
+                AddEffect(new Effect(EffectType.HealingStrenghten, 5, false, CurrentHealPower));
+            }
+
+            return true;
+        }
+
         return false;
     }
     /// <summary>
@@ -335,6 +350,7 @@ public abstract class CombatantInstance
         // Apply all upgrade effects
         ApplyEffectsOnBasicAttack(target);
         CheckForWeaponOnUseEffects();
+        CheckForAttackEffects();
 
         switch (result)
         {
@@ -673,6 +689,15 @@ public abstract class CombatantInstance
                         GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Vines, 2, true, upgrade.intensity));
                     }
                     break;
+                case UpgradeNames.HealingFaith:
+                    if (this is DoobieInstance doobie && doobie.CurrentGoddess == GoddessType.Elenara)
+                    {
+                        doobie.MainResource.Gain(upgrade.intensity);
+                        BattleUIManager.Instance.AddLog($"{CharacterName} has gained 2 Faith!");
+                    }
+                    break;
+                default:
+                    break;
             }
         }
         var effectsSnapshot = new List<Effect>(ActiveEffects);
@@ -716,6 +741,19 @@ public abstract class CombatantInstance
     }
     private void AddEffectUpgradesCheck(Effect newEffect)
     {
+        if (newEffect.isDebuff)
+        {
+            Upgrade cursedFaithUpgrade = ActiveUpgrades.Find(c => c.type == UpgradeNames.CursedFaith);
+            if (cursedFaithUpgrade != null)
+            {
+                if (this is DoobieInstance doobie && doobie.CurrentGoddess == GoddessType.Velithra)
+                {
+                    GameManager.Instance.currentDoobie.MainResource.Gain(cursedFaithUpgrade.intensity);
+                    BattleUIManager.Instance.AddLog($"{CharacterName} has gained 2 Faith!");
+                }
+            }
+        }
+
         if (newEffect.type == EffectType.Deflecion)
         {
             Upgrade fleetingPetalsUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.FleetingPetals);
@@ -755,8 +793,22 @@ public abstract class CombatantInstance
     {
         CurrentHealth = 0;
     }
+    public void CheckForAttackEffects()
+    {
+        Upgrade battleFaithUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.BattleFaith);
+        if (battleFaithUpgrade != null)
+        {
+            if (this is DoobieInstance doobie && doobie.CurrentGoddess == GoddessType.Kaelyth)
+            {
+                doobie.MainResource.Gain(battleFaithUpgrade.intensity);
+                BattleUIManager.Instance.AddLog($"{CharacterName} has gained 2 Faith!");
+            }
+        }
+    }
     public void AddEffect(Effect newEffect)
     {
+        BeforeEffectGain(newEffect);
+
         // Special case: TargetLocked should NOT stack
         if (newEffect.type == EffectType.TargetLocked)
         {
@@ -815,6 +867,21 @@ public abstract class CombatantInstance
         else
         {
             ActiveUpgrades.Add(newUpgrade);
+        }
+    }
+    public void BeforeEffectGain(Effect newEffect)
+    {
+        Effect holyEffect = ActiveEffects.Find(h => h.type == EffectType.Holy);
+        if (holyEffect != null)
+        {
+            int holyDamage = 0;
+            for (int i = 0;  i < holyEffect.intensity; i++)
+            {
+                holyDamage += 1;
+            }
+
+            TakeDamage(holyDamage);
+            BattleUIManager.Instance.AddLog($"{CharacterName} takes damage beacause they gained a debuff while they have Holy!");
         }
     }
 

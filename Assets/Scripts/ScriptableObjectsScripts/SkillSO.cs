@@ -8,6 +8,7 @@ public class SkillSO : ScriptableObject
     public string skillName;
     public Sprite icon;
     public GameObject animation;
+    [TextArea]
     public string description;
     public int resourceCost;
     public ResourceType resourceUsed; // HP or Zurp
@@ -42,6 +43,8 @@ public class SkillSO : ScriptableObject
             user.CheckForWeaponOnUseEffects();
         else
             user.CheckForSkillOnUseEffects();
+
+        user.CheckForAttackEffects();
 
         target.PlayAttackAnimation(animation);
 

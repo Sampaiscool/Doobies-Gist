@@ -76,4 +76,8 @@ public enum UpgradeNames
     WalkThePlank,                         //Cobb Silver Eye
 
     SporeInfection,                       //Mushroom Man
+
+    HealingFaith,                         //Zelstine
+    CursedFaith,                          //Zelstine
+    BattleFaith,                             //Zelstine
 }

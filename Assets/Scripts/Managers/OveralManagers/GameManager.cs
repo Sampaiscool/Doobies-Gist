@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -13,10 +14,16 @@ public class GameManager : MonoBehaviour
     public DoobieInstance currentDoobie; //The players current Doobie
     public VangurrInstance currentVangurr; //The Chosen Vangurr the player is going to fight / is fighting.
 
+    public bool InCombat = false;
+
     public int CurrentPlayerSploont = 0; //The players current Money 
     public int CurrentPlayerHP = 20;
     public CombatManager CombatManager;
     public GameObject damageAnimationPrefab;
+    public Transform uiCanvas;
+
+    [Header("Doobie Specific")]
+    public GameObject goddessButtonsPrefab;
 
     [Header("Shop Manager")]
     [System.NonSerialized]
@@ -128,6 +135,8 @@ public class GameManager : MonoBehaviour
 
     public void AfterFight(bool hasWonBattle)
     {
+        InCombat = false;
+
         if (hasWonBattle)
         {
             ChangeSploont(50, true);
@@ -162,4 +171,39 @@ public class GameManager : MonoBehaviour
             playerStatsUIManager.UpdatePlayerInfo();
         }
     }
+
+    public void SpawnGoddessButtons()
+    {
+        if (FindObjectOfType<GoddessPanel>() != null)
+        {
+            Debug.Log("[GameManager] Goddess buttons UI is already active!");
+            return;
+        }
+
+        Canvas uiCanvas = null;
+        foreach (var canvas in FindObjectsOfType<Canvas>())
+        {
+            if (canvas.isRootCanvas)
+            {
+                uiCanvas = canvas;
+                break;
+            }
+        }
+
+        if (goddessButtonsPrefab == null || uiCanvas == null)
+        {
+            Debug.LogWarning("[GameManager] Missing prefab or no Canvas found in scene!");
+            return;
+        }
+
+        GameObject obj = Instantiate(goddessButtonsPrefab, uiCanvas.transform);
+
+        RectTransform rect = obj.GetComponent<RectTransform>();
+        if (rect != null)
+        {
+            rect.anchoredPosition = Vector2.zero;
+            rect.localScale = Vector3.one;
+        }
+    }
+
 }

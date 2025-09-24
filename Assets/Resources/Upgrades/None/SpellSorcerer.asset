@@ -16,7 +16,7 @@ MonoBehaviour:
   description: If you use a Spell-Style Skill; Gain +1 "Spell Strenghten";
   cost: 100
   icon: {fileID: 0}
-  type: 0
+  type: 20
   pool: 0
   intensity: 1
   isCurse: 0

@@ -1093,8 +1093,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -6.0610046, y: 75}
-  m_SizeDelta: {x: -74.483, y: -270.62}
+  m_AnchoredPosition: {x: 0, y: 119.84525}
+  m_SizeDelta: {x: -84, y: -360.3095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &368433237
 MonoBehaviour:
@@ -1559,7 +1559,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.0305, y: -198.78}
+  m_AnchoredPosition: {x: -3.0305, y: -80}
   m_SizeDelta: {x: 593.94, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &534532712
@@ -2432,6 +2432,14 @@ MonoBehaviour:
   - label: Spores
     type: 28
     icon: {fileID: 21300000, guid: 0ae1c665ecdfd0247a5258ddc67b8a54, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Blessed Shield
+    type: 29
+    icon: {fileID: 21300000, guid: b344e8072b6b6004aad063467344b834, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Holy
+    type: 30
+    icon: {fileID: 21300000, guid: 9ca26fd409cff124089ba21036137510, type: 3}
     effectPrefab: {fileID: 0}
   EffectIconPrefab: {fileID: 8727585946917096499, guid: 3865fb4965dd7714f8502c665b7d8190, type: 3}
   EffectDescriptionPrefab: {fileID: 7399243327277128440, guid: 9ca2d5d67a8f1bb499a0171ffc237151, type: 3}
@@ -4058,8 +4066,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 48.31299}
-  m_SizeDelta: {x: -82.797, y: -259.865}
+  m_AnchoredPosition: {x: 0, y: 109.19}
+  m_SizeDelta: {x: -84, y: -381.62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1244336392
 MonoBehaviour:
@@ -6348,7 +6356,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000076293945, y: -222.55}
+  m_AnchoredPosition: {x: -0.0000076293945, y: -80}
   m_SizeDelta: {x: 600, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1882145251

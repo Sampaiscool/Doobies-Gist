@@ -100,14 +100,21 @@ public class BattleUIManager : MonoBehaviour
             return;
         }
 
+        // Update portraits and health/resource
         UpdateCombatantUI(GameManager.Instance.currentDoobie, DoobieImage, DoobieName, DoobieHP, DoobieVurp, "Zurp");
         UpdateCombatantUI(GameManager.Instance.currentVangurr, VangurrImage, VangurrName, VangurrHP, null);
 
-
         BattleOptionsPanel.SetActive(false);
         SkillOptions.SetActive(false);
+
         AddLog($"You start the fight against {VangurrName.text}");
         ShowPanel(CombatLogPanel);
+
+        //GameManager.Instance.currentDoobie.SetGoddess(GoddessType.Kaelyth, false);
+
+        // Now refresh skills
+        var skills = GameManager.Instance.currentDoobie.GetAllSkills();
+        RefreshSkillButtons(skills);
     }
     /// <summary>
     /// Updates the Ui of the Doobie and Vangurr
@@ -121,11 +128,10 @@ public class BattleUIManager : MonoBehaviour
         UpdateEffectsUI(GameManager.Instance.currentVangurr, VangurrEffectsContainer);
     }
 
-    public void ShowSpellUI(System.Action<SkillSO> onSkillClicked)
+    public void ShowSpellUI()
     {
-        var doobieSkills = GameManager.Instance.currentDoobie.GetAllSkills();
-        DisplaySkills(doobieSkills, onSkillClicked);
-
+        var skills = GameManager.Instance.currentDoobie.GetAllSkills();
+        RefreshSkillButtons(skills);
         ShowPanel(SkillOptions);
     }
 
@@ -189,19 +195,34 @@ public class BattleUIManager : MonoBehaviour
 
     public void DisplaySkills(List<SkillSO> skills, System.Action<SkillSO> onSkillChosen)
     {
-        // Hide the action panel and show the skill panel
         ShowPanel(SkillOptions);
 
-        // Clear old buttons
         foreach (Transform child in skillButtonContainer)
             Destroy(child.gameObject);
 
-        // Spawn new buttons
         foreach (var skill in skills)
         {
             var button = Instantiate(skillButtonPrefab, skillButtonContainer);
             button.Setup(skill, onSkillChosen);
         }
+    }
+    /// <summary>
+    /// Standard skill selection callback
+    /// </summary>
+    public void HandleSkillSelected(SkillSO skill)
+    {
+        if (GameManager.Instance.currentDoobie != null && GameManager.Instance.currentVangurr != null)
+        {
+            string result = skill.UseSkill(GameManager.Instance.currentDoobie, GameManager.Instance.currentVangurr);
+            AddLog(result);
+            BackFromSpells();
+            UpdateUI();
+        }
+    }
+
+    public void RefreshSkillButtons(List<SkillSO> skills)
+    {
+        DisplaySkills(skills, HandleSkillSelected);
     }
 
     private void UpdateCombatantUI(CombatantInstance combatant, Image portraitImage, TMP_Text nameText, TMP_Text hpText, TMP_Text extraText = null, string extraLabel = "")
@@ -241,18 +262,15 @@ public class BattleUIManager : MonoBehaviour
 
             if (effectIcon == null)
             {
-                // Spawn new icon if it doesn't exist
                 GameObject iconGO = Instantiate(EffectIconPrefab, effectContainer, false);
                 effectIcon = iconGO.GetComponent<EffectIcon>();
                 effect.iconInstance = effectIcon;
 
                 effectIcon.Initialize(effect, GetSpriteForEffects(effect.type), EffectDescriptionPrefab, GetAnimationForEffects(effect.type));
 
-                // Play effect on first application
                 effectIcon.PlayEffect();
             }
 
-            // Optional: update hover
             if (effectIcon.hoverPrefab != null)
             {
                 var hover = effectIcon.GetComponent<EffectIconHover>();
@@ -267,7 +285,6 @@ public class BattleUIManager : MonoBehaviour
                 combatant.ActiveEffectIcons.Add(effectIcon.gameObject);
         }
 
-        // Remove icons for effects that no longer exist
         for (int i = combatant.ActiveEffectIcons.Count - 1; i >= 0; i--)
         {
             var iconGO = combatant.ActiveEffectIcons[i];

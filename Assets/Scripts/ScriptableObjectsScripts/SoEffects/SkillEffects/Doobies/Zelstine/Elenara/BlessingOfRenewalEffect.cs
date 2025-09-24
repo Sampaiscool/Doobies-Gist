@@ -15,9 +15,9 @@ public class BlessingOfRenewalEffect : SkillEffectSO
 
             int healedAmount = user.HealCombatant(faithAmount);
 
-            user.AddEffect(new Effect(EffectType.Shield, 10, false, user.CurrentSkillDmg));
+            user.AddEffect(new Effect(EffectType.Shield, 10, false, user.CurrentHealPower));
 
-            return $"{user.CharacterName} blesses herself grating a shield and healing them for {healedAmount}";
+            return $"{user.CharacterName} blesses themself granting a shield and healing them for {healedAmount}";
         }
 
         return "wat";

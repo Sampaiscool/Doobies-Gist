@@ -15,7 +15,6 @@ public class FaithResource : IResource
     public FaithResource(int max)
     {
         Max = max;
-        Current = max;
     }
 
     public void Gain(int amount)

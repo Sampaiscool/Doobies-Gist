@@ -21,15 +21,21 @@ public class DoobieInstance : CombatantInstance
     {
         if (_so.characterPool == CharacterPool.Zelstine)
         {
+            Debug.Log($"GetAllSkills called! CurrentGoddess = {CurrentGoddess}");
+
             if (CurrentGoddess != GoddessType.None && goddessSkills.ContainsKey(CurrentGoddess))
             {
+                Debug.Log($"Returning skills for {CurrentGoddess}");
                 return goddessSkills[CurrentGoddess];
             }
+            Debug.Log("Returning base skills");
             return _so.baseSkills;
         }
 
         return new List<SkillSO>(_so.baseSkills);
     }
+
+
 
     //  --- Zelstine ---
     private Dictionary<GoddessType, List<SkillSO>> goddessSkills = new();
@@ -95,9 +101,9 @@ public class DoobieInstance : CombatantInstance
 
         if (_so.characterPool == CharacterPool.Zelstine)
         {
-            goddessSkills[GoddessType.Kaelyth] = new List<SkillSO>(_so.skillSet1);
+            goddessSkills[GoddessType.Elenara] = new List<SkillSO>(_so.skillSet1);
             goddessSkills[GoddessType.Velithra] = new List<SkillSO>(_so.skillSet2);
-            goddessSkills[GoddessType.Elenara] = new List<SkillSO>(_so.skillSet3);
+            goddessSkills[GoddessType.Kaelyth] = new List<SkillSO>(_so.skillSet3);
         }
     }
 
@@ -117,33 +123,6 @@ public class DoobieInstance : CombatantInstance
         if (flamingRum != null && GameManager.Instance.currentVangurr != null)
         {
             GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Burn, flamingRum.intensity, true, flamingRum.intensity));
-        }
-
-        int rumGained = Random.Range(1, 6);
-        MainResource.Gain(rumGained);
-
-        BattleUIManager.Instance.AddLog($"{CharacterName} Has made {rumGained} rum!");
-
-        if (MainResource.Current >= 7)
-        {
-            if (MainResource.Current == MainResource.Max)
-            {
-                AddEffect(new Effect(EffectType.DefenceDown, 5, true, 10));
-                AddEffect(new Effect(EffectType.WeaponStrenghten, 5, true, 10));
-                AddEffect(new Effect(EffectType.SpellStrenghten, 5, true, 10));
-                AddEffect(new Effect(EffectType.Regeneration, 5, true, 10));
-
-                BattleUIManager.Instance.AddLog($"{CharacterName} Has entered a drunken brawl!");
-            }
-            else
-            {
-                AddEffect(new Effect(EffectType.DefenceDown, 5, true, 3));
-                BattleUIManager.Instance.AddLog($"{CharacterName} Had a little to much to drink!");
-            }
-        }
-        else
-        {
-            AddEffect(new Effect(EffectType.Harden, 5, true, 3));
         }
     }
 
@@ -168,14 +147,30 @@ public class DoobieInstance : CombatantInstance
     public void SetGoddess(GoddessType goddess, bool applyDebuff = false)
     {
         if (_so.characterPool != CharacterPool.Zelstine)
-            return; // Other doobies can’t do this
+            return;
 
-        if (applyDebuff && CurrentGoddess != GoddessType.None && goddess != CurrentGoddess)
+
+        if (GameManager.Instance.InCombat && CurrentGoddess != GoddessType.None && goddess != CurrentGoddess)
         {
-            //AddEffect(new Effect(EffectType.WeakenedFaith, 3, false, 1));
+            AddEffect(new Effect(EffectType.Holy, 3, true, 1));
+            AddEffect(new Effect(EffectType.DefenceDown, 3, true, 1));
+            AddEffect(new Effect(EffectType.TargetLocked, 3, true, 1));
         }
 
         CurrentGoddess = goddess;
-        BattleUIManager.Instance.AddLog($"{CharacterName} now worships {goddess}!");
+
+        string message = $"{CharacterName} now worships {goddess}!";
+        if (BattleUIManager.Instance != null)
+        {
+            BattleUIManager.Instance.AddLog(message);
+
+            // Refresh skill buttons if the panel is open
+            BattleUIManager.Instance.RefreshSkillButtons(GetAllSkills());
+            BattleUIManager.Instance.BackFromSpells();
+        }
+        else
+        {
+            Debug.Log(message);
+        }
     }
 }

@@ -35,5 +35,7 @@ public enum EffectType
     Enflame,                    // Buff - On a Weapon Style Attack; Give the target "burn"
     Vines,                      // Debuff - Take damage if you heal
     HardHitter,                 // Buff - On a Weapon Style Attack; have a chance to stun the enemy
-    Spores,                     // Debugg - At the end of the turn gain debuffs for the amount of intensity: At 3 stacks; weapon weaken, at 5 stacks; healing weaken, at 10 strength; defence down
+    Spores,                     // Debuff - At the end of the turn gain debuffs for the amount of intensity: At 3 stacks; weapon weaken, at 5 stacks; healing weaken, at 10 strength; defence down
+    BlessedShield,              // Buff - if this shield is destroyed you gain 5 faith and "Healing Strenghten".
+    Holy,                       // Debuff - If you gain another debuff; take damage.
 }
