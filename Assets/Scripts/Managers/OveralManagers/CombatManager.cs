@@ -554,12 +554,22 @@ public class CombatManager : MonoBehaviour
                 }
             }
         }
-
-        // --- Fleeting Life ---
-        foreach (var upgrade in combatant.ActiveUpgrades.FindAll(e => e.type == UpgradeNames.FleetingLife))
+        foreach (var upgrade in combatant.ActiveUpgrades)
         {
-            var (result, damageDone) = combatant.TakeDamage(upgrade.intensity);
-            BattleUIManager.Instance.AddLog($"{combatant.CharacterName} life fleets away, taking {damageDone} damage.");
+            switch (upgrade.type)
+            {
+                case UpgradeNames.FleetingLife:
+                    var (result, damageDone) = combatant.TakeDamage(upgrade.intensity);
+                    BattleUIManager.Instance.AddLog($"{combatant.CharacterName} life fleets away, taking {damageDone} damage.");
+                    break;
+                case UpgradeNames.ShiftingSand:
+                    GameManager.Instance.currentDoobie.HealCombatant(upgrade.intensity);
+                    GameManager.Instance.currentVangurr.HealCombatant(upgrade.intensity);
+                    BattleUIManager.Instance.AddLog($"The sands have shifted; healing both players.");
+                    break;
+                default:
+                    break;
+            }
         }
 
         // Finally tick durations down

@@ -52,7 +52,8 @@ public abstract class CombatantInstance
 
             BattleUIManager.Instance.AddLog($"{CharacterName} heals for {healAmount}!");
         }
-        else if ((effectiveHeal += CurrentHealth) > MaxHealth)
+
+        if ((effectiveHeal += CurrentHealth) > MaxHealth)
         {
             CheckForOverHealEffects();
         }
@@ -770,7 +771,7 @@ public abstract class CombatantInstance
     {
         if (newEffect.isDebuff)
         {
-            Upgrade cursedFaithUpgrade = ActiveUpgrades.Find(c => c.type == UpgradeNames.CursedFaith);
+            Upgrade cursedFaithUpgrade = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(c => c.type == UpgradeNames.CursedFaith);
             if (cursedFaithUpgrade != null)
             {
                 if (this is DoobieInstance doobie && doobie.CurrentGoddess == GoddessType.Velithra)
@@ -914,7 +915,6 @@ public abstract class CombatantInstance
         BattleUIManager.Instance.AddLog(logMessage);
     }
 
-
     public void AddUpgrade(Upgrade newUpgrade)
     {
         Upgrade existing = ActiveUpgrades.Find(b => b.type == newUpgrade.type);
@@ -986,7 +986,6 @@ public abstract class CombatantInstance
             }
         }
 
-        // Immediately refresh UI so you never show duration=0
         BattleUIManager.Instance.UpdateEffectsUI(this,
             this is DoobieInstance
                 ? BattleUIManager.Instance.DoobieEffectsContainer

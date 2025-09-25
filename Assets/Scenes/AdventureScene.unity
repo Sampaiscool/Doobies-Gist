@@ -880,6 +880,7 @@ MonoBehaviour:
     vangurrs:
     - {fileID: 11400000, guid: 4a923bc67049a6e4bb19bb325b4523a6, type: 2}
     - {fileID: 11400000, guid: ca9b47890889de34caa0081325b992ad, type: 2}
+    - {fileID: 11400000, guid: e87b29617a1c659438e9711687a4bcdc, type: 2}
   ChosenVangurr: {fileID: 0}
 --- !u!1 &304150279
 GameObject:
@@ -3520,7 +3521,6 @@ MonoBehaviour:
     resourceType: 2
     upgrades:
     - {fileID: 11400000, guid: e6b10ec54f970314899782cb3b05dde6, type: 2}
-    - {fileID: 11400000, guid: 6e00574432ee47e4b9cdd1ecafd3af14, type: 2}
     - {fileID: 11400000, guid: f6a8fa32a0d84964a9722facd87c8ec1, type: 2}
   - groupName: Faith
     characterPool: 0
@@ -3528,6 +3528,7 @@ MonoBehaviour:
     upgrades:
     - {fileID: 11400000, guid: 57555a96b622b664c93f8131f754942c, type: 2}
     - {fileID: 11400000, guid: e963327837886d94cac4aec8bdf1e473, type: 2}
+    - {fileID: 11400000, guid: 6e00574432ee47e4b9cdd1ecafd3af14, type: 2}
 --- !u!1 &1336441296
 GameObject:
   m_ObjectHideFlags: 0

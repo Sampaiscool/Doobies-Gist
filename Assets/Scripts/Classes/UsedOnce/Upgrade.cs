@@ -85,4 +85,6 @@ public enum UpgradeNames
     MaskOfMidnight,                       //Zelstine
     WrathboundOath,                       //Zelstine
     SpearOfRadiance,                      //Zelstine
+
+    ShiftingSand,                         //Nutou
 }

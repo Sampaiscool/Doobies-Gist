@@ -161,7 +161,7 @@ public class GameManager : MonoBehaviour
             // Penalties for losing
             ChangeSploont(25, true);
             ChangeHp(10, false, false); // Lose 10 Player HP
-            currentDoobie.MaxHealth -= 10; // Lose 10 doobie max HP
+            currentDoobie.MaxHealth -= 5; // Lose 10 doobie max HP
             currentDoobie.CurrentHealth = 10; // Survive with 10 doobie HP
         }
 

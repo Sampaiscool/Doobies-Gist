@@ -11,7 +11,7 @@ public class MyceliumShieldEffect : SkillEffectSO
 
         user.AddEffect(new Effect(EffectType.Shield, 5, false, shieldAmount));
 
-        target.AddEffect(new Effect(EffectType.Shield, 5, false, (shieldAmount / 2)));
+        target.AddEffect(new Effect(EffectType.Spores, 5, false, (shieldAmount / 2)));
 
         return $"{user.CharacterName} grows a mycelium shield and attaches {shieldAmount / 2} spores to {target.CharacterName}!";
     }
