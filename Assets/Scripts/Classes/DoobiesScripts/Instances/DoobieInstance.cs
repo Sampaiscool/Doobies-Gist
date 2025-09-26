@@ -8,6 +8,7 @@ public class DoobieInstance : CombatantInstance
     public DoobieSO _so;
     public override ScriptableObject so => _so;
     public override string CharacterName => _so.doobieName;
+    public override Sprite CurrentImage { get; set; }
 
     public override int CurrentHealth { get; set; }
     public override int MaxHealth { get; set; }
@@ -53,7 +54,7 @@ public class DoobieInstance : CombatantInstance
     public DoobieInstance(DoobieSO so)
     {
         _so = so;
-
+        CurrentImage = so.portrait;
         MaxHealth = so.baseHealth;
         CurrentHealth = MaxHealth;
 
@@ -226,7 +227,6 @@ public class DoobieInstance : CombatantInstance
         {
             BattleUIManager.Instance.AddLog(message);
 
-            // Refresh skill buttons if the panel is open
             BattleUIManager.Instance.RefreshSkillButtons(GetAllSkills());
             BattleUIManager.Instance.BackFromSpells();
         }
@@ -241,6 +241,8 @@ public class DoobieInstance : CombatantInstance
         CurrentTransformation = transformation;
         Debug.Log($"Current Transformation: {CurrentTransformation} / Chosen: {transformation}");
 
+        BattleUIManager.Instance.CombatantTransformation(this, transformation);
         BattleUIManager.Instance.RefreshSkillButtons(GetAllSkills());
+        
     }
 }

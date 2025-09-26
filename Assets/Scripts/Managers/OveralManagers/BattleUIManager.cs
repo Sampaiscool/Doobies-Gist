@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,13 @@ public struct EffectVisual
     public EffectType type;
     public Sprite icon;
     public GameObject effectPrefab;
+}
+[System.Serializable]
+public struct TransformationVisual
+{
+    public string label;
+    public Transformations type;
+    public Sprite image;
 }
 
 public class BattleUIManager : MonoBehaviour
@@ -70,6 +78,10 @@ public class BattleUIManager : MonoBehaviour
 
     [Tooltip("Assign each EffectType its icon and effect here")]
     public List<EffectVisual> EffectVisuals = new List<EffectVisual>();
+
+    [Header("Transformation")]
+    [Tooltip("Assign all the diffrent transformation sprites here")]
+    public List<TransformationVisual> TransformationVisuals = new List<TransformationVisual>();
 
     public GameObject EffectIconPrefab;
     public GameObject EffectDescriptionPrefab;
@@ -233,7 +245,7 @@ public class BattleUIManager : MonoBehaviour
             return;
         }
 
-        portraitImage.sprite = so.portrait;
+        portraitImage.sprite = combatant.CurrentImage;
         nameText.text = combatant.CharacterName;
         hpText.text = $"{combatant.CurrentHealth}/{combatant.MaxHealth} HP";
 
@@ -373,6 +385,37 @@ public class BattleUIManager : MonoBehaviour
         Vector3 dir = rotation * baseDir;
 
         ft.Setup(message, color, dir.normalized);
+    }
+    public void CombatantTransformation(CombatantInstance combatant, Transformations transformation)
+    {
+        if (transformation == Transformations.None)
+        {
+            if (combatant is DoobieInstance doobie)
+            {
+                combatant.CurrentImage = doobie._so.portrait;
+            }
+            else if (combatant is VangurrInstance vangurr) 
+            {
+                combatant.CurrentImage = vangurr._so.portrait;
+            }
+        }
+        combatant.CurrentImage = GetTransformationImage(transformation);
+        UpdateUI();
+    }
+    public Sprite GetTransformationImage(Transformations transformation)
+    {
+        foreach (var visual in TransformationVisuals)
+            if (visual.type == transformation)
+            {
+                if (visual.image != null)
+                {
+                    Debug.Log($"Returning image for {transformation}: {visual.image}");
+                    return visual.image;
+                }
+            }
+        // Fallback!! should never happen
+        Debug.LogWarning("Transformation Image not set!");
+        return DoobieImage.sprite;
     }
 
     private IEnumerator SlideInAfterLayout(GameObject entryGO, float duration)

@@ -6,6 +6,7 @@ public class VangurrInstance : CombatantInstance
     public VangurrSO _so;
     public override ScriptableObject so => _so;
     public override string CharacterName => _so.vangurrName;
+    public override Sprite CurrentImage { get; set; }
     public override int CurrentHealth { get; set; }
     public override int MaxHealth { get; set; }
     public override float CurrentDefence { get; set; }
@@ -33,6 +34,7 @@ public class VangurrInstance : CombatantInstance
     public VangurrInstance(VangurrSO so)
     {
         _so = so;
+        CurrentImage = _so.portrait;
         CurrentHealth = _so.baseHealth;
         MaxHealth = _so.baseHealth;
         CurrentDefence = _so.baseDefence;

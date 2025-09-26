@@ -12,6 +12,7 @@ public abstract class CombatantInstance
 
     public abstract ScriptableObject so { get; }
     public abstract string CharacterName { get; }
+    public abstract Sprite CurrentImage { get; set; }
     public abstract int CurrentHealth { get; set; }
     public abstract int MaxHealth { get; set; }
     public abstract float CurrentDefence { get; set; }
