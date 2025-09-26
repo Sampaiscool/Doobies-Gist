@@ -26,6 +26,7 @@ public class DoobieSO : ScriptableObject, ICombatantSO
     public CharacterPool characterPool;
     public int baseHealth;
     public bool hasHealth = true;
+    public Transformations startingTransformation;
     public List<SkillSO> baseSkills;
     public WeaponSO defaultWeapon;
     public List<Upgrade> startingUpgrades = new List<Upgrade>();

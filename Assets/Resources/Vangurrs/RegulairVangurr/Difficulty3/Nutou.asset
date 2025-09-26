@@ -14,15 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vangurrName: Nutou
   portrait: {fileID: 21300000, guid: e58db07082e5c724ba1244984bf85f7d, type: 3}
-  skillDmg: 0
-  healPower: 0
-  baseDefence: 0
-  baseHealth: 0
-  VangurrText: 
-  difficultyLevel: 0
-  skillChance: 0
+  skillDmg: 10
+  healPower: 5
+  baseDefence: 2
+  baseHealth: 30
+  VangurrText: From the sands he rises...
+  difficultyLevel: 3
+  skillChance: 55
   isBoss: 0
   characterPool: 0
-  baseSkills: []
+  baseSkills:
+  - {fileID: 11400000, guid: f8f98223831972442874ed7187806d73, type: 2}
   defaultWeapon: {fileID: 0}
-  startingUpgrades: []
+  startingUpgrades:
+  - upgradeName: Shifting Sand
+    description: At the end of the turn both players heal +1
+    cost: 0
+    icon: {fileID: 0}
+    type: 42
+    Pool: 0
+    intensity: 3
+    isCurse: 0

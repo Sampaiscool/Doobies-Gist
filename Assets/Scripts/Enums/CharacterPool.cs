@@ -19,4 +19,6 @@ public enum CharacterPool
     Health,             // Resource
     Zelstine,           // Doobie
     Faith,              // Resource
+    Thenghshou,         // Doobie
+    Soulflow,           // Resource
 }

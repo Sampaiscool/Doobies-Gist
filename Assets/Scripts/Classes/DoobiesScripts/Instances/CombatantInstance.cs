@@ -17,6 +17,7 @@ public abstract class CombatantInstance
     public abstract float CurrentDefence { get; set; }
     public abstract int CurrentSkillDmg { get; set; }
     public abstract int CurrentHealPower { get; set; }
+    public abstract Transformations CurrentTransformation { get; set; }
 
     public WeaponInstance EquippedWeaponInstance;
 

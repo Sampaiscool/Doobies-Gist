@@ -12,6 +12,8 @@ public class VangurrInstance : CombatantInstance
     public override int CurrentSkillDmg { get; set; }
     public override int CurrentHealPower { get; set; }
 
+    public override Transformations CurrentTransformation { get; set; }
+
     public override List<SkillSO> GetAllSkills() => new List<SkillSO>(_so.baseSkills);
 
     public VangurrInstance(VangurrSO so)

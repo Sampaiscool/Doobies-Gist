@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class DoobieInstance : CombatantInstance
 
     public override int CurrentSkillDmg { get; set; }
     public override int CurrentHealPower { get; set; }
+    public override Transformations CurrentTransformation { get; set; }
 
     public IResource MainResource { get; private set; }
 
@@ -21,14 +23,10 @@ public class DoobieInstance : CombatantInstance
     {
         if (_so.characterPool == CharacterPool.Zelstine)
         {
-            Debug.Log($"GetAllSkills called! CurrentGoddess = {CurrentGoddess}");
-
             if (CurrentGoddess != GoddessType.None && goddessSkills.ContainsKey(CurrentGoddess))
             {
-                Debug.Log($"Returning skills for {CurrentGoddess}");
                 return goddessSkills[CurrentGoddess];
             }
-            Debug.Log("Returning base skills");
             return _so.baseSkills;
         }
 
@@ -40,6 +38,9 @@ public class DoobieInstance : CombatantInstance
     //  --- Zelstine ---
     private Dictionary<GoddessType, List<SkillSO>> goddessSkills = new();
     public GoddessType CurrentGoddess { get; private set; } = GoddessType.None;
+
+    // --- Thenghsou ---
+    private Dictionary<Transformations, List<SkillSO>> transformationSkills = new();
 
 
     public DoobieInstance(DoobieSO so)
@@ -77,6 +78,13 @@ public class DoobieInstance : CombatantInstance
                 faith.OnFaithGained += HandleFaithGained;
                 MainResource = faith;
                 break;
+            case ResourceType.Soulflow:
+                var soulflow = new SoulflowResource(_so.baseResourceMax);
+                soulflow.OnSoulflowGained += HandleSoulflowGained;
+                soulflow.WorldEnergy.OnWorldEnergyGained += HandleWorldEnergyGained;
+                soulflow.SpiritEnergy.OnSpiritEnergyGained += HandleSpiritEnergyGained;
+                MainResource = soulflow;
+                break;
             default:
                 MainResource = null;
                 break;
@@ -98,12 +106,16 @@ public class DoobieInstance : CombatantInstance
                 icon = upgrade.icon
             });
         }
-
-        if (_so.characterPool == CharacterPool.Zelstine)
+        switch (_so.characterPool)
         {
-            goddessSkills[GoddessType.Elenara] = new List<SkillSO>(_so.skillSet1);
-            goddessSkills[GoddessType.Velithra] = new List<SkillSO>(_so.skillSet2);
-            goddessSkills[GoddessType.Kaelyth] = new List<SkillSO>(_so.skillSet3);
+            case CharacterPool.Zelstine:
+                goddessSkills[GoddessType.Elenara] = new List<SkillSO>(_so.skillSet1);
+                goddessSkills[GoddessType.Velithra] = new List<SkillSO>(_so.skillSet2);
+                goddessSkills[GoddessType.Kaelyth] = new List<SkillSO>(_so.skillSet3);
+                break;
+            //case CharacterPool
+            default:
+                break;
         }
     }
 
@@ -144,6 +156,44 @@ public class DoobieInstance : CombatantInstance
 
     }
 
+    /// <summary>
+    /// Events that happen when you gain Soulflow
+    /// </summary>
+    /// <param name="amount">The amount you gain</param>
+    private void HandleSoulflowGained(int amount)
+    {
+
+    }
+    /// <summary>
+    /// Events that happen when you gain WorldEnergy
+    /// </summary>
+    /// <param name="amount">The amount you gain</param>
+    private void HandleWorldEnergyGained(int amount)
+    {
+        if(MainResource is SoulflowResource soulflow && soulflow.WorldEnergy.Current >= soulflow.WorldEnergy.Max)
+        {
+            SetTransformation(Transformations.SpiritForm);
+            soulflow.WorldEnergy.Spend(soulflow.WorldEnergy.Current);
+        }
+    }
+    /// <summary>
+    /// Events that happen when you gain SpiritEnergy
+    /// </summary>
+    /// <param name="amount">The amount you gain</param>
+    private void HandleSpiritEnergyGained(int amount)
+    {
+        if (MainResource is SoulflowResource soulflow && soulflow.SpiritEnergy.Current >= soulflow.SpiritEnergy.Max)
+        {
+            SetTransformation(Transformations.WorldForm);
+            soulflow.SpiritEnergy.Spend(soulflow.SpiritEnergy.Current);
+        }
+    }
+
+    /// <summary>
+    /// Set the current Goddess
+    /// </summary>
+    /// <param name="goddess">The chosen goddess</param>
+    /// <param name="applyDebuff">Wheter you should give the player the debuff</param>
     public void SetGoddess(GoddessType goddess, bool applyDebuff = false)
     {
         if (_so.characterPool != CharacterPool.Zelstine)
@@ -174,5 +224,11 @@ public class DoobieInstance : CombatantInstance
         {
             Debug.Log(message);
         }
+    }
+
+    public void SetTransformation(Transformations transformation)
+    {
+        CurrentTransformation = transformation;
+        Debug.Log($"Current Transformation: {CurrentTransformation} / Chosen: {transformation}");
     }
 }

@@ -18,6 +18,7 @@ public class VangurrSO : ScriptableObject, ICombatantSO
     public bool isBoss;
 
     public CharacterPool characterPool;
+    public Transformations startingTransformation;
 
     public List<SkillSO> baseSkills; // Skills the Vangurr always has
 

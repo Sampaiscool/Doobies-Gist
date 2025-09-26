@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Zelstine
   m_EditorClassIdentifier: 
   doobieName: Zelstine
-  description: Follower of the godesses
+  description: Godessess doobie, Use the correct goddess to win the battle.
   portrait: {fileID: 21300000, guid: e4c2f499a9962be4aad53571a3aa0818, type: 3}
   unlockedByDefault: 1
   doobieMainResource: 4
@@ -30,7 +30,7 @@ MonoBehaviour:
   defaultWeapon: {fileID: 11400000, guid: 659e43f78118c7b44bb1a0d21881a2d1, type: 2}
   startingUpgrades:
   - upgradeName: Healing Faith
-    description: If you heal; gain +1 Faith
+    description: If you heal; gain +1 Faith if you are following Elenara
     cost: 0
     icon: {fileID: 0}
     type: 34
@@ -38,7 +38,7 @@ MonoBehaviour:
     intensity: 2
     isCurse: 0
   - upgradeName: CursedFaith
-    description: if you inflict a debuff; gain +1 Faith
+    description: if you inflict a debuff; gain +1 Faith if you are following Kaelyth
     cost: 0
     icon: {fileID: 0}
     type: 35
@@ -46,7 +46,7 @@ MonoBehaviour:
     intensity: 2
     isCurse: 0
   - upgradeName: BattleFaith
-    description: If you attack; Gain +1 Faith;
+    description: If you attack; Gain +1 Faith if you are following Velithra
     cost: 0
     icon: {fileID: 0}
     type: 36

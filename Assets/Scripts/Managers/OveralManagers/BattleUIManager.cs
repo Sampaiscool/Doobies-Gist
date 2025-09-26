@@ -239,13 +239,22 @@ public class BattleUIManager : MonoBehaviour
 
         if (extraText != null)
         {
-            if (combatant is DoobieInstance doobie &&
+            if (combatant is DoobieInstance doobie2 &&
+                doobie2.MainResource != null &&
+                doobie2.MainResource is SoulflowResource soulflow)
+            {
+                extraText.text = $"{soulflow.WorldEnergy.Current}/{soulflow.WorldEnergy.Max} World\n " +
+                    $"{soulflow.SpiritEnergy.Current}/{soulflow.SpiritEnergy.Max} Spirit";
+                extraText.gameObject.SetActive(true);
+            }
+            else if (combatant is DoobieInstance doobie &&
                 doobie.MainResource != null &&
                 doobie.MainResource.Type != ResourceType.Health)
             {
                 extraText.text = $"{doobie.MainResource.Current}/{doobie.MainResource.Max} {doobie.MainResource.Type}";
                 extraText.gameObject.SetActive(true);
             }
+            
             else
             {
                 extraText.gameObject.SetActive(false);

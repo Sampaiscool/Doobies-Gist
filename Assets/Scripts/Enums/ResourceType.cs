@@ -9,4 +9,7 @@ public enum ResourceType
     None,
     Rum,
     Faith,
+    Soulflow,
+    WorldEnergy,
+    SpiritEnergy,
 }
