@@ -29,6 +29,14 @@ public class DoobieInstance : CombatantInstance
             }
             return _so.baseSkills;
         }
+        else if (_so.characterPool == CharacterPool.Thenghshou)
+        {
+            if (CurrentTransformation != Transformations.None && transformationSkills.ContainsKey(CurrentTransformation))
+            {
+                return transformationSkills[CurrentTransformation];
+            }
+            return _so.baseSkills;
+        }
 
         return new List<SkillSO>(_so.baseSkills);
     }
@@ -39,7 +47,6 @@ public class DoobieInstance : CombatantInstance
     private Dictionary<GoddessType, List<SkillSO>> goddessSkills = new();
     public GoddessType CurrentGoddess { get; private set; } = GoddessType.None;
 
-    // --- Thenghsou ---
     private Dictionary<Transformations, List<SkillSO>> transformationSkills = new();
 
 
@@ -113,7 +120,10 @@ public class DoobieInstance : CombatantInstance
                 goddessSkills[GoddessType.Velithra] = new List<SkillSO>(_so.skillSet2);
                 goddessSkills[GoddessType.Kaelyth] = new List<SkillSO>(_so.skillSet3);
                 break;
-            //case CharacterPool
+            case CharacterPool.Thenghshou:
+                transformationSkills[Transformations.WorldForm] = new List<SkillSO>(_so.skillSet1);
+                transformationSkills[Transformations.SpiritForm] = new List<SkillSO>(_so.skillSet2);
+                break;
             default:
                 break;
         }
@@ -230,5 +240,7 @@ public class DoobieInstance : CombatantInstance
     {
         CurrentTransformation = transformation;
         Debug.Log($"Current Transformation: {CurrentTransformation} / Chosen: {transformation}");
+
+        BattleUIManager.Instance.RefreshSkillButtons(GetAllSkills());
     }
 }

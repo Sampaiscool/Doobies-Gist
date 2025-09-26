@@ -23,6 +23,13 @@ public class YippieHibbelEffect : LocationEffectSO
             case ResourceType.Faith:
                 GameManager.Instance.currentDoobie.MainResource.GainMax(5);
                 break;
+            case ResourceType.Soulflow:
+                if (GameManager.Instance.currentDoobie.MainResource is SoulflowResource souflow)
+                {
+                    souflow.WorldEnergy.GainMax(5);
+                    souflow.SpiritEnergy.GainMax(5);
+                }
+                break;
             default:
                 break;
         }

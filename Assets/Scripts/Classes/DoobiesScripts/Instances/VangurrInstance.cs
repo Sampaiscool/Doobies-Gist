@@ -14,7 +14,21 @@ public class VangurrInstance : CombatantInstance
 
     public override Transformations CurrentTransformation { get; set; }
 
-    public override List<SkillSO> GetAllSkills() => new List<SkillSO>(_so.baseSkills);
+    public override List<SkillSO> GetAllSkills()
+    {
+        //else if (_so.characterPool == CharacterPool.Thenghshou)
+        //{
+        //    if (CurrentTransformation != Transformations.None && transformationSkills.ContainsKey(CurrentTransformation))
+        //    {
+        //        return transformationSkills[CurrentTransformation];
+        //    }
+        //    return _so.baseSkills;
+        //}
+
+        return new List<SkillSO>(_so.baseSkills);
+    }
+
+    private Dictionary<Transformations, List<SkillSO>> transformationSkills = new();
 
     public VangurrInstance(VangurrSO so)
     {
@@ -40,6 +54,12 @@ public class VangurrInstance : CombatantInstance
             {
                 icon = upgrade.icon
             });
+        }
+
+        switch (_so.characterPool)
+        {
+            default:
+                break;
         }
     }
     public string PerformTurn(CombatantInstance target)

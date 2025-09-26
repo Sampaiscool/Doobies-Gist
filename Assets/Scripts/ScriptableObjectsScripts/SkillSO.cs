@@ -29,6 +29,24 @@ public class SkillSO : ScriptableObject
             {
                 doobie.CurrentHealth -= resourceCost;
             }
+            else if (resourceUsed == ResourceType.WorldEnergy)
+            {
+                if (doobie.MainResource is SoulflowResource soulflow)
+                {
+                    bool success = soulflow.WorldEnergy.Spend(resourceCost);
+                    if (!success)
+                        return $"{doobie.CharacterName} tried to cast {skillName}, but lacked enough {resourceUsed}!";
+                }
+            }
+            else if (resourceUsed == ResourceType.SpiritEnergy)
+            {
+                if (doobie.MainResource is SoulflowResource soulflow)
+                {
+                    bool success = soulflow.SpiritEnergy.Spend(resourceCost);
+                    if (!success)
+                        return $"{doobie.CharacterName} tried to cast {skillName}, but lacked enough {resourceUsed}!";
+                }
+            }
             else if (doobie.MainResource != null && doobie.MainResource.Type == resourceUsed)
             {
                 bool success = doobie.MainResource.Spend(resourceCost);

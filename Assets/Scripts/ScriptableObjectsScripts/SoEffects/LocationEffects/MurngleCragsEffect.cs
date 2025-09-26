@@ -7,7 +7,7 @@ public class MurngleCragsEffect : LocationEffectSO
 {
     public override void ApplyEffect()
     {
-        GameManager.Instance.currentDoobie.EquippedWeaponInstance.bonusCritChance += 5;
+        GameManager.Instance.currentDoobie.EquippedWeaponInstance.bonusCritChance += 15;
 
         if (GameManager.Instance.currentDoobie.EquippedWeaponInstance.bonusCritChance > 100)
         {
