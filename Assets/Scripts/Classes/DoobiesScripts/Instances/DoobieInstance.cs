@@ -235,14 +235,4 @@ public class DoobieInstance : CombatantInstance
             Debug.Log(message);
         }
     }
-
-    public void SetTransformation(Transformations transformation)
-    {
-        CurrentTransformation = transformation;
-        Debug.Log($"Current Transformation: {CurrentTransformation} / Chosen: {transformation}");
-
-        BattleUIManager.Instance.CombatantTransformation(this, transformation);
-        BattleUIManager.Instance.RefreshSkillButtons(GetAllSkills());
-        
-    }
 }

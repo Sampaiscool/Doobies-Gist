@@ -1039,6 +1039,15 @@ public abstract class CombatantInstance
 
                 if (!ownerIsBeingAttacked)
                 {
+                    damageBeforeCrit += owner.GetEffectiveWeaponDamageAfterEffects(owner.GetEffectiveWeaponDamage());
+                }
+                else
+                {
+                    damageBeforeCrit += opponent.GetEffectiveWeaponDamageAfterEffects(opponent.GetEffectiveWeaponDamage());
+                }
+
+                if (!ownerIsBeingAttacked)
+                {
                     Upgrade fiercePowder = ActiveUpgrades.Find(b => b.type == UpgradeNames.FiercePowder);
                     if (fiercePowder != null)
                     {
@@ -1109,8 +1118,14 @@ public abstract class CombatantInstance
             }
         }
     }
+    public void SetTransformation(Transformations transformation)
+    {
+        CurrentTransformation = transformation;
+        Debug.Log($"Current Transformation: {CurrentTransformation} / Chosen: {transformation}");
 
-
+        BattleUIManager.Instance.CombatantTransformation(this, transformation);
+        BattleUIManager.Instance.RefreshSkillButtons(GetAllSkills());
+    }
 
     /// <summary>
     /// Activate the animation of the weapon

@@ -23,8 +23,9 @@ MonoBehaviour:
   skillChance: 90
   isBoss: 0
   characterPool: 0
+  startingTransformation: 0
   baseSkills:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 9bef3c1d082f7834c9cd12426563f744, type: 2}
   defaultWeapon: {fileID: 11400000, guid: ecca6214cffd4ff4797ea00a90339de2, type: 2}
   startingUpgrades:
   - upgradeName: Target Found
@@ -34,3 +35,7 @@ MonoBehaviour:
     type: 18
     Pool: 0
     intensity: 1
+    isCurse: 0
+  skillSet1: []
+  skillSet2: []
+  skillSet3: []

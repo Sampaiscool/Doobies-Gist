@@ -1,4 +1,7 @@
+using System;
 using TMPro;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,7 +52,7 @@ public class CombatantStatsPanel : MonoBehaviour
 
         // General
         nameText.text = boundInstance.CharacterName;
-        defenceText.text = $"Defence: {boundInstance.GetEffectiveDefence()}";
+        defenceText.text = $"Defence: {Math.Round(boundInstance.GetEffectiveDefence(), 2)}";
         skillDmgText.text = $"Skill Dmg: {boundInstance.GetEffectiveSkillDamageForUI(boundInstance.CurrentSkillDmg)}";
         healPower.text = $"Heal Power: {boundInstance.GetEffectiveHealPower(boundInstance.CurrentHealPower)}";
 

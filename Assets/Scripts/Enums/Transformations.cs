@@ -7,4 +7,5 @@ public enum Transformations
     None,
     WorldForm,
     SpiritForm,
+    BiyumiForm,
 }

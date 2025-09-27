@@ -153,7 +153,9 @@ public class GameManager : MonoBehaviour
                 // Boss fight won: reset counter AND increase difficulty
                 BattlesFought = 0;
                 CurrentDifficulty++;
-                Debug.Log("Boss defeated! Difficulty increased to " + CurrentDifficulty);
+
+                int healAmount = Mathf.Min(10, currentDoobie.MaxHealth - currentDoobie.CurrentHealth);
+                currentDoobie.CurrentHealth += healAmount;
             }
         }
         else
@@ -161,8 +163,8 @@ public class GameManager : MonoBehaviour
             // Penalties for losing
             ChangeSploont(25, true);
             ChangeHp(10, false, false); // Lose 10 Player HP
-            currentDoobie.MaxHealth -= 5; // Lose 10 doobie max HP
-            currentDoobie.CurrentHealth = 10; // Survive with 10 doobie HP
+            currentDoobie.MaxHealth -= 5; // Lose 5 doobie max HP
+            currentDoobie.CurrentHealth = currentDoobie.MaxHealth / 2; // Survive with half doobie HP
         }
 
         PlayerStatsUIManager playerStatsUIManager = FindObjectOfType<PlayerStatsUIManager>();

@@ -21,4 +21,5 @@ public enum CharacterPool
     Faith,              // Resource
     Thenghshou,         // Doobie
     Soulflow,           // Resource
+    Biyumi,             // Vangurr
 }

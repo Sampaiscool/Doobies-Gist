@@ -17,14 +17,14 @@ public class VangurrInstance : CombatantInstance
 
     public override List<SkillSO> GetAllSkills()
     {
-        //else if (_so.characterPool == CharacterPool.Thenghshou)
-        //{
-        //    if (CurrentTransformation != Transformations.None && transformationSkills.ContainsKey(CurrentTransformation))
-        //    {
-        //        return transformationSkills[CurrentTransformation];
-        //    }
-        //    return _so.baseSkills;
-        //}
+        if (_so.characterPool == CharacterPool.Biyumi)
+        {
+            if (CurrentTransformation != Transformations.None && transformationSkills.ContainsKey(CurrentTransformation))
+            {
+                return transformationSkills[CurrentTransformation];
+            }
+            return _so.baseSkills;
+        }
 
         return new List<SkillSO>(_so.baseSkills);
     }
@@ -60,6 +60,10 @@ public class VangurrInstance : CombatantInstance
 
         switch (_so.characterPool)
         {
+            case CharacterPool.Biyumi:
+                transformationSkills[Transformations.None] = new List<SkillSO>(_so.baseSkills);
+                transformationSkills[Transformations.BiyumiForm] = new List<SkillSO>(_so.skillSet1);
+                break;
             default:
                 break;
         }
