@@ -406,6 +406,13 @@ public class CombatManager : MonoBehaviour
                 }
             }
         }
+        switch (combatant.CurrentTransformation)
+        {
+            case Transformations.SpiritForm:
+                BattleUIManager.Instance.AddLog($"Due to being in Spirit Form you heal at the end of your turn!");
+                combatant.HealCombatant(combatant.MaxHealth / 2);
+                break;
+        }
 
         return false;
     }
@@ -442,7 +449,7 @@ public class CombatManager : MonoBehaviour
                     break;
 
                 case UpgradeNames.PhanthomTouch:
-                    if (combatantTurnCounters[combatant] % 5 == 0)
+                    if (combatantTurnCounters[combatant] % 7 == 0)
                     {
                         if (combatant is VangurrInstance)
                         {

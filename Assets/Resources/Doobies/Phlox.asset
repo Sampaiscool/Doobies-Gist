@@ -26,6 +26,7 @@ MonoBehaviour:
   characterPool: 7
   baseHealth: 25
   hasHealth: 1
+  startingTransformation: 0
   baseSkills:
   - {fileID: 11400000, guid: 154178d5b4b322a41bd84ab508b57cec, type: 2}
   - {fileID: 11400000, guid: c4802ab2964a5df4ab43993ae26af0b1, type: 2}
@@ -49,5 +50,8 @@ MonoBehaviour:
     icon: {fileID: 0}
     type: 19
     Pool: 7
-    intensity: 7
+    intensity: 3
     isCurse: 1
+  skillSet1: []
+  skillSet2: []
+  skillSet3: []

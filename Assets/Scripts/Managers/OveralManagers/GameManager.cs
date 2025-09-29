@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     public GameObject damageAnimationPrefab;
     public Transform uiCanvas;
 
+    [Header("Settings")]
+    public GameObject SettingsPanel;
+
     [Header("Doobie Specific")]
     public GameObject goddessButtonsPrefab;
 
@@ -42,6 +45,21 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Settings existing = FindObjectOfType<Settings>();
+            if (existing != null)
+            {
+                Destroy(existing.gameObject);
+            }
+            else
+            {
+                SpawnSettings();
+            }
+        }
+    }
 
     public void ChangeHp(int hpAmount, bool isGain, bool maxHpIncrease)
     {
@@ -171,6 +189,39 @@ public class GameManager : MonoBehaviour
         if (playerStatsUIManager != null)
         {
             playerStatsUIManager.UpdatePlayerInfo();
+        }
+    }
+    public void SpawnSettings()
+    {
+        if (FindObjectOfType<Settings>() != null)
+        {
+            Debug.Log("[GameManager] Settings UI is already active!");
+            return;
+        }
+
+        Canvas uiCanvas = null;
+        foreach (var canvas in FindObjectsOfType<Canvas>())
+        {
+            if (canvas.isRootCanvas)
+            {
+                uiCanvas = canvas;
+                break;
+            }
+        }
+
+        if (SettingsPanel == null || uiCanvas == null)
+        {
+            Debug.LogWarning("[GameManager] Missing prefab or no Canvas found in scene!");
+            return;
+        }
+
+        GameObject obj = Instantiate(SettingsPanel, uiCanvas.transform);
+
+        RectTransform rect = obj.GetComponent<RectTransform>();
+        if (rect != null)
+        {
+            rect.anchoredPosition = Vector2.zero;
+            rect.localScale = Vector3.one;
         }
     }
 

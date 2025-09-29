@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEditor.UI;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class VangurrGroup
@@ -15,6 +17,7 @@ public class VangurrGroup
 public class VangurrManager : MonoBehaviour
 {
     public TMP_Text VangurrTextObject;
+    public Image VangurrImage;
 
     [Header("Organized Vangurr Pools")]
     public List<VangurrGroup> vangurrGroups = new List<VangurrGroup>();
@@ -61,6 +64,7 @@ public class VangurrManager : MonoBehaviour
         if (selectedVangurr != null)
         {
             VangurrTextObject.text = selectedVangurr.VangurrText;
+            VangurrImage.sprite = selectedVangurr.portrait;
         }
         else
         {

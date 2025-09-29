@@ -15,7 +15,7 @@ public class SkillfullBashEffect : SkillEffectSO
             target.AddEffect(new Effect(EffectType.Stun, 2, true, 1));
             user.AddEffect(new Effect(EffectType.HardHitter, 4, true, 1));
 
-            BattleUIManager.Instance.AddLog($"{user.CharacterName} Stuns {target.CharacterName} with the bash and gains Hard Hitter!");
+            BattleUIManager.Instance.AddLog($"{user.CharacterName} stuns {target.CharacterName} with the bash and gains Hard Hitter!");
         }
 
         var (result, damageDone) = target.TakeDamage(baseDamage);

@@ -65,6 +65,8 @@ public class DoobieInstance : CombatantInstance
 
         EquippedWeaponInstance = new WeaponInstance(_so.defaultWeapon);
 
+        CurrentTransformation = _so.startingTransformation;
+
         // Pick correct resource implementation
         switch (_so.doobieMainResource)
         {
@@ -184,7 +186,6 @@ public class DoobieInstance : CombatantInstance
         if(MainResource is SoulflowResource soulflow && soulflow.WorldEnergy.Current >= soulflow.WorldEnergy.Max)
         {
             SetTransformation(Transformations.SpiritForm);
-            soulflow.WorldEnergy.Spend(soulflow.WorldEnergy.Current);
         }
     }
     /// <summary>
@@ -196,7 +197,6 @@ public class DoobieInstance : CombatantInstance
         if (MainResource is SoulflowResource soulflow && soulflow.SpiritEnergy.Current >= soulflow.SpiritEnergy.Max)
         {
             SetTransformation(Transformations.WorldForm);
-            soulflow.SpiritEnergy.Spend(soulflow.SpiritEnergy.Current);
         }
     }
 

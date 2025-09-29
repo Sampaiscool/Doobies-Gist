@@ -23,9 +23,10 @@ MonoBehaviour:
   skillChance: 55
   isBoss: 0
   characterPool: 0
+  startingTransformation: 0
   baseSkills:
   - {fileID: 11400000, guid: f8f98223831972442874ed7187806d73, type: 2}
-  defaultWeapon: {fileID: 0}
+  defaultWeapon: {fileID: 11400000, guid: ada6e373aa968fc4d802c390aabd2aa2, type: 2}
   startingUpgrades:
   - upgradeName: Shifting Sand
     description: At the end of the turn both players heal +1
@@ -35,3 +36,6 @@ MonoBehaviour:
     Pool: 0
     intensity: 3
     isCurse: 0
+  skillSet1: []
+  skillSet2: []
+  skillSet3: []

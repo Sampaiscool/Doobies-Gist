@@ -17,12 +17,13 @@ MonoBehaviour:
   skillDmg: 1
   healPower: 0
   baseDefence: 3
-  baseHealth: 15
+  baseHealth: 10
   VangurrText: Tried to be a sneaky ninja... Failed.
   difficultyLevel: 2
   skillChance: 70
   isBoss: 0
   characterPool: 4
+  startingTransformation: 0
   baseSkills:
   - {fileID: 11400000, guid: c4e97a26f53406243a0c5a071b7e4e3e, type: 2}
   - {fileID: 11400000, guid: f14da815dcd65b24a9c0b427d878bb3a, type: 2}
@@ -37,3 +38,6 @@ MonoBehaviour:
     Pool: 2
     intensity: 1
     isCurse: 0
+  skillSet1: []
+  skillSet2: []
+  skillSet3: []

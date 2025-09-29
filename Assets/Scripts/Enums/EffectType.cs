@@ -39,4 +39,5 @@ public enum EffectType
     BlessedShield,              // Buff - if this shield is destroyed you gain 5 faith and "Healing Strenghten".
     Holy,                       // Debuff - If you gain another debuff; take damage.
     NutouCurse,                 // Debuff - Any damage taken gives you "Healing Weaken"
+    Rage,                       // Buff - Next weapon style attack you do consumes the rage; it deals twice the damage.
 }

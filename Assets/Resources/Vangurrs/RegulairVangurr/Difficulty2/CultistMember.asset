@@ -23,13 +23,18 @@ MonoBehaviour:
   skillChance: 0
   isBoss: 0
   characterPool: 5
+  startingTransformation: 0
   baseSkills: []
   defaultWeapon: {fileID: 11400000, guid: 9b7cbf26208efad42aac74ed118958c2, type: 2}
   startingUpgrades:
   - upgradeName: PhanthomTouch
-    description: Kill your opponent in 5 turns.
+    description: Kill your opponent in 7 turns.
     cost: 0
     icon: {fileID: 0}
     type: 15
     Pool: 5
     intensity: 1
+    isCurse: 0
+  skillSet1: []
+  skillSet2: []
+  skillSet3: []

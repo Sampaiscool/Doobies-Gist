@@ -22,9 +22,8 @@ public class SoulflowResource : IResource
 
     public void Gain(int amount)
     {
-        int half = Mathf.CeilToInt(amount / 2f);
-        WorldEnergy.Gain(half);
-        SpiritEnergy.Gain(amount - half);
+        WorldEnergy.Gain(amount);
+        SpiritEnergy.Gain(amount);
 
         OnSoulflowGained?.Invoke(amount);
     }

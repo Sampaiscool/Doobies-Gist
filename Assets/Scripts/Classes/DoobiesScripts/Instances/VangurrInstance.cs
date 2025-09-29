@@ -41,6 +41,7 @@ public class VangurrInstance : CombatantInstance
         CurrentSkillDmg = _so.skillDmg;
         CurrentHealPower = _so.healPower;
         EquippedWeaponInstance = new WeaponInstance(_so.defaultWeapon);
+        CurrentTransformation = _so.startingTransformation;
 
         foreach (var upgrade in _so.startingUpgrades)
         {
@@ -76,7 +77,6 @@ public class VangurrInstance : CombatantInstance
 
         if (skills.Count > 0)
         {
-            // Skill chance is percentage (e.g. 30 = 30%)
             float chance = _so.skillChance / 100f;
 
             if (Random.value < chance)

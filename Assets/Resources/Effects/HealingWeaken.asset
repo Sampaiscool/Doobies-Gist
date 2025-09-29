@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9897c0288e674d04eaf1d85cb8e7e7aa, type: 3}
+  m_Name: HealingWeaken
+  m_EditorClassIdentifier: 
+  Name: Healing Weaken
+  Description: Reduce your healing power by 0,8.
+  EffectType: 23
+  Icon: {fileID: 21300000, guid: 8f118f4e291096f4296e369423cceedc, type: 3}
+  isDebuff: 1

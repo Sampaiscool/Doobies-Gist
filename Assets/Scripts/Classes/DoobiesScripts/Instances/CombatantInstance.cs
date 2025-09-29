@@ -417,8 +417,15 @@ public abstract class CombatantInstance
     {
         int modifiedDamage = baseDamage;
 
-        foreach (var effect in ActiveEffects)
+        var effectsSnapshot = new List<Effect>(ActiveEffects);
+
+        foreach (var effect in effectsSnapshot)
         {
+            if (effect.type == EffectType.Rage)
+            {
+                modifiedDamage *= effect.intensity;
+                ActiveEffects.Remove(effect);
+            }
             switch (effect.type)
             {
                 case EffectType.WeaponWeaken:
@@ -1012,6 +1019,12 @@ public abstract class CombatantInstance
                     defence *= 1.2f;
             }
         }
+        switch (CurrentTransformation)
+        {
+            case Transformations.SpiritForm:
+                defence *= -0.5f;
+                break;
+        }
 
         return defence;
     }
@@ -1122,6 +1135,8 @@ public abstract class CombatantInstance
     {
         CurrentTransformation = transformation;
         Debug.Log($"Current Transformation: {CurrentTransformation} / Chosen: {transformation}");
+
+        BattleUIManager.Instance.AddLog($"{CharacterName} has transformed!");
 
         BattleUIManager.Instance.CombatantTransformation(this, transformation);
         BattleUIManager.Instance.RefreshSkillButtons(GetAllSkills());

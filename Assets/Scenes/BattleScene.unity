@@ -2445,6 +2445,14 @@ MonoBehaviour:
     type: 31
     icon: {fileID: 21300000, guid: 222ce2a733e7aba418b0eb61654104fe, type: 3}
     effectPrefab: {fileID: 0}
+  - label: Rage
+    type: 32
+    icon: {fileID: 21300000, guid: 00e4add16ce481f4ca75adf0171c28df, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Slow
+    type: 13
+    icon: {fileID: 0}
+    effectPrefab: {fileID: 0}
   TransformationVisuals:
   - label: SpiritForm Thengshou
     type: 2

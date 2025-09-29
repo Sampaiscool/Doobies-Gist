@@ -22,11 +22,16 @@ MonoBehaviour:
   difficultyLevel: 3
   skillChance: 50
   isBoss: 1
-  characterPool: 0
+  characterPool: 16
   startingTransformation: 0
-  baseSkills: []
+  baseSkills:
+  - {fileID: 11400000, guid: c03f63ca25a2ee042acac081a2021843, type: 2}
   defaultWeapon: {fileID: 11400000, guid: 6f62514957945ea4db2709a2909b7ccb, type: 2}
   startingUpgrades: []
-  skillSet1: []
+  skillSet1:
+  - {fileID: 11400000, guid: c03f63ca25a2ee042acac081a2021843, type: 2}
+  - {fileID: 11400000, guid: 7cc6d2a63deda0340b2f9a97a6e4f335, type: 2}
+  - {fileID: 11400000, guid: 92ec363fadc65d945adb919940415fd1, type: 2}
+  - {fileID: 11400000, guid: 704bebe56e1de5747aa6ce5f1c4a14f3, type: 2}
   skillSet2: []
   skillSet3: []
