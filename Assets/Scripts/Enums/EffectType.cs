@@ -40,4 +40,5 @@ public enum EffectType
     Holy,                       // Debuff - If you gain another debuff; take damage.
     NutouCurse,                 // Debuff - Any damage taken gives you "Healing Weaken"
     Rage,                       // Buff - Next weapon style attack you do consumes the rage; it deals twice the damage.
+    ConvertOverheal,           // Buff - If you overheal; gain "Shield" for each "Convert Overheal" intensity.
 }

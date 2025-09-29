@@ -3611,6 +3611,19 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 57555a96b622b664c93f8131f754942c, type: 2}
     - {fileID: 11400000, guid: e963327837886d94cac4aec8bdf1e473, type: 2}
     - {fileID: 11400000, guid: 6e00574432ee47e4b9cdd1ecafd3af14, type: 2}
+  - groupName: Thengshou
+    characterPool: 14
+    resourceType: 2
+    upgrades:
+    - {fileID: 11400000, guid: b7671d583d8a7eb419033efe05f7792f, type: 2}
+    - {fileID: 11400000, guid: 7dd9519c680903a45a649ed2f0695d38, type: 2}
+    - {fileID: 11400000, guid: 3061c5f5837e77b4d9dbabfc76ff34cd, type: 2}
+    - {fileID: 11400000, guid: f58379c7d4c3e0d4ebc9e7374ad31606, type: 2}
+    - {fileID: 11400000, guid: 39b4ea92fa6ad3e41a7688c840247ab2, type: 2}
+    - {fileID: 11400000, guid: 1490151f94c8b9949bdffd37bbe2d0a4, type: 2}
+    - {fileID: 11400000, guid: 221add181efa6f34dba08a42db0a6307, type: 2}
+    - {fileID: 11400000, guid: d296f7271d8571d4a92254dba1a36c2e, type: 2}
+    - {fileID: 11400000, guid: d6b26685155b9b64a961637d9ed7d58d, type: 2}
 --- !u!1 &1336441296
 GameObject:
   m_ObjectHideFlags: 0

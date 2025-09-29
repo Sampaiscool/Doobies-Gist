@@ -17,13 +17,13 @@ MonoBehaviour:
   portrait: {fileID: 21300000, guid: 3b270dc3c06b9ea438b14e4fd73c3d55, type: 3}
   unlockedByDefault: 1
   doobieMainResource: 5
-  resourceActionSO: {fileID: 0}
-  doobieActionSO: {fileID: 0}
+  resourceActionSO: {fileID: 11400000, guid: b43e29cfe07f6a8418d996492da8508d, type: 2}
+  doobieActionSO: {fileID: 11400000, guid: c2966389e786da14bb330d1009d0394a, type: 2}
   baseResourceMax: 10
   skillDmg: 3
   healPower: 1
   baseDefence: 1
-  characterPool: 15
+  characterPool: 14
   baseHealth: 15
   hasHealth: 1
   startingTransformation: 1
@@ -31,13 +31,13 @@ MonoBehaviour:
   defaultWeapon: {fileID: 11400000, guid: 1163e747ab199fb4da577358a4830f7a, type: 2}
   startingUpgrades: []
   skillSet1:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 5cac7414c5f872945b3dbd739d944db0, type: 2}
+  - {fileID: 11400000, guid: 504a857a40d1413428a1730ca82d26be, type: 2}
+  - {fileID: 11400000, guid: 58882c5a635418b41a20b1436c4e60f7, type: 2}
+  - {fileID: 11400000, guid: b1e8e7d1e9071294a964cf9fab43a4d1, type: 2}
   skillSet2:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: c0c68a1bd83140b4ca1da00428ac812b, type: 2}
+  - {fileID: 11400000, guid: 18ef59d8f290ac241afe3f00aecdfaa4, type: 2}
+  - {fileID: 11400000, guid: 9495efa22ab8a074da721d1e3a1f15bf, type: 2}
+  - {fileID: 11400000, guid: ab711e2cf384db04181f6925634fcd0e, type: 2}
   skillSet3: []

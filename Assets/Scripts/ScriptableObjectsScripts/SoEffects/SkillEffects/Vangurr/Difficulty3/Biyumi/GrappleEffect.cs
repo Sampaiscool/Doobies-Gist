@@ -12,7 +12,7 @@ public class GrappleEffect : SkillEffectSO
 
          string result = user.PerformBasicAttack(target);
 
-        user.SetTransformation(Transformations.None);
+        user.SetTransformation(Transformations.BiyumiNormal);
 
         BattleUIManager.Instance.AddLog($"{user.CharacterName} grabs {target.CharacterName}, stunning them and reducing their defence. They use a basic attack after this.");
         return result;

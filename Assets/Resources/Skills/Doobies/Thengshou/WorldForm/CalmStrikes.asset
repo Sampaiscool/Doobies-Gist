@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
   m_Name: CalmStrikes
   m_EditorClassIdentifier: 
-  skillName: 
+  skillName: Calm Strikes
   icon: {fileID: 0}
   animation: {fileID: 0}
-  description: 
-  resourceCost: 0
-  resourceUsed: 0
-  isWeaponSkill: 0
+  description: Strike the target dealing reduced damage, you gain "Regeneration"
+    up to the amount of damage you did.
+  resourceCost: 2
+  resourceUsed: 6
+  isWeaponSkill: 1
   zurpRegainChance: 0
   zurpRegainAmount: 0
-  effect: {fileID: 0}
+  effect: {fileID: 11400000, guid: 18c152361aef3834f91a33ed307c897c, type: 2}

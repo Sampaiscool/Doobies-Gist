@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
   m_Name: FlashingKick
   m_EditorClassIdentifier: 
-  skillName: 
+  skillName: Flashing Kick
   icon: {fileID: 0}
   animation: {fileID: 0}
-  description: 
-  resourceCost: 0
-  resourceUsed: 0
-  isWeaponSkill: 0
+  description: Kick the target dealing reduced damage, This can stun the target
+  resourceCost: 2
+  resourceUsed: 6
+  isWeaponSkill: 1
   zurpRegainChance: 0
   zurpRegainAmount: 0
-  effect: {fileID: 0}
+  effect: {fileID: 11400000, guid: 631b82dd03542964199bb957aa62391e, type: 2}

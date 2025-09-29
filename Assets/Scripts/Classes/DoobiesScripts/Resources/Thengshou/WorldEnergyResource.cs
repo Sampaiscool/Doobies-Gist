@@ -15,7 +15,7 @@ public class WorldEnergyResource : IResource
     public WorldEnergyResource(int max)
     {
         Max = max;
-        Current = max / 2;
+        Current = max;
     }
 
     public void Gain(int amount)

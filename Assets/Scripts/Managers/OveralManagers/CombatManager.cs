@@ -203,6 +203,18 @@ public class CombatManager : MonoBehaviour
             case ResourceType.Health:
                 canPay = doobie.CurrentHealth > chosenSkill.resourceCost;
                 break;
+            case ResourceType.WorldEnergy:
+                if (doobie.MainResource is SoulflowResource soulflow)
+                {
+                    canPay = soulflow.WorldEnergy.Current >= chosenSkill.resourceCost;
+                }
+                break;
+            case ResourceType.SpiritEnergy:
+                if (doobie.MainResource is SoulflowResource soulflow2)
+                {
+                    canPay = soulflow2.SpiritEnergy.Current >= chosenSkill.resourceCost;
+                }
+                break;
 
             default: // main resource (zurp or other)
                 if (doobie.MainResource != null && doobie.MainResource.Type == chosenSkill.resourceUsed)

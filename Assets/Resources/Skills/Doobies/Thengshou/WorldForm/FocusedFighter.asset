@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
   m_Name: FocusedFighter
   m_EditorClassIdentifier: 
-  skillName: 
+  skillName: Focused Fighter
   icon: {fileID: 0}
   animation: {fileID: 0}
-  description: 
-  resourceCost: 0
-  resourceUsed: 0
-  isWeaponSkill: 0
+  description: Shield yourself with the intensity of your heal power, If you have
+    less then 50% of your HP remaining; gain even more shield and gain  the same
+    amount of "Defence Up" .
+  resourceCost: 4
+  resourceUsed: 6
+  isWeaponSkill: 1
   zurpRegainChance: 0
   zurpRegainAmount: 0
-  effect: {fileID: 0}
+  effect: {fileID: 11400000, guid: d21bbe82150a7b64e84c1b2f98341910, type: 2}

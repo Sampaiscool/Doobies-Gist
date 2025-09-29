@@ -23,7 +23,7 @@ MonoBehaviour:
   skillChance: 50
   isBoss: 1
   characterPool: 16
-  startingTransformation: 0
+  startingTransformation: 4
   baseSkills:
   - {fileID: 11400000, guid: c03f63ca25a2ee042acac081a2021843, type: 2}
   defaultWeapon: {fileID: 11400000, guid: 6f62514957945ea4db2709a2909b7ccb, type: 2}

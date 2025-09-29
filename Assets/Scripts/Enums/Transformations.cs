@@ -8,4 +8,5 @@ public enum Transformations
     WorldForm,
     SpiritForm,
     BiyumiForm,
+    BiyumiNormal,
 }

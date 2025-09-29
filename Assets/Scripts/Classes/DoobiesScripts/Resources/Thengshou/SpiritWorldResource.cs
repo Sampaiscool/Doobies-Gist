@@ -15,7 +15,7 @@ public class SpiritEnergyResource : IResource
     public SpiritEnergyResource(int max)
     {
         Max = max;
-        Current = max / 2;
+        Current = 0;
     }
 
     public void Gain(int amount)

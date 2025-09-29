@@ -185,7 +185,7 @@ public class DoobieInstance : CombatantInstance
     {
         if(MainResource is SoulflowResource soulflow && soulflow.WorldEnergy.Current >= soulflow.WorldEnergy.Max)
         {
-            SetTransformation(Transformations.SpiritForm);
+            SetTransformation(Transformations.WorldForm);
         }
     }
     /// <summary>
@@ -196,7 +196,7 @@ public class DoobieInstance : CombatantInstance
     {
         if (MainResource is SoulflowResource soulflow && soulflow.SpiritEnergy.Current >= soulflow.SpiritEnergy.Max)
         {
-            SetTransformation(Transformations.WorldForm);
+            SetTransformation(Transformations.SpiritForm);
         }
     }
 

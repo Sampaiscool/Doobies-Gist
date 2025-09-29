@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
   m_Name: CursedHarmony
   m_EditorClassIdentifier: 
-  skillName: 
+  skillName: Cursed Harmony
   icon: {fileID: 0}
   animation: {fileID: 0}
-  description: 
-  resourceCost: 0
-  resourceUsed: 0
+  description: Gain "Spell Strenghten" and give the target "Defence Down"
+  resourceCost: 2
+  resourceUsed: 7
   isWeaponSkill: 0
   zurpRegainChance: 0
   zurpRegainAmount: 0
-  effect: {fileID: 0}
+  effect: {fileID: 11400000, guid: c4490af1f876f2d478f0f1cbd055d5bb, type: 2}

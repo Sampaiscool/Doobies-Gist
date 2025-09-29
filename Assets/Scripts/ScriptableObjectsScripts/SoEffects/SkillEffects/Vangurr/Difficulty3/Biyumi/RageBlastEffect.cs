@@ -15,7 +15,7 @@ public class RageBlastEffect : SkillEffectSO
 
         string result = user.PerformBasicAttack(target);
 
-        user.SetTransformation(Transformations.None);
+        user.SetTransformation(Transformations.BiyumiNormal);
 
         BattleUIManager.Instance.AddLog($"{user.CharacterName} blasts {target.CharacterName}, giving them vampire curse and dealing {damageDone} damage! They use a basic attack after this.");
         return result;

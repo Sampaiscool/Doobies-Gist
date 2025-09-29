@@ -289,6 +289,7 @@ public abstract class CombatantInstance
             AddEffect(new Effect(EffectType.HealingWeaken, 1, true, nutouCurse.intensity));
         }
 
+        // Your Upgrades
         foreach (Upgrade upgrade in ActiveUpgrades)
         {
             switch (upgrade.type)
@@ -307,6 +308,37 @@ public abstract class CombatantInstance
                     break;
             }
         }
+        CombatantInstance player;
+        CombatantInstance opponent;
+
+        // Determine player & opponent
+        if (this is DoobieInstance)
+        {
+            player = this;
+            opponent = GameManager.Instance.currentVangurr;
+        }
+        else
+        {
+            player = this;
+            opponent = GameManager.Instance.currentDoobie;
+        }
+
+        // Loop through opponent’s upgrades
+        foreach (Upgrade opponentUpgrade in opponent.ActiveUpgrades)
+        {
+            switch (opponentUpgrade.type)
+            {
+                case UpgradeNames.BoneSnapper:
+                    if (player.CurrentHealth != player.MaxHealth && player.CurrentTransformation == Transformations.SpiritForm)
+                    {
+                        player.AddEffect(new Effect(EffectType.Bleed, 2, true, opponentUpgrade.intensity));
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 
 
@@ -554,6 +586,12 @@ public abstract class CombatantInstance
                 case UpgradeNames.SpellSorcerer:
                      AddEffect(new Effect(EffectType.SpellStrenghten, 3 ,false, upgrade.intensity));
                     break;
+                case UpgradeNames.Shadowrend:
+                    if (CurrentHealth == MaxHealth)
+                    {
+                        AddEffect(new Effect(EffectType.HealingStrenghten, 3, false, (upgrade.intensity * 3)));
+                    }
+                    break;
                 default:
                     break;
             }
@@ -602,6 +640,22 @@ public abstract class CombatantInstance
                         {
                             AddEffect(new Effect(EffectType.Deflecion, 999, false, upgrade.intensity));
                         }
+                        break;
+                    case UpgradeNames.CalmRitual:
+                        HealCombatant(upgrade.intensity);
+                        break;
+                    case UpgradeNames.HeartOfStillness:
+                        if (this is DoobieInstance)
+                        {
+                            GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.NutouCurse, 1, true, upgrade.intensity));
+                        }
+                        else
+                        {
+                            GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.NutouCurse, 1, true, upgrade.intensity));
+                        }
+                        break;
+                    case UpgradeNames.SereneCarapace:
+                        AddEffect(new Effect(EffectType.ConvertOverheal, 5, false, upgrade.intensity));
                         break;
                 }
             }
@@ -712,6 +766,12 @@ public abstract class CombatantInstance
                         BattleUIManager.Instance.AddLog($"{CharacterName} has gained 2 Faith!");
                     }
                     break;
+                case UpgradeNames.IronBreath:
+                    if (CurrentHealth >= (MaxHealth / 2))
+                    {
+                        AddEffect(new Effect(EffectType.HealingStrenghten, 3, false, upgrade.intensity));
+                    }
+                    break;
                 default:
                     break;
             }
@@ -741,6 +801,18 @@ public abstract class CombatantInstance
                     AddEffect(new Effect(EffectType.Regeneration, 1, false, upgrade.intensity));
                     break;
                 default:
+                    break;
+            }
+        }
+
+        var effectsSnapshot = new List<Effect>(ActiveEffects);
+
+        foreach (var effect in effectsSnapshot)
+        {
+            switch (effect.type)
+            {
+                case EffectType.ConvertOverheal:
+                    AddEffect(new Effect(EffectType.Shield, 10, false, effect.intensity));
                     break;
             }
         }
@@ -778,6 +850,21 @@ public abstract class CombatantInstance
     }
     private void AddEffectUpgradesCheck(Effect newEffect)
     {
+        CombatantInstance player;
+        CombatantInstance opponent;
+
+        // Determine player & opponent
+        if (this is DoobieInstance)
+        {
+            player = this;
+            opponent = GameManager.Instance.currentVangurr;
+        }
+        else
+        {
+            player = this;
+            opponent = GameManager.Instance.currentDoobie;
+        }
+
         if (newEffect.isDebuff)
         {
             Upgrade cursedFaithUpgrade = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(c => c.type == UpgradeNames.CursedFaith);
@@ -823,6 +910,26 @@ public abstract class CombatantInstance
                     spellWeaken.duration -= powerSpells.intensity;
                     spellWeaken.intensity -= powerSpells.intensity;
                 }
+            }
+        }
+
+        if (newEffect.type == EffectType.Hidden)
+        {
+            Upgrade howlingRushUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.HowlingRush);
+            if (howlingRushUpgrade != null)
+            {
+                AddEffect(new Effect(EffectType.Regeneration, 1, false, (howlingRushUpgrade.intensity * 5)));
+            }
+        }
+
+
+
+        if (newEffect.type == EffectType.Bleed)
+        {
+            Upgrade soulflareUpgrade = opponent.ActiveUpgrades.Find(b => b.type == UpgradeNames.SoulflareEdge);
+            if (soulflareUpgrade != null)
+            {
+                opponent.HealCombatant(soulflareUpgrade.intensity);
             }
         }
     }
@@ -1022,7 +1129,7 @@ public abstract class CombatantInstance
         switch (CurrentTransformation)
         {
             case Transformations.SpiritForm:
-                defence *= -0.5f;
+                defence *= 0.5f;
                 break;
         }
 
@@ -1139,7 +1246,31 @@ public abstract class CombatantInstance
         BattleUIManager.Instance.AddLog($"{CharacterName} has transformed!");
 
         BattleUIManager.Instance.CombatantTransformation(this, transformation);
+
+        OnTransformation();
+
         BattleUIManager.Instance.RefreshSkillButtons(GetAllSkills());
+    }
+    void OnTransformation()
+    {
+        foreach (var Upgrade in ActiveUpgrades)
+        {
+            switch (Upgrade.type)
+            {
+                case UpgradeNames.BloodiedMomentum:
+                    if (this is DoobieInstance doobie)
+                    {
+                        GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Bleed, 3, true, (Upgrade.intensity * 3)));
+                    }
+                    else
+                    {
+                        GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Bleed, 3, true, (Upgrade.intensity * 3)));
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     /// <summary>

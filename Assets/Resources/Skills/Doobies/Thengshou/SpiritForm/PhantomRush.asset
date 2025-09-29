@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
   m_Name: PhantomRush
   m_EditorClassIdentifier: 
-  skillName: 
+  skillName: Phantom Rush
   icon: {fileID: 0}
   animation: {fileID: 0}
-  description: 
-  resourceCost: 0
-  resourceUsed: 0
+  description: Rush at your opponent with increased damage, then gain "Hidden" and
+    "Evasion".
+  resourceCost: 4
+  resourceUsed: 7
   isWeaponSkill: 0
   zurpRegainChance: 0
   zurpRegainAmount: 0
-  effect: {fileID: 0}
+  effect: {fileID: 11400000, guid: 4699cdfcac8cb364086e62579540641d, type: 2}

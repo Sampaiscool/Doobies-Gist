@@ -21,7 +21,7 @@ public class BlitzFlashEffect : SkillEffectSO
 
         user.AddEffect(new Effect(EffectType.Harden, 5, false, 3));
 
-        user.SetTransformation(Transformations.None);
+        user.SetTransformation(Transformations.BiyumiNormal);
 
         return $"{user.CharacterName} also hardens it's skin";
     }

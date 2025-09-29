@@ -87,4 +87,14 @@ public enum UpgradeNames
     SpearOfRadiance,                      //Zelstine
 
     ShiftingSand,                         //Nutou
+
+    CalmRitual,                           //Thengshou
+    IronBreath,                           //Thengshou
+    SereneCarapace,                       //Thengshou
+    HeartOfStillness,                     //Thengshou
+    BloodiedMomentum,                     //Thengshou
+    SoulflareEdge,                        //Thengshou
+    Shadowrend,                           //Thengshou
+    HowlingRush,                          //Thengshou
+    BoneSnapper,                          //Thengshou
 }

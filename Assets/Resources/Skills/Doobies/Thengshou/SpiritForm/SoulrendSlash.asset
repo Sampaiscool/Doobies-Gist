@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
   m_Name: SoulrendSlash
   m_EditorClassIdentifier: 
-  skillName: 
+  skillName: Soulrend Slash
   icon: {fileID: 0}
   animation: {fileID: 0}
-  description: 
-  resourceCost: 0
-  resourceUsed: 0
+  description: Slash your opponent with increased damage and give them 5 "Bleed".
+  resourceCost: 2
+  resourceUsed: 7
   isWeaponSkill: 0
   zurpRegainChance: 0
   zurpRegainAmount: 0
-  effect: {fileID: 0}
+  effect: {fileID: 11400000, guid: c93b292df98a636428f6b871ec7e375d, type: 2}

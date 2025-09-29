@@ -6,7 +6,7 @@ using UnityEngine;
 public class SoulflowAction : ScriptableObject, IResourceAction
 {
     public string ActionName => "Soulflow sense";
-    public string Description => "Lose 2Energy of the current transformation you're in; gain 2 energy of the other transformation";
+    public string Description => "Lose 2 Energy of the current transformation you're in; gain 2 energy of the other transformation";
     public bool Execute(CombatantInstance user, CombatantInstance target)
     {
         if (user is DoobieInstance doobie && doobie.MainResource is SoulflowResource soulflow)
@@ -22,7 +22,8 @@ public class SoulflowAction : ScriptableObject, IResourceAction
                 soulflow.SpiritEnergy.Spend(2);
             }
         }
-        
+        BattleUIManager.Instance.AddLog($"{user.CharacterName} swaps 2 energy!");
+
         return true;
     }
 }
