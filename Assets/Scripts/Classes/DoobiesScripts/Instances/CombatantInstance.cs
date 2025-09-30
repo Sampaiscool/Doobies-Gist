@@ -10,27 +10,77 @@ public abstract class CombatantInstance
 
     public UnityEngine.Transform animationAnchor;
 
+    /// <summary>
+    /// So of the Instance
+    /// </summary>
     public abstract ScriptableObject so { get; }
+    /// <summary>
+    /// Name of the Instance
+    /// </summary>
     public abstract string CharacterName { get; }
+    /// <summary>
+    /// Current Image of the Instance
+    /// </summary>
     public abstract Sprite CurrentImage { get; set; }
+    /// <summary>
+    /// Current health of the Instance
+    /// </summary>
     public abstract int CurrentHealth { get; set; }
+    /// <summary>
+    /// Max health of the Instance
+    /// </summary>
     public abstract int MaxHealth { get; set; }
+    /// <summary>
+    /// Current Defence of the Instance
+    /// </summary>
     public abstract float CurrentDefence { get; set; }
+    /// <summary>
+    /// Current skill/spell damage of the Instance
+    /// </summary>
     public abstract int CurrentSkillDmg { get; set; }
+    /// <summary>
+    /// Current heal power of the Instance
+    /// </summary>
     public abstract int CurrentHealPower { get; set; }
+    /// <summary>
+    /// Current transformation the Instance is in
+    /// </summary>
     public abstract Transformations CurrentTransformation { get; set; }
-
+    /// <summary>
+    /// Equiped weapon of the Instance
+    /// </summary>
     public WeaponInstance EquippedWeaponInstance;
-
+    /// <summary>
+    /// Gets the effective weapon damage of the current weapon (No buffs!)
+    /// </summary>
+    /// <remarks>Use this in GetEffectiveWeaponDamageAfterEffects()</remarks>
+    /// <returns>The damage amount</returns>
     public int GetEffectiveWeaponDamage() => EquippedWeaponInstance?.GetEffectiveDamage() ?? 0;
+    /// <summary>
+    /// Gets the effictive crit chance of the current weapon (No Buffs!)
+    /// </summary>
+    /// <remarks>Use this in GetEffectiveCritChanceAfterEffects()</remarks>
+    /// <returns>The crit chance (0 - 100)</returns>
     public int GetEffectiveCritChance() => EquippedWeaponInstance?.GetEffectiveCritChance() ?? 0;
-
     public abstract List<SkillSO> GetAllSkills();
+    /// <summary>
+    /// All effects the Instance has
+    /// </summary>
     public List<Effect> ActiveEffects { get; private set; } = new List<Effect>();
+    /// <summary>
+    /// All active effect icons
+    /// </summary>
     public List<GameObject> ActiveEffectIcons = new List<GameObject>();
-
+    /// <summary>
+    /// All upgrades the Instance has
+    /// </summary>
     public List<Upgrade> ActiveUpgrades { get; private set; } = new List<Upgrade>();
-
+    /// <summary>
+    /// Heal the Instance and activate all on-heal effects
+    /// </summary>
+    /// <param name="amount">The base heal</param>
+    /// <remarks>Current heal power still gets added to param="amount"</remarks>
+    /// <returns>The amount you healed</returns>
     public int HealCombatant(int amount)
     {
         int effectiveHeal = GetEffectiveHealPower(amount);
@@ -67,7 +117,8 @@ public abstract class CombatantInstance
     /// </summary>
     /// <param name="amount">The amount of damage before defence</param>
     /// <param name="isSkill">wheter the dmg came from a skill</param>
-    /// <returns>The actual damage</returns>
+    /// <param name="isEffect">Wheter the damage came from an effect</param>
+    /// <returns>the result for a log / the damage the instanxce took</returns>
     public virtual (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill = false, bool isEffect = false)
     {
         Debug.Log("Taking base damage: " + amount);
@@ -129,6 +180,10 @@ public abstract class CombatantInstance
 
         return (DamageResult.Hit, reducedDamage);
     }
+    /// <summary>
+    /// Handles the effect "Delfection"
+    /// </summary>
+    /// <returns>Wheter a deflect happend</returns>
     private bool HandleDeflection()
     {
         var deflectEffects = ActiveEffects.FindAll(b => b.type == EffectType.Deflecion);
@@ -183,6 +238,10 @@ public abstract class CombatantInstance
 
         return true; // een deflect is afgehandeld
     }
+    /// <summary>
+    /// Handles the "Sneaky" upgrade
+    /// </summary>
+    /// <returns>Wheter they dodged the attack</returns>
     private bool HandleSneaky()
     {
         int sneakyStacks = ActiveUpgrades.Count(u => u.type == UpgradeNames.Sneaky);
@@ -199,6 +258,9 @@ public abstract class CombatantInstance
 
         return false;
     }
+    /// <summary>
+    /// Handles effects that happen on an "evasion" dodge
+    /// </summary>
     private void HandleDodgeEffects()
     {
         var evasionEffect = ActiveEffects.Find(b => b.type == EffectType.Evasion);
@@ -213,11 +275,18 @@ public abstract class CombatantInstance
         if (evasionEffect.duration <= 0)
             ActiveEffects.Remove(evasionEffect);
     }
-
+    /// <summary>
+    /// Checks if the Instance has "evasion"
+    /// </summary>
+    /// <returns>If they have the effect</returns>
     private bool HasEvasionEffect()
     {
         return ActiveEffects.Exists(b => b.type == EffectType.Evasion);
     }
+    /// <summary>
+    /// Handles the "hidden" effect
+    /// </summary>
+    /// <returns>Wheter they have the effect</returns>
     private bool HandleHidden()
     {
         Effect hiddenEffect = ActiveEffects.Find(b => b.type == EffectType.Hidden);
@@ -227,6 +296,11 @@ public abstract class CombatantInstance
         }
         return false;
     }
+    /// <summary>
+    /// Handles all "shield" like effects
+    /// </summary>
+    /// <param name="damage">the damage that the Instance would take</param>
+    /// <returns>Wheter the shield blocked any damage</returns>
     private bool HandleShield(int damage)
     {
         Effect shieldEffect = ActiveEffects.Find(b => b.type == EffectType.Shield);
@@ -340,8 +414,6 @@ public abstract class CombatantInstance
         }
 
     }
-
-
     /// <summary>
     /// The instance preforms a basic attack and deals damage to the target if posible
     /// </summary>
@@ -445,6 +517,11 @@ public abstract class CombatantInstance
         modifiedDamage *= 2;
         return modifiedDamage;
     }
+    /// <summary>
+    /// Gets the effective weapon damage after effects
+    /// </summary>
+    /// <param name="baseDamage">base damage</param>
+    /// <returns>modified damage</returns>
     public int GetEffectiveWeaponDamageAfterEffects(int baseDamage)
     {
         int modifiedDamage = baseDamage;
@@ -473,6 +550,12 @@ public abstract class CombatantInstance
 
         return Mathf.Max(modifiedDamage, 0);
     }
+    /// <summary>
+    /// Gets the effective weapon damage for the UI
+    /// </summary>
+    /// <param name="baseDamage">the base damage</param>
+    /// <remarks>No effects happen</remarks>
+    /// <returns>The modified damage amount</returns>
     public int GetEffectiveWeaponDamageAfterEffectsForUI(int baseDamage)
     {
         int modifiedDamage = baseDamage;
@@ -494,6 +577,11 @@ public abstract class CombatantInstance
 
         return Mathf.Max(modifiedDamage, 0);
     }
+    /// <summary>
+    /// Gets the effective Skill/Spell damage
+    /// </summary>
+    /// <param name="baseDamage">The base damage</param>
+    /// <returns>The modified damage</returns>
     public int GetEffectiveSkillDamageAfterEffects(int baseDamage)
     {
         int modifiedDamage = baseDamage;
@@ -514,6 +602,11 @@ public abstract class CombatantInstance
         }
         return Mathf.Max(modifiedDamage, 0);
     }
+    /// <summary>
+    /// Gets the effective Crit chance from your weapon
+    /// </summary>
+    /// <param name="baseCrit">base crit chance</param>
+    /// <returns>modified crit chance</returns>
     public int GetEffectiveCritChanceAfterEffects(int baseCrit)
     {
         int modifiedCrit = baseCrit;
@@ -528,7 +621,13 @@ public abstract class CombatantInstance
         }
         return Mathf.Clamp(modifiedCrit, 0, 100);
     }
-
+    /// <summary>
+    /// Gets the effective skill damage
+    /// </summary>
+    /// <remarks>Procs CheckForSkillOnUseEffects()</remarks>
+    /// <remarks>Uses the GetEffectiveSkillDamageAfterEffects()</remarks>
+    /// <param name="baseDmg">the base damage</param>
+    /// <returns>modified damage</returns>
     public int GetEffectiveSkillDamage(int baseDmg)
     {
         int finalDmg;
@@ -537,12 +636,24 @@ public abstract class CombatantInstance
 
         return finalDmg = GetEffectiveSkillDamageAfterEffects(baseDmg);
     }
+    /// <summary>
+    /// Gets the effective skill damage
+    /// </summary>
+    /// <remarks>Does NOT proc CheckForSkillOnUseEffects()</remarks>
+    /// <remarks>Uses the GetEffectiveSkillDamageAfterEffects()</remarks>
+    /// <param name="baseDmg">the base damage</param>
+    /// <returns>modified damage</returns>
     public int GetEffectiveSkillDamageForUI(int baseDmg)
     {
         int finalDmg;
 
         return finalDmg = GetEffectiveSkillDamageAfterEffects(baseDmg);
     }
+    /// <summary>
+    /// Gets the effective heal power of the Instance
+    /// </summary>
+    /// <param name="baseHeal">base heal amount</param>
+    /// <returns>modified heal amount</returns>
     public int GetEffectiveHealPower(int baseHeal)
     {
         float modifiedHeal = baseHeal;
@@ -563,8 +674,9 @@ public abstract class CombatantInstance
 
         return Mathf.Max(0, Mathf.RoundToInt(modifiedHeal));
     }
-
-
+    /// <summary>
+    /// Activates Effects/Upgrades that happen when you use a skill
+    /// </summary>
     public void CheckForSkillOnUseEffects()
     {
         if (ActiveUpgrades == null) return;
@@ -597,6 +709,9 @@ public abstract class CombatantInstance
             }
         }
     }
+    /// <summary>
+    /// Activates Effects/Upgrade that happen when you use your weapon
+    /// </summary>
     public void CheckForWeaponOnUseEffects()
     {
         if (ActiveUpgrades != null)
@@ -722,6 +837,10 @@ public abstract class CombatantInstance
             }
         }
     }
+    /// <summary>
+    /// Activates Effects/Upgrades that happen when you heal
+    /// </summary>
+    /// <remarks>does not include overheal</remarks>
     public void CheckForOnHealEffects()
     {
         foreach (var upgrade in ActiveUpgrades)
@@ -791,6 +910,9 @@ public abstract class CombatantInstance
             }
         }
     }
+    /// <summary>
+    /// Activates Effects/Upgrades that happen when you overheal
+    /// </summary>
     public void CheckForOverHealEffects()
     {
         foreach (var upgrade in ActiveUpgrades)
@@ -817,7 +939,10 @@ public abstract class CombatantInstance
             }
         }
     }
-
+    /// <summary>
+    /// Activates Effects/upgrades that happen when you use a basic attack
+    /// </summary>
+    /// <param name="target"></param>
     protected void ApplyEffectsOnBasicAttack(CombatantInstance target)
     {
         foreach (var upgrade in ActiveUpgrades)
@@ -848,6 +973,10 @@ public abstract class CombatantInstance
             }
         }
     }
+    /// <summary>
+    /// Activates Effects/upgrades that happen when you get a effect
+    /// </summary>
+    /// <param name="newEffect">the effect you get</param>
     private void AddEffectUpgradesCheck(Effect newEffect)
     {
         CombatantInstance player;
@@ -899,6 +1028,15 @@ public abstract class CombatantInstance
             }
         }
 
+        if (this is DoobieInstance)
+        {
+            Upgrade maskOfMidnight = GameManager.Instance.currentVangurr.ActiveUpgrades.Find(m => m.type == UpgradeNames.MaskOfMidnight);
+            if (maskOfMidnight != null)
+            {
+                AddEffect(new Effect(EffectType.Holy, 2, true, maskOfMidnight.intensity));
+            }
+        }
+
         if (newEffect.type == EffectType.SpellWeaken)
         {
             Upgrade powerSpells = ActiveUpgrades.Find(b => b.type == UpgradeNames.PowerSpells);
@@ -922,8 +1060,6 @@ public abstract class CombatantInstance
             }
         }
 
-
-
         if (newEffect.type == EffectType.Bleed)
         {
             Upgrade soulflareUpgrade = opponent.ActiveUpgrades.Find(b => b.type == UpgradeNames.SoulflareEdge);
@@ -933,10 +1069,16 @@ public abstract class CombatantInstance
             }
         }
     }
+    /// <summary>
+    /// Sets the currentHealth to 0
+    /// </summary>
     public void KillInstance()
     {
         CurrentHealth = 0;
     }
+    /// <summary>
+    /// Effects/Upgrades that happen when you use a skill/basic attack
+    /// </summary>
     public void CheckForAttackEffects()
     {
         foreach (var upgrade in ActiveUpgrades)
@@ -980,6 +1122,10 @@ public abstract class CombatantInstance
             }
         }
     }
+    /// <summary>
+    /// Adds an effect into the ActiveEffects on the Instance
+    /// </summary>
+    /// <param name="newEffect">the effect you gain</param>
     public void AddEffect(Effect newEffect)
     {
         BeforeEffectGain(newEffect);
@@ -1030,7 +1176,10 @@ public abstract class CombatantInstance
         string logMessage = $"{CharacterName} gains {newEffect.intensity} \"{effectName}\"!";
         BattleUIManager.Instance.AddLog(logMessage);
     }
-
+    /// <summary>
+    /// Adds an upgrade into the ActiveUpgrades on the Instance
+    /// </summary>
+    /// <param name="newUpgrade"></param>
     public void AddUpgrade(Upgrade newUpgrade)
     {
         Upgrade existing = ActiveUpgrades.Find(b => b.type == newUpgrade.type);
@@ -1043,17 +1192,12 @@ public abstract class CombatantInstance
             ActiveUpgrades.Add(newUpgrade);
         }
     }
+    /// <summary>
+    /// Activates Effects/Upgrades the happen before you gain an effect
+    /// </summary>
+    /// <param name="newEffect">the effect you would gain</param>
     public void BeforeEffectGain(Effect newEffect)
     {
-        if (this is DoobieInstance doobie)
-        {
-            Upgrade maskOfMidnight = GameManager.Instance.currentVangurr.ActiveUpgrades.Find(m => m.type == UpgradeNames.MaskOfMidnight);
-            if (maskOfMidnight != null)
-            {
-                AddEffect(new Effect(EffectType.Holy, 2, true, maskOfMidnight.intensity));
-            }
-        }
-
         Effect holyEffect = ActiveEffects.Find(h => h.type == EffectType.Holy);
         if (holyEffect != null)
         {
@@ -1067,7 +1211,9 @@ public abstract class CombatantInstance
             BattleUIManager.Instance.AddLog($"{CharacterName} takes damage beacause they gained a debuff while they have Holy!");
         }
     }
-
+    /// <summary>
+    /// Reduce the turn counter on all ActiveEffects by 1
+    /// </summary>
     public void TickEffects()
     {
         for (int i = ActiveEffects.Count - 1; i >= 0; i--)
@@ -1108,7 +1254,10 @@ public abstract class CombatantInstance
                 : BattleUIManager.Instance.VangurrEffectsContainer
         );
     }
-
+    /// <summary>
+    /// Gets the effective defence of the Instance
+    /// </summary>
+    /// <returns>the modified defence</returns>
     public float GetEffectiveDefence()
     {
         float defence = CurrentDefence;
@@ -1238,6 +1387,10 @@ public abstract class CombatantInstance
             }
         }
     }
+    /// <summary>
+    /// Sets the transformation of the Instance
+    /// </summary>
+    /// <param name="transformation">The transformation the Instance becomes</param>
     public void SetTransformation(Transformations transformation)
     {
         CurrentTransformation = transformation;
@@ -1251,6 +1404,9 @@ public abstract class CombatantInstance
 
         BattleUIManager.Instance.RefreshSkillButtons(GetAllSkills());
     }
+    /// <summary>
+    /// Activates Effects/Upgrades that happen when you transform
+    /// </summary>
     void OnTransformation()
     {
         foreach (var Upgrade in ActiveUpgrades)
@@ -1272,7 +1428,6 @@ public abstract class CombatantInstance
             }
         }
     }
-
     /// <summary>
     /// Activate the animation of the weapon
     /// </summary>

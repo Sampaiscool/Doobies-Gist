@@ -69,6 +69,11 @@ public class VangurrInstance : CombatantInstance
                 break;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
     public string PerformTurn(CombatantInstance target)
     {
         // Grab all skills

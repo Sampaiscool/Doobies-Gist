@@ -5,19 +5,54 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/SkillSO")]
 public class SkillSO : ScriptableObject
 {
+    /// <summary>
+    /// Name of the skill
+    /// </summary>
     public string skillName;
+    /// <summary>
+    /// Sprite of the skill
+    /// </summary>
     public Sprite icon;
+    /// <summary>
+    /// Animation prefab of the skill 
+    /// </summary>
     public GameObject animation;
+    /// <summary>
+    /// Description of the skill
+    /// </summary>
     [TextArea]
     public string description;
+    /// <summary>
+    /// Resource amount
+    /// </summary>
     public int resourceCost;
-    public ResourceType resourceUsed; // HP or Zurp
-    public bool isWeaponSkill; // If true, damage is based on weapon. If false, damage is based on skillDmg.
+    /// <summary>
+    /// The resource the skill uses
+    /// </summary>
+    public ResourceType resourceUsed;
+    /// <summary>
+    /// Whether the skill is a weapon-stle
+    /// </summary>
+    public bool isWeaponSkill;
+    /// <summary>
+    /// Chance to regain zurp (0-1)
+    /// </summary>
     public float zurpRegainChance;
+    /// <summary>
+    /// The zurp you regain after using the skill
+    /// </summary>
     public int zurpRegainAmount;
-
+    /// <summary>
+    /// The skills own effect SO
+    /// </summary>
     public SkillEffectSO effect;
-
+    /// <summary>
+    /// Uses the skill and pays its cost
+    /// </summary>
+    /// <remarks>Also proc zurp regain</remarks>
+    /// <param name="user">The Instance that uses the skill</param>
+    /// <param name="target">The target of the skill</param>
+    /// <returns>The string that BattleUIManager needs</returns>
     public string UseSkill(CombatantInstance user, CombatantInstance target)
     {
         if (effect == null)

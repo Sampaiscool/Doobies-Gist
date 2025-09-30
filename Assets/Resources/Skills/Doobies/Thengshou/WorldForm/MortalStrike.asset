@@ -17,7 +17,7 @@ MonoBehaviour:
   animation: {fileID: 0}
   description: Strike the target, if you did less then 50% of their HP as damage;
     give them "Target Locked" with the same intensity as the damage you did.
-  resourceCost: 4
+  resourceCost: 2
   resourceUsed: 6
   isWeaponSkill: 1
   zurpRegainChance: 0

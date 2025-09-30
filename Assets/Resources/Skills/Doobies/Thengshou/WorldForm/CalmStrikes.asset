@@ -17,7 +17,7 @@ MonoBehaviour:
   animation: {fileID: 0}
   description: Strike the target dealing reduced damage, you gain "Regeneration"
     up to the amount of damage you did.
-  resourceCost: 2
+  resourceCost: 4
   resourceUsed: 6
   isWeaponSkill: 1
   zurpRegainChance: 0

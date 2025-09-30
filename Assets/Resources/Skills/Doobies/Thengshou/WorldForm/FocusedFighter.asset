@@ -18,7 +18,7 @@ MonoBehaviour:
   description: Shield yourself with the intensity of your heal power, If you have
     less then 50% of your HP remaining; gain even more shield and gain  the same
     amount of "Defence Up" .
-  resourceCost: 4
+  resourceCost: 2
   resourceUsed: 6
   isWeaponSkill: 1
   zurpRegainChance: 0
