@@ -235,4 +235,9 @@ public class DoobieInstance : CombatantInstance
             Debug.Log(message);
         }
     }
+    public void GainFlow()
+    {
+	BattleUIManager.Instance.AddLog($"ik ben flew flow flaw!");	    
+    }
+
 }

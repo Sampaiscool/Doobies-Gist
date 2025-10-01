@@ -275,6 +275,7 @@ public class BattleUIManager : MonoBehaviour
 
     }
 
+    
     public void UpdateEffectsUI(CombatantInstance combatant, Transform effectContainer)
     {
         foreach (var effect in combatant.ActiveEffects)

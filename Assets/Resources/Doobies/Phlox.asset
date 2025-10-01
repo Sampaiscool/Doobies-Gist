@@ -50,7 +50,7 @@ MonoBehaviour:
     icon: {fileID: 0}
     type: 19
     Pool: 7
-    intensity: 3
+    intensity: 5
     isCurse: 1
   skillSet1: []
   skillSet2: []

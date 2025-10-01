@@ -16,7 +16,7 @@ MonoBehaviour:
   description: If you heal; Inflict +1 "Vines" on the opponent.
   cost: 100
   icon: {fileID: 0}
-  type: 0
+  type: 23
   pool: 11
   intensity: 1
   isCurse: 0

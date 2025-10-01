@@ -236,7 +236,7 @@ public abstract class CombatantInstance
             }
         }
 
-        return true; // een deflect is afgehandeld
+        return true; // een deflect is afgehandeld ik heb dit getypt in NeoVim!!
     }
     /// <summary>
     /// Handles the "Sneaky" upgrade
@@ -397,7 +397,7 @@ public abstract class CombatantInstance
             opponent = GameManager.Instance.currentDoobie;
         }
 
-        // Loop through opponent’s upgrades
+    :    // Loop through opponent’s upgrades
         foreach (Upgrade opponentUpgrade in opponent.ActiveUpgrades)
         {
             switch (opponentUpgrade.type)
@@ -1293,14 +1293,14 @@ public abstract class CombatantInstance
     /// <param name="cameFromPistolShot">wheter the call came from a pistol shot</param>
     public void ExplodeBarrels(CombatantInstance owner, CombatantInstance opponent, bool ownerIsBeingAttacked, bool cameFromPistolShot)
     {
-        var effectsSnapshot = new List<Effect>(owner.ActiveEffects);
+        List<Effect> effectsSnapshot = new List<Effect>(owner.ActiveEffects);
 
-        foreach (var effect in effectsSnapshot)
+        foreach (Effect effect in effectsSnapshot)
         {
             if (effect.type == EffectType.Barrel)
             {
                 // If owner is being attacked, they get hurt by their own barrels
-                var victim = ownerIsBeingAttacked ? owner : opponent;
+                CombatantInstance victim = ownerIsBeingAttacked ? owner : opponent;
 
                 bool isCrit = Random.Range(0, 101) < GetEffectiveCritChanceAfterEffects(GetEffectiveCritChance());
 

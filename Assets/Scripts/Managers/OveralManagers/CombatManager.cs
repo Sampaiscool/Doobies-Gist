@@ -630,7 +630,7 @@ public class CombatManager : MonoBehaviour
     {
         if (playerDoobie.CurrentHealth <= 0)
         {
-            BattleUIManager.AddLog("You have fallen. The forest grows darker...");
+            BattleUIManager.AddLog($"{playerDoobie.CharacterName} has fallen.");
             StartCoroutine(ReturnToAdventureAfterDelay(2f, false));
             return true;
         }
