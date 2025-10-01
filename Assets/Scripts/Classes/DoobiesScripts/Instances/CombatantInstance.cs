@@ -397,7 +397,7 @@ public abstract class CombatantInstance
             opponent = GameManager.Instance.currentDoobie;
         }
 
-    :    // Loop through opponent’s upgrades
+        // Loop through opponent’s upgrades
         foreach (Upgrade opponentUpgrade in opponent.ActiveUpgrades)
         {
             switch (opponentUpgrade.type)
