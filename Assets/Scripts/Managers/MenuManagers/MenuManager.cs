@@ -15,6 +15,7 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("Ik ben de log van nvim!!!");
         ShowPanel(Beginpanel);
     }
 

@@ -5,18 +5,14 @@ using UnityEngine;
 public class TestManagerNvim : MonoBehaviour
 {
     public GameObject IAmNvim;
-    int x = "string"; // type mismatch
-    int b = "wrong!";
-    
 
     public void OnClickOfNvim()
     {
         Debug.Log("You have been clicked!");
 
-        Debug.wog("Error maybe?");
-
-
+        BattleUIManager.Instance.AddLog($"miaw");
     }
-
-    // Dit is ee coole test! :)
+    
+    // Ik ben een unsaved change! nogmaals want ik ben dom
+    // Dit is een coole test! :)
 }
