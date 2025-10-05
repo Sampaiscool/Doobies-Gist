@@ -10,11 +10,14 @@ public class ItemSO : ScriptableObject
     public bool isLegendary;
     public ItemType type;
     public CharacterPool pool;
+    public bool hasBeenPurchased;
 }
 
 public enum ItemType
 {
     None,
-    StrikingFlower,
-    Shareed
+    StrikingFlower,                   // Hiroshi
+    DualBarrels,                      // Cobb Silver Eye
+    BleedingSpirit,                   // Thengshou
+    SharedPain,                       // HealthResource
 }

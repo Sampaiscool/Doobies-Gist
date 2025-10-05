@@ -140,12 +140,16 @@ public class ShopManager : MonoBehaviour
             ItemSO chosen = pool[index];
             pool.RemoveAt(index);
 
+            if (chosen.hasBeenPurchased)
+                continue;
+
             Item item = new Item(
                 chosen.itemName,
                 chosen.description,
                 chosen.cost,
                 chosen.type,
-                chosen.pool
+                chosen.pool,
+                chosen.hasBeenPurchased
             )
             {
                 icon = chosen.icon
@@ -153,6 +157,7 @@ public class ShopManager : MonoBehaviour
 
             shopItems.Add(item);
         }
+
 
         // Spawn item buttons
         foreach (var item in shopItems)
@@ -239,6 +244,13 @@ public class ShopManager : MonoBehaviour
 
         GameManager.Instance.currentDoobie.AddItem(item);
 
+        // Find the original ItemSO and mark it as purchased globally
+        ItemSO purchasedSO = FindItemSOByType(item.type);
+        if (purchasedSO != null)
+        {
+            purchasedSO.hasBeenPurchased = true;
+        }
+
         foreach (Transform child in shopContent)
         {
             UpgradeButton btn = child.GetComponent<UpgradeButton>();
@@ -251,8 +263,6 @@ public class ShopManager : MonoBehaviour
 
         Debug.Log($"Bought {item.itemName} for {item.cost} Dzeef!");
     }
-
-
 
     public List<Upgrade> GetCurrentUpgrades()
     {
@@ -314,6 +324,19 @@ public class ShopManager : MonoBehaviour
         foreach (Transform child in shopContent)
             Destroy(child.gameObject);
     }
+    private ItemSO FindItemSOByType(ItemType type)
+    {
+        foreach (var group in itemGroups)
+        {
+            foreach (var so in group.items)
+            {
+                if (so.type == type)
+                    return so;
+            }
+        }
+        return null;
+    }
+
 
     public bool IsShopInitialized => shopInitialized;
 }

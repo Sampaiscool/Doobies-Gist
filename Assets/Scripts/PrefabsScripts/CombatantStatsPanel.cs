@@ -81,14 +81,25 @@ public class CombatantStatsPanel : MonoBehaviour
             Destroy(child.gameObject);
 
         // Add active upgrades
-        foreach (var upgrade in boundInstance.ActiveUpgrades)
+        foreach (Upgrade upgrade in boundInstance.ActiveUpgrades)
         {
             var entry = Instantiate(upgradeEntryPrefab, upgradesContainer);
 
             var upgradeButton = entry.GetComponent<StatsUpgradeButton>();
             if (upgradeButton != null)
             {
-                upgradeButton.Setup(upgrade);
+                upgradeButton.SetupUpgrade(upgrade);
+            }
+        }
+        // Add active items
+        foreach (Item item in boundInstance.ActiveItems)
+        {
+            var entry = Instantiate(upgradeEntryPrefab, upgradesContainer);
+
+            var upgradeButton = entry.GetComponent<StatsUpgradeButton>();
+            if (upgradeButton != null)
+            {
+                upgradeButton.SetupItem(item);
             }
         }
     }

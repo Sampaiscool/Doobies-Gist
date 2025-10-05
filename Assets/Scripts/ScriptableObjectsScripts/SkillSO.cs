@@ -63,6 +63,18 @@ public class SkillSO : ScriptableObject
             if (resourceUsed == ResourceType.Health)
             {
                 doobie.CurrentHealth -= resourceCost;
+
+                foreach (Item item in user.ActiveItems)
+                {
+                    switch (item.type)
+                    {
+                        case ItemType.SharedPain:
+                            target.TakeDamage(resourceCost);
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
             else if (resourceUsed == ResourceType.WorldEnergy)
             {

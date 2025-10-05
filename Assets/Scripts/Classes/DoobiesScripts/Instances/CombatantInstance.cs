@@ -689,7 +689,7 @@ public abstract class CombatantInstance
         return Mathf.Max(0, Mathf.RoundToInt(modifiedHeal));
     }
     /// <summary>
-    /// Activates Effects/Upgrades that happen when you use a skill
+    /// Activates Effects/Upgrades that happen when you use a Spell-Style
     /// </summary>
     public void CheckForSkillOnUseEffects()
     {
@@ -720,6 +720,34 @@ public abstract class CombatantInstance
                     break;
                 default:
                     break;
+            }
+        }
+        if (ActiveEffects != null)
+        {
+            var effectsSnapshot = new List<Effect>(ActiveEffects);
+
+            foreach (Item item in ActiveItems)
+            {
+                switch (item.type)
+                {
+                    case ItemType.BleedingSpirit:
+                        for (int i = 0; i < effectsSnapshot.Count; i++)
+                        {
+                            var effect = effectsSnapshot[i];
+                            switch (effect.type)
+                            {
+                                case EffectType.Bleed:
+                                    var (result, damageDone) = TakeDamage(effect.intensity, false, true);
+                                    BattleUIManager.Instance.AddLog($"{CharacterName} takes {damageDone} bleed damage!");
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -799,11 +827,8 @@ public abstract class CombatantInstance
                 switch (effect.type)
                 {
                     case  EffectType.Bleed:
-                        for (int j = 0; j < effect.intensity; j++)
-                        {
-                            var (result, damageDone) = TakeDamage(1, false);
-                            BattleUIManager.Instance.AddLog($"{CharacterName} takes {damageDone} bleed damage!");
-                        }
+                        var (result, damageDone) = TakeDamage(effect.intensity, false, true);
+                        BattleUIManager.Instance.AddLog($"{CharacterName} takes {damageDone} bleed damage!");
                         break;
                     case EffectType.Enflame:
                         if (this is DoobieInstance)
@@ -1446,7 +1471,27 @@ public abstract class CombatantInstance
                     }
                 }      
 
-                owner.ActiveEffects.Remove(effect);
+                if (!ownerIsBeingAttacked)
+                {
+                    owner.ActiveEffects.Remove(effect);
+                }
+                else
+                {
+                    foreach (Item item in owner.ActiveItems)
+                    {
+                        switch (item.type)
+                        {
+                            case ItemType.DualBarrels:
+                                int barrelSpawnAmount = effect.intensity;
+                                owner.ActiveEffects.Remove(effect);
+                                owner.AddEffect(new Effect(EffectType.Barrel, 100, false, barrelSpawnAmount));
+                                break;
+                            default:
+                                owner.ActiveEffects.Remove(effect);
+                                break;
+                        }
+                    }
+                }
             }
         }
     }

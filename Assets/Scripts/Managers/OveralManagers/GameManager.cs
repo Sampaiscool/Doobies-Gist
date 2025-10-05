@@ -201,6 +201,7 @@ public class GameManager : MonoBehaviour
             {
                 // Regular fight: increment counter
                 BattlesFought++;
+                ChangeDzeef(1, true);
             }
             else
             {

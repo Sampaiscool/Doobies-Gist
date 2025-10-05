@@ -4330,6 +4330,21 @@ MonoBehaviour:
     resourceType: 2
     items:
     - {fileID: 11400000, guid: 7101286a3118f9448a398551f48f66cb, type: 2}
+  - groupName: Cobb Silver Eye
+    characterPool: 8
+    resourceType: 2
+    items:
+    - {fileID: 11400000, guid: 3c4b7a97f1805f34180f43c15b76f8a5, type: 2}
+  - groupName: Thengshou
+    characterPool: 14
+    resourceType: 2
+    items:
+    - {fileID: 11400000, guid: 1abe487f9b5d66d4f9ecc2624649cf58, type: 2}
+  - groupName: Health Resource
+    characterPool: 0
+    resourceType: 1
+    items:
+    - {fileID: 11400000, guid: 64de6cac72fe37940a5b0610d37886a8, type: 2}
 --- !u!1 &1336441296
 GameObject:
   m_ObjectHideFlags: 0
