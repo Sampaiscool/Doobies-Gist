@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     public int CurrentPlayerSploont = 0; //The players current Money 
     public int CurrentPlayerHP = 20;
+    public int CurrentPlayerDzeef = 0;
     public CombatManager CombatManager;
     public GameObject damageAnimationPrefab;
     public Transform uiCanvas;
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Settings existing = FindObjectOfType<Settings>();
+            Settings existing = FindFirstObjectByType<Settings>();
             if (existing != null)
             {
                 Destroy(existing.gameObject);
@@ -63,7 +64,7 @@ public class GameManager : MonoBehaviour
 
     public void ChangeHp(int hpAmount, bool isGain, bool maxHpIncrease)
     {
-        PlayerStatsUIManager playerStatsUIManager = FindObjectOfType<PlayerStatsUIManager>();
+        PlayerStatsUIManager playerStatsUIManager = FindFirstObjectByType<PlayerStatsUIManager>();
 
         if (isGain)
         {
@@ -117,7 +118,7 @@ public class GameManager : MonoBehaviour
     /// <returns>Wheter the player has enough sploont to reduce</returns>
     public bool ChangeSploont(int sploontAmount, bool isGain)
     {
-        PlayerStatsUIManager playerStatsUIManager = FindObjectOfType<PlayerStatsUIManager>();
+        PlayerStatsUIManager playerStatsUIManager = FindFirstObjectByType<PlayerStatsUIManager>();
 
         if (isGain)
         {
@@ -150,6 +151,36 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    public bool ChangeDzeef(int amount, bool isGain)
+    {
+        PlayerStatsUIManager playerStatsUIManager = FindFirstObjectByType<PlayerStatsUIManager>();
+
+        if (isGain)
+        {
+            CurrentPlayerDzeef += amount;
+
+            if (playerStatsUIManager != null)
+            {
+                playerStatsUIManager.UpdatePlayerInfo();
+            }
+
+            return true;
+        }
+        else
+        {
+            if (playerStatsUIManager != null)
+            {
+                playerStatsUIManager.UpdatePlayerInfo();
+            }
+
+            if (CurrentPlayerDzeef < amount)
+                return false;
+
+            CurrentPlayerDzeef -= amount;
+            return true;
+        }
+
+    }
 
     public void AfterFight(bool hasWonBattle)
     {
@@ -158,6 +189,11 @@ public class GameManager : MonoBehaviour
         if (hasWonBattle)
         {
             ChangeSploont(50, true);
+
+            if (currentDoobie.ActiveUpgrades.Find(t => t.type == UpgradeNames.HiddenTreasure) != null)
+            {
+                ChangeSploont(100, true);
+            }
 
             bool isBossFight = BattlesFought >= MaxBattlesBeforeBoss;
 
@@ -185,7 +221,7 @@ public class GameManager : MonoBehaviour
             currentDoobie.CurrentHealth = currentDoobie.MaxHealth / 2; // Survive with half doobie HP
         }
 
-        PlayerStatsUIManager playerStatsUIManager = FindObjectOfType<PlayerStatsUIManager>();
+        PlayerStatsUIManager playerStatsUIManager = FindFirstObjectByType<PlayerStatsUIManager>();
         if (playerStatsUIManager != null)
         {
             playerStatsUIManager.UpdatePlayerInfo();
@@ -193,20 +229,17 @@ public class GameManager : MonoBehaviour
     }
     public void SpawnSettings()
     {
-        if (FindObjectOfType<Settings>() != null)
+        if (FindFirstObjectByType<Settings>() != null)
         {
             Debug.Log("[GameManager] Settings UI is already active!");
             return;
         }
 
         Canvas uiCanvas = null;
-        foreach (var canvas in FindObjectsOfType<Canvas>())
+        Canvas canvasObject = FindFirstObjectByType<Canvas>();
+        if (canvasObject.isRootCanvas)
         {
-            if (canvas.isRootCanvas)
-            {
-                uiCanvas = canvas;
-                break;
-            }
+            uiCanvas = canvasObject;
         }
 
         if (SettingsPanel == null || uiCanvas == null)
@@ -227,20 +260,17 @@ public class GameManager : MonoBehaviour
 
     public void SpawnGoddessButtons()
     {
-        if (FindObjectOfType<GoddessPanel>() != null)
+        if (FindFirstObjectByType<GoddessPanel>() != null)
         {
             Debug.Log("[GameManager] Goddess buttons UI is already active!");
             return;
         }
 
         Canvas uiCanvas = null;
-        foreach (var canvas in FindObjectsOfType<Canvas>())
+        Canvas canvasObject = FindFirstObjectByType<Canvas>();
+        if (canvasObject.isRootCanvas)
         {
-            if (canvas.isRootCanvas)
-            {
-                uiCanvas = canvas;
-                break;
-            }
+            uiCanvas = canvasObject;
         }
 
         if (goddessButtonsPrefab == null || uiCanvas == null)

@@ -15,7 +15,6 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Ik ben de log van nvim!!!");
         ShowPanel(Beginpanel);
     }
 
@@ -64,6 +63,7 @@ public class MenuManager : MonoBehaviour
     public void StartGame()
     {
         TeamSelectUI.Instance.SaveTeamData();
+        GameManager.Instance.ChangeSploont(150, true);
         SceneManager.LoadScene("AdventureScene");
     }
 }

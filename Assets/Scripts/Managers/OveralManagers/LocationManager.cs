@@ -21,7 +21,6 @@ public class LocationManager : MonoBehaviour
             if (loc != null) selectedLocations.Add(loc);
         }
 
-        // Now you can display these locations as buttons on your UI
         ShowLocations(selectedLocations);
     }
 
@@ -72,6 +71,12 @@ public class LocationManager : MonoBehaviour
 
         // Call your location's logic here
         TriggerLocationEffect(selected);
+    }
+    
+    public void SkipLocation()
+    {
+        GameManager.Instance.ChangeDzeef(1, true);
+        PanelManager.ShowVangurrPanel();
     }
 
     /// <summary>

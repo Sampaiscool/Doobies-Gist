@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vangurrName: Biyumi
   portrait: {fileID: 21300000, guid: baba132948266394fbbfad3793eb0135, type: 3}
-  skillDmg: 8
+  skillDmg: 15
   healPower: 5
   baseDefence: 5
   baseHealth: 40
   VangurrText: 
   difficultyLevel: 3
-  skillChance: 50
+  skillChance: 65
   isBoss: 1
   characterPool: 16
   startingTransformation: 4

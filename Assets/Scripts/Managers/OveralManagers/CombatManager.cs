@@ -161,6 +161,8 @@ public class CombatManager : MonoBehaviour
     {
         BattleUIManager.UpdateUI();
 
+        playerDoobieInstance.CheckForActionButtonClicked();
+
         waitingForNext = true;
         currentPhase = TurnPhase.EnemyTurnStart;
         IsPlayerTurn = false;

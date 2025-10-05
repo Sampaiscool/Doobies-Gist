@@ -10,12 +10,23 @@ public class UpgradeGroup
     public List<UpgradeSO> upgrades;
 }
 
+[System.Serializable]
+public class ItemGroup
+{
+    public string groupName;
+    public CharacterPool characterPool = CharacterPool.None;
+    public ResourceType resourceType = ResourceType.None;
+    public List<ItemSO> items;
+}
+
+
 public class ShopManager : MonoBehaviour
 {
     public int refreshCost = 50;
 
     [SerializeField, Range(0f, 1f)] private float goldenChance = 0.01f;
     private bool isGoldenRound = false;
+    private bool viewingDzeefShop = false;
 
     [SerializeField] private Transform shopContent;
     [SerializeField] private UpgradeButton upgradeButtonPrefab;
@@ -25,6 +36,9 @@ public class ShopManager : MonoBehaviour
 
     [Header("Organized Upgrade Pools")]
     [SerializeField] private List<UpgradeGroup> upgradeGroups;
+
+    [Header("Organized Item Pools")]
+    [SerializeField] private List<ItemGroup> itemGroups;
 
     public List<Upgrade> GenerateRandomUpgrades(int count, CharacterPool currentPool, ResourceType mainResource)
     {
@@ -82,6 +96,74 @@ public class ShopManager : MonoBehaviour
 
         return randomUpgrades;
     }
+    public void ToggleShopMode()
+    {
+        viewingDzeefShop = !viewingDzeefShop;
+
+        if (viewingDzeefShop)
+        {
+            OpenDzeefShop();
+        }
+        else
+        {
+            OpenShop(currentUpgrades);
+        }
+    }
+    public void OpenDzeefShop()
+    {
+        foreach (Transform child in shopContent)
+            Destroy(child.gameObject);
+
+        var currentPool = GameManager.Instance.currentDoobie._so.characterPool;
+        var mainResource = GameManager.Instance.currentDoobie._so.doobieMainResource;
+
+        var pool = new List<ItemSO>();
+
+        // Collect valid items based on pool rules
+        foreach (var group in itemGroups)
+        {
+            if (group.characterPool == CharacterPool.None && group.resourceType == ResourceType.None)
+                pool.AddRange(group.items);
+
+            if (group.characterPool == currentPool)
+                pool.AddRange(group.items);
+
+            if (group.resourceType == mainResource)
+                pool.AddRange(group.items);
+        }
+
+        List<Item> shopItems = new List<Item>();
+        int count = 3;
+        for (int i = 0; i < count && pool.Count > 0; i++)
+        {
+            int index = Random.Range(0, pool.Count);
+            ItemSO chosen = pool[index];
+            pool.RemoveAt(index);
+
+            Item item = new Item(
+                chosen.itemName,
+                chosen.description,
+                chosen.cost,
+                chosen.type,
+                chosen.pool
+            )
+            {
+                icon = chosen.icon
+            };
+
+            shopItems.Add(item);
+        }
+
+        // Spawn item buttons
+        foreach (var item in shopItems)
+        {
+            UpgradeButton btn = Instantiate(upgradeButtonPrefab, shopContent);
+            btn.SetupAsItem(item, HandleBuyItem);
+        }
+
+        Debug.Log($"Opened Dzeef Shop with {shopItems.Count} items from {currentPool} / {mainResource}");
+    }
+
 
     public void OpenShop(List<Upgrade> upgradesForSale)
     {
@@ -147,6 +229,29 @@ public class ShopManager : MonoBehaviour
         currentUpgrades.Remove(upgrade);
         Debug.Log($"Bought {upgrade.upgradeName} for {upgrade.cost} gold!");
     }
+    private void HandleBuyItem(Item item)
+    {
+        if (!GameManager.Instance.ChangeDzeef(item.cost, false))
+        {
+            Debug.Log("Not enough Dzeef to buy " + item.itemName);
+            return;
+        }
+
+        GameManager.Instance.currentDoobie.AddItem(item);
+
+        foreach (Transform child in shopContent)
+        {
+            UpgradeButton btn = child.GetComponent<UpgradeButton>();
+            if (btn != null && btn.ItemData == item)
+            {
+                Destroy(child.gameObject);
+                break;
+            }
+        }
+
+        Debug.Log($"Bought {item.itemName} for {item.cost} Dzeef!");
+    }
+
 
 
     public List<Upgrade> GetCurrentUpgrades()

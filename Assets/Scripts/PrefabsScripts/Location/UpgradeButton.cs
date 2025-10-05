@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -15,9 +16,11 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private bool isFrozen = false;
 
 
-    private System.Action<Upgrade> onClickAction;
+    private System.Action<Upgrade> onClickActionUpgrade;
+    private System.Action<Item> onClickActionItem;
 
     public Upgrade UpgradeData => upgradeData;
+    public Item ItemData { get; private set; }
 
     public void Setup(Upgrade upgrade, System.Action<Upgrade> onClick)
     {
@@ -30,15 +33,36 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         intensity.text = stack.ToString();
 
         upgradeImage.sprite = upgrade.icon;
-        onClickAction = onClick;
+        backgroundImage.color = Color.white;
+        onClickActionUpgrade = onClick;
 
         GetComponent<Button>().onClick.RemoveAllListeners();
-        GetComponent<Button>().onClick.AddListener(() => onClickAction?.Invoke(upgradeData));
+        GetComponent<Button>().onClick.AddListener(() => onClickActionUpgrade?.Invoke(upgradeData));
+    }
+    public void SetupAsItem(Item item, System.Action<Item> onBuy)
+    {
+        ItemData = item;
+        upgradeNameText.text = item.itemName;
+        upgradeImage.sprite = item.icon;
+        backgroundImage.color = Color.gray;
+        intensity.text = "";
+        onClickActionItem = onBuy;
+
+        GetComponent<Button>().onClick.RemoveAllListeners();
+        GetComponent<Button>().onClick.AddListener(() => onClickActionItem?.Invoke(ItemData));
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        UpgradeDescriptionPanel.Instance?.ShowDescription(upgradeData);
+        if (UpgradeData != null)
+        {
+            UpgradeDescriptionPanel.Instance?.ShowDescriptionUpgrade(upgradeData);
+        }
+        else
+        {
+            UpgradeDescriptionPanel.Instance?.ShowDescriptionItem(ItemData);
+        }
+            
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -49,7 +73,7 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            ShopManager shop = FindObjectOfType<ShopManager>();
+            ShopManager shop = FindFirstObjectByType<ShopManager>();
             shop.FreezeUpgrade(upgradeData);
 
             SetFrozenVisual(GameManager.Instance.frozenUpgrade == upgradeData);

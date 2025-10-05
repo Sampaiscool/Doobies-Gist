@@ -97,4 +97,9 @@ public enum UpgradeNames
     Shadowrend,                           //Thengshou
     HowlingRush,                          //Thengshou
     BoneSnapper,                          //Thengshou
+
+    StoneHide,                            //None
+    HiddenTreasure,                       //None
+    FuryStrike,                           //None
+    EchoExplosion,                        //None
 }

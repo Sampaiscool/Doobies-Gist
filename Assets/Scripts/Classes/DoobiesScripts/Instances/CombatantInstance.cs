@@ -76,6 +76,10 @@ public abstract class CombatantInstance
     /// </summary>
     public List<Upgrade> ActiveUpgrades { get; private set; } = new List<Upgrade>();
     /// <summary>
+    /// All Items the Instance has
+    /// </summary>
+    public List<Item> ActiveItems { get; private set; } = new List<Item>();
+    /// <summary>
     /// Heal the Instance and activate all on-heal effects
     /// </summary>
     /// <param name="amount">The base heal</param>
@@ -236,7 +240,17 @@ public abstract class CombatantInstance
             }
         }
 
-        return true; // een deflect is afgehandeld ik heb dit getypt in NeoVim!!
+        foreach (Item item in ActiveItems)
+            switch (item.type)
+            {
+                case ItemType.StrikingFlower:
+                    AddEffect(new Effect(EffectType.BloomBlossom, 2, false, 1));
+                    break;
+                default:
+                    break;
+            }
+
+        return true; // een deflect is afgehandeld
     }
     /// <summary>
     /// Handles the "Sneaky" upgrade
@@ -1068,6 +1082,15 @@ public abstract class CombatantInstance
                 opponent.HealCombatant(soulflareUpgrade.intensity);
             }
         }
+
+        if (newEffect.type == EffectType.WeaponStrenghten)
+        {
+            Upgrade furyStrikeUpgrade = player.ActiveUpgrades.Find(f => f.type == UpgradeNames.FuryStrike);
+            if (furyStrikeUpgrade != null)
+            {
+                opponent.TakeDamage(furyStrikeUpgrade.intensity);
+            }
+        }
     }
     /// <summary>
     /// Sets the currentHealth to 0
@@ -1117,6 +1140,16 @@ public abstract class CombatantInstance
                         }
                     }
                     break;
+                case UpgradeNames.EchoExplosion:
+                    if (this is DoobieInstance)
+                    {
+                        GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.TimedBomb, 5, true, upgrade.intensity));
+                    }
+                    else
+                    {
+                        GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.TimedBomb, 5, true, upgrade.intensity));
+                    }
+                    break;
                 default:
                     break;
             }
@@ -1142,15 +1175,16 @@ public abstract class CombatantInstance
 
             if (existing != null)
             {
-                // Stun should not extend duration
-                if (newEffect.type == EffectType.Stun)
+                switch (newEffect.type)
                 {
-                    existing.intensity += newEffect.intensity;
-                }
-                else
-                {
-                    existing.duration += newEffect.duration;
-                    existing.intensity += newEffect.intensity;
+                    case EffectType.Stun:
+                    case EffectType.TimedBomb:
+                        existing.intensity += newEffect.intensity;
+                        break;
+                    default:
+                        existing.duration += newEffect.duration;
+                        existing.intensity += newEffect.intensity;
+                        break;
                 }
 
                 // Play stacking effect
@@ -1192,6 +1226,19 @@ public abstract class CombatantInstance
             ActiveUpgrades.Add(newUpgrade);
         }
     }
+    public void AddItem(Item newItem)
+    {
+        Item existing = ActiveItems.Find(i => i.type == newItem.type);
+        if (existing != null)
+        {
+            Debug.Log($"Already owns item: {newItem.itemName}");
+            return;
+        }
+
+        ActiveItems.Add(newItem);
+        Debug.Log($"Added active item: {newItem.itemName}");
+    }
+
     /// <summary>
     /// Activates Effects/Upgrades the happen before you gain an effect
     /// </summary>
@@ -1242,6 +1289,22 @@ public abstract class CombatantInstance
                             GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Regeneration, 2, true, opponentTargetGardenUpgrade.intensity));
                         }
                     } 
+                }
+                if (ActiveEffects[i].type == EffectType.TimedBomb)
+                {
+                    int baseDmg = 0;
+                    if (this is DoobieInstance)
+                    {
+                        baseDmg += GameManager.Instance.currentVangurr.GetEffectiveSkillDamage(GameManager.Instance.currentVangurr.CurrentSkillDmg);
+                    }
+                    else
+                    {
+                        baseDmg += GameManager.Instance.currentDoobie.GetEffectiveSkillDamage(GameManager.Instance.currentDoobie.CurrentSkillDmg);
+                    }
+
+                    baseDmg *= ActiveEffects[i].intensity;
+
+                    TakeDamage(baseDmg);
                 }
 
                 ActiveEffects.RemoveAt(i);

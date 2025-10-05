@@ -131,6 +131,20 @@ public class DoobieInstance : CombatantInstance
                 break;
         }
     }
+    public void CheckForActionButtonClicked()
+    {
+        foreach (Upgrade upgrade in ActiveUpgrades)
+        {
+            switch (upgrade.type)
+            {
+                case UpgradeNames.StoneHide:
+                    AddEffect(new Effect(EffectType.Harden, 3, false, upgrade.intensity));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     /// <summary>
     /// Events that happen when you gain Rum
@@ -213,7 +227,7 @@ public class DoobieInstance : CombatantInstance
 
         if (GameManager.Instance.InCombat && CurrentGoddess != GoddessType.None && goddess != CurrentGoddess)
         {
-            AddEffect(new Effect(EffectType.Holy, 3, true, 1));
+            //AddEffect(new Effect(EffectType.Holy, 3, true, 1));
             AddEffect(new Effect(EffectType.DefenceDown, 3, true, 1));
             AddEffect(new Effect(EffectType.TargetLocked, 3, true, 1));
 

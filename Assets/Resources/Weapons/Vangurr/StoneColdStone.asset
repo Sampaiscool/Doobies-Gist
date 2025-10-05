@@ -15,9 +15,9 @@ MonoBehaviour:
   weaponName: Stone cold stone
   icon: {fileID: 0}
   animation: {fileID: 0}
-  baseDamage: 10
-  baseCritChance: 60
+  baseDamage: 5
+  baseCritChance: 40
   missChance: 0.4
   basicAttack:
-    damage: 10
+    damage: 5
     type: 0

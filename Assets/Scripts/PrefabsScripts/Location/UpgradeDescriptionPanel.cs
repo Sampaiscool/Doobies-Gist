@@ -19,13 +19,21 @@ public class UpgradeDescriptionPanel : MonoBehaviour
         descriptionText.text = "";
     }
 
-    public void ShowDescription(Upgrade upgrade)
+    public void ShowDescriptionUpgrade(Upgrade upgrade)
     {
         if (upgrade == null) return;
 
         descriptionText.text =
             $"{upgrade.description}\n" +
-            $"Cost: {upgrade.cost}";
+            $"Cost: {upgrade.cost} Sploont";
+    }
+    public void ShowDescriptionItem(Item item)
+    {
+        if (item == null) return;
+
+        descriptionText.text =
+            $"{item.description}\n" +
+            $"Cost: {item.cost} Dzeef";
     }
 
     public void HideDescription()

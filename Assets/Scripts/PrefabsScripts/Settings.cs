@@ -8,20 +8,17 @@ public class Settings : MonoBehaviour
 
     public void SpawnEffectsPanel()
     {
-        if (FindObjectOfType<EffectsPanel>() != null)
+        if (FindFirstObjectByType<EffectsPanel>() != null)
         {
             Debug.Log("[GameManager] EffectsPanel UI is already active!");
             return;
         }
 
         Canvas uiCanvas = null;
-        foreach (var canvas in FindObjectsOfType<Canvas>())
+        Canvas canvasObject = FindFirstObjectByType<Canvas>();
+        if (canvasObject.isRootCanvas)
         {
-            if (canvas.isRootCanvas)
-            {
-                uiCanvas = canvas;
-                break;
-            }
+            uiCanvas = canvasObject;
         }
 
         if (EffectsPanel == null || uiCanvas == null)

@@ -15,9 +15,9 @@ MonoBehaviour:
   upgradeName: Careless
   description: Each turn gain +1 "Defence Down",  +1 "Weapen Strengthen" and +1 "Spell
     Strengthen".
-  cost: 0
+  cost: 400
   icon: {fileID: 0}
-  type: 0
+  type: 26
   pool: 0
-  intensity: 0
+  intensity: 1
   isCurse: 0

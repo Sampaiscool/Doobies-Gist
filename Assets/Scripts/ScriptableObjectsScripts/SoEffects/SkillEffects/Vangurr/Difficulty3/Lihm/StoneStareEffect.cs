@@ -19,8 +19,13 @@ public class StoneStareEffect : SkillEffectSO
         }
 
         target.AddEffect(new Effect(EffectType.Stun, 2, false, user.CurrentHealth));
-        user.AddEffect(new Effect(EffectType.Harden, 4, false, (user.CurrentHealth / 2)));
 
+        Effect hardenEffect = user.ActiveEffects.Find(h => h.type == EffectType.Harden);
+
+        if ( hardenEffect != null && hardenEffect.intensity <= 5)
+        {
+            user.AddEffect(new Effect(EffectType.Harden, 4, false, (user.CurrentHealth / 2)));
+        }
 
         return $"{target.CharacterName} is in schock of the cold stare {user.CharacterName} trew!";
     }

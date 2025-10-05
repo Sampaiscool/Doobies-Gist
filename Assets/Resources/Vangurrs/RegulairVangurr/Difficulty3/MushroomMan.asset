@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vangurrName: Mushroom Man
   portrait: {fileID: 21300000, guid: 1634ed4fc1c43d746bb6b0948a261a94, type: 3}
-  skillDmg: 5
+  skillDmg: 3
   healPower: 4
   baseDefence: 6
   baseHealth: 20
@@ -24,6 +24,7 @@ MonoBehaviour:
   skillChance: 90
   isBoss: 0
   characterPool: 0
+  startingTransformation: 0
   baseSkills:
   - {fileID: 11400000, guid: edaaf6554a94dcb43ab7811c2cd705b4, type: 2}
   - {fileID: 11400000, guid: bb1d7975dad6a5c40a042c5fa4626e93, type: 2}
@@ -38,3 +39,6 @@ MonoBehaviour:
     Pool: 0
     intensity: 1
     isCurse: 0
+  skillSet1: []
+  skillSet2: []
+  skillSet3: []

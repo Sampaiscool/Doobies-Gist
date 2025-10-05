@@ -60,7 +60,7 @@ public class PanelManager : MonoBehaviour
 
         locationManager.GenerateRandomLocations(3);
 
-        ShopManager shopManager = FindObjectOfType<ShopManager>();
+        ShopManager shopManager = FindFirstObjectByType<ShopManager>();
         if (shopManager != null)
             shopManager.ResetShop();
     }
@@ -97,7 +97,8 @@ public class PanelManager : MonoBehaviour
     {
         ShowPanel(ShopPanel);
 
-        ShopManager shopManager = FindObjectOfType<ShopManager>();
+        ShopManager shopManager = FindFirstObjectByType<ShopManager>();
+
         if (shopManager != null)
         {
             if (!shopManager.IsShopInitialized)

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974679ec063986c4faad8d7bad71d518, type: 3}
   m_Name: FistOfPower
   m_EditorClassIdentifier: 
-  weaponName: FistOfPower
+  weaponName: Fist of Power
   icon: {fileID: 0}
   animation: {fileID: 0}
-  baseDamage: 8
+  baseDamage: 15
   baseCritChance: 50
   missChance: 0.5
   basicAttack:
-    damage: 8
+    damage: 15
     type: 0

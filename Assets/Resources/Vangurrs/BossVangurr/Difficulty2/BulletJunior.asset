@@ -17,14 +17,15 @@ MonoBehaviour:
   skillDmg: 1
   healPower: 1
   baseDefence: 5
-  baseHealth: 30
+  baseHealth: 20
   VangurrText: Its past its bed time.
   difficultyLevel: 2
   skillChance: 40
   isBoss: 1
   characterPool: 0
+  startingTransformation: 0
   baseSkills:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 1cf178f8f07a5954bb105c1189034f44, type: 2}
   defaultWeapon: {fileID: 11400000, guid: c8437d8f8490c1444aafc2bc54a2741a, type: 2}
   startingUpgrades:
   - upgradeName: Careless
@@ -36,3 +37,6 @@ MonoBehaviour:
     Pool: 0
     intensity: 3
     isCurse: 0
+  skillSet1: []
+  skillSet2: []
+  skillSet3: []

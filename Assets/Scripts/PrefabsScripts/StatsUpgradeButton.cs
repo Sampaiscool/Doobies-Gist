@@ -24,13 +24,13 @@ public class StatsUpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(UnityEngine.EventSystems.PointerEventData eventData)
     {
-        StatsUpgradeDescriptionPanel statsUpgradeDescriptionPanel = FindObjectOfType<StatsUpgradeDescriptionPanel>();
+        StatsUpgradeDescriptionPanel statsUpgradeDescriptionPanel = FindFirstObjectByType<StatsUpgradeDescriptionPanel>();
         statsUpgradeDescriptionPanel.ShowDescription(upgradeData);
     }
 
     public void OnPointerExit(UnityEngine.EventSystems.PointerEventData eventData)
     {
-        StatsUpgradeDescriptionPanel statsUpgradeDescriptionPanel = FindObjectOfType<StatsUpgradeDescriptionPanel>();
+        StatsUpgradeDescriptionPanel statsUpgradeDescriptionPanel = FindFirstObjectByType<StatsUpgradeDescriptionPanel>();
         statsUpgradeDescriptionPanel.HideDescription();
     }
 }
