@@ -107,9 +107,11 @@ public class SkillSO : ScriptableObject
         if (isWeaponSkill)
             user.CheckForWeaponOnUseEffects();
         else
-            user.CheckForSkillOnUseEffects();
+            user.CheckForSpelllOnUseEffects();
 
         user.CheckForAttackEffects();
+
+        user.CheckForSkillOnUseEffects();
 
         target.PlayAttackAnimation(animation);
 
@@ -121,6 +123,30 @@ public class SkillSO : ScriptableObject
                 spellcaster.MainResource.Gain(zurpRegainAmount);
                 Debug.Log($"{spellcaster.CharacterName} regains {zurpRegainAmount} Zurp from casting {skillName}!");
                 result += $"\nYou also regain {zurpRegainAmount} zurp!";
+            }
+        }
+
+        foreach (Effect activeEffect in user.ActiveEffects)
+        {
+            switch (activeEffect.type)
+            {
+                case EffectType.Shadow:
+                    int castAmount = activeEffect.intensity;
+
+                    for (int i = 0; i < castAmount; i++)
+                    {
+                        BattleUIManager.Instance.AddLog($"{effect.ApplyEffect(user, target)}");
+                    }
+
+                    Item jarOfShadow = user.ActiveItems.Find(j => j.type == ItemType.JarOfShadows);
+                    if (jarOfShadow == null)
+                    {
+                        user.ActiveEffects.Remove(activeEffect);
+                    }
+
+                    break;
+                default:
+                    break;
             }
         }
 

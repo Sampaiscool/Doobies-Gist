@@ -646,7 +646,7 @@ public abstract class CombatantInstance
     {
         int finalDmg;
 
-        CheckForSkillOnUseEffects();
+        CheckForSpelllOnUseEffects();
 
         return finalDmg = GetEffectiveSkillDamageAfterEffects(baseDmg);
     }
@@ -691,9 +691,8 @@ public abstract class CombatantInstance
     /// <summary>
     /// Activates Effects/Upgrades that happen when you use a Spell-Style
     /// </summary>
-    public void CheckForSkillOnUseEffects()
+    public void CheckForSpelllOnUseEffects()
     {
-        if (ActiveUpgrades == null) return;
         foreach (var upgrade in ActiveUpgrades)
         {
             switch (upgrade.type)
@@ -722,32 +721,32 @@ public abstract class CombatantInstance
                     break;
             }
         }
-        if (ActiveEffects != null)
-        {
-            var effectsSnapshot = new List<Effect>(ActiveEffects);
+        var effectsSnapshot = new List<Effect>(ActiveEffects);
 
-            foreach (Item item in ActiveItems)
+        foreach (Item item in ActiveItems)
+        {
+            switch (item.type)
             {
-                switch (item.type)
-                {
-                    case ItemType.BleedingSpirit:
-                        for (int i = 0; i < effectsSnapshot.Count; i++)
+                case ItemType.BleedingSpirit:
+                    for (int i = 0; i < effectsSnapshot.Count; i++)
+                    {
+                        var effect = effectsSnapshot[i];
+                        switch (effect.type)
                         {
-                            var effect = effectsSnapshot[i];
-                            switch (effect.type)
-                            {
-                                case EffectType.Bleed:
-                                    var (result, damageDone) = TakeDamage(effect.intensity, false, true);
-                                    BattleUIManager.Instance.AddLog($"{CharacterName} takes {damageDone} bleed damage!");
-                                    break;
-                                default:
-                                    break;
-                            }
+                            case EffectType.Bleed:
+                                var (result, damageDone) = TakeDamage(effect.intensity, false, true);
+                                BattleUIManager.Instance.AddLog($"{CharacterName} takes {damageDone} bleed damage!");
+                                break;
+                            default:
+                                break;
                         }
-                        break;
-                    default:
-                        break;
-                }
+                    }
+                    break;
+                case ItemType.JarOfShadows:
+                    AddEffect(new Effect(EffectType.Shadow, 5, false, 1));
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -873,6 +872,20 @@ public abstract class CombatantInstance
                     default:
                         break;
                 }
+            }
+        }
+    }
+    /// <summary>
+    /// Activates when you use a skill
+    /// </summary>
+    public void CheckForSkillOnUseEffects()
+    {
+        foreach (Effect effect in ActiveEffects)
+        {
+            switch (effect.type)
+            {
+                default:
+                    break;
             }
         }
     }

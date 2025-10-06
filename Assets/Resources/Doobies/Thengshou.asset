@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Thengshou
   m_EditorClassIdentifier: 
   doobieName: Thengshou
-  description: 'Spirit Doobie, '
+  description: Spirit Doobie, Transform at the right time to unlock your full power.
   portrait: {fileID: 21300000, guid: 3b270dc3c06b9ea438b14e4fd73c3d55, type: 3}
   unlockedByDefault: 1
   doobieMainResource: 5
@@ -30,6 +30,7 @@ MonoBehaviour:
   baseSkills: []
   defaultWeapon: {fileID: 11400000, guid: 1163e747ab199fb4da577358a4830f7a, type: 2}
   startingUpgrades: []
+  startingItems: []
   skillSet1:
   - {fileID: 11400000, guid: 5cac7414c5f872945b3dbd739d944db0, type: 2}
   - {fileID: 11400000, guid: 504a857a40d1413428a1730ca82d26be, type: 2}

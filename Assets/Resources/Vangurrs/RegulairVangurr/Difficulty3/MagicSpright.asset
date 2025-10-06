@@ -24,7 +24,10 @@ MonoBehaviour:
   isBoss: 0
   characterPool: 0
   startingTransformation: 0
-  baseSkills: []
+  baseSkills:
+  - {fileID: 11400000, guid: b84fa3bf18bd4534c9ff846c00874d0e, type: 2}
+  - {fileID: 11400000, guid: 80309b99474ccc146b566c6bdba509d9, type: 2}
+  - {fileID: 11400000, guid: 3e102e20d2a8e1d4f8b2790501c43348, type: 2}
   defaultWeapon: {fileID: 11400000, guid: d022e66869d18384691ddc868672f6b6, type: 2}
   startingUpgrades:
   - upgradeName: Spell Sorcerer

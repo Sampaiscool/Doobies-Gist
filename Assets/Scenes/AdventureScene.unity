@@ -1025,6 +1025,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4a923bc67049a6e4bb19bb325b4523a6, type: 2}
     - {fileID: 11400000, guid: ca9b47890889de34caa0081325b992ad, type: 2}
     - {fileID: 11400000, guid: e87b29617a1c659438e9711687a4bcdc, type: 2}
+    - {fileID: 11400000, guid: cd8ae959435fa35418c6d2d7312e88ce, type: 2}
   - label: Difficulty 3 boss
     difficulty: 3
     isBossGroup: 1

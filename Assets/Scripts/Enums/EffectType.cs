@@ -43,4 +43,5 @@ public enum EffectType
     ConvertOverheal,            // Buff - If you overheal; gain "Shield" for each "Convert Overheal" intensity.
     Flow,                       // Buff - If you use a weapon style attack gain "Flow" for each "Flow" intensity, But if you take damage; lose all "Flow".
     TimedBomb,                  // Debuff - Stackable "Target Locked", Deals damage to your skill damage * intensity.
+    Shadow,                     // Buff - If you use a skill, remove all "Shadow" effects; Cast the effect again for each "Shadow" intensity you had.
 }

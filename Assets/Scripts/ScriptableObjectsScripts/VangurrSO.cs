@@ -25,7 +25,7 @@ public class VangurrSO : ScriptableObject, ICombatantSO
     public WeaponSO defaultWeapon; // The weapon this vangurr starts with
 
     public List<Upgrade> startingUpgrades = new List<Upgrade>(); // Upgrades the vangurr starts with
-    public List<Item> startingItems = new List<Item>(); // Items the vangurr starts with
+    public List<Item> startingItems = new(); // Items the vangurr starts with
 
     Sprite ICombatantSO.portrait => portrait;
     int ICombatantSO.baseHealth => baseHealth;
