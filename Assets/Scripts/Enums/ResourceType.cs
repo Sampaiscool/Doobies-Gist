@@ -12,4 +12,5 @@ public enum ResourceType
     Soulflow,
     WorldEnergy,
     SpiritEnergy,
+    TempoGauge,
 }

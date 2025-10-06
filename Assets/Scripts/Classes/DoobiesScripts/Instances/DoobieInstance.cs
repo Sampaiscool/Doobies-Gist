@@ -95,6 +95,11 @@ public class DoobieInstance : CombatantInstance
                 soulflow.SpiritEnergy.OnSpiritEnergyGained += HandleSpiritEnergyGained;
                 MainResource = soulflow;
                 break;
+            case ResourceType.TempoGauge:
+                var tempoGauge = new TempoGaugeResource(_so.baseResourceMax);
+                tempoGauge.OnTempoGaugeGained += HandleTempoGaugeGained;
+                MainResource = tempoGauge;
+                break;
             default:
                 MainResource = null;
                 break;
@@ -229,6 +234,14 @@ public class DoobieInstance : CombatantInstance
             SetTransformation(Transformations.SpiritForm);
         }
     }
+    /// <summary>
+    /// Events that happen when you gain TempleGauge
+    /// </summary>
+    /// <param name="amount">The amount you gain</param>
+    private void HandleTempoGaugeGained(int amount)
+    {
+
+    }
 
     /// <summary>
     /// Set the current Goddess
@@ -265,9 +278,4 @@ public class DoobieInstance : CombatantInstance
             Debug.Log(message);
         }
     }
-    public void GainFlow()
-    {
-	BattleUIManager.Instance.AddLog($"ik ben flew flow flaw!");	    
-    }
-
 }

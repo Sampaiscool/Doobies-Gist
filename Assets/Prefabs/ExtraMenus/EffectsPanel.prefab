@@ -312,6 +312,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 37cca8370ebca6d448cdbfeeb1efb2e3, type: 2}
   - {fileID: 11400000, guid: 1ac48100a02351d44bb6a90a97b50339, type: 2}
   - {fileID: 11400000, guid: 67a1008b44c834b40819d2668467fbb5, type: 2}
+  - {fileID: 11400000, guid: 435a1ba561028334bba9640b9566ed5e, type: 2}
   - {fileID: 11400000, guid: 70580929d4fd95e4090a792e9ca690c7, type: 2}
   - {fileID: 11400000, guid: ba2a1b4ec208d4e47bab0768c136c758, type: 2}
   - {fileID: 11400000, guid: 8ab37512859283244ace9a10fae559e1, type: 2}
@@ -540,7 +541,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1

@@ -201,13 +201,13 @@ public class GameManager : MonoBehaviour
             {
                 // Regular fight: increment counter
                 BattlesFought++;
-                ChangeDzeef(1, true);
             }
             else
             {
                 // Boss fight won: reset counter AND increase difficulty
                 BattlesFought = 0;
                 CurrentDifficulty++;
+                ChangeDzeef(1, true);
 
                 int healAmount = Mathf.Min(10, currentDoobie.MaxHealth - currentDoobie.CurrentHealth);
                 currentDoobie.CurrentHealth += healAmount;

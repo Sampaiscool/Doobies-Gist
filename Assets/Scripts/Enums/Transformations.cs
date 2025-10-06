@@ -9,4 +9,7 @@ public enum Transformations
     SpiritForm,
     BiyumiForm,
     BiyumiNormal,
+    MelanzFluidForm,
+    MelanzCrimsonForm,
+    MelanzStillForm,
 }

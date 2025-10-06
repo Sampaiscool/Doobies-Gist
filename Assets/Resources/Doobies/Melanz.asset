@@ -13,23 +13,24 @@ MonoBehaviour:
   m_Name: Melanz
   m_EditorClassIdentifier: 
   doobieName: Melanz
-  description: 
+  description: Tempo & Flow Doobie,
   portrait: {fileID: 21300000, guid: c1dc91a9963600d45a255ce82142bdf6, type: 3}
   unlockedByDefault: 1
-  doobieMainResource: 0
+  doobieMainResource: 8
   resourceActionSO: {fileID: 0}
   doobieActionSO: {fileID: 0}
-  baseResourceMax: 0
-  skillDmg: 0
-  healPower: 0
-  baseDefence: 0
-  characterPool: 0
-  baseHealth: 0
+  baseResourceMax: 100
+  skillDmg: 1
+  healPower: 1
+  baseDefence: 0.8
+  characterPool: 17
+  baseHealth: 25
   hasHealth: 1
-  startingTransformation: 0
+  startingTransformation: 5
   baseSkills: []
-  defaultWeapon: {fileID: 0}
+  defaultWeapon: {fileID: 11400000, guid: c8a0b48946660ee4ba9e3c1629a01e65, type: 2}
   startingUpgrades: []
+  startingItems: []
   skillSet1: []
   skillSet2: []
   skillSet3: []

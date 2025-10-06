@@ -91,6 +91,13 @@ public class CombatantStatsPanel : MonoBehaviour
                 upgradeButton.SetupUpgrade(upgrade);
             }
         }
+    }
+    private void PopulateItems()
+    {
+        // Clear old entries
+        foreach (Transform child in upgradesContainer)
+            Destroy(child.gameObject);
+
         // Add active items
         foreach (Item item in boundInstance.ActiveItems)
         {
@@ -110,6 +117,14 @@ public class CombatantStatsPanel : MonoBehaviour
         upgradesPanel.SetActive(true);
 
         PopulateUpgrades();
+    }
+
+    public void ShowItemsPanel()
+    {
+        statsPanel.SetActive(false);
+        upgradesPanel.SetActive(true);
+
+        PopulateItems();
     }
     public void ReturnToStats()
     {

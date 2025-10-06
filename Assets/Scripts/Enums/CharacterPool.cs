@@ -22,4 +22,5 @@ public enum CharacterPool
     Thenghshou,         // Doobie
     Soulflow,           // Resource
     Biyumi,             // Vangurr
+    Melanz,             // Doobie
 }

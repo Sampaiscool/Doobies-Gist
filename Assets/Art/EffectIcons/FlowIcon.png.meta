@@ -1,7 +1,16 @@
 fileFormatVersion: 2
-guid: 0ae1c665ecdfd0247a5258ddc67b8a54
+guid: 9dcc7a33eaf57b24aa8d56de1f63c0b2
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 6525244208968827985
+    second: FlowIcon_0
+  - first:
+      213: -6312633166632070983
+    second: FlowIcon_1
+  - first:
+      213: 8763457900338217890
+    second: FlowIcon_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -93,22 +102,75 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: FlowIcon_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 12
+        width: 27
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 154034c29035e8a50800000000000000
+      internalID: 6525244208968827985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlowIcon_1
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 18
+        width: 27
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b0db89a4950568a0800000000000000
+      internalID: -6312633166632070983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlowIcon_2
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 6
+        width: 27
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a300c1978e0e9970800000000000000
+      internalID: 8763457900338217890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -122,7 +184,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      FlowIcon_0: 6525244208968827985
+      FlowIcon_1: -6312633166632070983
+      FlowIcon_2: 8763457900338217890
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
