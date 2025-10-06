@@ -553,26 +553,11 @@ public class CombatManager : MonoBehaviour
         foreach (var burn in combatant.ActiveEffects.FindAll(e => e.type == EffectType.Burn))
         {
             var (result, damageDone) = combatant.TakeDamage(burn.intensity);
-            BattleUIManager.Instance.AddLog($"{name} takes {damageDone} burn damage!");
+            BattleUIManager.Instance.AddLog($"{combatant.CharacterName} takes {damageDone} burn damage!");
 
             if (damageDone > 0)
             {
-                if (combatant is DoobieInstance doobie)
-                {
-                    Upgrade walkThePlank = GameManager.Instance.currentVangurr.ActiveUpgrades.Find(w => w.type == UpgradeNames.WalkThePlank);
-                    if (walkThePlank != null)
-                    {
-                        GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Barrel, 100, false, walkThePlank.intensity));
-                    }
-                }
-                else
-                {
-                    Upgrade walkThePlank = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(w => w.type == UpgradeNames.WalkThePlank);
-                    if (walkThePlank != null)
-                    {
-                        GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Barrel, 100, false, walkThePlank.intensity));
-                    }
-                }
+                combatant.OnBurnDamage(damageDone);
             }
         }
         foreach (var upgrade in combatant.ActiveUpgrades)

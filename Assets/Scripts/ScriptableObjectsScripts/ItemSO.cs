@@ -20,4 +20,7 @@ public enum ItemType
     DualBarrels,                      // Cobb Silver Eye
     BleedingSpirit,                   // Thengshou
     SharedPain,                       // HealthResource
+    Fuel,                             // None
+    TargetScoped,                     // None
+    JarOfShadows,                     // None
 }

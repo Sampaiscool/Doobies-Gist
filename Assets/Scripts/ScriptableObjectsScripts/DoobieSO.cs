@@ -30,6 +30,7 @@ public class DoobieSO : ScriptableObject, ICombatantSO
     public List<SkillSO> baseSkills;
     public WeaponSO defaultWeapon;
     public List<Upgrade> startingUpgrades = new List<Upgrade>();
+    public List<Item> startingItems = new List<Item>();
     Sprite ICombatantSO.portrait => portrait;
     int ICombatantSO.baseHealth => baseHealth;
     CharacterPool ICombatantSO.CharacterPool => characterPool;

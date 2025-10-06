@@ -72,26 +72,31 @@ public class PanelManager : MonoBehaviour
         if (vangurrManager.ChosenVangurr == null)
         {
             VangurrSO selectedVangurr = vangurrManager.ChooseVangurr();
-            GameManager.Instance.currentVangurr = new VangurrInstance(selectedVangurr);
-            vangurrManager.UpdateVangurrText(selectedVangurr);
+            if (selectedVangurr != null)
+            {
+                GameManager.Instance.currentVangurr = new VangurrInstance(selectedVangurr);
+                GameManager.Instance.currentVangurr.Init();
+                vangurrManager.UpdateVangurrText(selectedVangurr);
+            }
         }
         else
         {
             if (GameManager.Instance.currentVangurr == null)
+            {
                 GameManager.Instance.currentVangurr = new VangurrInstance(vangurrManager.ChosenVangurr);
+                GameManager.Instance.currentVangurr.Init();
+            }
 
             vangurrManager.UpdateVangurrText(vangurrManager.ChosenVangurr);
         }
 
+        // Goddess swap button visibility
         if (GameManager.Instance.currentDoobie._so.characterPool == CharacterPool.Zelstine)
-        {
             GoddessSwapButton.SetActive(true);
-        }
         else
-        {
             GoddessSwapButton.SetActive(false);
-        }
     }
+
 
     public void ShowShopPanel()
     {

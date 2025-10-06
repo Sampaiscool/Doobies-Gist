@@ -1294,42 +1294,17 @@ public abstract class CombatantInstance
 
             if (ActiveEffects[i].duration <= 0)
             {
-                if (ActiveEffects[i].type == EffectType.TargetLocked)
-                {
-                    var (result, damageDone) = TakeDamage(ActiveEffects[i].intensity);
-                    BattleUIManager.Instance.AddLog($"Target Locked activates! dealing {damageDone} damage!");
-                    if (this is DoobieInstance)
-                    {
-                        var opponentTargetGardenUpgrade = GameManager.Instance.currentVangurr.ActiveUpgrades.Find(u => u.type == UpgradeNames.TargetGarden);
-                        if (opponentTargetGardenUpgrade != null)
-                        {
-                            GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Regeneration, 2, true, opponentTargetGardenUpgrade.intensity));
-                        }
-                    }
-                    else
-                    {
-                        var opponentTargetGardenUpgrade = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(u => u.type == UpgradeNames.TargetGarden);
-                        if (opponentTargetGardenUpgrade != null)
-                        {
-                            GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Regeneration, 2, true, opponentTargetGardenUpgrade.intensity));
-                        }
-                    } 
-                }
-                if (ActiveEffects[i].type == EffectType.TimedBomb)
-                {
-                    int baseDmg = 0;
-                    if (this is DoobieInstance)
-                    {
-                        baseDmg += GameManager.Instance.currentVangurr.GetEffectiveSkillDamage(GameManager.Instance.currentVangurr.CurrentSkillDmg);
-                    }
-                    else
-                    {
-                        baseDmg += GameManager.Instance.currentDoobie.GetEffectiveSkillDamage(GameManager.Instance.currentDoobie.CurrentSkillDmg);
-                    }
+                var expiredEffect = ActiveEffects[i];
 
-                    baseDmg *= ActiveEffects[i].intensity;
+                switch (expiredEffect.type)
+                {
+                    case EffectType.TargetLocked:
+                        ActivateTargetLocked(expiredEffect);
+                        break;
 
-                    TakeDamage(baseDmg);
+                    case EffectType.TimedBomb:
+                        ActivateTimedBomb(expiredEffect);
+                        break;
                 }
 
                 ActiveEffects.RemoveAt(i);
@@ -1342,6 +1317,71 @@ public abstract class CombatantInstance
                 : BattleUIManager.Instance.VangurrEffectsContainer
         );
     }
+    private void ActivateTargetLocked(Effect expired)
+    {
+        var (result, damageDone) = TakeDamage(expired.intensity);
+        BattleUIManager.Instance.AddLog($"Target Locked activates! dealing {damageDone} damage!");
+
+        // --- Target Garden synergy ---
+        if (this is DoobieInstance)
+        {
+            var opponentUpgrade = GameManager.Instance.currentVangurr.ActiveUpgrades.Find(u => u.type == UpgradeNames.TargetGarden);
+            if (opponentUpgrade != null)
+            {
+                GameManager.Instance.currentVangurr.AddEffect(new Effect(EffectType.Regeneration, 2, true, opponentUpgrade.intensity));
+            }
+        }
+        else
+        {
+            var opponentUpgrade = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(u => u.type == UpgradeNames.TargetGarden);
+            if (opponentUpgrade != null)
+            {
+                GameManager.Instance.currentDoobie.AddEffect(new Effect(EffectType.Regeneration, 2, true, opponentUpgrade.intensity));
+            }
+        }
+        if (this is DoobieInstance)
+        {
+            var opponentTargetScoped = GameManager.Instance.currentVangurr.ActiveItems.Find(u => u.type == ItemType.TargetScoped);
+            if (opponentTargetScoped != null)
+            {
+                GameManager.Instance.currentVangurr.AddEffect(
+                    new Effect(EffectType.TargetLocked, expired.duration + 1, true, expired.intensity)
+                );
+                BattleUIManager.Instance.AddLog($"TargetScoped");
+            }
+        }
+        else
+        {
+            var opponentTargetScoped = GameManager.Instance.currentDoobie.ActiveItems.Find(u => u.type == ItemType.TargetScoped);
+            if (opponentTargetScoped != null)
+            {
+                GameManager.Instance.currentVangurr.AddEffect(
+                    new Effect(EffectType.TargetLocked, expired.duration + 1, true, expired.intensity)
+                );
+                BattleUIManager.Instance.AddLog($"TargetScoped");
+            }
+        }
+    }
+    private void ActivateTimedBomb(Effect expired)
+    {
+        int baseDmg = 0;
+
+        if (this is DoobieInstance)
+        {
+            baseDmg += GameManager.Instance.currentVangurr.GetEffectiveSkillDamage(GameManager.Instance.currentVangurr.CurrentSkillDmg);
+        }
+        else
+        {
+            baseDmg += GameManager.Instance.currentDoobie.GetEffectiveSkillDamage(GameManager.Instance.currentDoobie.CurrentSkillDmg);
+        }
+
+        baseDmg *= expired.intensity;
+
+        TakeDamage(baseDmg);
+        BattleUIManager.Instance.AddLog($"{CharacterName}'s Timed Bomb explodes for {baseDmg} damage!");
+    }
+
+
     /// <summary>
     /// Gets the effective defence of the Instance
     /// </summary>
@@ -1495,6 +1535,61 @@ public abstract class CombatantInstance
             }
         }
     }
+    public void OnBurnDamage(int damage)
+    {
+        // --- Upgrade reactions ---
+        foreach (var upgrade in ActiveUpgrades)
+        {
+            switch (upgrade.type)
+            {
+                case UpgradeNames.WalkThePlank:
+                    var barrelEffect = new Effect(EffectType.Barrel, 100, false, upgrade.intensity);
+
+                    var opponent = GetOpponent();
+                    opponent.AddEffect(barrelEffect);
+                    BattleUIManager.Instance.AddLog($"{CharacterName}'s Walk The Plank creates a Barrel on the enemy!");
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        foreach (Item item in ActiveItems)
+        {
+            switch (item.type)
+            {
+                case ItemType.Fuel:
+                    // Double the intensity of all burn effects on the opponent
+                    var opponent = GetOpponent();
+                    var burnEffects = opponent.ActiveEffects
+                                        .Where(e => e.type == EffectType.Burn)
+                                        .ToList();
+
+                    foreach (var burn in burnEffects)
+                    {
+                        burn.intensity *= 2;
+                    }
+
+                    BattleUIManager.Instance.AddLog($"{CharacterName}'s Fuel item doubles opponent's burn intensity!");
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    // --- Helper: get the current opponent ---
+    private CombatantInstance GetOpponent()
+    {
+        if (this is DoobieInstance)
+            return GameManager.Instance.currentVangurr;
+        else
+            return GameManager.Instance.currentDoobie;
+    }
+
+
     /// <summary>
     /// Sets the transformation of the Instance
     /// </summary>

@@ -4325,6 +4325,12 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d296f7271d8571d4a92254dba1a36c2e, type: 2}
     - {fileID: 11400000, guid: d6b26685155b9b64a961637d9ed7d58d, type: 2}
   itemGroups:
+  - groupName: None
+    characterPool: 0
+    resourceType: 2
+    items:
+    - {fileID: 11400000, guid: 44ffc7865f5a50e409416bcdb28c5fbd, type: 2}
+    - {fileID: 11400000, guid: 6a4bef343b908524e9591969ae2b4c1e, type: 2}
   - groupName: Hiroshi
     characterPool: 1
     resourceType: 2

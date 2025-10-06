@@ -18,7 +18,7 @@ MonoBehaviour:
   healPower: 1
   baseDefence: 5
   baseHealth: 20
-  VangurrText: Its past its bed time.
+  VangurrText: Once tried to enter a cannonball competition. Disqualified immediately.
   difficultyLevel: 2
   skillChance: 40
   isBoss: 1
@@ -37,6 +37,7 @@ MonoBehaviour:
     Pool: 0
     intensity: 3
     isCurse: 0
+  startingItems: []
   skillSet1: []
   skillSet2: []
   skillSet3: []

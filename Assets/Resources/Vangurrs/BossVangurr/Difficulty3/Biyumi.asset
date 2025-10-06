@@ -18,7 +18,7 @@ MonoBehaviour:
   healPower: 5
   baseDefence: 5
   baseHealth: 40
-  VangurrText: 
+  VangurrText: Defender of Menta.
   difficultyLevel: 3
   skillChance: 65
   isBoss: 1
@@ -28,6 +28,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c03f63ca25a2ee042acac081a2021843, type: 2}
   defaultWeapon: {fileID: 11400000, guid: 6f62514957945ea4db2709a2909b7ccb, type: 2}
   startingUpgrades: []
+  startingItems: []
   skillSet1:
   - {fileID: 11400000, guid: c03f63ca25a2ee042acac081a2021843, type: 2}
   - {fileID: 11400000, guid: 7cc6d2a63deda0340b2f9a97a6e4f335, type: 2}
