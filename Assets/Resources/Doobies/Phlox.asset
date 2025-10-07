@@ -52,6 +52,7 @@ MonoBehaviour:
     Pool: 7
     intensity: 5
     isCurse: 1
+  startingItems: []
   skillSet1: []
   skillSet2: []
   skillSet3: []

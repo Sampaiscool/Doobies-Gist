@@ -880,10 +880,14 @@ public abstract class CombatantInstance
     /// </summary>
     public void CheckForSkillOnUseEffects()
     {
-        foreach (Effect effect in ActiveEffects)
+        foreach (Item item in ActiveItems)
         {
-            switch (effect.type)
+            switch (item.type)
             {
+                case ItemType.JarOfShadows:
+                    AddEffect(new Effect(EffectType.Shadow, 5, false, 1));
+                    BattleUIManager.Instance.AddLog($"The Jar of Shadows captures a shadow!");
+                    break;
                 default:
                     break;
             }

@@ -30,7 +30,14 @@ MonoBehaviour:
   baseSkills: []
   defaultWeapon: {fileID: 11400000, guid: c8a0b48946660ee4ba9e3c1629a01e65, type: 2}
   startingUpgrades: []
-  startingItems: []
+  startingItems:
+  - itemName: Flowing Tempo
+    description: After you use a skill; Gain 1 "Tempo Link"
+    cost: 0
+    type: 8
+    Pool: 17
+    icon: {fileID: 0}
+    hasBeenPurchased: 0
   skillSet1: []
   skillSet2: []
   skillSet3: []

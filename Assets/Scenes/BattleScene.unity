@@ -2471,6 +2471,14 @@ MonoBehaviour:
     type: 34
     icon: {fileID: 21300000, guid: 9dcc7a33eaf57b24aa8d56de1f63c0b2, type: 3}
     effectPrefab: {fileID: 0}
+  - label: Tempo Link
+    type: 37
+    icon: {fileID: 0}
+    effectPrefab: {fileID: 0}
+  - label: Shadow
+    type: 36
+    icon: {fileID: -1350168022058863885, guid: c9e3b16e11c7dd34eb2627dcbf1de056, type: 3}
+    effectPrefab: {fileID: 0}
   TransformationVisuals:
   - label: SpiritForm Thengshou
     type: 2

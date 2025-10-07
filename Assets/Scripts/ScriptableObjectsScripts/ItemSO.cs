@@ -23,4 +23,5 @@ public enum ItemType
     Fuel,                             // None
     TargetScoped,                     // None
     JarOfShadows,                     // None
+    FlowingTempo,                     // Melanz
 }

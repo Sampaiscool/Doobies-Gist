@@ -57,8 +57,7 @@ MonoBehaviour:
     isCurse: 0
   startingItems:
   - itemName: Jar of Shadows
-    description: If you use a spell-style skill; Gain 1 "Shadow". "Shadow" does not
-      go away after using a skill.
+    description: 'If you use a spell-style skill; Gain 1 "Shadow". '
     cost: 5
     type: 7
     Pool: 0

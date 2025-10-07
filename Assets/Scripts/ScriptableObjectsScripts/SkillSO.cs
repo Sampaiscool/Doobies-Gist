@@ -58,6 +58,8 @@ public class SkillSO : ScriptableObject
         if (effect == null)
             return $"{skillName} fizzles into the void...";
 
+        var userEffectsSnapshot = new List<Effect>(user.ActiveEffects);
+
         if (user is DoobieInstance doobie)
         {
             if (resourceUsed == ResourceType.Health)
@@ -126,7 +128,7 @@ public class SkillSO : ScriptableObject
             }
         }
 
-        foreach (Effect activeEffect in user.ActiveEffects)
+        foreach (Effect activeEffect in userEffectsSnapshot)
         {
             switch (activeEffect.type)
             {
@@ -138,11 +140,7 @@ public class SkillSO : ScriptableObject
                         BattleUIManager.Instance.AddLog($"{effect.ApplyEffect(user, target)}");
                     }
 
-                    Item jarOfShadow = user.ActiveItems.Find(j => j.type == ItemType.JarOfShadows);
-                    if (jarOfShadow == null)
-                    {
-                        user.ActiveEffects.Remove(activeEffect);
-                    }
+                     user.ActiveEffects.Remove(activeEffect);
 
                     break;
                 default:
