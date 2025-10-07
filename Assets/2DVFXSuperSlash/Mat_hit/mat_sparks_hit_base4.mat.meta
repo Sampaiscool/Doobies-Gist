@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9d6e8b3dda19f0d47a846d037c1d49ee
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 246419
+  packageName: 2D VFX slashes pack
+  packageVersion: 1.1
+  assetPath: Assets/2DVFXSuperSlash/Mat_hit/mat_sparks_hit_base4.mat
+  uploadId: 614695

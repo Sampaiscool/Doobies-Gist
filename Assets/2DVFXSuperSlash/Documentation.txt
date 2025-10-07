@@ -1,0 +1,7 @@
+Documentation:
+
+-23 texture atlases for hit effects.
+-19 unique texture atlas slashes.
+-For convenience, I have added a sequence of PNG images for each of the 20 effects, This will help you when creating your own and unique effects.
+-The asset can be integrated into any version of the engine that supports the particle system.
+-All atlases are in high resolution.

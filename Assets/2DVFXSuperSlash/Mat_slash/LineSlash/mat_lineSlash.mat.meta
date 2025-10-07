@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2ea0ace9a6f9abc43a37fb8395fc8baa
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 246419
+  packageName: 2D VFX slashes pack
+  packageVersion: 1.1
+  assetPath: Assets/2DVFXSuperSlash/Mat_slash/LineSlash/mat_lineSlash.mat
+  uploadId: 614695

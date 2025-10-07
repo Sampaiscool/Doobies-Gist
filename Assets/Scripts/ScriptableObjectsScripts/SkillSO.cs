@@ -104,6 +104,8 @@ public class SkillSO : ScriptableObject
             }
         }
 
+        target.PlayAttackAnimation(animation);
+
         string result = effect.ApplyEffect(user, target);
 
         if (isWeaponSkill)
@@ -115,7 +117,7 @@ public class SkillSO : ScriptableObject
 
         user.CheckForSkillOnUseEffects();
 
-        target.PlayAttackAnimation(animation);
+        
 
         // Resource restore (only if matches MainResource)
         if (user is DoobieInstance spellcaster && spellcaster.MainResource?.Type == ResourceType.Zurp)

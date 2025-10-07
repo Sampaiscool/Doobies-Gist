@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
@@ -1657,20 +1658,30 @@ public abstract class CombatantInstance
         if (animationPrefab == null || animationAnchor == null)
             return;
 
-        GameObject spawned = GameObject.Instantiate(animationPrefab, animationAnchor.position, Quaternion.identity);
-        spawned.transform.SetParent(animationAnchor);
-        spawned.transform.localScale.Normalize();
+        // Spawn it as a child of the anchor, matching rotation & prefab scale
+        GameObject spawned = GameObject.Instantiate(animationPrefab, animationAnchor.position, animationAnchor.rotation, animationAnchor);
+        spawned.transform.localScale = animationPrefab.transform.localScale;
 
-        var ps = spawned.GetComponent<ParticleSystem>();
-        if (ps != null)
+        // Handle all renderers, not just the main ParticleSystem
+        foreach (var renderer in spawned.GetComponentsInChildren<Renderer>(true))
         {
-            var renderer = ps.GetComponent<Renderer>();
-            renderer.sortingLayerName = "Foreground";
-            renderer.sortingOrder = 10;
+            renderer.sortingLayerName = "VFXForeground";
+            renderer.sortingOrder = 100;
         }
 
-        GameObject.Destroy(spawned, 2f);
+        // Optional safety: make sure it’s active and visible
+        spawned.SetActive(true);
+
+        // Auto-destroy after the longest particle or animation ends
+        float lifeTime = 2f;
+        var ps = spawned.GetComponent<ParticleSystem>();
+        if (ps != null)
+            lifeTime = ps.main.duration + ps.main.startLifetime.constantMax;
+
+        GameObject.Destroy(spawned, lifeTime);
     }
+
+
     /// <summary>
     /// Play a hit/damage animation on this combatant.
     /// </summary>
