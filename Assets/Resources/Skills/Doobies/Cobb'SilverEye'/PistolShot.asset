@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Pistol Shot
   icon: {fileID: 0}
-  animation: {fileID: 0}
+  animation: {fileID: 1356452392861584662, guid: 016930cc951d6394e82e5e4fed82c15a, type: 3}
   description: Fire your pistol; Exploding every barrel, dealing extra damage and
     gaining Sploont for each barrel exploded.
   resourceCost: 2

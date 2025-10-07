@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Silent Strike
   icon: {fileID: 0}
-  animation: {fileID: 0}
+  animation: {fileID: 1600244569105492841, guid: fcc66e02bee634c41a9bf393d5ba091c, type: 3}
   description: Stab your opponent and heal for damage dealt
   resourceCost: 2
   resourceUsed: 0

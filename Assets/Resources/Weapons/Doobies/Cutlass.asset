@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Cutlass
   icon: {fileID: 0}
-  animation: {fileID: 0}
+  animation: {fileID: 5652539979293654771, guid: db5fbff1c48ae7d40bfd432b9a6e2270, type: 3}
   baseDamage: 2
   baseCritChance: 25
   missChance: 0.05

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Barrel Barrage
   icon: {fileID: 0}
-  animation: {fileID: 0}
+  animation: {fileID: 2120526383445903025, guid: 53dff1690272bcb4587c408c094660a1, type: 3}
   description: Spawn some barrels and explode all of them, giving your opponent 1
     "Burn" for each barrel exploded.
   resourceCost: 7

@@ -1527,27 +1527,18 @@ public abstract class CombatantInstance
                     {
                         BattleUIManager.Instance.AddLog($"{owner.CharacterName}'s barrels explode \n blasting {opponent.CharacterName} for {damageDone} damage!");
                     }
-                }      
-
-                if (!ownerIsBeingAttacked)
-                {
-                    owner.ActiveEffects.Remove(effect);
                 }
-                else
+
+                owner.ActiveEffects.Remove(effect);
+
+                if (ownerIsBeingAttacked)
                 {
-                    foreach (Item item in owner.ActiveItems)
+                    bool hasDualBarrels = owner.ActiveItems.Any(i => i.type == ItemType.DualBarrels);
+                    if (hasDualBarrels)
                     {
-                        switch (item.type)
-                        {
-                            case ItemType.DualBarrels:
-                                int barrelSpawnAmount = effect.intensity;
-                                owner.ActiveEffects.Remove(effect);
-                                owner.AddEffect(new Effect(EffectType.Barrel, 100, false, barrelSpawnAmount));
-                                break;
-                            default:
-                                owner.ActiveEffects.Remove(effect);
-                                break;
-                        }
+                        int barrelSpawnAmount = effect.intensity;
+                        owner.AddEffect(new Effect(EffectType.Barrel, 100, false, barrelSpawnAmount));
+                        BattleUIManager.Instance.AddLog($"{owner.CharacterName}'s Dual Barrels rebuild themselves after the explosion!");
                     }
                 }
             }
@@ -1555,43 +1546,38 @@ public abstract class CombatantInstance
     }
     public void OnBurnDamage(int damage)
     {
+        CombatantInstance opponent = GetOpponent();
+
         // --- Upgrade reactions ---
-        foreach (var upgrade in ActiveUpgrades)
+        foreach (var upgrade in opponent.ActiveUpgrades)
         {
             switch (upgrade.type)
             {
                 case UpgradeNames.WalkThePlank:
                     var barrelEffect = new Effect(EffectType.Barrel, 100, false, upgrade.intensity);
-
-                    var opponent = GetOpponent();
                     opponent.AddEffect(barrelEffect);
-                    BattleUIManager.Instance.AddLog($"{CharacterName}'s Walk The Plank creates a Barrel on the enemy!");
+                    BattleUIManager.Instance.AddLog($"{CharacterName}'s Walk The Plank creates a Barrel!");
                     break;
-
                 default:
                     break;
             }
         }
 
-        foreach (Item item in ActiveItems)
+        foreach (Item item in opponent.ActiveItems)
         {
             switch (item.type)
             {
                 case ItemType.Fuel:
                     // Double the intensity of all burn effects on the opponent
-                    var opponent = GetOpponent();
                     var burnEffects = opponent.ActiveEffects
                                         .Where(e => e.type == EffectType.Burn)
                                         .ToList();
-
                     foreach (var burn in burnEffects)
                     {
                         burn.intensity *= 2;
                     }
-
                     BattleUIManager.Instance.AddLog($"{CharacterName}'s Fuel item doubles opponent's burn intensity!");
                     break;
-
                 default:
                     break;
             }
