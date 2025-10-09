@@ -99,3 +99,8 @@ UpgradeLog*.htm
 *.tmp
 *.cache
 *.tlog
+/UserSettings/AI.Animate
+/UserSettings/AI.Generators
+/UserSettings/AI.Image
+/UserSettings/AI.Material
+/UserSettings/AI.Sound
