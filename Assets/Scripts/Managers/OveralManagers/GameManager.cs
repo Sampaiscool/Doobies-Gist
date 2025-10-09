@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     public int CurrentPlayerSploont = 0; //The players current Money 
     public int CurrentPlayerHP = 20;
+    public int CurrentPlayerMaxHP = 20;
     public int CurrentPlayerDzeef = 0;
     public CombatManager CombatManager;
     public GameObject damageAnimationPrefab;
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
             if (maxHpIncrease)
             {
                 CurrentPlayerHP += hpAmount;
+                CurrentPlayerMaxHP += hpAmount;
 
                 if (playerStatsUIManager != null)
                 {
@@ -82,9 +84,9 @@ public class GameManager : MonoBehaviour
             else
             {
                 CurrentPlayerHP += hpAmount;
-                if (CurrentPlayerHP >= 20)
+                if (CurrentPlayerHP >= CurrentPlayerMaxHP)
                 {
-                    CurrentPlayerHP = 20;
+                    CurrentPlayerHP = CurrentPlayerMaxHP;
                 }
 
                 if (playerStatsUIManager != null)
