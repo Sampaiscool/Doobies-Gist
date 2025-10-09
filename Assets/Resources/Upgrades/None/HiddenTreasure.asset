@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HiddenTreasure
   m_EditorClassIdentifier: 
   upgradeName: Hidden Treasure
-  description: If you win a fight agaisnt a vangurr; Gain +100 Sploont.
+  description: If you win a fight against a vangurr; Gain +100 Sploont.
   cost: 250
   icon: {fileID: 0}
   type: 53

@@ -378,6 +378,12 @@ public abstract class CombatantInstance
             AddEffect(new Effect(EffectType.HealingWeaken, 1, true, nutouCurse.intensity));
         }
 
+		Effect crimsonCurse = ActiveEffects.Find(c => c.type == EffectType.CrimsonCurse);
+		if (crimsonCurse != null)
+		{
+			AddEffect(new Effect(EffectType.Burn, 1, true, crimsonCurse.intensity));
+		}
+
         // Your Upgrades
         foreach (Upgrade upgrade in ActiveUpgrades)
         {

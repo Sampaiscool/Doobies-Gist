@@ -44,5 +44,6 @@ public enum EffectType
     Flow,                       // Buff - If you use a weapon style attack gain "Flow" for each "Flow" intensity, But if you take damage; lose all "Flow".
     TimedBomb,                  // Debuff - Stackable "Target Locked", Deals damage to your skill damage * intensity.
     Shadow,                     // Buff - If you use a skill, remove all "Shadow" effects; Cast the effect again for each "Shadow" intensity you had.
-    TempoLink,                  // Buff - If you use a skill from Melanz while you have "TempoLink" gain extra effects
+    TempoLink,                  // Buff - If you use a skill from Melanz while you have "TempoLink" gain extra effects.
+	CrimsonCurse,               // Debuff - If you take damage gain "Burn" equal to "Crimson Curse" intensity.
 }
