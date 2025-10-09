@@ -1031,6 +1031,11 @@ MonoBehaviour:
     isBossGroup: 1
     vangurrs:
     - {fileID: 11400000, guid: d97cfd8f652e115478cdce585ed68170, type: 2}
+  - label: Difficulty 4 non-boss
+    difficulty: 4
+    isBossGroup: 0
+    vangurrs:
+    - {fileID: 11400000, guid: 625e2dd547387a64a9a7ff6de320b6a3, type: 2}
   ChosenVangurr: {fileID: 0}
 --- !u!1 &304150279
 GameObject:
@@ -4796,7 +4801,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 958518543}
   m_HandleRect: {fileID: 958518542}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

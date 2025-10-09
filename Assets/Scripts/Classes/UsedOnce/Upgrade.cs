@@ -102,4 +102,6 @@ public enum UpgradeNames
     HiddenTreasure,                       //None
     FuryStrike,                           //None
     EchoExplosion,                        //None
+
+	FlowersOfHealing,					  //Kazan
 }

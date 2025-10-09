@@ -2479,6 +2479,10 @@ MonoBehaviour:
     type: 36
     icon: {fileID: -1350168022058863885, guid: c9e3b16e11c7dd34eb2627dcbf1de056, type: 3}
     effectPrefab: {fileID: 0}
+  - label: Crimson Curse
+    type: 38
+    icon: {fileID: 0}
+    effectPrefab: {fileID: 0}
   TransformationVisuals:
   - label: SpiritForm Thengshou
     type: 2
