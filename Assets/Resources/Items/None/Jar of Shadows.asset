@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Jar of Shadows
   m_EditorClassIdentifier: Assembly-CSharp::ItemSO
   itemName: Jar of Shadows
-  description: If you use a spell-style skill; Gain 1 "Shadow". "Shadow" does not
-    go away after using a skill.
+  description: After you use a spell-style skill; Gain 1 "Shadow".
   icon: {fileID: 0}
   cost: 5
   isLegendary: 0

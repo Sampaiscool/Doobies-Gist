@@ -17,7 +17,7 @@ public class VeilBurstEffect : SkillEffectSO
         {
             int shadowIntensity = shadowEffect.intensity;
 
-            target.AddEffect(new Effect(EffectType.Stun, shadowIntensity, true, shadowIntensity));
+            target.AddEffect(new Effect(EffectType.Stun, shadowIntensity, true, (shadowIntensity + 1)));
 
             BattleUIManager.Instance.AddLog($"{user.CharacterName}'s veil twists reality, stunning {target.CharacterName}!");
             log += $" The veil’s darkness echoed {shadowIntensity} times!";

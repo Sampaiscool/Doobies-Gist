@@ -108,6 +108,21 @@ public class SkillSO : ScriptableObject
 
         string result = effect.ApplyEffect(user, target);
 
+        foreach (Effect activeEffect in userEffectsSnapshot)
+        {
+            if (activeEffect.type == EffectType.Shadow)
+            {
+                int castAmount = activeEffect.intensity;
+
+                for (int i = 0; i < castAmount; i++)
+                {
+                    BattleUIManager.Instance.AddLog($"{effect.ApplyEffect(user, target)}");
+                }
+
+                user.ActiveEffects.Remove(activeEffect);
+            }
+        }
+
         if (isWeaponSkill)
             user.CheckForWeaponOnUseEffects();
         else
@@ -130,25 +145,7 @@ public class SkillSO : ScriptableObject
             }
         }
 
-        foreach (Effect activeEffect in userEffectsSnapshot)
-        {
-            switch (activeEffect.type)
-            {
-                case EffectType.Shadow:
-                    int castAmount = activeEffect.intensity;
-
-                    for (int i = 0; i < castAmount; i++)
-                    {
-                        BattleUIManager.Instance.AddLog($"{effect.ApplyEffect(user, target)}");
-                    }
-
-                     user.ActiveEffects.Remove(activeEffect);
-
-                    break;
-                default:
-                    break;
-            }
-        }
+        
 
         return result;
     }
