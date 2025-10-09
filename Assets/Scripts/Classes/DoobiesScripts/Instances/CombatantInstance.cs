@@ -881,18 +881,7 @@ public abstract class CombatantInstance
     /// </summary>
     public void CheckForSkillOnUseEffects()
     {
-        foreach (Item item in ActiveItems)
-        {
-            switch (item.type)
-            {
-                case ItemType.JarOfShadows:
-                    AddEffect(new Effect(EffectType.Shadow, 5, false, 1));
-                    BattleUIManager.Instance.AddLog($"The Jar of Shadows captures a shadow!");
-                    break;
-                default:
-                    break;
-            }
-        }
+        
     }
     /// <summary>
     /// Activates Effects/Upgrades that happen when you heal
