@@ -1560,21 +1560,18 @@ public abstract class CombatantInstance
 
         foreach (Item item in opponent.ActiveItems)
         {
-            switch (item.type)
+            if (item.type == ItemType.Fuel)
             {
-                case ItemType.Fuel:
-                    // Double the intensity of all burn effects on the opponent
-                    var burnEffects = opponent.ActiveEffects
-                                        .Where(e => e.type == EffectType.Burn)
-                                        .ToList();
-                    foreach (var burn in burnEffects)
-                    {
-                        burn.intensity *= 2;
-                    }
-                    BattleUIManager.Instance.AddLog($"{CharacterName}'s Fuel item doubles opponent's burn intensity!");
-                    break;
-                default:
-                    break;
+                var burnEffects = ActiveEffects
+                    .Where(e => e.type == EffectType.Burn)
+                    .ToList();
+
+                foreach (var burn in burnEffects)
+                {
+                    burn.intensity *= 2;
+                }
+
+                BattleUIManager.Instance.AddLog($"{opponent.CharacterName}'s Fuel item doubles {CharacterName}'s burn intensity!");
             }
         }
     }
