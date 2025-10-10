@@ -15,5 +15,5 @@ MonoBehaviour:
   Name: Crimson Curse
   Description: If you take damage gain "Burn" equal to "Crimson Curse" intensity.
   EffectType: 38
-  Icon: {fileID: 0}
+  Icon: {fileID: 7625375371793835583, guid: c259ebf1e6baa7c4a9077d2ef278f92a, type: 3}
   isDebuff: 1
