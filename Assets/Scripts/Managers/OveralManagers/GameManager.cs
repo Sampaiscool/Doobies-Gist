@@ -192,9 +192,11 @@ public class GameManager : MonoBehaviour
         {
             ChangeSploont(50, true);
 
-            if (currentDoobie.ActiveUpgrades.Find(t => t.type == UpgradeNames.HiddenTreasure) != null)
+            Upgrade hiddentreasure = currentDoobie.ActiveUpgrades.Find(t => t.type == UpgradeNames.HiddenTreasure);
+            if (hiddentreasure != null)
             {
-                ChangeSploont(100, true);
+                for (int i = 0; i < hiddentreasure.intensity; i++)
+                    ChangeSploont(100, true);
             }
 
             bool isBossFight = BattlesFought >= MaxBattlesBeforeBoss;

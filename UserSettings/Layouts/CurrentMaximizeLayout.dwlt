@@ -244,9 +244,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 0abd0000
+      m_SelectedIDs: 3a9a0000
       m_LastClickedID: 0
-      m_ExpandedIDs: c093ffff24d1ffff08fbfffff4ffffffd0ae0000
+      m_ExpandedIDs: 08fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -878,9 +878,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 9.430386, y: -227.37874, z: 3.4925063}
+    m_Target: {x: 241.33252, y: 150.82951, z: 5.0567837}
     speed: 2
-    m_Value: {x: 9.430386, y: -227.37874, z: 3.4925063}
+    m_Value: {x: 241.33252, y: 150.82951, z: 5.0567837}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -930,9 +930,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 422.67792
+    m_Target: 266.25027
     speed: 2
-    m_Value: 422.67792
+    m_Value: 266.25027
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1093,7 +1093,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Art/Potraits/Vangurr/Difficulty4
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1103,16 +1103,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Art/Potraits/Vangurr/Difficulty4
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\semva\Projects_Unity\Doobies Gist
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 1551}
-    m_SelectedIDs: 32990000
-    m_LastClickedID: 39218
-    m_ExpandedIDs: 000000002498000026980000289800002a9800002c9800002e98000030980000329800003498000036980000389800003a9800003c9800003e98000040980000429800004498000046980000489800004a9800004c9800004e98000050980000529800005498000056980000589800005a9800005c9800005e98000060980000629800006498000066980000689800006a9800006c9800006e9800007098000072980000c6980000ce98000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 448.57968}
+    m_SelectedIDs: 06990000
+    m_LastClickedID: 39174
+    m_ExpandedIDs: 000000002498000026980000289800002a9800002c9800002e98000030980000329800003498000036980000389800003a9800003c9800003e98000040980000429800004498000046980000489800004a9800004c9800004e98000050980000529800005498000056980000589800005a9800005c9800005e98000060980000629800006498000066980000689800006a9800006c9800006e9800007098000072980000749800007698000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1141,7 +1141,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000002498000026980000289800002a9800002c9800002e98000030980000329800003498000036980000389800003a9800003c9800003e98000040980000429800004498000046980000489800004a9800004c9800004e98000050980000529800005498000056980000589800005a9800005c9800005e98000060980000629800006498000066980000689800006a9800006c9800006e9800007098000072980000
+    m_ExpandedIDs: 000000002498000026980000289800002a9800002c9800002e98000030980000329800003498000036980000389800003a9800003c9800003e98000040980000429800004498000046980000489800004a9800004c9800004e98000050980000529800005498000056980000589800005a9800005c9800005e98000060980000629800006498000066980000689800006a9800006c9800006e98000070980000729800007498000076980000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1167,8 +1167,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 0abd0000
-    m_LastClickedInstanceID: 48394
+    m_SelectedInstanceIDs: 3a9a0000
+    m_LastClickedInstanceID: 39482
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000098850000b09a0000a0ad0000aa68000000000000ee6b0000066c0000146c000010960000
     m_RenameOverlay:
