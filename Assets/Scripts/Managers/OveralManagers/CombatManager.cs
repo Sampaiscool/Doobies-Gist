@@ -513,8 +513,11 @@ public class CombatManager : MonoBehaviour
 
                         doobie.MainResource.Spend(5);
                     }
-                    break;
-                        default:
+					break;
+				case UpgradeNames.FlowersOfHealing:
+					combatant.HealCombatant(upgrade.intensity);
+					break;
+				default:
                     break;
             }
         }
