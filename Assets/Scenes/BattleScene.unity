@@ -2483,6 +2483,10 @@ MonoBehaviour:
     type: 38
     icon: {fileID: 7625375371793835583, guid: c259ebf1e6baa7c4a9077d2ef278f92a, type: 3}
     effectPrefab: {fileID: 0}
+  - label: Vanished Defense
+    type: 39
+    icon: {fileID: 0}
+    effectPrefab: {fileID: 0}
   TransformationVisuals:
   - label: SpiritForm Thengshou
     type: 2

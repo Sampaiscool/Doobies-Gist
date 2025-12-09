@@ -46,4 +46,5 @@ public enum EffectType
     Shadow,                     // Buff - If you use a skill, remove all "Shadow" effects; Cast the effect again for each "Shadow" intensity you had.
     TempoLink,                  // Buff - If you use a skill from Melanz while you have "TempoLink" gain extra effects.
 	CrimsonCurse,               // Debuff - If you take damage gain "Burn" equal to "Crimson Curse" intensity.
+	VanishedDefense,			// Debuff - All damage you take will ignore defense.
 }

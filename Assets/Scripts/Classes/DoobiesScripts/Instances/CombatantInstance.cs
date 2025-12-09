@@ -117,14 +117,15 @@ public abstract class CombatantInstance
 
         return healAmount;
     }
-    /// <summary>
-    /// The instance takes damage, reduced by defence.
-    /// </summary>
-    /// <param name="amount">The amount of damage before defence</param>
-    /// <param name="isSkill">wheter the dmg came from a skill</param>
-    /// <param name="isEffect">Wheter the damage came from an effect</param>
-    /// <returns>the result for a log / the damage the instanxce took</returns>
-    public virtual (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill = false, bool isEffect = false)
+	/// <summary>
+	/// The instance takes damage, reduced by defence.
+	/// </summary>
+	/// <param name="amount">The amount of damage before defence</param>
+	/// <param name="isSkill">wheter the dmg came from a skill</param>
+	/// <param name="isEffect">Wheter the damage came from an effect</param>
+	/// <param name="ignoreDefense">Wheter the attack takes defense into account</param>
+	/// <returns>the result for a log / the damage the instanxce took</returns>
+	public virtual (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill = false, bool isEffect = false, bool ignoreDefense = false)
     {
         Debug.Log("Taking base damage: " + amount);
 
@@ -154,9 +155,19 @@ public abstract class CombatantInstance
             }
         }
 
-        // Normal damage calculation if no shield
-        float defence = GetEffectiveDefence();
-        int reducedDamage = Mathf.CeilToInt(amount / defence);
+		// Normal damage calculation if no shield
+		float defence;
+
+		if (ignoreDefense)
+		{
+			defence = Mathf.Min(1, GetEffectiveDefence());
+		}
+		else
+		{
+			defence = GetEffectiveDefence();
+		}
+
+		int reducedDamage = Mathf.CeilToInt(amount / defence);
 
         if (HandleShield(reducedDamage))
             return (DamageResult.Blocked, 0);
