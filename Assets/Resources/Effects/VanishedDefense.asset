@@ -15,5 +15,5 @@ MonoBehaviour:
   Name: Vanished Defense
   Description: All damage you take will ignore defense
   EffectType: 39
-  Icon: {fileID: 0}
+  Icon: {fileID: 2205084283570282019, guid: a30902e24d7d0644b9a38a974fcf8286, type: 3}
   isDebuff: 1

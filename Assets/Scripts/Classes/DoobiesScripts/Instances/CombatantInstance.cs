@@ -158,7 +158,9 @@ public abstract class CombatantInstance
 		// Normal damage calculation if no shield
 		float defence;
 
-		if (ignoreDefense)
+        var vanishedDefenceEffect = ActiveEffects.FindAll(b => b.type == EffectType.VanishedDefense);
+
+        if (ignoreDefense || vanishedDefenceEffect.Count != 0)
 		{
 			defence = Mathf.Min(1, GetEffectiveDefence());
 		}
