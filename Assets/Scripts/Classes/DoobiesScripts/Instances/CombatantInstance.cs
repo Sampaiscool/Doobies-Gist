@@ -397,6 +397,16 @@ public abstract class CombatantInstance
 			AddEffect(new Effect(EffectType.Burn, 1, true, crimsonCurse.intensity));
 		}
 
+        Effect crystalize = ActiveEffects.Find(c => c.type == EffectType.Crystalize);
+        if (crystalize != null)
+        {
+            Effect hardenEffect = ActiveEffects.Find(h => h.type == EffectType.Harden);
+            if (hardenEffect != null)
+            {
+                ActiveEffects.Remove(hardenEffect);
+            }
+        }
+
         // Your Upgrades
         foreach (Upgrade upgrade in ActiveUpgrades)
         {
@@ -1033,6 +1043,9 @@ public abstract class CombatantInstance
         {
             switch (effect.type)
             {
+                case EffectType.Crystalize:
+                    AddEffect(new Effect(EffectType.Harden, 3, false, effect.intensity));
+                    break;
                 default:
                     break;
             }
@@ -1330,6 +1343,10 @@ public abstract class CombatantInstance
 
                     case EffectType.TimedBomb:
                         ActivateTimedBomb(expiredEffect);
+                        break;
+
+                    case EffectType.Crystalize:
+                        AddEffect(new Effect(EffectType.Harden, 3, false, expiredEffect.intensity));
                         break;
                 }
 

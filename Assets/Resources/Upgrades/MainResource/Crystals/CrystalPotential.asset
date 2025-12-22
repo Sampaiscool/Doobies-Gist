@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ffe80665f4ca94c8860dc62dafa2e4, type: 3}
   m_Name: CrystalPotential
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
-  upgradeName: Unlock Crystals
-  description: 
+  upgradeName: Crystal Potential
+  description: If you win a fight against a vangurr; Gain +1 "Crystal".
   cost: 0
   icon: {fileID: 0}
-  type: 0
-  pool: 0
-  intensity: 0
+  type: 57
+  pool: 19
+  intensity: 1
   isCurse: 0

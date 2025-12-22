@@ -60,6 +60,8 @@ public class CombatManager : MonoBehaviour
 
         OnBattleStartEffects();
 
+        BattleUIManager.Instance.ToggleNextButton(true);
+
         SpawnBattleOptions();
 
         // initial log
@@ -611,6 +613,14 @@ public class CombatManager : MonoBehaviour
                         combatantTurnCounters[combatant] = 0 + upgrade.intensity;
                         BattleUIManager.AddLog($"{combatant.CharacterName} prepares to feast this battle...");
                     }
+
+                    if (upgrade.type == UpgradeNames.ShiningEntrance)
+                    {
+                        if (combatant is DoobieInstance doobie && doobie.MainResource.Current != 0)
+                        {
+                            combatant.AddEffect(new Effect(EffectType.Crystalize, 10, false, upgrade.intensity));
+                        }
+                    }
                 }
             }
         }
@@ -630,6 +640,8 @@ public class CombatManager : MonoBehaviour
             BattleUIManager.AddLog($"You have defeated {enemyVangurr.CharacterName}!");
 
             CheckOnWinUpgrades();
+
+            BattleUIManager.Instance.ToggleNextButton(false);
 
             StartCoroutine(ReturnToAdventureAfterDelay(2f, true));
             return true;

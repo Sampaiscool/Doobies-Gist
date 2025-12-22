@@ -9,15 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 974679ec063986c4faad8d7bad71d518, type: 3}
-  m_Name: CrystalHands
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponSO
-  weaponName: Crystal Hands
+  m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
+  m_Name: HeavyStrike
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSO
+  skillName: 
   icon: {fileID: 0}
   animation: {fileID: 0}
-  baseDamage: 4
-  baseCritChance: 5
-  missChance: 0.07
-  basicAttack:
-    damage: 4
-    type: 0
+  description: 
+  resourceCost: 0
+  resourceUsed: 0
+  isWeaponSkill: 0
+  zurpRegainChance: 0
+  zurpRegainAmount: 0
+  effect: {fileID: 0}

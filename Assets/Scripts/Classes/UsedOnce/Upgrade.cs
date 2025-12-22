@@ -106,4 +106,5 @@ public enum UpgradeNames
 	FlowersOfHealing,					  //Kazan
 
     CrystalPotential,                     //Crystals
+    ShiningEntrance,                      //Crystelle
 }

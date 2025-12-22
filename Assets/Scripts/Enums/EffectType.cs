@@ -47,4 +47,5 @@ public enum EffectType
     TempoLink,                  // Buff - If you use a skill from Melanz while you have "TempoLink" gain extra effects.
 	CrimsonCurse,               // Debuff - If you take damage gain "Burn" equal to "Crimson Curse" intensity.
 	VanishedDefense,			// Debuff - All damage you take will ignore defense.
+    Crystalize,                 // Buff - If you use a basic attack; Gain 1 "Harden" for each "Crystalize" intensity. If you take damage; lose all "Harden". If this Expires gain 3 "Harden" for each "Crystalize" intensity.
 }
