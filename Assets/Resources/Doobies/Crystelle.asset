@@ -27,7 +27,9 @@ MonoBehaviour:
   baseHealth: 30
   hasHealth: 1
   startingTransformation: 0
-  baseSkills: []
+  baseSkills:
+  - {fileID: 11400000, guid: 9f14be60db60c4d4c909150113aa1bef, type: 2}
+  - {fileID: 11400000, guid: 287abefbace048844948382e2bd34304, type: 2}
   defaultWeapon: {fileID: 11400000, guid: 9bbe9f9df43d2f64dbfc470a188cd30b, type: 2}
   startingUpgrades:
   - upgradeName: Crystal Potential
