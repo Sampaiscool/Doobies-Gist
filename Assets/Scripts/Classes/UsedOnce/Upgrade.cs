@@ -104,4 +104,6 @@ public enum UpgradeNames
     EchoExplosion,                        //None
 
 	FlowersOfHealing,					  //Kazan
+
+    CrystalPotential,                     //Crystals
 }

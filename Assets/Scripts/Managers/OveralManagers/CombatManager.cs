@@ -628,6 +628,9 @@ public class CombatManager : MonoBehaviour
         if (enemyVangurr.CurrentHealth <= 0)
         {
             BattleUIManager.AddLog($"You have defeated {enemyVangurr.CharacterName}!");
+
+            CheckOnWinUpgrades();
+
             StartCoroutine(ReturnToAdventureAfterDelay(2f, true));
             return true;
         }
@@ -640,5 +643,25 @@ public class CombatManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         UnityEngine.SceneManagement.SceneManager.LoadScene("AdventureScene");
         GameManager.Instance.AfterFight(playerWon);
+    }
+    private void CheckOnWinUpgrades()
+    {
+        Upgrade hiddentreasure = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(t => t.type == UpgradeNames.HiddenTreasure);
+        if (hiddentreasure != null)
+        {
+            for (int i = 0; i < hiddentreasure.intensity; i++)
+                GameManager.Instance.ChangeSploont(100, true);
+        }
+
+        Upgrade crystalPotential = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(t => t.type == UpgradeNames.CrystalPotential);
+        if (crystalPotential != null)
+        {
+            for (int i = 0; i < crystalPotential.intensity; i++)
+            {
+                GameManager.Instance.currentDoobie.MainResource.Gain(1);
+                BattleUIManager.Instance.UpdateUI();
+            }
+
+        }
     }
 }

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ad21a22b66852499065c8f4daaa60c, type: 3}
+  m_Name: Crystelle
+  m_EditorClassIdentifier: Assembly-CSharp::DoobieSO
+  doobieName: 
+  description: 
+  portrait: {fileID: 0}
+  unlockedByDefault: 0
+  doobieMainResource: 0
+  resourceActionSO: {fileID: 0}
+  doobieActionSO: {fileID: 0}
+  baseResourceMax: 0
+  skillDmg: 0
+  healPower: 0
+  baseDefence: 0
+  characterPool: 0
+  baseHealth: 0
+  hasHealth: 1
+  startingTransformation: 0
+  baseSkills: []
+  defaultWeapon: {fileID: 0}
+  startingUpgrades: []
+  startingItems: []
+  skillSet1: []
+  skillSet2: []
+  skillSet3: []

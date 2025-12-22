@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public int MaxBattlesBeforeBoss; //How many battles the player has to fight before a boss battle
 
     public DoobieInstance currentDoobie; //The players current Doobie
+    public DoobieInstanceSO currentDoobieSO;
+
     public VangurrInstance currentVangurr; //The Chosen Vangurr the player is going to fight / is fighting.
 
     public bool InCombat = false;
@@ -192,13 +194,6 @@ public class GameManager : MonoBehaviour
         {
             ChangeSploont(50, true);
 
-            Upgrade hiddentreasure = currentDoobie.ActiveUpgrades.Find(t => t.type == UpgradeNames.HiddenTreasure);
-            if (hiddentreasure != null)
-            {
-                for (int i = 0; i < hiddentreasure.intensity; i++)
-                    ChangeSploont(100, true);
-            }
-
             bool isBossFight = BattlesFought >= MaxBattlesBeforeBoss;
 
             if (!isBossFight)
@@ -232,6 +227,9 @@ public class GameManager : MonoBehaviour
             playerStatsUIManager.UpdatePlayerInfo();
         }
     }
+
+    
+
     public void SpawnSettings()
     {
         if (FindFirstObjectByType<Settings>() != null)

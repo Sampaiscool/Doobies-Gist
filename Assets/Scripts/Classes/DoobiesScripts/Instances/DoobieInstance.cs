@@ -95,10 +95,10 @@ public class DoobieInstance : CombatantInstance
                 soulflow.SpiritEnergy.OnSpiritEnergyGained += HandleSpiritEnergyGained;
                 MainResource = soulflow;
                 break;
-            case ResourceType.TempoGauge:
-                var tempoGauge = new TempoGaugeResource(_so.baseResourceMax);
-                tempoGauge.OnTempoGaugeGained += HandleTempoGaugeGained;
-                MainResource = tempoGauge;
+            case ResourceType.Crystals:
+                var crystals = new CrystalResource(_so.baseResourceMax);
+                crystals.OnCrystalGained += HandleCrystalGained;
+                MainResource = crystals;
                 break;
             default:
                 MainResource = null;
@@ -234,11 +234,12 @@ public class DoobieInstance : CombatantInstance
             SetTransformation(Transformations.SpiritForm);
         }
     }
+
     /// <summary>
-    /// Events that happen when you gain TempleGauge
+    /// Events that happen when you gain Crystals
     /// </summary>
     /// <param name="amount">The amount you gain</param>
-    private void HandleTempoGaugeGained(int amount)
+    private void HandleCrystalGained(int amount)
     {
 
     }

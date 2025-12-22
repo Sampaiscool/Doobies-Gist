@@ -13,4 +13,5 @@ public enum ResourceType
     WorldEnergy,
     SpiritEnergy,
     TempoGauge,
+    Crystals,
 }
