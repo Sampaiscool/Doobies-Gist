@@ -9,7 +9,7 @@ public class CalmStrikesEffect : SkillEffectSO
 
         int halvedDmg = baseDmg / 2;
 
-        var (result, damageDone) = target.TakeDamage(halvedDmg);
+        var (result, damageDone) = target.TakeDamage(halvedDmg, true);
 
         user.AddEffect(new Effect(EffectType.Regeneration, 3, false, damageDone));
 

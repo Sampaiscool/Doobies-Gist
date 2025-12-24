@@ -9,7 +9,7 @@ public class DevineStrikeEffect : SkillEffectSO
     {
         int baseDamage = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
 
-        var (result, damageDone) = target.TakeDamage(baseDamage);
+        var (result, damageDone) = target.TakeDamage(baseDamage, true);
 
         target.AddEffect(new Effect(EffectType.Holy, 3, true, damageDone));
 

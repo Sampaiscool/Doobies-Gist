@@ -14,7 +14,7 @@ public class GoddessPunchEffect : SkillEffectSO
 
         baseDamage *= 2;
 
-        var (result, damageDone) = target.TakeDamage(baseDamage);
+        var (result, damageDone) = target.TakeDamage(baseDamage, true);
 
         if (damageDone >= (target.MaxHealth / 2))
         {

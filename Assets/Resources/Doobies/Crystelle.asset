@@ -28,8 +28,10 @@ MonoBehaviour:
   hasHealth: 1
   startingTransformation: 0
   baseSkills:
+  - {fileID: 11400000, guid: cdb8906e4f67d2847856bb610a135faf, type: 2}
   - {fileID: 11400000, guid: 9f14be60db60c4d4c909150113aa1bef, type: 2}
   - {fileID: 11400000, guid: 287abefbace048844948382e2bd34304, type: 2}
+  - {fileID: 11400000, guid: eb3f29839b479d04b9968b092678d247, type: 2}
   defaultWeapon: {fileID: 11400000, guid: 9bbe9f9df43d2f64dbfc470a188cd30b, type: 2}
   startingUpgrades:
   - upgradeName: Crystal Potential
@@ -42,7 +44,7 @@ MonoBehaviour:
     isCurse: 0
   - upgradeName: Shining Entrance
     description: If you start a fight with atleast 1 Crystal; Gain +1 "Crystalize"
-      for each Crystal you have.
+      for each Crystal you have. Repeat this for each intensity of this upgrade
     cost: 0
     icon: {fileID: 0}
     type: 58

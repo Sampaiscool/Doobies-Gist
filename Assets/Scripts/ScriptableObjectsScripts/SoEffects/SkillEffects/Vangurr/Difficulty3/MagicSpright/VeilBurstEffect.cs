@@ -6,7 +6,7 @@ public class VeilBurstEffect : SkillEffectSO
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
     {
         int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
-        var (result, dmgDone) = target.TakeDamage(baseDmg);
+        var (result, dmgDone) = target.TakeDamage(baseDmg, true);
 
         string log = $"{user.CharacterName} bursts into shadow, damaging {target.CharacterName} for {dmgDone} damage and vanishing briefly.";
 

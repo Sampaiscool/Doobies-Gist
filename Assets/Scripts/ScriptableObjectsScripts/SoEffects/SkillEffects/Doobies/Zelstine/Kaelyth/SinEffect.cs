@@ -14,7 +14,7 @@ public class SinEffect : SkillEffectSO
 
         baseDamage *= 2;
 
-        var (result, damageDone) = target.TakeDamage(baseDamage);
+        var (result, damageDone) = target.TakeDamage(baseDamage, true);
 
         return $"{user.CharacterName} repents for their sins, gaining bleed and defence down. they deal {damageDone} damage to {target.CharacterName}";
     }

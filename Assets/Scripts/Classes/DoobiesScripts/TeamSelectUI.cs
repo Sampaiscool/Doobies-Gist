@@ -94,6 +94,7 @@ public class TeamSelectUI : MonoBehaviour
 
     public void OnDoobieSelected(DoobieSO doobie, int teamSlotIndex)
     {
+        PlayerPrefs.DeleteAll();
         selectedDoobie = doobie;
         UpdateTeamUI();
         //doobieSelectionPanel.SetActive(false);

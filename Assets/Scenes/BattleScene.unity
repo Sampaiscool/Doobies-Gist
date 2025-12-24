@@ -2492,6 +2492,10 @@ MonoBehaviour:
     type: 40
     icon: {fileID: 21300000, guid: bbc8455a903a9364ba0c4afc7df02797, type: 3}
     effectPrefab: {fileID: 0}
+  - label: Confused
+    type: 41
+    icon: {fileID: 21300000, guid: 38bd4b4c36102ae4eb166d2b22a95dbf, type: 3}
+    effectPrefab: {fileID: 0}
   TransformationVisuals:
   - label: SpiritForm Thengshou
     type: 2

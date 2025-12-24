@@ -17,7 +17,7 @@ public class SpiritDevastationEffect : SkillEffectSO
             BattleUIManager.Instance.AddLog($"{target.CharacterName} is low on health so spirit devastation deals more damage!");
         }
 
-        var (result, damageDone) = target.TakeDamage(bonusDmg);
+        var (result, damageDone) = target.TakeDamage(bonusDmg, true);
 
         if (user is DoobieInstance doobie && doobie.MainResource is SoulflowResource soulflow)
         {

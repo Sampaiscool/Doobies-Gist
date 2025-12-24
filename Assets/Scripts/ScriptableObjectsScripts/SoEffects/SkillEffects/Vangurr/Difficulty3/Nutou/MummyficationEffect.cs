@@ -11,13 +11,13 @@ public class MummyficationEffect : SkillEffectSO
 
         target.AddEffect(new Effect(EffectType.VampireCurse, 1, true, (baseDmg / 2)));
 
-        var (result1, damageDone1) = target.TakeDamage(baseDmg);
+        var (result1, damageDone1) = target.TakeDamage(baseDmg, true);
 
         if (baseDmg <= (target.MaxHealth / 2))
         {
             target.AddEffect(new Effect(EffectType.NutouCurse, 1, true, (baseDmg / 2)));
 
-            var (result2, damageDone2) = target.TakeDamage(baseDmg);
+            var (result2, damageDone2) = target.TakeDamage(baseDmg, true);
 
             BattleUIManager.Instance.AddLog($"{user.CharacterName} Became a mummy and attacked {target.CharacterName} for {damageDone1} damage!");
             return $"The damage was not enough for {user.CharacterName} so he cursed {target.CharacterName} and attacked for {damageDone2} damage!";

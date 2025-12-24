@@ -24,7 +24,7 @@ public class FlashingKickEffect : SkillEffectSO
             soulflow.SpiritEnergy.Gain(2);
         }
 
-        var (rewsult, damageDone) = target.TakeDamage(halvedDmg);
+        var (rewsult, damageDone) = target.TakeDamage(halvedDmg, true);
 
         return $"{user.CharacterName} kicks {target.CharacterName} dealing {damageDone} damage!";
     }

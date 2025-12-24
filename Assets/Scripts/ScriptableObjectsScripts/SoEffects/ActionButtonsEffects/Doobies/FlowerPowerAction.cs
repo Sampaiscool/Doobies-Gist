@@ -11,9 +11,9 @@ public class FlowerPowerAction : ScriptableObject, IDoobieAction
     {
         int baseDmg = user.GetEffectiveHealPower(user.CurrentHealPower);
 
-        var (result, damageDone) = target.TakeDamage(baseDmg);
+        var (result, damageDone) = target.TakeDamage(baseDmg, true);
 
-        user.TakeDamage(damageDone);
+        user.TakeDamage(damageDone, true);
 
         BattleUIManager.Instance.AddLog($"{user.CharacterName} uses their healing power to do {damageDone}!\n Then {user.CharacterName} takes {damageDone} damage!");
 

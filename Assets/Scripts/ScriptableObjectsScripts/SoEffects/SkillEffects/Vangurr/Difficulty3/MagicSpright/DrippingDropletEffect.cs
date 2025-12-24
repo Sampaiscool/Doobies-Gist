@@ -10,7 +10,7 @@ public class DrippingDropletEffect : SkillEffectSO
 
         for (int i = 0; i < 3; i++)
         {
-            var (result, dmg) = target.TakeDamage(baseDmg / 2);
+            var (result, dmg) = target.TakeDamage(baseDmg / 2, true);
             totalDamage += dmg;
         }
 

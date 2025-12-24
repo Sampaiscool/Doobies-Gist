@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
-  m_Name: CrystalizedShield
+  m_Name: PoweredDefence
   m_EditorClassIdentifier: Assembly-CSharp::SkillSO
-  skillName: Crystalized Shield
+  skillName: Powered Defence
   icon: {fileID: 0}
   animation: {fileID: 0}
-  description: Heal based on your max HP and gain a shield for 1/10 of your max HP.
-    If you have "Crystalized" and 5 or more "Harden"; Gain "Hard Hitter" for each
-    "Crystalized" intensity.
+  description: A powerfull attack that deals damage based of your defence. If you
+    have "Crystalized";before you attack; You gain "Harden" with the intensity of 
+    "Crystalized".
   resourceCost: 1
   resourceUsed: 9
   isWeaponSkill: 0
   zurpRegainChance: 0
   zurpRegainAmount: 0
-  effect: {fileID: 11400000, guid: 9d1a8a2dd5e7f524b8efddd7a1564918, type: 2}
+  effect: {fileID: 11400000, guid: e376840b622c80d4b96b7211a186aba1, type: 2}

@@ -17,7 +17,7 @@ public class SporeCloudEffect : SkillEffectSO
 
         target.AddEffect(new Effect(EffectType.Spores, 5, true, 1));
 
-        var (result, damageDone) = target.TakeDamage(baseDamage);
+        var (result, damageDone) = target.TakeDamage(baseDamage, true);
 
         if (damageDone <= 5)
         {

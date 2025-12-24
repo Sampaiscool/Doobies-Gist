@@ -14,7 +14,7 @@ public class SoulrendSlashEffect : SkillEffectSO
 
         target.AddEffect(new Effect(EffectType.Bleed, 4, true, 5));
 
-        var (result, damageDone) = target.TakeDamage(bonusDmg);
+        var (result, damageDone) = target.TakeDamage(bonusDmg, true);
 
         if (user is DoobieInstance doobie && doobie.MainResource is SoulflowResource soulflow)
         {

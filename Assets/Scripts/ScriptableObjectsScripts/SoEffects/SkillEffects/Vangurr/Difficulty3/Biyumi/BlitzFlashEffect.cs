@@ -15,7 +15,7 @@ public class BlitzFlashEffect : SkillEffectSO
 
         for (int i = 0; i < 3; i++)
         {
-            var (result, damageDone) = target.TakeDamage(modifiedDmg);
+            var (result, damageDone) = target.TakeDamage(modifiedDmg, true);
             BattleUIManager.Instance.AddLog($"{target.CharacterName} takes {damageDone} damage!");
         }
 

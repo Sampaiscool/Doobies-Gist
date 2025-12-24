@@ -11,7 +11,7 @@ public class RageBlastEffect : SkillEffectSO
 
         int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
 
-        var (r, damageDone) = target.TakeDamage(baseDmg);
+        var (r, damageDone) = target.TakeDamage(baseDmg, true);
 
         string result = user.PerformBasicAttack(target);
 

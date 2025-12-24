@@ -11,7 +11,7 @@ public class PhantomRushEffect : SkillEffectSO
 
         int bonusDmg =+ (baseDmg / 2);
 
-        var (result, damageDone) = target.TakeDamage(bonusDmg);
+        var (result, damageDone) = target.TakeDamage(bonusDmg, true);
 
         user.AddEffect(new Effect(EffectType.Hidden, 1, false, bonusDmg));
         user.AddEffect(new Effect(EffectType.Evasion, 2, false, bonusDmg));

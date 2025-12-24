@@ -9,7 +9,7 @@ public class MortalStrikeEffect : SkillEffectSO
     {
         int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
 
-        var (result, damageDone) = target.TakeDamage(baseDmg);
+        var (result, damageDone) = target.TakeDamage(baseDmg, true);
 
         if (damageDone <= (target.MaxHealth / 2))
         {

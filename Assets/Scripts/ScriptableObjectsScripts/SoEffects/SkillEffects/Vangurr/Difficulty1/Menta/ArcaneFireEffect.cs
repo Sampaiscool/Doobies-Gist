@@ -11,7 +11,7 @@ public class ArcaneFireEffect : SkillEffectSO
         
         int effectiveDamage = user.GetEffectiveSkillDamage(baseDamage);
 
-        target.TakeDamage(effectiveDamage);
+        target.TakeDamage(effectiveDamage, true);
 
         target.AddEffect(new Effect(EffectType.Burn, 5, true, 2));
 

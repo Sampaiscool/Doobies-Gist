@@ -48,4 +48,5 @@ public enum EffectType
 	CrimsonCurse,               // Debuff - If you take damage gain "Burn" equal to "Crimson Curse" intensity.
 	VanishedDefense,			// Debuff - All damage you take will ignore defense.
     Crystalize,                 // Buff - If you use a basic attack; Gain 1 "Harden" for each "Crystalize" intensity. If you take damage; lose all "Harden". If this Expires gain 3 "Harden" for each "Crystalize" intensity.
+    Confused,                   // Debuff - If you take damage from a basic attack; gain 2 "Stun" for each "Confused" intensity, Then remove all "Confused".
 }

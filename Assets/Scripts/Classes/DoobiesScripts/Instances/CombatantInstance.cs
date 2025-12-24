@@ -125,10 +125,8 @@ public abstract class CombatantInstance
 	/// <param name="isEffect">Wheter the damage came from an effect</param>
 	/// <param name="ignoreDefense">Wheter the attack takes defense into account</param>
 	/// <returns>the result for a log / the damage the instanxce took</returns>
-	public virtual (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill = false, bool isEffect = false, bool ignoreDefense = false)
+	public virtual (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill, bool isEffect = false, bool ignoreDefense = false)
     {
-        Debug.Log("Taking base damage: " + amount);
-
         if (HandleHidden())
         {
             BattleUIManager.Instance.AddLog($"{CharacterName} was hidden and avoided the damage!");
@@ -407,6 +405,14 @@ public abstract class CombatantInstance
             }
         }
 
+        Effect confused = ActiveEffects.Find(c => c.type == EffectType.Confused);
+        if (confused != null && isSkill)
+        {
+            AddEffect(new Effect(EffectType.Stun, 2, true, confused.intensity));
+
+            ActiveEffects.Remove(confused);
+        }
+
         // Your Upgrades
         foreach (Upgrade upgrade in ActiveUpgrades)
         {
@@ -502,7 +508,7 @@ public abstract class CombatantInstance
             target.PlayAttackAnimation(EquippedWeaponInstance.Animation);
         }
 
-        var (result, actualDamage) = target.TakeDamage(finalDamage);
+        var (result, actualDamage) = target.TakeDamage(finalDamage, false);
 
         // Apply all upgrade effects
         ApplyEffectsOnBasicAttack(target);
@@ -730,11 +736,11 @@ public abstract class CombatantInstance
                 case UpgradeNames.SpellSlinger:
                     if (this is DoobieInstance)
                     {
-                        GameManager.Instance.currentVangurr.TakeDamage(upgrade.intensity);
+                        GameManager.Instance.currentVangurr.TakeDamage(upgrade.intensity, true);
                     }
                     else
                     {
-                        GameManager.Instance.currentDoobie.TakeDamage(upgrade.intensity);
+                        GameManager.Instance.currentDoobie.TakeDamage(upgrade.intensity, true);
                     }
                     BattleUIManager.Instance.AddLog("Spellslinger Activates!");
                     break;
@@ -978,7 +984,7 @@ public abstract class CombatantInstance
             {
                 case EffectType.Vines:
                     BattleUIManager.Instance.AddLog($"{CharacterName} {effect.intensity} vines activate!");
-                    TakeDamage(effect.intensity);
+                    TakeDamage(effect.intensity, true);
                     break;
                 default:
                     break;
@@ -1152,7 +1158,7 @@ public abstract class CombatantInstance
             Upgrade furyStrikeUpgrade = player.ActiveUpgrades.Find(f => f.type == UpgradeNames.FuryStrike);
             if (furyStrikeUpgrade != null)
             {
-                opponent.TakeDamage(furyStrikeUpgrade.intensity);
+                opponent.TakeDamage(furyStrikeUpgrade.intensity, true);
             }
         }
     }
@@ -1196,11 +1202,11 @@ public abstract class CombatantInstance
                     {
                         if (this is DoobieInstance)
                         {
-                            GameManager.Instance.currentVangurr.TakeDamage((upgrade.intensity * 3));
+                            GameManager.Instance.currentVangurr.TakeDamage((upgrade.intensity * 3), true);
                         }
                         else
                         {
-                            GameManager.Instance.currentDoobie.TakeDamage((upgrade.intensity * 3));
+                            GameManager.Instance.currentDoobie.TakeDamage((upgrade.intensity * 3), true);
                         }
                     }
                     break;
@@ -1318,7 +1324,7 @@ public abstract class CombatantInstance
                 holyDamage += 1;
             }
 
-            TakeDamage(holyDamage);
+            TakeDamage(holyDamage, true, true);
             BattleUIManager.Instance.AddLog($"{CharacterName} takes damage beacause they gained a debuff while they have Holy!");
         }
     }
@@ -1362,7 +1368,7 @@ public abstract class CombatantInstance
     }
     private void ActivateTargetLocked(Effect expired)
     {
-        var (result, damageDone) = TakeDamage(expired.intensity);
+        var (result, damageDone) = TakeDamage(expired.intensity, true, true);
         BattleUIManager.Instance.AddLog($"Target Locked activates! dealing {damageDone} damage!");
 
         // --- Target Garden synergy ---
@@ -1420,7 +1426,7 @@ public abstract class CombatantInstance
 
         baseDmg *= expired.intensity;
 
-        TakeDamage(baseDmg);
+        TakeDamage(baseDmg, true, true);
         BattleUIManager.Instance.AddLog($"{CharacterName}'s Timed Bomb explodes for {baseDmg} damage!");
     }
 

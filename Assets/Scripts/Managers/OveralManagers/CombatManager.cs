@@ -459,7 +459,7 @@ public class CombatManager : MonoBehaviour
                         : GameManager.Instance.currentDoobie;
 
                     int eatDamage = combatantTurnCounters[combatant];
-                    targetGremlinHunger.TakeDamage(eatDamage);
+                    targetGremlinHunger.TakeDamage(eatDamage, true);
 
                     BattleUIManager.AddLog($"{combatant.CharacterName} feasts on {targetGremlinHunger.CharacterName}, dealing {eatDamage} damage!");
                     break;
@@ -500,7 +500,7 @@ public class CombatManager : MonoBehaviour
                             {
                                 int sporeDmg = sporeEffect.intensity;
 
-                                var (result, damageDone) = targetSporeInfection.TakeDamage(sporeDmg);
+                                var (result, damageDone) = targetSporeInfection.TakeDamage(sporeDmg, true);
 
                                 BattleUIManager.Instance.AddLog($"{targetSporeInfection.CharacterName} coughs and sputters as spores deal {damageDone} damage!");
                             }
@@ -557,7 +557,7 @@ public class CombatManager : MonoBehaviour
         // --- Burn ---
         foreach (var burn in combatant.ActiveEffects.FindAll(e => e.type == EffectType.Burn))
         {
-            var (result, damageDone) = combatant.TakeDamage(burn.intensity);
+            var (result, damageDone) = combatant.TakeDamage(burn.intensity, true);
             BattleUIManager.Instance.AddLog($"{combatant.CharacterName} takes {damageDone} burn damage!");
 
             if (damageDone > 0)
@@ -570,7 +570,7 @@ public class CombatManager : MonoBehaviour
             switch (upgrade.type)
             {
                 case UpgradeNames.FleetingLife:
-                    var (result, damageDone) = combatant.TakeDamage(upgrade.intensity);
+                    var (result, damageDone) = combatant.TakeDamage(upgrade.intensity, true);
                     BattleUIManager.Instance.AddLog($"{combatant.CharacterName} life fleets away, taking {damageDone} damage.");
                     break;
                 case UpgradeNames.ShiftingSand:
@@ -618,7 +618,8 @@ public class CombatManager : MonoBehaviour
                     {
                         if (combatant is DoobieInstance doobie && doobie.MainResource.Current != 0)
                         {
-                            combatant.AddEffect(new Effect(EffectType.Crystalize, 10, false, upgrade.intensity));
+                            for (int i = 0; i < upgrade.intensity; i++)
+                                combatant.AddEffect(new Effect(EffectType.Crystalize, 10, false, doobie.MainResource.Current));
                         }
                     }
                 }

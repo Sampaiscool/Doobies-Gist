@@ -6,7 +6,7 @@ public class ShadowPulseEffect : SkillEffectSO
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
     {
         int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
-        var (result, dmgDone) = target.TakeDamage(baseDmg * 2);
+        var (result, dmgDone) = target.TakeDamage(baseDmg * 2, true);
 
         string log = $"{user.CharacterName} releases a pulse of dark energy, striking {target.CharacterName} for {dmgDone} damage!";
 
@@ -17,7 +17,7 @@ public class ShadowPulseEffect : SkillEffectSO
 
             for (int i = 0; i < intensity; i++)
             {
-                var (shadowResult, shadowDmg) = target.TakeDamage(baseDmg / 2);
+                var (shadowResult, shadowDmg) = target.TakeDamage(baseDmg / 2, true);
                 log += $" The lingering shadow echoes for {shadowDmg} extra damage!";
             }
 

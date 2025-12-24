@@ -71,7 +71,7 @@ public class SkillSO : ScriptableObject
                     switch (item.type)
                     {
                         case ItemType.SharedPain:
-                            target.TakeDamage(resourceCost);
+                            target.TakeDamage(resourceCost, true);
                             break;
                         default:
                             break;
