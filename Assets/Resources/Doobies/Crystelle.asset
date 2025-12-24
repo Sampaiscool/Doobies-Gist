@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Crystelle
   m_EditorClassIdentifier: Assembly-CSharp::DoobieSO
   doobieName: Crystelle
-  description: 
+  description: Crystalized Doobie, Use your "Crystalized" effect to gain massive
+    defence.
   portrait: {fileID: -8895136490076814939, guid: 1bc26d6648dea82488bc7ed951b264c4, type: 3}
   unlockedByDefault: 1
   doobieMainResource: 9
@@ -32,6 +33,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9f14be60db60c4d4c909150113aa1bef, type: 2}
   - {fileID: 11400000, guid: 287abefbace048844948382e2bd34304, type: 2}
   - {fileID: 11400000, guid: eb3f29839b479d04b9968b092678d247, type: 2}
+  - {fileID: 11400000, guid: 8feec84932a0d104ba1214e24c338254, type: 2}
   defaultWeapon: {fileID: 11400000, guid: 9bbe9f9df43d2f64dbfc470a188cd30b, type: 2}
   startingUpgrades:
   - upgradeName: Crystal Potential
