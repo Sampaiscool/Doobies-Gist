@@ -729,6 +729,8 @@ public abstract class CombatantInstance
     /// </summary>
     public void CheckForSpelllOnUseEffects()
     {
+        CombatantInstance opponent = GetOpponent();
+
         foreach (var upgrade in ActiveUpgrades)
         {
             switch (upgrade.type)
@@ -751,6 +753,14 @@ public abstract class CombatantInstance
                     if (CurrentHealth == MaxHealth)
                     {
                         AddEffect(new Effect(EffectType.HealingStrenghten, 3, false, (upgrade.intensity * 3)));
+                    }
+                    break;
+                case UpgradeNames.SpellsOfMenta:
+                    Effect spellStrenghten = ActiveEffects.Find(ss => ss.type == EffectType.SpellStrenghten);
+                    if (spellStrenghten != null)
+                    {
+                        AddEffect(new Effect(EffectType.SpellStrenghten, 2, false, upgrade.intensity));
+                        opponent.AddEffect(new Effect(EffectType.Burn, 1, true, upgrade.intensity));
                     }
                     break;
                 default:
@@ -1063,18 +1073,18 @@ public abstract class CombatantInstance
     /// <param name="newEffect">the effect you get</param>
     private void AddEffectUpgradesCheck(Effect newEffect)
     {
-        CombatantInstance player;
+        CombatantInstance EffectOwner;
         CombatantInstance opponent;
 
-        // Determine player & opponent
+        // Determine EffectOwner & opponent
         if (this is DoobieInstance)
         {
-            player = this;
+            EffectOwner = this;
             opponent = GameManager.Instance.currentVangurr;
         }
         else
         {
-            player = this;
+            EffectOwner = this;
             opponent = GameManager.Instance.currentDoobie;
         }
 
@@ -1155,10 +1165,19 @@ public abstract class CombatantInstance
 
         if (newEffect.type == EffectType.WeaponStrenghten)
         {
-            Upgrade furyStrikeUpgrade = player.ActiveUpgrades.Find(f => f.type == UpgradeNames.FuryStrike);
+            Upgrade furyStrikeUpgrade = EffectOwner.ActiveUpgrades.Find(f => f.type == UpgradeNames.FuryStrike);
             if (furyStrikeUpgrade != null)
             {
                 opponent.TakeDamage(furyStrikeUpgrade.intensity, true);
+            }
+        }
+
+        if (newEffect.type == EffectType.Stun)
+        {
+            Upgrade stunningStrikeUpgrade = opponent.ActiveUpgrades.Find(ss => ss.type == UpgradeNames.StunningStrike);
+            if (stunningStrikeUpgrade != null)
+            {
+                TakeDamage(stunningStrikeUpgrade.intensity, true);
             }
         }
     }
@@ -1613,7 +1632,7 @@ public abstract class CombatantInstance
     }
 
     // --- Helper: get the current opponent ---
-    private CombatantInstance GetOpponent()
+    public CombatantInstance GetOpponent()
     {
         if (this is DoobieInstance)
             return GameManager.Instance.currentVangurr;

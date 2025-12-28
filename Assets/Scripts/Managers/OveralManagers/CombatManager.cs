@@ -518,7 +518,14 @@ public class CombatManager : MonoBehaviour
 					break;
 				case UpgradeNames.FlowersOfHealing:
 					combatant.HealCombatant(upgrade.intensity);
-					break;
+                    break;
+                case UpgradeNames.GrowingDefence:
+                    if (combatantTurnCounters[combatant] % 2 == 0)
+                    {
+                        combatant.AddEffect(new Effect(EffectType.Harden, 3, false, upgrade.intensity));
+                        BattleUIManager.Instance.AddLog($"{combatant.CharacterName}'s defense grows stronger!");
+                    }
+                    break;
 				default:
                     break;
             }
@@ -590,42 +597,58 @@ public class CombatManager : MonoBehaviour
 
     void OnBattleStartEffects()
     {
-        List<CombatantInstance> combatants = new List<CombatantInstance> { playerDoobie, enemyVangurr };
+        var combatants = new List<CombatantInstance> { playerDoobie, enemyVangurr };
 
         foreach (var combatant in combatants)
         {
-            if (combatant.ActiveUpgrades != null)
+            if (combatant.ActiveUpgrades == null)
+                continue;
+
+            foreach (var upgrade in combatant.ActiveUpgrades)
             {
-                foreach (var upgrade in combatant.ActiveUpgrades)
+                switch (upgrade.type)
                 {
-                    if (upgrade.type == UpgradeNames.StayPrepared)
-                    {
+                    case UpgradeNames.StayPrepared:
                         combatant.AddEffect(new Effect(EffectType.Deflecion, 999, false, upgrade.intensity));
-                    }
+                        break;
 
-                    if (upgrade.type == UpgradeNames.HealtySupplies)
-                    {
+                    case UpgradeNames.HealtySupplies:
                         combatant.HealCombatant(combatant.CurrentHealPower + upgrade.intensity);
-                    }
+                        break;
 
-                    if (upgrade.type == UpgradeNames.GremlinHunger)
-                    {
-                        combatantTurnCounters[combatant] = 0 + upgrade.intensity;
+                    case UpgradeNames.GremlinHunger:
+                        combatantTurnCounters[combatant] = upgrade.intensity;
                         BattleUIManager.AddLog($"{combatant.CharacterName} prepares to feast this battle...");
-                    }
+                        break;
 
-                    if (upgrade.type == UpgradeNames.ShiningEntrance)
-                    {
+                    case UpgradeNames.ShiningEntrance:
                         if (combatant is DoobieInstance doobie && doobie.MainResource.Current != 0)
                         {
                             for (int i = 0; i < upgrade.intensity; i++)
-                                combatant.AddEffect(new Effect(EffectType.Crystalize, 10, false, doobie.MainResource.Current));
+                            {
+                                combatant.AddEffect(new Effect(EffectType.Crystalize, 10,false, doobie.MainResource.Current));
+                            }
                         }
-                    }
+                        break;
+
+                    case UpgradeNames.DazzlingImage:
+                        CombatantInstance opponent = combatant.GetOpponent();
+                        opponent.AddEffect(new Effect(EffectType.Confused, 5, true, upgrade.intensity));
+                        break;
+
+                    case UpgradeNames.DarkestSoul:
+                        if (combatant.CurrentHealth <= (5 + (5 * upgrade.intensity)))
+                            combatant.AddEffect(new Effect(EffectType.Shadow, 10, false, upgrade.intensity));
+                        break;
+
+                    case UpgradeNames.KnowledgeOfTheBooks:
+                        combatant.AddEffect(new Effect(EffectType.SpellStrenghten, 5, false, upgrade.intensity));
+                        break;
                 }
             }
         }
     }
+
 
     private bool CheckAndHandleDefeat()
     {

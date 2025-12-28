@@ -107,4 +107,12 @@ public enum UpgradeNames
 
     CrystalPotential,                     //Crystals
     ShiningEntrance,                      //Crystelle
+
+    StunningStrike,                       //None
+    GrowingDefence,                       //None
+    DazzlingImage,                        //None
+    DarkestSoul,                          //None
+    SpellsOfMenta,                        //None
+    KnowledgeOfTheBooks,                  //None
+
 }

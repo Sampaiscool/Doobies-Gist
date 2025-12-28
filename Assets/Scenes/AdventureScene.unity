@@ -4114,7 +4114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00070963625}
+  m_AnchoredPosition: {x: 0, y: 0.00012598262}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1245902643
@@ -4274,6 +4274,12 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4d90906ebd892014ab655987a5527fff, type: 2}
     - {fileID: 11400000, guid: 6b5358cb22efd7c4892a37d9a4c02118, type: 2}
     - {fileID: 11400000, guid: 6dd4f7a579c9caf41a75a8ea2e8b7ffc, type: 2}
+    - {fileID: 11400000, guid: a0b786c3ab0c1c74f90819663c459fcb, type: 2}
+    - {fileID: 11400000, guid: 56e0c7a4593f8fb4692a616c2eaf5000, type: 2}
+    - {fileID: 11400000, guid: 78a03a94465d3ff46950df5722c7344a, type: 2}
+    - {fileID: 11400000, guid: 0cc4d56c501c4564a8a669cb90c815d0, type: 2}
+    - {fileID: 11400000, guid: 0d6ca629ef1cfc24ebd74baafd960cbe, type: 2}
+    - {fileID: 11400000, guid: 949f0fa12705f964fb6ded5fb06f19f1, type: 2}
   - groupName: Hiroshi
     characterPool: 1
     resourceType: 2
@@ -4339,8 +4345,7 @@ MonoBehaviour:
   - groupName: Crystals
     characterPool: 0
     resourceType: 9
-    upgrades:
-    - {fileID: 11400000, guid: 1d8e97a1840a84b4883a384e9fb081ac, type: 2}
+    upgrades: []
   itemGroups:
   - groupName: None
     characterPool: 0
@@ -4813,7 +4818,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 958518542}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.97825783
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
