@@ -1073,114 +1073,96 @@ public abstract class CombatantInstance
     /// <param name="newEffect">the effect you get</param>
     private void AddEffectUpgradesCheck(Effect newEffect)
     {
-        CombatantInstance EffectOwner;
-        CombatantInstance opponent;
-
-        // Determine EffectOwner & opponent
-        if (this is DoobieInstance)
-        {
-            EffectOwner = this;
-            opponent = GameManager.Instance.currentVangurr;
-        }
-        else
-        {
-            EffectOwner = this;
-            opponent = GameManager.Instance.currentDoobie;
-        }
+        CombatantInstance owner = this;
+        CombatantInstance opponent = this is DoobieInstance
+            ? GameManager.Instance.currentVangurr
+            : GameManager.Instance.currentDoobie;
 
         if (newEffect.isDebuff)
         {
-            Upgrade cursedFaithUpgrade = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(c => c.type == UpgradeNames.CursedFaith);
-            if (cursedFaithUpgrade != null)
+            Upgrade cursedFaith = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(u => u.type == UpgradeNames.CursedFaith);
+            if (cursedFaith != null && this is DoobieInstance d && d.CurrentGoddess == GoddessType.Velithra)
             {
-                if (this is DoobieInstance doobie && doobie.CurrentGoddess == GoddessType.Velithra)
-                {
-                    GameManager.Instance.currentDoobie.MainResource.Gain(cursedFaithUpgrade.intensity);
-                    BattleUIManager.Instance.AddLog($"{CharacterName} has gained 2 Faith!");
-                }
+                d.MainResource.Gain(cursedFaith.intensity);
+                BattleUIManager.Instance.AddLog($"{CharacterName} has gained 2 Faith!");
             }
         }
 
-        if (newEffect.type == EffectType.Deflecion)
+        switch (newEffect.type)
         {
-            Upgrade fleetingPetalsUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.FleetingPetals);
-            if (fleetingPetalsUpgrade != null)
-            {
-                for (int i = 0; i < fleetingPetalsUpgrade.intensity; i++)
+            case EffectType.Deflecion:
                 {
-                    HealCombatant(1);
-                }
-            }
+                    Upgrade petals = ActiveUpgrades.Find(u => u.type == UpgradeNames.FleetingPetals);
+                    if (petals != null)
+                        for (int i = 0; i < petals.intensity; i++) HealCombatant(1);
 
-            Upgrade whiteFlowerUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.WhiteFlower);
-            if (whiteFlowerUpgrade != null)
-            {
-                if (this is DoobieInstance doobie && doobie.MainResource != null && doobie.MainResource.Type == ResourceType.Zurp)
-                {
-                    doobie.MainResource.Gain(whiteFlowerUpgrade.intensity);
+                    Upgrade flower = ActiveUpgrades.Find(u => u.type == UpgradeNames.WhiteFlower);
+                    if (flower != null && this is DoobieInstance d && d.MainResource?.Type == ResourceType.Zurp)
+                        d.MainResource.Gain(flower.intensity);
+                    break;
                 }
-            }
+
+            case EffectType.SpellWeaken:
+                {
+                    Upgrade powerSpells = ActiveUpgrades.Find(u => u.type == UpgradeNames.PowerSpells);
+                    Effect weaken = ActiveEffects.Find(e => e.type == EffectType.SpellWeaken);
+                    if (powerSpells != null && weaken != null)
+                    {
+                        weaken.duration -= powerSpells.intensity;
+                        weaken.intensity -= powerSpells.intensity;
+                    }
+                    break;
+                }
+
+            case EffectType.Hidden:
+                {
+                    Upgrade rush = ActiveUpgrades.Find(u => u.type == UpgradeNames.HowlingRush);
+                    if (rush != null)
+                        AddEffect(new Effect(EffectType.Regeneration, 1, false, rush.intensity * 5));
+                    break;
+                }
+
+            case EffectType.Bleed:
+                {
+                    Upgrade soulflare = opponent.ActiveUpgrades.Find(u => u.type == UpgradeNames.SoulflareEdge);
+                    if (soulflare != null)
+                        opponent.HealCombatant(soulflare.intensity);
+                    break;
+                }
+
+            case EffectType.WeaponStrenghten:
+                {
+                    Upgrade fury = owner.ActiveUpgrades.Find(u => u.type == UpgradeNames.FuryStrike);
+                    if (fury != null)
+                        opponent.TakeDamage(fury.intensity, true);
+                    break;
+                }
+
+            case EffectType.Stun:
+                {
+                    Upgrade stun = opponent.ActiveUpgrades.Find(u => u.type == UpgradeNames.StunningStrike);
+                    if (stun != null)
+                        TakeDamage(stun.intensity, true);
+                    break;
+                }
+
+            case EffectType.Burn:
+                {
+                    Upgrade burn = opponent.ActiveUpgrades.Find(u => u.type == UpgradeNames.BurningHands);
+                    if (burn != null)
+                        opponent.AddEffect(new Effect(EffectType.WeaponStrenghten, 2, false, burn.intensity));
+                    break;
+                }
         }
 
         if (this is DoobieInstance)
         {
-            Upgrade maskOfMidnight = GameManager.Instance.currentVangurr.ActiveUpgrades.Find(m => m.type == UpgradeNames.MaskOfMidnight);
-            if (maskOfMidnight != null)
-            {
-                AddEffect(new Effect(EffectType.Holy, 2, true, maskOfMidnight.intensity));
-            }
-        }
-
-        if (newEffect.type == EffectType.SpellWeaken)
-        {
-            Upgrade powerSpells = ActiveUpgrades.Find(b => b.type == UpgradeNames.PowerSpells);
-            if (powerSpells != null)
-            {
-                Effect spellWeaken = ActiveEffects.Find(s => s.type == EffectType.SpellWeaken);
-                if (spellWeaken != null)
-                {
-                    spellWeaken.duration -= powerSpells.intensity;
-                    spellWeaken.intensity -= powerSpells.intensity;
-                }
-            }
-        }
-
-        if (newEffect.type == EffectType.Hidden)
-        {
-            Upgrade howlingRushUpgrade = ActiveUpgrades.Find(b => b.type == UpgradeNames.HowlingRush);
-            if (howlingRushUpgrade != null)
-            {
-                AddEffect(new Effect(EffectType.Regeneration, 1, false, (howlingRushUpgrade.intensity * 5)));
-            }
-        }
-
-        if (newEffect.type == EffectType.Bleed)
-        {
-            Upgrade soulflareUpgrade = opponent.ActiveUpgrades.Find(b => b.type == UpgradeNames.SoulflareEdge);
-            if (soulflareUpgrade != null)
-            {
-                opponent.HealCombatant(soulflareUpgrade.intensity);
-            }
-        }
-
-        if (newEffect.type == EffectType.WeaponStrenghten)
-        {
-            Upgrade furyStrikeUpgrade = EffectOwner.ActiveUpgrades.Find(f => f.type == UpgradeNames.FuryStrike);
-            if (furyStrikeUpgrade != null)
-            {
-                opponent.TakeDamage(furyStrikeUpgrade.intensity, true);
-            }
-        }
-
-        if (newEffect.type == EffectType.Stun)
-        {
-            Upgrade stunningStrikeUpgrade = opponent.ActiveUpgrades.Find(ss => ss.type == UpgradeNames.StunningStrike);
-            if (stunningStrikeUpgrade != null)
-            {
-                TakeDamage(stunningStrikeUpgrade.intensity, true);
-            }
+            Upgrade mask = GameManager.Instance.currentVangurr.ActiveUpgrades.Find(u => u.type == UpgradeNames.MaskOfMidnight);
+            if (mask != null)
+                AddEffect(new Effect(EffectType.Holy, 2, true, mask.intensity));
         }
     }
+
     /// <summary>
     /// Sets the currentHealth to 0
     /// </summary>

@@ -115,4 +115,10 @@ public enum UpgradeNames
     SpellsOfMenta,                        //None
     KnowledgeOfTheBooks,                  //None
 
+    BurningHands,                         //None
+    Pyromanian,                           //None
+    FireConstruct,                        //None
+    PerfectedCombat,                      //None
+    FlameOfMenta,                         //None
+    
 }

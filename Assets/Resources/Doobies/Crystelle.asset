@@ -18,8 +18,8 @@ MonoBehaviour:
   portrait: {fileID: -8895136490076814939, guid: 1bc26d6648dea82488bc7ed951b264c4, type: 3}
   unlockedByDefault: 1
   doobieMainResource: 9
-  resourceActionSO: {fileID: 0}
-  doobieActionSO: {fileID: 0}
+  resourceActionSO: {fileID: 11400000, guid: 26b1c501d2ee8144a8fe1439c7f639d1, type: 2}
+  doobieActionSO: {fileID: 11400000, guid: 3c822603f3c59c34aa2ebb316976cbe8, type: 2}
   baseResourceMax: 3
   skillDmg: 1
   healPower: 1
