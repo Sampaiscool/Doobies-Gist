@@ -9,6 +9,7 @@ public abstract class CombatantInstance
     public Transform animationAnchor;
 
     // Abstract properties
+    // This is the REAL test grah ragh hgarg
     public abstract ScriptableObject so { get; }
     public abstract string CharacterName { get; }
     public abstract Sprite CurrentImage { get; set; }
