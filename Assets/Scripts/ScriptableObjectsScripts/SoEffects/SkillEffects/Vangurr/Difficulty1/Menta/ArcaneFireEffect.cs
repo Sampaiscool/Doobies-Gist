@@ -5,13 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty1/Menta/ArcaneFireEffect")]
 public class ArcaneFireEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDamage = user.CurrentSkillDmg;
         
         int effectiveDamage = user.GetEffectiveSkillDamage(baseDamage);
 
-        target.TakeDamage(effectiveDamage, true);
+        target.TakeDamage(effectiveDamage, true, skill: skill);
 
         target.AddEffect(new Effect(EffectType.Burn, 5, true, 2));
 

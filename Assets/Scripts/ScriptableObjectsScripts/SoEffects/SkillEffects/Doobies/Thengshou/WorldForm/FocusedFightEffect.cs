@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Thengshou/WorldForm/FocusedFightEffect")]
 public class FocusedFightEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int healPower = user.GetEffectiveHealPower(user.CurrentHealPower);
 

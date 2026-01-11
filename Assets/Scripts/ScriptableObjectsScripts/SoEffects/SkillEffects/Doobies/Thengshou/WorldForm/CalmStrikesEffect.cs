@@ -3,13 +3,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Thengshou/WorldForm/CalmStrikesEffect")]
 public class CalmStrikesEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
 
         int halvedDmg = baseDmg / 2;
 
-        var (result, damageDone) = target.TakeDamage(halvedDmg, true);
+        var (result, damageDone) = target.TakeDamage(halvedDmg, true, false, false, skill);
 
         user.AddEffect(new Effect(EffectType.Regeneration, 3, false, damageDone));
 

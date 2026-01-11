@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Phrox/GardenOfThornsEffect")]
 public class GardenOfThornsEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         user.AddEffect(new Effect(EffectType.HealingWeaken, 5, true, 2));
 
@@ -13,7 +13,7 @@ public class GardenOfThornsEffect : SkillEffectSO
 
         user.HealCombatant(baseDmg / 2);
 
-        var (result, damageDone) = target.TakeDamage(baseDmg, true);
+        var (result, damageDone) = target.TakeDamage(baseDmg, true, false, false, skill);
 
         BattleUIManager.Instance.AddLog($"{user.CharacterName} Enters the Garden of Thorns reducing their healing");
         return $"{user.CharacterName} deals {damageDone} damage!";

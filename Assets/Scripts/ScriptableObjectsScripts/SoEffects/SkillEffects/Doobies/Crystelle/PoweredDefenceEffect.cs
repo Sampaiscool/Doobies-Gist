@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Crystelle/PoweredDefence")]
 public class PoweredDefenceEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         Effect crystalize = user.ActiveEffects.Find(c => c.type == EffectType.Crystalize);
         if (crystalize != null)
@@ -18,7 +18,7 @@ public class PoweredDefenceEffect : SkillEffectSO
 
         int Armourded = baseDmg * roundedDefence;
 
-        var (result, damageDone) = target.TakeDamage(Armourded, true);
+        var (result, damageDone) = target.TakeDamage(Armourded, true, false, false, skill);
 
         return $"{user.CharacterName} channels their crystalline defence to deal {damageDone} damage to {target.CharacterName}!";
     }

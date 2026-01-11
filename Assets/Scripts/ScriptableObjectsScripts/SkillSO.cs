@@ -71,7 +71,7 @@ public class SkillSO : ScriptableObject
                     switch (item.type)
                     {
                         case ItemType.SharedPain:
-                            target.TakeDamage(resourceCost, true);
+                            target.TakeDamage(resourceCost, true, skill: this);
                             break;
                         default:
                             break;
@@ -106,7 +106,7 @@ public class SkillSO : ScriptableObject
 
         target.PlayAttackAnimation(animation);
 
-        string result = effect.ApplyEffect(user, target);
+        string result = effect.ApplyEffect(user, target, this);
 
         foreach (Effect activeEffect in userEffectsSnapshot)
         {
@@ -116,7 +116,7 @@ public class SkillSO : ScriptableObject
 
                 for (int i = 0; i < castAmount; i++)
                 {
-                    BattleUIManager.Instance.AddLog($"{effect.ApplyEffect(user, target)}");
+                    BattleUIManager.Instance.AddLog($"{effect.ApplyEffect(user, target, this)}");
                 }
 
                 user.ActiveEffects.Remove(activeEffect);

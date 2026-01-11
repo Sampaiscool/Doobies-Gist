@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty2/FatGremlin/NinjaLessionsEffect")]
 public class NinjaLessionsEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         user.AddEffect(new Effect(EffectType.Evasion, 3, false, 1));
 

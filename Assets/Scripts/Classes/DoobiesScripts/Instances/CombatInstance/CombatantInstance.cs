@@ -7,7 +7,6 @@ using UnityEngine;
 public abstract class CombatantInstance
 {
     public Transform animationAnchor;
-
     // Abstract properties
     // This is the REAL test grah ragh hgarg
     public abstract ScriptableObject so { get; }
@@ -54,8 +53,8 @@ public abstract class CombatantInstance
     // Public API methods delegate to controllers
     public int HealCombatant(int amount) => HealingCtrl.HealCombatant(amount);
 
-    public virtual (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill, bool isEffect = false, bool ignoreDefense = false)
-        => DamageCtrl.TakeDamage(amount, isSkill, isEffect, ignoreDefense);
+    public virtual (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill, bool isEffect = false, bool ignoreDefense = false, SkillSO skill = null)
+        => DamageCtrl.TakeDamage(amount, isSkill, isEffect, ignoreDefense, skill);
 
     public virtual string PerformBasicAttack(CombatantInstance target)
         => CombatCtrl.PerformBasicAttack(target);

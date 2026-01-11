@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Crystelle/ArmouredTopple")]
 public class ArmouredToppleEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         user.AddEffect(new Effect(EffectType.WeaponWeaken, 1, true, 4));
         user.AddEffect(new Effect(EffectType.Harden, 2, true, 1));

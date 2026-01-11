@@ -5,11 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty2/Bungus/BungusBlinkEffect")]
 public class BungusBlinkEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDmg = user.GetEffectiveWeaponDamage();
 
-        var (targetResult, actualTargetDmg) = target.TakeDamage(baseDmg, isSkill: true);
+        var (targetResult, actualTargetDmg) = target.TakeDamage(baseDmg, isSkill: true, skill: skill);
 
         // 50% chance
         if (UnityEngine.Random.value <= 0.5f)

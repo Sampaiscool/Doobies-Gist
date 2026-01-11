@@ -3,10 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty3/MagicSpright/VeilBurstEffect")]
 public class VeilBurstEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
-        var (result, dmgDone) = target.TakeDamage(baseDmg, true);
+        var (result, dmgDone) = target.TakeDamage(baseDmg, true, false, false, skill);
 
         string log = $"{user.CharacterName} bursts into shadow, damaging {target.CharacterName} for {dmgDone} damage and vanishing briefly.";
 
@@ -20,7 +20,7 @@ public class VeilBurstEffect : SkillEffectSO
             target.AddEffect(new Effect(EffectType.Stun, shadowIntensity, true, (shadowIntensity + 1)));
 
             BattleUIManager.Instance.AddLog($"{user.CharacterName}'s veil twists reality, stunning {target.CharacterName}!");
-            log += $" The veil’s darkness echoed {shadowIntensity} times!";
+            log += $" The veilï¿½s darkness echoed {shadowIntensity} times!";
         }
 
         return log;

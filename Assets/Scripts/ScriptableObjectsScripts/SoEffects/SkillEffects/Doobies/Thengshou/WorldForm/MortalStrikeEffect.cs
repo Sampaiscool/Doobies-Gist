@@ -5,11 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Thengshou/WorldForm/MortalStrikeEffect")]
 public class MortalStrikeEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
 
-        var (result, damageDone) = target.TakeDamage(baseDmg, true);
+        var (result, damageDone) = target.TakeDamage(baseDmg, true, false, false, skill);
 
         if (damageDone <= (target.MaxHealth / 2))
         {

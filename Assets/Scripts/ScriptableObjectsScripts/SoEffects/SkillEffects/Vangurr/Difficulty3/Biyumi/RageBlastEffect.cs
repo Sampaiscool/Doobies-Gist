@@ -5,13 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty3/Buyimu/RageBlastEffect")]
 public class RageBlastEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         target.AddEffect(new Effect(EffectType.VampireCurse, 5, true, 1));
 
         int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
 
-        var (r, damageDone) = target.TakeDamage(baseDmg, true);
+        var (r, damageDone) = target.TakeDamage(baseDmg, true, false, false, skill);
 
         string result = user.PerformBasicAttack(target);
 

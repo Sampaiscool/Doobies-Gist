@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty4/Kazan/MaskOfTheCrimsonEffect")]
 public class MaskOfTheCrimsonEffect : SkillEffectSO
 {
-	public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+	public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
 	{
 		user.AddEffect(new Effect(EffectType.HealingStrenghten, 5, false, 3));
 		user.AddEffect(new Effect(EffectType.Regeneration, 3, false, 1));

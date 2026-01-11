@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Crystelle/CrystalizedShied")]
 public class CrystalizedShiedEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         user.HealCombatant(user.MaxHealth / 4);
         user.AddEffect(new Effect(EffectType.Shield, 3, false, user.MaxHealth / 10));

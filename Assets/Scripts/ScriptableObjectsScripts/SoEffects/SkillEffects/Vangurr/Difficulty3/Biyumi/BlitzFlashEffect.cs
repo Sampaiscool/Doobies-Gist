@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty3/Buyimu/BlitzFlashEffect")]
 public class BlitzFlashEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
 
@@ -15,7 +15,7 @@ public class BlitzFlashEffect : SkillEffectSO
 
         for (int i = 0; i < 3; i++)
         {
-            var (result, damageDone) = target.TakeDamage(modifiedDmg, true);
+            var (result, damageDone) = target.TakeDamage(modifiedDmg, true, false, false, skill);
             BattleUIManager.Instance.AddLog($"{target.CharacterName} takes {damageDone} damage!");
         }
 

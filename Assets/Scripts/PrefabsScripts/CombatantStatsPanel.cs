@@ -53,7 +53,7 @@ public class CombatantStatsPanel : MonoBehaviour
         // General
         nameText.text = boundInstance.CharacterName;
         defenceText.text = $"Defence: {Math.Round(boundInstance.GetEffectiveDefence(), 2)}";
-        skillDmgText.text = $"Skill Dmg: {boundInstance.GetEffectiveSkillDamageForUI(boundInstance.CurrentSkillDmg)}";
+        skillDmgText.text = $"Spell Dmg: {boundInstance.GetEffectiveSkillDamageForUI(boundInstance.CurrentSkillDmg)}";
         healPower.text = $"Heal Power: {boundInstance.GetEffectiveHealPower(boundInstance.CurrentHealPower)}";
 
         // Weapon

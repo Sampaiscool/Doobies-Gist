@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     public GameObject damageAnimationPrefab;
     public Transform uiCanvas;
 
+    // Multiplier applied to the next chosen location's effect. Default 1 (no extra procs).
+    public int nextLocationMultiplier = 1;
+
     [Header("Settings")]
     public GameObject SettingsPanel;
 

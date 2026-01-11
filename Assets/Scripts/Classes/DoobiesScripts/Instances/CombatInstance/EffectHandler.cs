@@ -116,20 +116,20 @@ public static class ShieldHandler
 /// </summary>
 public static class OnDamageHandler
 {
-    public static void Handle(CombatantInstance combatant, int damage, bool isSkill)
+    public static void Handle(CombatantInstance combatant, int damage, bool isSkill, SkillSO skill = null)
     {
-        HandleEffectTriggers(combatant, damage, isSkill);
-        HandleUpgradeTriggers(combatant);
-        HandleOpponentUpgrades(combatant);
+        HandleEffectTriggers(combatant, damage, isSkill, skill);
+        HandleUpgradeTriggers(combatant, damage, isSkill, skill);
+        HandleOpponentUpgrades(combatant, damage, isSkill, skill);
     }
 
-    private static void HandleEffectTriggers(CombatantInstance combatant, int damage, bool isSkill)
+    private static void HandleEffectTriggers(CombatantInstance combatant, int damage, bool isSkill, SkillSO skill = null)
     {
         HandleVampireCurse(combatant, damage);
         HandleNutouCurse(combatant);
         HandleCrimsonCurse(combatant);
         HandleCrystalize(combatant);
-        HandleConfused(combatant, isSkill);
+        HandleConfused(combatant, isSkill, skill);
     }
 
     private static void HandleVampireCurse(CombatantInstance combatant, int damage)
@@ -178,7 +178,7 @@ public static class OnDamageHandler
         }
     }
 
-    private static void HandleConfused(CombatantInstance combatant, bool isSkill)
+    private static void HandleConfused(CombatantInstance combatant, bool isSkill, SkillSO skill = null)
     {
         Effect confused = combatant.ActiveEffects.Find(c => c.type == EffectType.Confused);
         if (confused != null && isSkill)
@@ -188,7 +188,7 @@ public static class OnDamageHandler
         }
     }
 
-    private static void HandleUpgradeTriggers(CombatantInstance combatant)
+    private static void HandleUpgradeTriggers(CombatantInstance combatant, int damage, bool isSkill = false, SkillSO skill = null)
     {
         foreach (Upgrade upgrade in combatant.ActiveUpgrades)
         {
@@ -204,7 +204,7 @@ public static class OnDamageHandler
         }
     }
 
-    private static void HandleOpponentUpgrades(CombatantInstance combatant)
+    private static void HandleOpponentUpgrades(CombatantInstance combatant, int damage, bool isSkill = false, SkillSO skill = null)
     {
         CombatantInstance opponent = combatant is DoobieInstance
             ? GameManager.Instance.currentVangurr
@@ -219,6 +219,30 @@ public static class OnDamageHandler
                         combatant.CurrentTransformation == Transformations.SpiritForm)
                     {
                         combatant.AddEffect(new Effect(EffectType.Bleed, 2, true, opponentUpgrade.intensity));
+                    }
+                    break;
+                case UpgradeNames.FireConstruct:
+                    if (isSkill && skill.isWeaponSkill == false)
+                    {
+                        int burnGain = damage / 5;
+
+                        for (int i = 0; i < opponentUpgrade.intensity; i++)
+                        {
+                            combatant.AddEffect(new Effect(EffectType.Burn, 2, true, burnGain));
+                        }
+                    }
+                    break;
+                case UpgradeNames.FlameOfMenta:
+                    if (isSkill && skill.isWeaponSkill == false && combatant.HasEffect(EffectType.Burn))
+                    {
+                        for (int i = 0; i < opponentUpgrade.intensity; i++)
+                        {
+                            combatant.AddEffect(new Effect(EffectType.Burn, 2, true, 2));
+                            if (opponent.HasEffect(EffectType.SpellStrenghten))
+                            {
+                                combatant.AddEffect(new Effect(EffectType.SpellWeaken, 3, true, 5));
+                            }
+                        }
                     }
                     break;
             }

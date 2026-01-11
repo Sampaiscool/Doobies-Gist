@@ -3,13 +3,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty4/Kazan/CrimsonTangleEffect")]
 public class CrimsonTangleEffect : SkillEffectSO
 {
-	public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+	public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
 	{
 		target.AddEffect(new Effect(EffectType.Stun, 2, true, 1));
 
 		int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
 
-		var (result, damageDone) = target.TakeDamage(baseDmg, true);
+		var (result, damageDone) = target.TakeDamage(baseDmg, true, false, false, skill);
 
 		int healing = user.HealCombatant(baseDmg);
 

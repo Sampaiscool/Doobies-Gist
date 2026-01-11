@@ -228,7 +228,7 @@ public class CombatManager : MonoBehaviour
 
         if (!canPay)
         {
-            BattleUIManager.AddLog($"You don’t have enough {chosenSkill.resourceUsed}!");
+            BattleUIManager.AddLog($"You donï¿½t have enough {chosenSkill.resourceUsed}!");
             BattleUIManager.UpdateUI();
             // remain in player action, don't advance
             waitingForNext = false;
@@ -250,7 +250,7 @@ public class CombatManager : MonoBehaviour
     // ---------- Next button / phase handler ----------
     public void OnNextButtonClicked()
     {
-        // if we are locked (waiting) but next is still allowed by state — allow it.
+        // if we are locked (waiting) but next is still allowed by state ï¿½ allow it.
         // Ensure we don't proceed while the UI expects an earlier action
         if (!waitingForNext && currentPhase != TurnPhase.Start && currentPhase != TurnPhase.PlayerTurnStart) return;
 
@@ -301,7 +301,7 @@ public class CombatManager : MonoBehaviour
                 // after ticking, check for deaths
                 if (CheckAndHandleDefeat()) return;
 
-                // go to the next player's turn start — require Next to actually show/enter it
+                // go to the next player's turn start ï¿½ require Next to actually show/enter it
                 currentPhase = TurnPhase.PlayerTurnStart;
                 waitingForNext = true; // user presses Next to start player's turn
                 BattleUIManager.AddLog("Press Next to start the next round.");
@@ -698,6 +698,18 @@ public class CombatManager : MonoBehaviour
                 BattleUIManager.Instance.UpdateUI();
             }
 
+        }
+
+        Upgrade perfectedCombat = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(t => t.type == UpgradeNames.PerfectedCombat);
+        
+        if (perfectedCombat != null && playerDoobieInstance.CurrentHealth == playerDoobieInstance.MaxHealth)
+        {
+            for (int i = 0; i < perfectedCombat.intensity; i++)
+            {
+                playerDoobieInstance.MaxHealth += 2;
+                playerDoobieInstance.CurrentHealth += 2;
+                BattleUIManager.Instance.UpdateUI();
+            }
         }
     }
 }

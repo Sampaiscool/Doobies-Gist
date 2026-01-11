@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty3/MushroomMan/SporeCloudEffect")]
 public class SporeCloudEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDamage = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
 
@@ -17,7 +17,7 @@ public class SporeCloudEffect : SkillEffectSO
 
         target.AddEffect(new Effect(EffectType.Spores, 5, true, 1));
 
-        var (result, damageDone) = target.TakeDamage(baseDamage, true);
+        var (result, damageDone) = target.TakeDamage(baseDamage, true, false, false, skill);
 
         if (damageDone <= 5)
         {

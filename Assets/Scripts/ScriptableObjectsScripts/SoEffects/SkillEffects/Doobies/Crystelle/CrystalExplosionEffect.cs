@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Crystelle/CrystalExplosion")]
 public class CrystalExplosionEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         Effect crystalize = user.ActiveEffects.Find(c => c.type == EffectType.Crystalize);
         if (crystalize == null)
@@ -25,7 +25,7 @@ public class CrystalExplosionEffect : SkillEffectSO
 
         int finalDmg = startingDamage * roundedDefence;
 
-        var (result, damageDone) = target.TakeDamage(finalDmg, true);
+        var (result, damageDone) = target.TakeDamage(finalDmg, true, false, false, skill);
 
         target.AddEffect(new Effect(EffectType.Confused, 3, true, 1));
 

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Thengshou/WorldForm/FlashingKickEffect")]
 public class FlashingKickEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
 
@@ -24,7 +24,7 @@ public class FlashingKickEffect : SkillEffectSO
             soulflow.SpiritEnergy.Gain(2);
         }
 
-        var (rewsult, damageDone) = target.TakeDamage(halvedDmg, true);
+        var (rewsult, damageDone) = target.TakeDamage(halvedDmg, true, false, false, skill);
 
         return $"{user.CharacterName} kicks {target.CharacterName} dealing {damageDone} damage!";
     }

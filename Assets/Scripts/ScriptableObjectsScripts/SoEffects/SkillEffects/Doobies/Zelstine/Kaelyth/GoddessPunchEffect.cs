@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Zelstine/Kaelyth/GoddessPunchEffect")]
 public class GoddessPunchEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDamage = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
 
@@ -14,7 +14,7 @@ public class GoddessPunchEffect : SkillEffectSO
 
         baseDamage *= 2;
 
-        var (result, damageDone) = target.TakeDamage(baseDamage, true);
+        var (result, damageDone) = target.TakeDamage(baseDamage, true, false, false, skill);
 
         if (damageDone >= (target.MaxHealth / 2))
         {

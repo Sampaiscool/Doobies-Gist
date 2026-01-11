@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty2/BulletJunior/RemingtonSnipeEffect")]
 public class RemingtonSnipeEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
 
@@ -19,7 +19,7 @@ public class RemingtonSnipeEffect : SkillEffectSO
             BattleUIManager.Instance.AddLog($"{user.CharacterName} Hits a CRITICAl attack");
         }
 
-        var (result, damageDone) = target.TakeDamage(baseDmg, true, false);
+        var (result, damageDone) = target.TakeDamage(baseDmg, true, false, false, skill);
 
         target.AddEffect(new Effect(EffectType.Bleed, 2, true, damageDone));
 

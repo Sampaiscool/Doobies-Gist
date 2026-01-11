@@ -9,7 +9,7 @@ public class SilentStrikeEffect : SkillEffectSO
     /// <param name="user">The instance that used the skill</param>
     /// <param name="target">The instance that is targeted</param>
     /// <returns></returns>
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         // Get the base damage (weapon or spell-defined)
         int baseDamage = user.GetEffectiveWeaponDamage();
@@ -19,7 +19,7 @@ public class SilentStrikeEffect : SkillEffectSO
 
         // Deal damage
         int targetBefore = target.CurrentHealth;
-        target.TakeDamage(finalDamage, isSkill: true);
+        target.TakeDamage(finalDamage, isSkill: true, skill: skill);
         int actualDamage = targetBefore - target.CurrentHealth;
 
         // Heal the user for the same amount

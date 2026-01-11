@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Zelstine/Velithra/FatedCurseEffect")]
 public class FatedCurseEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         target.AddEffect(new Effect(EffectType.HealingWeaken, 3, true, 3));
         target.AddEffect(new Effect(EffectType.SpellWeaken, 3, true, 3));

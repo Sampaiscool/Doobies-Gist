@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty4/Kazan/CrimsonsHeartEffect")]
 public class CrimsonsHeartEffect : SkillEffectSO
 {
-	public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+	public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
 	{
 		int baseDmg = 0;
 		int currentSkillPower = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
@@ -12,7 +12,7 @@ public class CrimsonsHeartEffect : SkillEffectSO
 		if (burnEffect != null)
 		{
 			baseDmg = burnEffect.intensity + currentSkillPower;
-			var (result, damageDone) = target.TakeDamage(baseDmg, true, false);
+			var (result, damageDone) = target.TakeDamage(baseDmg, true, false, false, skill);
 			return $"{user.CharacterName} heart burns brightly, dealing {damageDone} to {target.CharacterName}!";
 		}
 		else

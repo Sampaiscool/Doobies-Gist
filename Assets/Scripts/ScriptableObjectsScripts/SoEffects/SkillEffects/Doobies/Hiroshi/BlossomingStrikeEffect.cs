@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Hiroshi/BlossomingStrike")]
 public class BlossomingStrikeEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         if (user == null || target == null)
         {
@@ -24,7 +24,7 @@ public class BlossomingStrikeEffect : SkillEffectSO
 
         // Deal damage to the target
         int targetBefore = target.CurrentHealth;
-        target.TakeDamage(blossomDamage, isSkill: true);
+        target.TakeDamage(blossomDamage, isSkill: true, skill: skill);
         int actualDamage = targetBefore - target.CurrentHealth;
 
         // Apply Deflection buff to the user

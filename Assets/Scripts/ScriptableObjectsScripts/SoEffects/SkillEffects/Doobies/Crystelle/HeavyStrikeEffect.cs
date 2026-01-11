@@ -3,13 +3,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Crystelle/HeavyStrike")]
 public class HeavyStrikeEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
 
         int doubleDmg = baseDmg * 2;
 
-        var (result, damageDone) = target.TakeDamage(doubleDmg, true);
+        var (result, damageDone) = target.TakeDamage(doubleDmg, true, false, false, skill);
 
         user.AddEffect(new Effect(EffectType.DefenceDown, 2, true));
 

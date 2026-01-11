@@ -13,7 +13,7 @@ public class DamageController
         _combatant = combatant;
     }
 
-    public (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill, bool isEffect = false, bool ignoreDefense = false)
+    public (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill, bool isEffect = false, bool ignoreDefense = false, ScriptableObject skill = null)
     {
         if (HandleHidden())
         {
@@ -42,7 +42,7 @@ public class DamageController
         if (HandleShield(reducedDamage))
             return (DamageResult.Blocked, 0);
 
-        ApplyDamageToHealth(reducedDamage, isSkill);
+        ApplyDamageToHealth(reducedDamage, isSkill, skill);
 
         return (DamageResult.Hit, reducedDamage);
     }
@@ -57,13 +57,13 @@ public class DamageController
         return _combatant.GetEffectiveDefence();
     }
 
-    private void ApplyDamageToHealth(int reducedDamage, bool isSkill)
+    private void ApplyDamageToHealth(int reducedDamage, bool isSkill, ScriptableObject skill)
     {
         _combatant.CurrentHealth = Mathf.Max(_combatant.CurrentHealth - reducedDamage, 0);
 
         if (reducedDamage > 0)
         {
-            HandleOnDamage(reducedDamage, isSkill);
+            HandleOnDamage(reducedDamage, isSkill, skill);
             SpawnDamageText(reducedDamage);
             PlayDamageAnimation();
         }
@@ -139,9 +139,9 @@ public class DamageController
         return ShieldHandler.HandleShield(_combatant, damage);
     }
 
-    private void HandleOnDamage(int damage, bool isSkill)
+    private void HandleOnDamage(int damage, bool isSkill, ScriptableObject skill)
     {
-        OnDamageHandler.Handle(_combatant, damage, isSkill);
+        OnDamageHandler.Handle(_combatant, damage, isSkill, skill as SkillSO);
     }
 
     public int GetEffectiveWeaponDamageAfterEffects(int baseDamage)
@@ -209,7 +209,38 @@ public class DamageController
                     break;
             }
         }
+
+        GetEffectiveSkillDamageAfterUpgrades(modifiedDamage);
+
         return Mathf.Max(modifiedDamage, 0);
+    }
+
+    public int GetEffectiveSkillDamageAfterUpgrades(int baseDamage)
+    {
+        int modifiedDamage = baseDamage;
+
+        foreach (Upgrade Upgrade in _combatant.ActiveUpgrades)
+        {
+            switch (Upgrade.type)
+            {
+                case UpgradeNames.Pyromanian:
+                    int requiredBurn = 10 - (Upgrade.intensity * 2);
+                    requiredBurn = Mathf.Max(requiredBurn, 0);
+
+                    CombatantInstance opponent = _combatant.Opponent;
+                    int opponentBurn = opponent.GetEffectIntensity(EffectType.Burn);
+
+                    if (opponentBurn >= requiredBurn)
+                    {
+                        for (int i = 0; i < Upgrade.intensity; i++)
+                        {
+                            modifiedDamage = Mathf.CeilToInt(modifiedDamage * 1.5f);
+                        }
+                    }
+                break;
+            }
+        }
+        return modifiedDamage;
     }
 
     public int GetEffectiveSkillDamage(int baseDmg)
