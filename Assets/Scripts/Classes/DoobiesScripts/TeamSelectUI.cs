@@ -32,6 +32,7 @@ public class TeamSelectUI : MonoBehaviour
 
     void Start()
     {
+        PlayerPrefs.DeleteAll();
         LoadDoobies();
     }
 

@@ -8,6 +8,12 @@ Logs/
 MemoryCaptures/
 sysinfo.txt
 *.stackdump
+Assets/AssetStoreTools*
+
+# User-specific Unity stuff
+UserSettings/
+*.modelextensions
+*.userprefs
 
 # Unity auto-generated VS/JetBrains stuff
 .vscode/

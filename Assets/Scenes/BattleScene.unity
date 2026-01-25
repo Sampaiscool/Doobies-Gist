@@ -1989,7 +1989,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -2.5, y: 201.97}
+  m_AnchoredPosition: {x: -2.5, y: 201.96997}
   m_SizeDelta: {x: -95, y: 340.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &672786979
@@ -2286,6 +2286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextButtontext: {fileID: 181098533}
+  nextButton: {fileID: 1941390559}
   DoobieImage: {fileID: 1351483488}
   DoobieName: {fileID: 1198755538}
   DoobieHP: {fileID: 2097149534}
@@ -2477,7 +2478,23 @@ MonoBehaviour:
     effectPrefab: {fileID: 0}
   - label: Shadow
     type: 36
-    icon: {fileID: -1350168022058863885, guid: c9e3b16e11c7dd34eb2627dcbf1de056, type: 3}
+    icon: {fileID: 21300000, guid: c9e3b16e11c7dd34eb2627dcbf1de056, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Crimson Curse
+    type: 38
+    icon: {fileID: 21300000, guid: c259ebf1e6baa7c4a9077d2ef278f92a, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Vanished Defense
+    type: 39
+    icon: {fileID: 21300000, guid: a30902e24d7d0644b9a38a974fcf8286, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Crystalize
+    type: 40
+    icon: {fileID: 21300000, guid: bbc8455a903a9364ba0c4afc7df02797, type: 3}
+    effectPrefab: {fileID: 0}
+  - label: Confused
+    type: 41
+    icon: {fileID: 21300000, guid: 38bd4b4c36102ae4eb166d2b22a95dbf, type: 3}
     effectPrefab: {fileID: 0}
   TransformationVisuals:
   - label: SpiritForm Thengshou
@@ -2492,15 +2509,6 @@ MonoBehaviour:
   - label: BiyumiNormal
     type: 4
     image: {fileID: 21300000, guid: baba132948266394fbbfad3793eb0135, type: 3}
-  - label: Melanz Fluid Form
-    type: 5
-    image: {fileID: 21300000, guid: c1dc91a9963600d45a255ce82142bdf6, type: 3}
-  - label: Melanz Crimson Form
-    type: 6
-    image: {fileID: 21300000, guid: c1dc91a9963600d45a255ce82142bdf6, type: 3}
-  - label: Melanz Still Form
-    type: 7
-    image: {fileID: 21300000, guid: c1dc91a9963600d45a255ce82142bdf6, type: 3}
   EffectIconPrefab: {fileID: 8727585946917096499, guid: 3865fb4965dd7714f8502c665b7d8190, type: 3}
   EffectDescriptionPrefab: {fileID: 7399243327277128440, guid: 9ca2d5d67a8f1bb499a0171ffc237151, type: 3}
 --- !u!1 &741719464
@@ -5963,8 +5971,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 201.97}
-  m_SizeDelta: {x: -95, y: 340.9}
+  m_AnchoredPosition: {x: -1.25, y: 201.97}
+  m_SizeDelta: {x: -97.5, y: 340.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1742563178
 MonoBehaviour:

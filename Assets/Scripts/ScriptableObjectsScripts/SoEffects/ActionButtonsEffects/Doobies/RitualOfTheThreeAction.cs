@@ -54,7 +54,7 @@ public class RitualOfTheThreeAction : ScriptableObject, IDoobieAction
 
                 int finalDamage = baseDamage * 4;
 
-                var (result, DamageDone) = target.TakeDamage(finalDamage);
+                var (result, DamageDone) = target.TakeDamage(finalDamage, true);
 
                 BattleUIManager.Instance.AddLog($"{user.CharacterName} smites {target.CharacterName} dealing {DamageDone} damage!");
 

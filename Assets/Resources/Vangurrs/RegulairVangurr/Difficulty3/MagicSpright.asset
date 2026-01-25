@@ -18,7 +18,7 @@ MonoBehaviour:
   healPower: 1
   baseDefence: 0.8
   baseHealth: 30
-  VangurrText: A droplet of a magical vessel
+  VangurrText: A droplet of a magical vessel.
   difficultyLevel: 3
   skillChance: 90
   isBoss: 0

@@ -16,5 +16,5 @@ MonoBehaviour:
   Description: If you use a skill, remove all "Shadow" effects; Cast the effect again
     for each "Shadow" intensity you had.
   EffectType: 36
-  Icon: {fileID: -1350168022058863885, guid: c9e3b16e11c7dd34eb2627dcbf1de056, type: 3}
+  Icon: {fileID: 21300000, guid: c9e3b16e11c7dd34eb2627dcbf1de056, type: 3}
   isDebuff: 0

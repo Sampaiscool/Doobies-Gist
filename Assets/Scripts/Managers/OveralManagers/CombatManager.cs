@@ -60,6 +60,8 @@ public class CombatManager : MonoBehaviour
 
         OnBattleStartEffects();
 
+        BattleUIManager.Instance.ToggleNextButton(true);
+
         SpawnBattleOptions();
 
         // initial log
@@ -226,7 +228,7 @@ public class CombatManager : MonoBehaviour
 
         if (!canPay)
         {
-            BattleUIManager.AddLog($"You don’t have enough {chosenSkill.resourceUsed}!");
+            BattleUIManager.AddLog($"You donï¿½t have enough {chosenSkill.resourceUsed}!");
             BattleUIManager.UpdateUI();
             // remain in player action, don't advance
             waitingForNext = false;
@@ -248,7 +250,7 @@ public class CombatManager : MonoBehaviour
     // ---------- Next button / phase handler ----------
     public void OnNextButtonClicked()
     {
-        // if we are locked (waiting) but next is still allowed by state — allow it.
+        // if we are locked (waiting) but next is still allowed by state ï¿½ allow it.
         // Ensure we don't proceed while the UI expects an earlier action
         if (!waitingForNext && currentPhase != TurnPhase.Start && currentPhase != TurnPhase.PlayerTurnStart) return;
 
@@ -299,7 +301,7 @@ public class CombatManager : MonoBehaviour
                 // after ticking, check for deaths
                 if (CheckAndHandleDefeat()) return;
 
-                // go to the next player's turn start — require Next to actually show/enter it
+                // go to the next player's turn start ï¿½ require Next to actually show/enter it
                 currentPhase = TurnPhase.PlayerTurnStart;
                 waitingForNext = true; // user presses Next to start player's turn
                 BattleUIManager.AddLog("Press Next to start the next round.");
@@ -457,7 +459,7 @@ public class CombatManager : MonoBehaviour
                         : GameManager.Instance.currentDoobie;
 
                     int eatDamage = combatantTurnCounters[combatant];
-                    targetGremlinHunger.TakeDamage(eatDamage);
+                    targetGremlinHunger.TakeDamage(eatDamage, true);
 
                     BattleUIManager.AddLog($"{combatant.CharacterName} feasts on {targetGremlinHunger.CharacterName}, dealing {eatDamage} damage!");
                     break;
@@ -498,7 +500,7 @@ public class CombatManager : MonoBehaviour
                             {
                                 int sporeDmg = sporeEffect.intensity;
 
-                                var (result, damageDone) = targetSporeInfection.TakeDamage(sporeDmg);
+                                var (result, damageDone) = targetSporeInfection.TakeDamage(sporeDmg, true);
 
                                 BattleUIManager.Instance.AddLog($"{targetSporeInfection.CharacterName} coughs and sputters as spores deal {damageDone} damage!");
                             }
@@ -513,8 +515,18 @@ public class CombatManager : MonoBehaviour
 
                         doobie.MainResource.Spend(5);
                     }
+					break;
+				case UpgradeNames.FlowersOfHealing:
+					combatant.HealCombatant(upgrade.intensity);
                     break;
-                        default:
+                case UpgradeNames.GrowingDefence:
+                    if (combatantTurnCounters[combatant] % 2 == 0)
+                    {
+                        combatant.AddEffect(new Effect(EffectType.Harden, 3, false, upgrade.intensity));
+                        BattleUIManager.Instance.AddLog($"{combatant.CharacterName}'s defense grows stronger!");
+                    }
+                    break;
+				default:
                     break;
             }
         }
@@ -552,7 +564,7 @@ public class CombatManager : MonoBehaviour
         // --- Burn ---
         foreach (var burn in combatant.ActiveEffects.FindAll(e => e.type == EffectType.Burn))
         {
-            var (result, damageDone) = combatant.TakeDamage(burn.intensity);
+            var (result, damageDone) = combatant.TakeDamage(burn.intensity, true);
             BattleUIManager.Instance.AddLog($"{combatant.CharacterName} takes {damageDone} burn damage!");
 
             if (damageDone > 0)
@@ -565,7 +577,7 @@ public class CombatManager : MonoBehaviour
             switch (upgrade.type)
             {
                 case UpgradeNames.FleetingLife:
-                    var (result, damageDone) = combatant.TakeDamage(upgrade.intensity);
+                    var (result, damageDone) = combatant.TakeDamage(upgrade.intensity, true);
                     BattleUIManager.Instance.AddLog($"{combatant.CharacterName} life fleets away, taking {damageDone} damage.");
                     break;
                 case UpgradeNames.ShiftingSand:
@@ -585,33 +597,58 @@ public class CombatManager : MonoBehaviour
 
     void OnBattleStartEffects()
     {
-        List<CombatantInstance> combatants = new List<CombatantInstance> { playerDoobie, enemyVangurr };
+        var combatants = new List<CombatantInstance> { playerDoobie, enemyVangurr };
 
         foreach (var combatant in combatants)
         {
-            if (combatant.ActiveUpgrades != null)
+            if (combatant.ActiveUpgrades == null)
+                continue;
+
+            foreach (var upgrade in combatant.ActiveUpgrades)
             {
-                foreach (var upgrade in combatant.ActiveUpgrades)
+                switch (upgrade.type)
                 {
-                    if (upgrade.type == UpgradeNames.StayPrepared)
-                    {
+                    case UpgradeNames.StayPrepared:
                         combatant.AddEffect(new Effect(EffectType.Deflecion, 999, false, upgrade.intensity));
-                    }
+                        break;
 
-                    if (upgrade.type == UpgradeNames.HealtySupplies)
-                    {
+                    case UpgradeNames.HealtySupplies:
                         combatant.HealCombatant(combatant.CurrentHealPower + upgrade.intensity);
-                    }
+                        break;
 
-                    if (upgrade.type == UpgradeNames.GremlinHunger)
-                    {
-                        combatantTurnCounters[combatant] = 0 + upgrade.intensity;
+                    case UpgradeNames.GremlinHunger:
+                        combatantTurnCounters[combatant] = upgrade.intensity;
                         BattleUIManager.AddLog($"{combatant.CharacterName} prepares to feast this battle...");
-                    }
+                        break;
+
+                    case UpgradeNames.ShiningEntrance:
+                        if (combatant is DoobieInstance doobie && doobie.MainResource.Current != 0)
+                        {
+                            for (int i = 0; i < upgrade.intensity; i++)
+                            {
+                                combatant.AddEffect(new Effect(EffectType.Crystalize, 10,false, doobie.MainResource.Current));
+                            }
+                        }
+                        break;
+
+                    case UpgradeNames.DazzlingImage:
+                        CombatantInstance opponent = combatant.GetOpponent();
+                        opponent.AddEffect(new Effect(EffectType.Confused, 5, true, upgrade.intensity));
+                        break;
+
+                    case UpgradeNames.DarkestSoul:
+                        if (combatant.CurrentHealth <= (5 + (5 * upgrade.intensity)))
+                            combatant.AddEffect(new Effect(EffectType.Shadow, 10, false, upgrade.intensity));
+                        break;
+
+                    case UpgradeNames.KnowledgeOfTheBooks:
+                        combatant.AddEffect(new Effect(EffectType.SpellStrenghten, 5, false, upgrade.intensity));
+                        break;
                 }
             }
         }
     }
+
 
     private bool CheckAndHandleDefeat()
     {
@@ -625,6 +662,11 @@ public class CombatManager : MonoBehaviour
         if (enemyVangurr.CurrentHealth <= 0)
         {
             BattleUIManager.AddLog($"You have defeated {enemyVangurr.CharacterName}!");
+
+            CheckOnWinUpgrades();
+
+            BattleUIManager.Instance.ToggleNextButton(false);
+
             StartCoroutine(ReturnToAdventureAfterDelay(2f, true));
             return true;
         }
@@ -637,5 +679,37 @@ public class CombatManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         UnityEngine.SceneManagement.SceneManager.LoadScene("AdventureScene");
         GameManager.Instance.AfterFight(playerWon);
+    }
+    private void CheckOnWinUpgrades()
+    {
+        Upgrade hiddentreasure = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(t => t.type == UpgradeNames.HiddenTreasure);
+        if (hiddentreasure != null)
+        {
+            for (int i = 0; i < hiddentreasure.intensity; i++)
+                GameManager.Instance.ChangeSploont(100, true);
+        }
+
+        Upgrade crystalPotential = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(t => t.type == UpgradeNames.CrystalPotential);
+        if (crystalPotential != null)
+        {
+            for (int i = 0; i < crystalPotential.intensity; i++)
+            {
+                GameManager.Instance.currentDoobie.MainResource.Gain(1);
+                BattleUIManager.Instance.UpdateUI();
+            }
+
+        }
+
+        Upgrade perfectedCombat = GameManager.Instance.currentDoobie.ActiveUpgrades.Find(t => t.type == UpgradeNames.PerfectedCombat);
+        
+        if (perfectedCombat != null && playerDoobieInstance.CurrentHealth == playerDoobieInstance.MaxHealth)
+        {
+            for (int i = 0; i < perfectedCombat.intensity; i++)
+            {
+                playerDoobieInstance.MaxHealth += 2;
+                playerDoobieInstance.CurrentHealth += 2;
+                BattleUIManager.Instance.UpdateUI();
+            }
+        }
     }
 }

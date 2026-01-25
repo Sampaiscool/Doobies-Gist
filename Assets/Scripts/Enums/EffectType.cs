@@ -44,5 +44,9 @@ public enum EffectType
     Flow,                       // Buff - If you use a weapon style attack gain "Flow" for each "Flow" intensity, But if you take damage; lose all "Flow".
     TimedBomb,                  // Debuff - Stackable "Target Locked", Deals damage to your skill damage * intensity.
     Shadow,                     // Buff - If you use a skill, remove all "Shadow" effects; Cast the effect again for each "Shadow" intensity you had.
-    TempoLink,                  // Buff - If you use a skill from Melanz while you have "TempoLink" gain extra effects
+    TempoLink,                  // Buff - If you use a skill from Melanz while you have "TempoLink" gain extra effects.
+	CrimsonCurse,               // Debuff - If you take damage gain "Burn" equal to "Crimson Curse" intensity.
+	VanishedDefense,			// Debuff - All damage you take will ignore defense.
+    Crystalize,                 // Buff - If you use a basic attack; Gain 1 "Harden" for each "Crystalize" intensity. If you take damage; lose all "Harden". If this Expires gain 3 "Harden" for each "Crystalize" intensity.
+    Confused,                   // Debuff - If you take damage from a basic attack; gain 2 "Stun" for each "Confused" intensity, Then remove all "Confused".
 }

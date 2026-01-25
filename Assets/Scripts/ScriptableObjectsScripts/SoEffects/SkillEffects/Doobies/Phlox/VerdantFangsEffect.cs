@@ -5,11 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Phrox/VerdantFangsEffect")]
 public class VerdantFangsEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
 
-        var (result, damageDealt)  = target.TakeDamage(baseDmg, true);
+        var (result, damageDealt)  = target.TakeDamage(baseDmg, true, false, false, skill);
 
         // If damage was less then half of targets Max HP
         if (damageDealt <= (target.MaxHealth / 2))

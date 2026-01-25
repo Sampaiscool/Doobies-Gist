@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BlessedShieldEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         user.AddEffect(new Effect(EffectType.BlessedShield, 5, false, (user.CurrentHealPower * 2)));
 

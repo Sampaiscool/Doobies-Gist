@@ -832,6 +832,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4fe07354a212f6a4390280006ea3c1ec, type: 2}
   - {fileID: 11400000, guid: 2395eca5c86aa7a48a869715a13d7aaf, type: 2}
   - {fileID: 11400000, guid: 0716f76cbf7601a468379466aae92de8, type: 2}
+  - {fileID: 11400000, guid: 56bf69af43fad2d4abf75446c24cc0d4, type: 2}
+  - {fileID: 11400000, guid: f4eada6357064cab99d640b745e435f6, type: 2}
   PanelManager: {fileID: 931394462}
   locationButtonPrefab: {fileID: 437312863584247690, guid: cd2c76f8995e34f4cadddd2c15bf22d8, type: 3}
   locationButtonHolder: {fileID: 1258595990}
@@ -1031,6 +1033,16 @@ MonoBehaviour:
     isBossGroup: 1
     vangurrs:
     - {fileID: 11400000, guid: d97cfd8f652e115478cdce585ed68170, type: 2}
+  - label: Difficulty 4 non-boss
+    difficulty: 4
+    isBossGroup: 0
+    vangurrs:
+    - {fileID: 11400000, guid: 625e2dd547387a64a9a7ff6de320b6a3, type: 2}
+  - label: Difficulty 4 boss
+    difficulty: 4
+    isBossGroup: 1
+    vangurrs:
+    - {fileID: 11400000, guid: ab0101bc1d2048f47889cd2fb3777cb6, type: 2}
   ChosenVangurr: {fileID: 0}
 --- !u!1 &304150279
 GameObject:
@@ -3835,8 +3847,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0019836, y: -0.00080681}
-  m_SizeDelta: {x: 1748.1, y: 208.57}
+  m_AnchoredPosition: {x: 0.6275, y: -2.9265}
+  m_SizeDelta: {x: 1647.1815, y: 188.8771}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1201188298
 MonoBehaviour:
@@ -4103,7 +4115,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000017829971}
+  m_AnchoredPosition: {x: 0, y: 0.00029032538}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1245902643
@@ -4263,6 +4275,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4d90906ebd892014ab655987a5527fff, type: 2}
     - {fileID: 11400000, guid: 6b5358cb22efd7c4892a37d9a4c02118, type: 2}
     - {fileID: 11400000, guid: 6dd4f7a579c9caf41a75a8ea2e8b7ffc, type: 2}
+    - {fileID: 11400000, guid: a0b786c3ab0c1c74f90819663c459fcb, type: 2}
+    - {fileID: 11400000, guid: 56e0c7a4593f8fb4692a616c2eaf5000, type: 2}
+    - {fileID: 11400000, guid: 78a03a94465d3ff46950df5722c7344a, type: 2}
+    - {fileID: 11400000, guid: 0cc4d56c501c4564a8a669cb90c815d0, type: 2}
+    - {fileID: 11400000, guid: 0d6ca629ef1cfc24ebd74baafd960cbe, type: 2}
+    - {fileID: 11400000, guid: 949f0fa12705f964fb6ded5fb06f19f1, type: 2}
+    - {fileID: 11400000, guid: 3121f48ca2d16a649b1334860a5ef47f, type: 2}
+    - {fileID: 11400000, guid: 067c1988403b0dffebd7da6c46646e7e, type: 2}
+    - {fileID: 11400000, guid: e744f12f7461a9137aaba0b924d0bbfa, type: 2}
+    - {fileID: 11400000, guid: 48afd1d5a91da7dd0bd99431c757956a, type: 2}
+    - {fileID: 11400000, guid: 8f404257249c303c7a207a91173c52db, type: 2}
   - groupName: Hiroshi
     characterPool: 1
     resourceType: 2
@@ -4325,6 +4348,10 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 221add181efa6f34dba08a42db0a6307, type: 2}
     - {fileID: 11400000, guid: d296f7271d8571d4a92254dba1a36c2e, type: 2}
     - {fileID: 11400000, guid: d6b26685155b9b64a961637d9ed7d58d, type: 2}
+  - groupName: Crystals
+    characterPool: 0
+    resourceType: 9
+    upgrades: []
   itemGroups:
   - groupName: None
     characterPool: 0
@@ -4796,8 +4823,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 958518543}
   m_HandleRect: {fileID: 958518542}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.99999416
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

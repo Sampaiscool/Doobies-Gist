@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public int MaxBattlesBeforeBoss; //How many battles the player has to fight before a boss battle
 
     public DoobieInstance currentDoobie; //The players current Doobie
+    public DoobieInstanceSO currentDoobieSO;
+
     public VangurrInstance currentVangurr; //The Chosen Vangurr the player is going to fight / is fighting.
 
     public bool InCombat = false;
@@ -23,6 +25,9 @@ public class GameManager : MonoBehaviour
     public CombatManager CombatManager;
     public GameObject damageAnimationPrefab;
     public Transform uiCanvas;
+
+    // Multiplier applied to the next chosen location's effect. Default 1 (no extra procs).
+    public int nextLocationMultiplier = 1;
 
     [Header("Settings")]
     public GameObject SettingsPanel;
@@ -192,11 +197,6 @@ public class GameManager : MonoBehaviour
         {
             ChangeSploont(50, true);
 
-            if (currentDoobie.ActiveUpgrades.Find(t => t.type == UpgradeNames.HiddenTreasure) != null)
-            {
-                ChangeSploont(100, true);
-            }
-
             bool isBossFight = BattlesFought >= MaxBattlesBeforeBoss;
 
             if (!isBossFight)
@@ -230,6 +230,9 @@ public class GameManager : MonoBehaviour
             playerStatsUIManager.UpdatePlayerInfo();
         }
     }
+
+    
+
     public void SpawnSettings()
     {
         if (FindFirstObjectByType<Settings>() != null)

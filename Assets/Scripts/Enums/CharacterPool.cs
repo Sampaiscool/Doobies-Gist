@@ -23,4 +23,10 @@ public enum CharacterPool
     Soulflow,           // Resource
     Biyumi,             // Vangurr
     Melanz,             // Doobie
+    Crystelle,          // Doobie
+    Crystals,           // Resource
+    MightyFire,         // Doobie
+    Ember,              // Resource
+    Zyx,                // Doobie
+    Runes,              // Resource
 }

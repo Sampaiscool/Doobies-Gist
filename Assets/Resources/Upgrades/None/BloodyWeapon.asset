@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: BloodyWeapon
   m_EditorClassIdentifier: 
   upgradeName: Bloody Weapon
-  description: if you use a Weapon-Style Attack your opponent gains +1 "Bleed".
+  description: If you use a Weapon-Style Attack your opponent gains +1 "Bleed".
   cost: 150
   icon: {fileID: 0}
   type: 7
   pool: 0
   intensity: 1
+  isCurse: 0

@@ -87,8 +87,23 @@ public class LocationManager : MonoBehaviour
     {
         if (location.effect != null)
         {
-            Debug.Log("Applying effect of: " + location.locationName);
-            location.effect.ApplyEffect();
+            int oldMult = 1;
+            if (GameManager.Instance != null)
+            {
+                oldMult = Mathf.Max(1, GameManager.Instance.nextLocationMultiplier);
+            }
+
+            Debug.Log($"Applying effect of: {location.locationName} x{oldMult}");
+            for (int i = 0; i < oldMult; i++)
+            {
+                location.effect.ApplyEffect();
+            }
+
+            // Only reset multiplier if the location effect did not change it.
+            if (GameManager.Instance != null && GameManager.Instance.nextLocationMultiplier == oldMult)
+            {
+                GameManager.Instance.nextLocationMultiplier = 1;
+            }
         }
         else
         {

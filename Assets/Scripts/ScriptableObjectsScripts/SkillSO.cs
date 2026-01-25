@@ -71,7 +71,7 @@ public class SkillSO : ScriptableObject
                     switch (item.type)
                     {
                         case ItemType.SharedPain:
-                            target.TakeDamage(resourceCost);
+                            target.TakeDamage(resourceCost, true, skill: this);
                             break;
                         default:
                             break;
@@ -106,7 +106,22 @@ public class SkillSO : ScriptableObject
 
         target.PlayAttackAnimation(animation);
 
-        string result = effect.ApplyEffect(user, target);
+        string result = effect.ApplyEffect(user, target, this);
+
+        foreach (Effect activeEffect in userEffectsSnapshot)
+        {
+            if (activeEffect.type == EffectType.Shadow)
+            {
+                int castAmount = activeEffect.intensity;
+
+                for (int i = 0; i < castAmount; i++)
+                {
+                    BattleUIManager.Instance.AddLog($"{effect.ApplyEffect(user, target, this)}");
+                }
+
+                user.ActiveEffects.Remove(activeEffect);
+            }
+        }
 
         if (isWeaponSkill)
             user.CheckForWeaponOnUseEffects();
@@ -130,25 +145,7 @@ public class SkillSO : ScriptableObject
             }
         }
 
-        foreach (Effect activeEffect in userEffectsSnapshot)
-        {
-            switch (activeEffect.type)
-            {
-                case EffectType.Shadow:
-                    int castAmount = activeEffect.intensity;
-
-                    for (int i = 0; i < castAmount; i++)
-                    {
-                        BattleUIManager.Instance.AddLog($"{effect.ApplyEffect(user, target)}");
-                    }
-
-                     user.ActiveEffects.Remove(activeEffect);
-
-                    break;
-                default:
-                    break;
-            }
-        }
+        
 
         return result;
     }

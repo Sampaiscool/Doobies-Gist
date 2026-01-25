@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Thengshou/SpiritForm/SoulrendSlashEffect")]
 public class SoulrendSlashEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
 
@@ -14,7 +14,7 @@ public class SoulrendSlashEffect : SkillEffectSO
 
         target.AddEffect(new Effect(EffectType.Bleed, 4, true, 5));
 
-        var (result, damageDone) = target.TakeDamage(bonusDmg);
+        var (result, damageDone) = target.TakeDamage(bonusDmg, true, false, false, skill);
 
         if (user is DoobieInstance doobie && doobie.MainResource is SoulflowResource soulflow)
         {

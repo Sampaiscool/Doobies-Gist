@@ -25,6 +25,7 @@ public class BattleUIManager : MonoBehaviour
 {
     [Header("GeneralUI")]
     public TMP_Text nextButtontext;
+    public Button nextButton;
 
     [Header("Doobie UI")]
     public Image DoobieImage;
@@ -275,6 +276,13 @@ public class BattleUIManager : MonoBehaviour
 
     }
 
+    public void ToggleNextButton(bool Activate)
+    {
+        if (Activate)
+            nextButton.gameObject.SetActive(true);
+        else
+            nextButton.gameObject.SetActive(false);
+    }
     
     public void UpdateEffectsUI(CombatantInstance combatant, Transform effectContainer)
     {

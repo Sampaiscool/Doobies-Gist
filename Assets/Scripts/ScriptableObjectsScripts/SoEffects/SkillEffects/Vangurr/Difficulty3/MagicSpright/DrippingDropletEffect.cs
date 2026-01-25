@@ -3,14 +3,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty3/MagicSpright/DrippingDropletEffect")]
 public class DrippingDropletEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
         int totalDamage = 0;
 
         for (int i = 0; i < 3; i++)
         {
-            var (result, dmg) = target.TakeDamage(baseDmg / 2);
+            var (result, dmg) = target.TakeDamage(baseDmg / 2, true, false, false, skill);
             totalDamage += dmg;
         }
 

@@ -30,6 +30,9 @@ public class YippieHibbelEffect : LocationEffectSO
                     souflow.SpiritEnergy.GainMax(5);
                 }
                 break;
+            case ResourceType.Crystals:
+                GameManager.Instance.currentDoobie.MainResource.GainMax(2);
+                break;
             default:
                 break;
         }

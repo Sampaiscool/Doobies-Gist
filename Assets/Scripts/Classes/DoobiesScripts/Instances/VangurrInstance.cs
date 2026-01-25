@@ -20,7 +20,6 @@ public class VangurrInstance : CombatantInstance
     public VangurrInstance(VangurrSO so)
     {
         _so = so;
-        // Do NOT touch Unity objects here (like Sprites, Weapons, etc.)
     }
 
     /// <summary>
@@ -80,7 +79,7 @@ public class VangurrInstance : CombatantInstance
             });
         }
 
-        // Transformation skills (Biyumi example)
+        // Transformation skills 
         if (_so.characterPool == CharacterPool.Biyumi)
         {
             transformationSkills[Transformations.None] = new List<SkillSO>(_so.baseSkills ?? new List<SkillSO>());

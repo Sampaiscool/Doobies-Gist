@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Vangurr/Difficulty1/LittleGremlin/JaggedRockEffect")]
 public class JaggedRockEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDmg = user.CurrentSkillDmg;
 
@@ -14,7 +14,7 @@ public class JaggedRockEffect : SkillEffectSO
 
         int halvedDmg = Mathf.Max(1, effectiveDmg / 2);
 
-        var (targetResult, actualTargetDmg) = target.TakeDamage(halvedDmg, isSkill: true);
+        var (targetResult, actualTargetDmg) = target.TakeDamage(halvedDmg, isSkill: true, skill: skill);
 
         // 50% chance to stun for 1 turn
         if (UnityEngine.Random.value <= 0.5f)

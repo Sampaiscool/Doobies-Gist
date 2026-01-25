@@ -102,4 +102,23 @@ public enum UpgradeNames
     HiddenTreasure,                       //None
     FuryStrike,                           //None
     EchoExplosion,                        //None
+
+	FlowersOfHealing,					  //Kazan
+
+    CrystalPotential,                     //Crystals
+    ShiningEntrance,                      //Crystelle
+
+    StunningStrike,                       //None
+    GrowingDefence,                       //None
+    DazzlingImage,                        //None
+    DarkestSoul,                          //None
+    SpellsOfMenta,                        //None
+    KnowledgeOfTheBooks,                  //None
+
+    BurningHands,                         //None
+    Pyromanian,                           //None
+    FireConstruct,                        //None
+    PerfectedCombat,                      //None
+    FlameOfMenta,                         //None
+    
 }

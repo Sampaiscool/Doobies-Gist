@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Skill/Effects/Doobies/Zelstine/Kaelyth/SkillfullBashEffect")]
 public class SkillfullBashEffect : SkillEffectSO
 {
-    public override string ApplyEffect(CombatantInstance user, CombatantInstance target)
+    public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         int baseDamage = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
 
@@ -18,7 +18,7 @@ public class SkillfullBashEffect : SkillEffectSO
             BattleUIManager.Instance.AddLog($"{user.CharacterName} stuns {target.CharacterName} with the bash and gains Hard Hitter!");
         }
 
-        var (result, damageDone) = target.TakeDamage(baseDamage);
+        var (result, damageDone) = target.TakeDamage(baseDamage, true, false, false, skill);
 
         user.AddEffect(new Effect(EffectType.Deflecion, 999, true, damageDone));
 

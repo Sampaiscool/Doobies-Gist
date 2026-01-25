@@ -23,7 +23,7 @@ public class AdvanceDeflectAction : ScriptableObject, IDoobieAction
         int weaponDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
         weaponDmg *= 2;
 
-        var (result, damageDone) = target.TakeDamage(deflectEffect.intensity + weaponDmg);
+        var (result, damageDone) = target.TakeDamage(deflectEffect.intensity + weaponDmg, true);
 
         string log1 = user.PerformBasicAttack(GameManager.Instance.currentVangurr);
         string log2 = user.PerformBasicAttack(GameManager.Instance.currentVangurr);

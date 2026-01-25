@@ -17,7 +17,7 @@ MonoBehaviour:
     explosion.
   cost: 200
   icon: {fileID: 0}
-  type: 0
+  type: 27
   pool: 8
   intensity: 1
   isCurse: 0
