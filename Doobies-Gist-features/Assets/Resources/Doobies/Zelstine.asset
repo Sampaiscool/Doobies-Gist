@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ad21a22b66852499065c8f4daaa60c, type: 3}
+  m_Name: Zelstine
+  m_EditorClassIdentifier: 
+  doobieName: Zelstine
+  description: Godessess doobie, Use the correct goddess to win the battle.
+  portrait: {fileID: 21300000, guid: e4c2f499a9962be4aad53571a3aa0818, type: 3}
+  unlockedByDefault: 1
+  doobieMainResource: 4
+  resourceActionSO: {fileID: 11400000, guid: a716ec0d0af4edc4d8156e8a95709bdf, type: 2}
+  doobieActionSO: {fileID: 11400000, guid: 2038097f3fb0fa44bbda9cf9a2719f34, type: 2}
+  baseResourceMax: 10
+  skillDmg: 3
+  healPower: 1
+  baseDefence: 1
+  characterPool: 12
+  baseHealth: 20
+  hasHealth: 1
+  baseSkills: []
+  defaultWeapon: {fileID: 11400000, guid: 659e43f78118c7b44bb1a0d21881a2d1, type: 2}
+  startingUpgrades:
+  - upgradeName: Healing Faith
+    description: If you heal; gain +1 Faith if you are following Elenara
+    cost: 0
+    icon: {fileID: 0}
+    type: 34
+    Pool: 12
+    intensity: 2
+    isCurse: 0
+  - upgradeName: CursedFaith
+    description: if you inflict a debuff; gain +1 Faith if you are following Kaelyth
+    cost: 0
+    icon: {fileID: 0}
+    type: 35
+    Pool: 12
+    intensity: 2
+    isCurse: 0
+  - upgradeName: BattleFaith
+    description: If you attack; Gain +1 Faith if you are following Velithra
+    cost: 0
+    icon: {fileID: 0}
+    type: 36
+    Pool: 12
+    intensity: 2
+    isCurse: 0
+  skillSet1:
+  - {fileID: 11400000, guid: 1c7c464a542b01c4b93f3460f9dc4c7e, type: 2}
+  - {fileID: 11400000, guid: 186b123a350b07f4489008abb3ad87c8, type: 2}
+  - {fileID: 11400000, guid: bce8b1281e4d9644c95b62368c93cbb7, type: 2}
+  skillSet2:
+  - {fileID: 11400000, guid: 6b46a299b5dc8a34db644f45534a6b00, type: 2}
+  - {fileID: 11400000, guid: 75f9139a0d5bca546b40cbf4750e04d3, type: 2}
+  - {fileID: 11400000, guid: 11fee2bcda565874d83fef7b2b9e5e59, type: 2}
+  skillSet3:
+  - {fileID: 11400000, guid: dd0e93a8098197747a358acdd6592d4b, type: 2}
+  - {fileID: 11400000, guid: 3ab9e499d4ec958409cab3f48fb7902e, type: 2}
+  - {fileID: 11400000, guid: 548a35ca17cfa9f44a24dedd10f93a80, type: 2}

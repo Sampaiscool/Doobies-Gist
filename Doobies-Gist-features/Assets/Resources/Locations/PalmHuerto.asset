@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e26c5de444a9c3c4d946432eb555fdab, type: 3}
+  m_Name: PalmHuerto
+  m_EditorClassIdentifier: 
+  locationName: PalmHuerto
+  locationImage: {fileID: 1642916224053885640, guid: baf0f1bbf95eab44b81bf8b8de6d02ed, type: 3}
+  locationChance: 45
+  description: Gain 600 sploont, then half your HP
+  effect: {fileID: 11400000, guid: df1ee8e841944624481ce471dae13d30, type: 2}

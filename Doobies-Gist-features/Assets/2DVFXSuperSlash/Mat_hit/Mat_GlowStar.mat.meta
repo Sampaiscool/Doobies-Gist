@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5b34f5acd501f1e458c8f82a25450d7d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 246419
+  packageName: 2D VFX slashes pack
+  packageVersion: 1.1
+  assetPath: Assets/2DVFXSuperSlash/Mat_hit/Mat_GlowStar.mat
+  uploadId: 614695

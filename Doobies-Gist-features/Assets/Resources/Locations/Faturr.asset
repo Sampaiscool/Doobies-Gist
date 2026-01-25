@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e26c5de444a9c3c4d946432eb555fdab, type: 3}
+  m_Name: Faturr
+  m_EditorClassIdentifier: 
+  locationName: Faturr
+  locationImage: {fileID: 21300000, guid: 06cb387a9f620954fb6a7b20f649054e, type: 3}
+  locationChance: 5
+  description: Pay 5 HP; Increase your skill dmg.
+  effect: {fileID: 11400000, guid: a90b78ec86b12c149af7ee3e05b0a988, type: 2}

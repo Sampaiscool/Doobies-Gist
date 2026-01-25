@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbfc10e7ba8736a43ad4b34a75fcce42, type: 3}
+  m_Name: Biyumi
+  m_EditorClassIdentifier: 
+  vangurrName: Biyumi
+  portrait: {fileID: 21300000, guid: baba132948266394fbbfad3793eb0135, type: 3}
+  skillDmg: 15
+  healPower: 5
+  baseDefence: 5
+  baseHealth: 40
+  VangurrText: Defender of Menta.
+  difficultyLevel: 3
+  skillChance: 65
+  isBoss: 1
+  characterPool: 16
+  startingTransformation: 4
+  baseSkills:
+  - {fileID: 11400000, guid: c03f63ca25a2ee042acac081a2021843, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: 6f62514957945ea4db2709a2909b7ccb, type: 2}
+  startingUpgrades: []
+  startingItems: []
+  skillSet1:
+  - {fileID: 11400000, guid: c03f63ca25a2ee042acac081a2021843, type: 2}
+  - {fileID: 11400000, guid: 7cc6d2a63deda0340b2f9a97a6e4f335, type: 2}
+  - {fileID: 11400000, guid: 92ec363fadc65d945adb919940415fd1, type: 2}
+  - {fileID: 11400000, guid: 704bebe56e1de5747aa6ce5f1c4a14f3, type: 2}
+  skillSet2: []
+  skillSet3: []

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbfc10e7ba8736a43ad4b34a75fcce42, type: 3}
+  m_Name: Nutou
+  m_EditorClassIdentifier: 
+  vangurrName: Nutou
+  portrait: {fileID: 21300000, guid: e58db07082e5c724ba1244984bf85f7d, type: 3}
+  skillDmg: 10
+  healPower: 2
+  baseDefence: 2
+  baseHealth: 30
+  VangurrText: From the sands he rises...
+  difficultyLevel: 3
+  skillChance: 55
+  isBoss: 0
+  characterPool: 0
+  startingTransformation: 0
+  baseSkills:
+  - {fileID: 11400000, guid: f8f98223831972442874ed7187806d73, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: ada6e373aa968fc4d802c390aabd2aa2, type: 2}
+  startingUpgrades:
+  - upgradeName: Shifting Sand
+    description: At the end of the turn both players heal +1
+    cost: 0
+    icon: {fileID: 0}
+    type: 42
+    Pool: 0
+    intensity: 3
+    isCurse: 0
+  skillSet1: []
+  skillSet2: []
+  skillSet3: []

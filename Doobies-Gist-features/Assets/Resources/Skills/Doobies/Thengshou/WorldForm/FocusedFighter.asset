@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
+  m_Name: FocusedFighter
+  m_EditorClassIdentifier: 
+  skillName: Focused Fighter
+  icon: {fileID: 0}
+  animation: {fileID: 0}
+  description: Shield yourself with the intensity of your heal power, If you have
+    less then 50% of your HP remaining; gain even more shield and gain  the same
+    amount of "Defence Up" .
+  resourceCost: 2
+  resourceUsed: 6
+  isWeaponSkill: 1
+  zurpRegainChance: 0
+  zurpRegainAmount: 0
+  effect: {fileID: 11400000, guid: d21bbe82150a7b64e84c1b2f98341910, type: 2}

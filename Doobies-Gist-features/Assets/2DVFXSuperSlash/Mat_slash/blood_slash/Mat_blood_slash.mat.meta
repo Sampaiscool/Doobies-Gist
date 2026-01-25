@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fc824e10dcff3e74b8dac5b88d16f1f8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 246419
+  packageName: 2D VFX slashes pack
+  packageVersion: 1.1
+  assetPath: Assets/2DVFXSuperSlash/Mat_slash/blood_slash/Mat_blood_slash.mat
+  uploadId: 614695

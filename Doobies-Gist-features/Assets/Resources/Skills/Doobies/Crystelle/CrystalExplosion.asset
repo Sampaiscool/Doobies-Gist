@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f4bd89f7fa2ef45b87e2bb7fcd4b67, type: 3}
+  m_Name: CrystalExplosion
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSO
+  skillName: Crystal Explosion
+  icon: {fileID: 0}
+  animation: {fileID: 0}
+  description: Unleash a powerfull explosion that deals damage increased damage based
+    on your defence. The target gains 1 "Confused" and if you dont have "Crystalized"
+    you gain 1, else you gain "Crystalized" for each intensity.
+  resourceCost: 3
+  resourceUsed: 9
+  isWeaponSkill: 1
+  zurpRegainChance: 0
+  zurpRegainAmount: 0
+  effect: {fileID: 11400000, guid: a1b7d5e745e6fee47b27598c95b503c7, type: 2}

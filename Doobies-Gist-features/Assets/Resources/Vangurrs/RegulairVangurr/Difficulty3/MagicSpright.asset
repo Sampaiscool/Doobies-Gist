@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbfc10e7ba8736a43ad4b34a75fcce42, type: 3}
+  m_Name: MagicSpright
+  m_EditorClassIdentifier: 
+  vangurrName: MagicSpright
+  portrait: {fileID: 21300000, guid: be23512e4fed5d04bb5f13048d9d6163, type: 3}
+  skillDmg: 7
+  healPower: 1
+  baseDefence: 0.8
+  baseHealth: 30
+  VangurrText: A droplet of a magical vessel.
+  difficultyLevel: 3
+  skillChance: 90
+  isBoss: 0
+  characterPool: 0
+  startingTransformation: 0
+  baseSkills:
+  - {fileID: 11400000, guid: b84fa3bf18bd4534c9ff846c00874d0e, type: 2}
+  - {fileID: 11400000, guid: 80309b99474ccc146b566c6bdba509d9, type: 2}
+  - {fileID: 11400000, guid: 3e102e20d2a8e1d4f8b2790501c43348, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: d022e66869d18384691ddc868672f6b6, type: 2}
+  startingUpgrades:
+  - upgradeName: Spell Sorcerer
+    description: If you use a Spell-Style Skill; Gain +1 "Spell Strenghten";
+    cost: 0
+    icon: {fileID: 0}
+    type: 20
+    Pool: 0
+    intensity: 1
+    isCurse: 0
+  - upgradeName: Spell Slinger
+    description: If you use a Spell-Style Skill; Deal +1 damage.
+    cost: 0
+    icon: {fileID: 0}
+    type: 1
+    Pool: 0
+    intensity: 3
+    isCurse: 0
+  - upgradeName: Power Spells
+    description: If you gain "Spell Strenghten"; remove +1 "Spell Weaken" Duration
+      and Intensity
+    cost: 0
+    icon: {fileID: 0}
+    type: 21
+    Pool: 0
+    intensity: 10
+    isCurse: 0
+  startingItems:
+  - itemName: Jar of Shadows
+    description: 'If you use a spell-style skill; Gain 1 "Shadow". '
+    cost: 5
+    type: 7
+    Pool: 0
+    icon: {fileID: 0}
+    hasBeenPurchased: 0
+  skillSet1: []
+  skillSet2: []
+  skillSet3: []
