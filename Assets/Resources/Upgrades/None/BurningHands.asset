@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ffe80665f4ca94c8860dc62dafa2e4, type: 3}
   m_Name: BurningHands
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
-  upgradeName: 
-  description: 
-  cost: 0
+  upgradeName: Burning Hands
+  description: If your opponent gains "Burn"; you gain +1 "Weapon Strenghten".
+  cost: 200
   icon: {fileID: 0}
-  type: 0
+  type: 65
   pool: 0
-  intensity: 0
+  intensity: 1
   isCurse: 0

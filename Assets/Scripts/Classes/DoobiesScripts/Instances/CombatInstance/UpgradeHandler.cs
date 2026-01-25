@@ -146,7 +146,6 @@ public static class SpellUpgradeHandler
         {
             case UpgradeNames.SpellSlinger:
                 opponent.TakeDamage(upgrade.intensity, true);
-                BattleUIManager.Instance.AddLog("Spellslinger Activates!");
                 break;
             case UpgradeNames.SpellSorcerer:
                 combatant.AddEffect(new Effect(EffectType.SpellStrenghten, 3, false, upgrade.intensity));

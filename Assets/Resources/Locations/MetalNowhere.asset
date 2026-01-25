@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MetalNowhere
   m_EditorClassIdentifier: Assembly-CSharp::LocationSO
   locationName: Metal Nowhere
-  locationImage: {fileID: 1678785997360937810, guid: 7324cf3ed7146f6418ddf9db91a6a3b6, type: 3}
+  locationImage: {fileID: 21300000, guid: 7324cf3ed7146f6418ddf9db91a6a3b6, type: 3}
   locationChance: 30
   description: Gain +1 Defence
   effect: {fileID: 11400000, guid: 6229546117217e94897312dade4a6544, type: 2}
