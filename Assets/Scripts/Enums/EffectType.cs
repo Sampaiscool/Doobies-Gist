@@ -13,7 +13,7 @@ public enum EffectType
     BloomBlossom,               // Buff - If you deflect an attack, gain 10 deflection, if you deflect with 10 or more deflection, gain 1 harden
 
     Burn,                       // Debuff - Takes damage each turn
-    Poison,                     // Debuff - Takes damage each turn, ...
+    Poison,                     // Debuff - Takes damage each turn, Ignores defence
     WeaponWeaken,               // Debuff - Decreases weapon damage
     SpellWeaken,                // Debuff - Decreases spell damage
     DefenceDown,                // Debuff - Decreases defense against all damage types
@@ -49,4 +49,6 @@ public enum EffectType
 	VanishedDefense,			// Debuff - All damage you take will ignore defense.
     Crystalize,                 // Buff - If you use a basic attack; Gain 1 "Harden" for each "Crystalize" intensity. If you take damage; lose all "Harden". If this Expires gain 3 "Harden" for each "Crystalize" intensity.
     Confused,                   // Debuff - If you take damage from a basic attack; gain 2 "Stun" for each "Confused" intensity, Then remove all "Confused".
+    Burn2,                      // Debuff - Takes damage each turn
+    Burn3,                      // Debuff - Takes damage each turn
 }

@@ -34,9 +34,14 @@ public class CombatManager : MonoBehaviour
 
     private TurnPhase currentPhase = TurnPhase.Start;
     private enum TurnPhase { Start, PlayerTurnStart, PlayerAction, EnemyTurnStart, EnemyAction, EndOfTurn }
+    
+    private SkillSO pendingSkill;
+    [SerializeField] private int pendingMultiplier = 1;
+
 
     void Start()
     {
+        GameManager.Instance.FindManagers();
         playerDoobie = GameManager.Instance.currentDoobie;
         enemyVangurr = GameManager.Instance.currentVangurr;
 
@@ -194,58 +199,66 @@ public class CombatManager : MonoBehaviour
 
     void OnSkillChosen(SkillSO chosenSkill)
     {
-        // ensure still player action
         if (currentPhase != TurnPhase.PlayerAction || waitingForNext) return;
-
+        
         var doobie = GameManager.Instance.currentDoobie;
+        int multiplier = pendingMultiplier;
+        int totalCost = chosenSkill.resourceCost * multiplier;
 
         bool canPay = false;
 
         switch (chosenSkill.resourceUsed)
         {
-            // Universal: Health
             case ResourceType.Health:
-                canPay = doobie.CurrentHealth > chosenSkill.resourceCost;
-                break;
-            case ResourceType.WorldEnergy:
-                if (doobie.MainResource is SoulflowResource soulflow)
-                {
-                    canPay = soulflow.WorldEnergy.Current >= chosenSkill.resourceCost;
-                }
-                break;
-            case ResourceType.SpiritEnergy:
-                if (doobie.MainResource is SoulflowResource soulflow2)
-                {
-                    canPay = soulflow2.SpiritEnergy.Current >= chosenSkill.resourceCost;
-                }
+                canPay = doobie.CurrentHealth > totalCost;
                 break;
 
-            default: // main resource (zurp or other)
-                if (doobie.MainResource != null && doobie.MainResource.Type == chosenSkill.resourceUsed)
-                    canPay = doobie.MainResource.Current >= chosenSkill.resourceCost;
+            case ResourceType.WorldEnergy:
+                if (doobie.MainResource is SoulflowResource soulflow)
+                    canPay = soulflow.WorldEnergy.Current >= totalCost;
+                break;
+
+            case ResourceType.SpiritEnergy:
+                if (doobie.MainResource is SoulflowResource soulflow2)
+                    canPay = soulflow2.SpiritEnergy.Current >= totalCost;
+                break;
+
+            default:
+                if (doobie.MainResource != null &&
+                    doobie.MainResource.Type == chosenSkill.resourceUsed)
+                    canPay = doobie.MainResource.Current >= totalCost;
                 break;
         }
 
         if (!canPay)
         {
-            BattleUIManager.AddLog($"You don�t have enough {chosenSkill.resourceUsed}!");
+            BattleUIManager.AddLog(
+                $"You don't have enough {chosenSkill.resourceUsed} to cast {chosenSkill.skillName} ×{multiplier}!"
+            );
             BattleUIManager.UpdateUI();
-            // remain in player action, don't advance
-            waitingForNext = false;
+            pendingMultiplier = 1;
+            pendingSkill = null;
             return;
         }
 
-        // pay and execute
-        string result = chosenSkill.UseSkill(playerDoobie, enemyVangurr);
-        Debug.Log(result);
-        BattleUIManager.AddLog(result);
+        // --- Execute skill N times ---
+        for (int i = 0; i < multiplier; i++)
+        {
+            string result = chosenSkill.UseSkill(playerDoobie, enemyVangurr);
+            BattleUIManager.AddLog(result);
+        }
+
         BattleUIManager.UpdateUI();
 
-        // finalize player action -> require Next to proceed
+        // reset multicast state
+        pendingMultiplier = 1;
+        pendingSkill = null;
+
         waitingForNext = true;
         currentPhase = TurnPhase.EnemyTurnStart;
         IsPlayerTurn = false;
     }
+
 
     // ---------- Next button / phase handler ----------
     public void OnNextButtonClicked()
@@ -317,6 +330,14 @@ public class CombatManager : MonoBehaviour
         TMP_Text nextButtonText = BattleUIManager.Instance.nextButtontext;
         nextButtonText.text = $"Next ({currentPhase})";
     }
+    public void SetSkillMultiplier(int multiplier)
+    {
+        pendingMultiplier = multiplier;
+
+        if (pendingSkill != null)
+            OnSkillChosen(pendingSkill);
+    }
+
 
     // ---------- Helper flow methods ----------
     private void BeginPlayerTurn()
@@ -546,32 +567,51 @@ public class CombatManager : MonoBehaviour
         string name = combatant.CharacterName;
 
         // --- Regeneration ---
-        foreach (var regen in combatant.ActiveEffects.FindAll(e => e.type == EffectType.Regeneration))
+        if (combatant.HasEffect(EffectType.Regeneration))
         {
-            int healed = combatant.HealCombatant(regen.intensity);
+            int regenAmount = combatant.GetEffectIntensity(EffectType.Regeneration);
+            int healed = combatant.HealCombatant(regenAmount);
+
             if (healed > 0)
             {
                 BattleUIManager.Instance.AddLog($"{name} regenerates {healed} HP.");
 
-                Upgrade feelingGreenUpgrade = combatant.ActiveUpgrades.Find(f => f.type == UpgradeNames.FeelingGreen);
-                if (feelingGreenUpgrade != null)
+                if (combatant.HasUpgrade(UpgradeNames.FeelingGreen))
                 {
-                    combatant.HealCombatant(feelingGreenUpgrade.intensity);
+                    int bonusHeal = combatant.GetUpgradeIntensity(UpgradeNames.FeelingGreen);
+                    combatant.HealCombatant(bonusHeal);
                 }
             }
         }
 
         // --- Burn ---
-        foreach (var burn in combatant.ActiveEffects.FindAll(e => e.type == EffectType.Burn))
+        if (combatant.HasEffect(EffectType.Burn))
         {
-            var (result, damageDone) = combatant.TakeDamage(burn.intensity, true);
-            BattleUIManager.Instance.AddLog($"{combatant.CharacterName} takes {damageDone} burn damage!");
+            int burnDamage = combatant.GetEffectIntensity(EffectType.Burn);
+
+            var (result, damageDone) = combatant.TakeDamage(burnDamage, true, true);
+            BattleUIManager.Instance.AddLog($"{name} takes {damageDone} burn damage!");
 
             if (damageDone > 0)
             {
                 combatant.OnBurnDamage(damageDone);
             }
         }
+
+        // --- Poison ---
+        if (combatant.HasEffect(EffectType.Poison))
+        {
+            int poisonDamage = combatant.GetEffectIntensity(EffectType.Poison);
+            
+            var (result, damageDone) = combatant.TakeDamage(poisonDamage, true, true, true);
+            BattleUIManager.Instance.AddLog($"{name} takes {damageDone} poison damage!");
+
+            if (damageDone > 0)
+            {
+                combatant.OnBurnDamage(damageDone);
+            }
+        }
+        
         foreach (var upgrade in combatant.ActiveUpgrades)
         {
             switch (upgrade.type)

@@ -28,9 +28,18 @@ MonoBehaviour:
   hasHealth: 1
   startingTransformation: 0
   baseSkills: []
-  defaultWeapon: {fileID: 0}
-  startingUpgrades: []
+  defaultWeapon: {fileID: 11400000, guid: 83bc2af4614542548934cc650258489c, type: 2}
+  startingUpgrades:
+  - upgradeName: Fire Master
+    description: For each "Burn" on  the enemy; gain 1,2x spell damage
+    cost: 0
+    icon: {fileID: 0}
+    type: 70
+    Pool: 20
+    intensity: 1
+    isCurse: 0
   startingItems: []
+  canMulticast: 1
   skillSet1: []
   skillSet2: []
   skillSet3: []

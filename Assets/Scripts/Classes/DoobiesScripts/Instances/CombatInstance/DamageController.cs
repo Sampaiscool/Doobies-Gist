@@ -219,25 +219,31 @@ public class DamageController
     {
         int modifiedDamage = baseDamage;
 
-        foreach (Upgrade Upgrade in _combatant.ActiveUpgrades)
+        foreach (Upgrade upgrade in _combatant.ActiveUpgrades)
         {
-            switch (Upgrade.type)
+            switch (upgrade.type)
             {
                 case UpgradeNames.Pyromanian:
-                    int requiredBurn = 10 - (Upgrade.intensity * 2);
+                    int requiredBurn = 10 - (upgrade.intensity * 2);
                     requiredBurn = Mathf.Max(requiredBurn, 0);
 
                     CombatantInstance opponent = _combatant.Opponent;
-                    int opponentBurn = opponent.GetEffectIntensity(EffectType.Burn);
+                    int opponentBurn1 = opponent.GetEffectIntensity(EffectType.Burn);
 
-                    if (opponentBurn >= requiredBurn)
+                    if (opponentBurn1 >= requiredBurn)
                     {
-                        for (int i = 0; i < Upgrade.intensity; i++)
+                        for (int i = 0; i < upgrade.intensity; i++)
                         {
                             modifiedDamage = Mathf.CeilToInt(modifiedDamage * 1.5f);
                         }
                     }
-                break;
+                    break;
+                case UpgradeNames.FireMaster:
+                    int opponentBurn2 = _combatant.Opponent.GetEffectIntensity(EffectType.Burn);
+                    
+                    for (int i = 0; i < opponentBurn2; i++) 
+                        modifiedDamage = Mathf.FloorToInt(modifiedDamage * 1.2f);
+                    break;
             }
         }
         return modifiedDamage;

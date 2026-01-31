@@ -34,8 +34,9 @@ public class BattleUIManager : MonoBehaviour
     public TMP_Text DoobieVurp;
 
     [Header("Skill UI")]
-    [SerializeField] private Transform skillButtonContainer; // Where buttons go
-    [SerializeField] private SkillButton skillButtonPrefab;  // Your prefab
+    [SerializeField] private Transform skillButtonContainer;
+    [SerializeField] private SkillButton skillButtonPrefab;
+    [SerializeField] public SkillSO pendingSkill;
 
     [Header("Vangurr UI")]
     public Image VangurrImage;
@@ -43,18 +44,18 @@ public class BattleUIManager : MonoBehaviour
     public TMP_Text VangurrHP;
 
     [Header("Floating HP Text")]
-    public GameObject floatingTextPrefab;   // assign prefab in inspector
-    public Transform worldCanvas;           // the canvas to spawn under
+    public GameObject floatingTextPrefab;
+    public Transform worldCanvas;
 
     [Header("Panels")]
     public GameObject SkillDescriptionPanel;
     public TMP_Text SkillDescriptionText;
 
     [Header("Combat Log")]
-    public GameObject CombatLogPanel;      // ScrollView panel
-    public Transform CombatLogContent;     // Content inside ScrollView
-    public GameObject CombatLogEntryPrefab;// Prefab for each log line
-    public Button ExpandLogButton;         // Optional: expands the panel
+    public GameObject CombatLogPanel;
+    public Transform CombatLogContent;
+    public GameObject CombatLogEntryPrefab;
+    public Button ExpandLogButton;
 
     public GameObject BattleOptionsPanel;
     public GameObject SkillOptions;
@@ -68,6 +69,7 @@ public class BattleUIManager : MonoBehaviour
     public List<Button> AllSkillButtons;
     public List<TMP_Text> SkillButtonLabels;
     public List<Image> SkillButtonIcons;
+    [SerializeField] public GameObject SkillMultiplierPanel;
 
     [Header("Combatant Stats Panel")]
     public CombatantStatsPanel statsPanelInstance;
@@ -141,6 +143,25 @@ public class BattleUIManager : MonoBehaviour
         UpdateEffectsUI(GameManager.Instance.currentVangurr, VangurrEffectsContainer);
     }
 
+    public void ToggleSkillMultiplierMenu(SkillSO skill)
+    {
+        if (SkillMultiplierPanel.activeSelf)
+        {
+            SkillMultiplierPanel.SetActive(false);
+            return;
+        }
+
+        SkillMultiplierPanel.SetActive(true);
+        pendingSkill = skill;
+    }
+
+    public void SelectMultiplier(int multiplier)
+    {
+        SkillMultiplierPanel.SetActive(false);
+
+        GameManager.Instance.CombatManager.SetSkillMultiplier(multiplier);
+    }
+    
     public void ShowSpellUI()
     {
         var skills = GameManager.Instance.currentDoobie.GetAllSkills();

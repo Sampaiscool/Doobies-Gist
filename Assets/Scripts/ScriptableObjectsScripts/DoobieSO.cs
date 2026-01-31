@@ -34,6 +34,7 @@ public class DoobieSO : ScriptableObject, ICombatantSO
     Sprite ICombatantSO.portrait => portrait;
     int ICombatantSO.baseHealth => baseHealth;
     CharacterPool ICombatantSO.CharacterPool => characterPool;
+    public bool canMulticast;
 
     public List<SkillSO> skillSet1;
     public List<SkillSO> skillSet2;

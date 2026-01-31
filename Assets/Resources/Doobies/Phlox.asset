@@ -53,6 +53,7 @@ MonoBehaviour:
     intensity: 5
     isCurse: 1
   startingItems: []
+  canMulticast: 0
   skillSet1: []
   skillSet2: []
   skillSet3: []

@@ -24,11 +24,11 @@ MonoBehaviour:
   healPower: 0
   baseDefence: 1.5
   characterPool: 22
-  baseHealth: 0
+  baseHealth: 20
   hasHealth: 1
   startingTransformation: 0
   baseSkills: []
-  defaultWeapon: {fileID: 0}
+  defaultWeapon: {fileID: 11400000, guid: b24cde517428d544aaef432a1bd0e6ee, type: 2}
   startingUpgrades: []
   startingItems: []
   skillSet1: []

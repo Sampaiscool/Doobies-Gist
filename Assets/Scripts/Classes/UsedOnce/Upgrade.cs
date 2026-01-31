@@ -121,4 +121,6 @@ public enum UpgradeNames
     PerfectedCombat,                      //None
     FlameOfMenta,                         //None
     
+    FireMaster,                           //Mighty Fire
+    
 }

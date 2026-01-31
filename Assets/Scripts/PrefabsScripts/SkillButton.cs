@@ -17,21 +17,20 @@ public class SkillButton : MonoBehaviour
         if (label != null) label.text = skill.skillName;
         if (icon != null) icon.sprite = skill.icon;
 
+        var clickInterceptor = GetComponent<SkillOnClick>();
+        if (clickInterceptor != null)
+            clickInterceptor.skill = skillData;
+
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() =>
         {
             onClick?.Invoke(skillData);
-
-            if (BattleUIManager.Instance != null)
-            {
-                BattleUIManager.Instance.SkillDescriptionPanel.SetActive(false);
-            }
+            BattleUIManager.Instance?.SkillDescriptionPanel.SetActive(false);
         });
 
-        // Hook up hover
         var hover = GetComponent<SkillUIButtonHover>();
         if (hover != null) hover.skill = skillData;
     }
 
-
 }
+

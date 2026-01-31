@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public int MaxBattlesBeforeBoss; //How many battles the player has to fight before a boss battle
 
     public DoobieInstance currentDoobie; //The players current Doobie
-    public DoobieInstanceSO currentDoobieSO;
 
     public VangurrInstance currentVangurr; //The Chosen Vangurr the player is going to fight / is fighting.
 
@@ -66,6 +65,11 @@ public class GameManager : MonoBehaviour
                 SpawnSettings();
             }
         }
+    }
+
+    public void FindManagers()
+    {
+        CombatManager = FindFirstObjectByType<CombatManager>();
     }
 
     public void ChangeHp(int hpAmount, bool isGain, bool maxHpIncrease)
