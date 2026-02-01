@@ -43,14 +43,14 @@ public class RitualOfTheThreeAction : ScriptableObject, IDoobieAction
                 break;
 
             case 2:
-                BattleUIManager.Instance.AddLog($"{user.CharacterName} invokes the Trinity — healing, cursing, and smiting in one act!");
+                BattleUIManager.Instance.AddLog($"{user.CharacterName} invokes the Trinity ï¿½ healing, cursing, and smiting in one act!");
 
-                user.HealCombatant(user.GetEffectiveHealPower(user.CurrentHealPower));
+                user.HealCombatant(Mathf.RoundToInt(user.GetEffectiveHealPower(user.CurrentHealPower)));
 
                 target.AddEffect(new Effect(EffectType.HealingWeaken, 2, true, 3));
                 target.AddEffect(new Effect(EffectType.DefenceDown, 2, true, 3));
 
-                int baseDamage = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
+                int baseDamage = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg));
 
                 int finalDamage = baseDamage * 4;
 

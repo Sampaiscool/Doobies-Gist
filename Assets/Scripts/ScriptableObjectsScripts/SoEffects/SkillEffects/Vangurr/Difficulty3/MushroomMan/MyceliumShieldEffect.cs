@@ -7,7 +7,7 @@ public class MyceliumShieldEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int shieldAmount = user.GetEffectiveSkillDamage(user.CurrentSkillDmg) + user.GetEffectiveHealPower(user.CurrentHealPower);
+        int shieldAmount = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg) + user.GetEffectiveHealPower(user.CurrentHealPower));
 
         user.AddEffect(new Effect(EffectType.Shield, 5, false, shieldAmount));
 

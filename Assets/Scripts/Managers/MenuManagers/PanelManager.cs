@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,10 +14,21 @@ public class PanelManager : MonoBehaviour
     public GameObject GoddessSwapButton;
     public GameObject GoddessSwapButtonHolder;
 
+    [Header("Skip Buttons")]
+    public GameObject DefaultSkipButton;
+    public GameObject MightyFireSkipButton;
+    
+    [Header("Shop Buttons")]
+    public GameObject BurnUpgradeButton;
+
     public LocationManager locationManager;
     public VangurrManager vangurrManager;
     public PlayerStatsUIManager playerStatsUIManager;
 
+    [Header("Lists")]
+    public List<GameObject> AllSkipButtons;
+    public List<GameObject> AllShopButtons;
+    
     private GameObject currentPanel;
 
     void Start()
@@ -59,6 +71,8 @@ public class PanelManager : MonoBehaviour
         ShowPanel(LocationPanel);
 
         locationManager.GenerateRandomLocations(3);
+        
+        GetCorrectSkipButton(GameManager.Instance.currentDoobie._so.characterPool);
 
         ShopManager shopManager = FindFirstObjectByType<ShopManager>();
         if (shopManager != null)
@@ -101,7 +115,9 @@ public class PanelManager : MonoBehaviour
     public void ShowShopPanel()
     {
         ShowPanel(ShopPanel);
-
+        
+        GetCorrectShopButton(GameManager.Instance.currentDoobie._so.characterPool);
+        
         ShopManager shopManager = FindFirstObjectByType<ShopManager>();
 
         if (shopManager != null)
@@ -120,6 +136,58 @@ public class PanelManager : MonoBehaviour
             }
         }
     }
+
+    public void GetCorrectSkipButton(CharacterPool currentPool)
+    {
+        foreach (var skipButton in AllSkipButtons)
+        {
+            skipButton.SetActive(false);
+        }
+        
+        switch (currentPool)
+        {
+            case CharacterPool.MightyFire:
+                MightyFireSkipButton.SetActive(true);
+                break;
+            default:
+                DefaultSkipButton.SetActive(true);
+                break;
+        }
+    }
+
+    public void GetCorrectShopButton(CharacterPool currentPool)
+    {
+        foreach (var shopButton in AllShopButtons)
+        {
+            shopButton.SetActive(false);
+        }
+        
+        BurnUpgradeButton.SetActive(true);
+        
+        switch (currentPool)
+        {
+            case CharacterPool.MightyFire:
+                
+                switch (GameManager.Instance.currentDoobie.CurrentBurnLevel)
+                {
+                    case 1:
+                        TMP_Text text1 = BurnUpgradeButton.GetComponentInChildren<TMP_Text>();
+                        text1.text = "Upgrade burn for 1000 sploont";
+                        break;
+                    case 2:
+                        TMP_Text text2 = BurnUpgradeButton.GetComponentInChildren<TMP_Text>();
+                        text2.text = "Upgrade burn for 2000 sploont";
+                        break;
+                    case 3:
+                        BurnUpgradeButton.SetActive(false);
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    
     public void ShowGoddessButtons()
     {
         GameManager.Instance.SpawnGoddessButtons();

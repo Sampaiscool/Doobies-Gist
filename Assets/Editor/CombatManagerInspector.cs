@@ -123,8 +123,8 @@ public class CombatManagerInspector : Editor
         int cur = EditorGUILayout.IntField("CurrentHealth", combatant.CurrentHealth);
         int max = EditorGUILayout.IntField("MaxHealth", combatant.MaxHealth);
         float def = EditorGUILayout.FloatField("CurrentDefence", combatant.CurrentDefence);
-        int weap = EditorGUILayout.IntField("BonusWeaponDamage", combatant.EquippedWeaponInstance.bonusDamage);
-        int spel = EditorGUILayout.IntField("CurrentSpellDamage", combatant.CurrentSkillDmg);
+        float weap = EditorGUILayout.FloatField("BonusWeaponDamage", combatant.EquippedWeaponInstance.bonusDamage);
+        float spel = EditorGUILayout.FloatField("CurrentSpellDamage", combatant.CurrentSkillDmg);
         int burn = EditorGUILayout.IntField("CurrentBurnLevel", combatant.CurrentBurnLevel);
 
         if (EditorGUI.EndChangeCheck())

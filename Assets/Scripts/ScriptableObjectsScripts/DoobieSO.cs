@@ -20,9 +20,11 @@ public class DoobieSO : ScriptableObject, ICombatantSO
     public ScriptableObject resourceActionSO;
     public ScriptableObject doobieActionSO;
     public int baseResourceMax;
-    public int skillDmg;
-    public int healPower;
+    public float skillDmg;
+    public float healPower;
     public float baseDefence;
+    public int baseBurnLevel = 1;
+    public int baseBurnDamage = 1;
     public CharacterPool characterPool;
     public int baseHealth;
     public bool hasHealth = true;

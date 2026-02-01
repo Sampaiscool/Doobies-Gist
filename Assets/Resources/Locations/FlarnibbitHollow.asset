@@ -16,4 +16,5 @@ MonoBehaviour:
   locationImage: {fileID: 21300000, guid: 874552fc2c2c6524ba7142acdeba8853, type: 3}
   locationChance: 5
   description: You heal 5 HP and your doobie gains 5 Max HP.
+  allowedPools: 00000000
   effect: {fileID: 11400000, guid: bd32f289fdad46142a87a921138f78c3, type: 2}

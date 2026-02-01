@@ -14,10 +14,12 @@ public class DoobieInstance : CombatantInstance
     public override int MaxHealth { get; set; }
     public override float CurrentDefence { get; set; }
 
-    public override int CurrentSkillDmg { get; set; }
-    public override int CurrentHealPower { get; set; }
+    public override float CurrentSkillDmg { get; set; }
+    public override float CurrentHealPower { get; set; }
     private int _currentBurnLevel = 1;
+    private int _currentBurnDamage = 1;
     public override int CurrentBurnLevel { get => _currentBurnLevel; set => _currentBurnLevel = value; }
+    public override int CurrentBurnDamage { get => _currentBurnDamage; set => _currentBurnDamage = value; }
     public override Transformations CurrentTransformation { get; set; }
 
     public IResource MainResource { get; private set; }
@@ -65,7 +67,8 @@ public class DoobieInstance : CombatantInstance
         CurrentSkillDmg = _so.skillDmg;
         CurrentHealPower = _so.healPower;
 
-        CurrentBurnLevel = 1;
+        CurrentBurnLevel = _so.baseBurnLevel;
+        CurrentBurnDamage =  _so.baseBurnDamage;
 
         EquippedWeaponInstance = new WeaponInstance(_so.defaultWeapon);
 
@@ -268,6 +271,11 @@ public class DoobieInstance : CombatantInstance
                 for (int i = 0; i < upgradeIntensity; i++)
                 {
                     MainResource.GainMax(1); 
+                }
+
+                if (MainResource is EmberResource ember)
+                {
+                    ember.Current5();
                 }
             }
         }

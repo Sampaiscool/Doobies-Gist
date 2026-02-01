@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     public int CurrentPlayerMaxHP = 20;
     public int CurrentPlayerDzeef = 0;
     public CombatManager CombatManager;
+    public PanelManager PanelManager;
+    public LocationManager locationManager;
     public GameObject damageAnimationPrefab;
     public Transform uiCanvas;
 
@@ -70,6 +72,8 @@ public class GameManager : MonoBehaviour
     public void FindManagers()
     {
         CombatManager = FindFirstObjectByType<CombatManager>();
+        PanelManager = FindFirstObjectByType<PanelManager>();
+        locationManager = FindFirstObjectByType<LocationManager>();
     }
 
     public void ChangeHp(int hpAmount, bool isGain, bool maxHpIncrease)

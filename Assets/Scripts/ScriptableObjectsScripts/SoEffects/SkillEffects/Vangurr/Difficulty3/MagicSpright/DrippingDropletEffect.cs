@@ -5,7 +5,7 @@ public class DrippingDropletEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
+        int baseDmg = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg));
         int totalDamage = 0;
 
         for (int i = 0; i < 3; i++)

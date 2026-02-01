@@ -11,7 +11,7 @@ public class HiddenGrassEffect : SkillEffectSO
 
         user.AddEffect(new Effect(EffectType.CriticalEye, 4, true, 2));
 
-        target.AddEffect(new Effect(EffectType.TargetLocked, 3, false, user.GetEffectiveSkillDamage(user.CurrentSkillDmg)));
+        target.AddEffect(new Effect(EffectType.TargetLocked, 3, false, Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg))));
 
 
         BattleUIManager.Instance.AddLog($"{user.CharacterName} Hides in the grass, gaining Hidden and CriticalEye.");

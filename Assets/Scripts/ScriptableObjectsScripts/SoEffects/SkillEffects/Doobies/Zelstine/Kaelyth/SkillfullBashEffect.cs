@@ -7,7 +7,7 @@ public class SkillfullBashEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDamage = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
+        int baseDamage = Mathf.RoundToInt(user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage()));
 
         // 50% chance to stun for 1 turn
         if (UnityEngine.Random.value <= 0.5f)

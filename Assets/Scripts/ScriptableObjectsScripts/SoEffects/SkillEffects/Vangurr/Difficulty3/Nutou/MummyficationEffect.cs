@@ -7,7 +7,7 @@ public class MummyficationEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
+        int baseDmg = Mathf.RoundToInt(user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage()));
 
         target.AddEffect(new Effect(EffectType.VampireCurse, 1, true, (baseDmg / 2)));
 

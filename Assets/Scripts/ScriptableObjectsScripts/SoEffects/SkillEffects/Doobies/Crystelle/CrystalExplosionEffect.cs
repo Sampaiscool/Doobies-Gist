@@ -17,7 +17,7 @@ public class CrystalExplosionEffect : SkillEffectSO
             BattleUIManager.Instance.AddLog($"{user.CharacterName} uses their crystalline power to harden even more!");
         }
 
-        int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
+        int baseDmg = Mathf.RoundToInt(user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage()));
 
         int startingDamage = baseDmg * 4;
 

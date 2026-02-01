@@ -7,9 +7,9 @@ public class ArcaneFireEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDamage = user.CurrentSkillDmg;
+        int baseDamage = Mathf.RoundToInt(user.CurrentSkillDmg);
         
-        int effectiveDamage = user.GetEffectiveSkillDamage(baseDamage);
+        int effectiveDamage = Mathf.RoundToInt(user.GetEffectiveSkillDamage(baseDamage));
 
         target.TakeDamage(effectiveDamage, true, skill: skill);
 

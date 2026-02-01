@@ -9,7 +9,7 @@ public class GardenOfThornsEffect : SkillEffectSO
     {
         user.AddEffect(new Effect(EffectType.HealingWeaken, 5, true, 2));
 
-        int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg) + user.GetEffectiveHealPower(user.CurrentHealPower);
+        int baseDmg = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg) + user.GetEffectiveHealPower(user.CurrentHealPower));
 
         user.HealCombatant(baseDmg / 2);
 

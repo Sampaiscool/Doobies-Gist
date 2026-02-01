@@ -7,9 +7,9 @@ public class ArcaneBoltEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDmg = user.CurrentSkillDmg + 2;
+        int baseDmg = Mathf.RoundToInt(user.CurrentSkillDmg + 2);
 
-        int effectiveDmg = user.GetEffectiveSkillDamage(baseDmg);
+        int effectiveDmg = Mathf.RoundToInt(user.GetEffectiveSkillDamage(baseDmg));
 
         var (targetResult, actualTargetDmg) = target.TakeDamage(effectiveDmg, isSkill: true, skill: skill);
 

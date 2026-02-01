@@ -53,15 +53,15 @@ public class CombatantStatsPanel : MonoBehaviour
         // General
         nameText.text = boundInstance.CharacterName;
         defenceText.text = $"Defence: {Math.Round(boundInstance.GetEffectiveDefence(), 2)}";
-        skillDmgText.text = $"Spell Dmg: {boundInstance.GetEffectiveSkillDamageForUI(boundInstance.CurrentSkillDmg)}";
-        healPower.text = $"Heal Power: {boundInstance.GetEffectiveHealPower(boundInstance.CurrentHealPower)}";
+        skillDmgText.text = $"Spell Dmg: {Math.Round(boundInstance.GetEffectiveSkillDamageForUI(boundInstance.CurrentSkillDmg), 2)}";
+        healPower.text = $"Heal Power: {Math.Round(boundInstance.GetEffectiveHealPower(boundInstance.CurrentHealPower), 2)}";
 
         // Weapon
         if (boundInstance.EquippedWeaponInstance != null)
         {
             var weapon = boundInstance.EquippedWeaponInstance;
             weaponNameText.text = $"{weapon.baseSO.weaponName}";
-            weaponDamageText.text = $"Damage: {boundInstance.GetEffectiveWeaponDamageAfterEffectsForUI(boundInstance.GetEffectiveWeaponDamage())}";
+            weaponDamageText.text = $"Damage: {Math.Round(boundInstance.GetEffectiveWeaponDamageAfterEffectsForUI(boundInstance.GetEffectiveWeaponDamage()), 2)}";
             weaponCritText.text = $"Crit: {boundInstance.GetEffectiveCritChanceAfterEffects(boundInstance.GetEffectiveCritChance())}%";
             weaponMissText.text = $"Miss: {weapon.MissChance * 100f:F1}%";
         }

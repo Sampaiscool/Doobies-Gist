@@ -11,7 +11,7 @@ public class WeaponInstance
     /// <summary>
     /// Damage that gets added to the so baseDamage
     /// </summary>
-    public int bonusDamage = 0;
+    public float bonusDamage = 0;
     /// <summary>
     /// Crit chance that gets added to the so baseDamage
     /// </summary>
@@ -26,7 +26,7 @@ public class WeaponInstance
     /// Gets the weapon damage (base damage + bonus damage)
     /// </summary>
     /// <returns>The damage amount</returns>
-    public int GetEffectiveDamage() => baseSO.baseDamage + bonusDamage;
+    public float GetEffectiveDamage() => baseSO.baseDamage + bonusDamage;
     /// <summary>
     /// Gets the weapon crit chance (base crit + bonus crit)
     /// </summary>

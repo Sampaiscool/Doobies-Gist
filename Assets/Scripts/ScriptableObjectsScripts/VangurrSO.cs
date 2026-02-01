@@ -8,10 +8,12 @@ public class VangurrSO : ScriptableObject, ICombatantSO
 {
     public string vangurrName;
     public Sprite portrait;
-    public int skillDmg;
-    public int healPower;
+    public float skillDmg;
+    public float healPower;
     public float baseDefence;
     public int baseHealth;
+    public int baseBurnLevel;
+    public int baseBurnDamage;
     public string VangurrText;
     public int difficultyLevel;
     public int skillChance; // Chance to use a skill instead of basic attack (0-100)

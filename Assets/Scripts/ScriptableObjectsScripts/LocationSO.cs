@@ -11,6 +11,8 @@ public class LocationSO : ScriptableObject
 
     [TextArea(1, 5)]
     public string description;
+    
+    public List<CharacterPool> allowedPools;
 
     public LocationEffectSO effect;
 }

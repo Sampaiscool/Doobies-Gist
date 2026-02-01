@@ -7,7 +7,7 @@ public class RemingtonSnipeEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
+        int baseDmg = Mathf.RoundToInt(user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage()));
 
         int critChanceUser = user.GetEffectiveCritChanceAfterEffects(user.GetEffectiveCritChance());
 

@@ -23,6 +23,8 @@ MonoBehaviour:
   skillDmg: 4
   healPower: 0
   baseDefence: 1.5
+  baseBurnLevel: 1
+  baseBurnDamage: 1
   characterPool: 22
   baseHealth: 20
   hasHealth: 1
@@ -31,6 +33,7 @@ MonoBehaviour:
   defaultWeapon: {fileID: 11400000, guid: b24cde517428d544aaef432a1bd0e6ee, type: 2}
   startingUpgrades: []
   startingItems: []
+  canMulticast: 0
   skillSet1: []
   skillSet2: []
   skillSet3: []

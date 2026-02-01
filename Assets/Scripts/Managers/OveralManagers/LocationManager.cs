@@ -13,16 +13,29 @@ public class LocationManager : MonoBehaviour
 
     public void GenerateRandomLocations(int amount)
     {
-        List<LocationSO> selectedLocations = new List<LocationSO>();
+        var currentPool = GameManager.Instance.currentDoobie._so.characterPool;
+
+        List<LocationSO> validLocations = allLocations
+            .Where(loc =>
+                loc.allowedPools == null ||
+                loc.allowedPools.Count == 0 ||
+                loc.allowedPools.Contains(CharacterPool.None) ||
+                loc.allowedPools.Contains(currentPool)
+            )
+            .ToList();
+
+        List<LocationSO> selectedLocations = new();
 
         for (int i = 0; i < amount; i++)
         {
-            LocationSO loc = GetRandomLocation(allLocations, selectedLocations);
-            if (loc != null) selectedLocations.Add(loc);
+            LocationSO loc = GetRandomLocation(validLocations, selectedLocations);
+            if (loc != null)
+                selectedLocations.Add(loc);
         }
 
         ShowLocations(selectedLocations);
     }
+
 
     private LocationSO GetRandomLocation(List<LocationSO> allLocations, List<LocationSO> alreadyChosen)
     {
@@ -73,9 +86,24 @@ public class LocationManager : MonoBehaviour
         TriggerLocationEffect(selected);
     }
     
-    public void SkipLocation()
+    public void DefaultSkipLocation()
     {
-        GameManager.Instance.ChangeDzeef(1, true);
+        GameManager.Instance.ChangeSploont(50, true);
+        PanelManager.ShowVangurrPanel();
+    }
+
+    public void MightyFireSkipLocation(int id)
+    {
+        switch (id)
+        {
+            case 1:
+                GameManager.Instance.ChangeSploont(100, true);
+                break;
+            case 2:
+                GameManager.Instance.currentDoobie.CurrentSkillDmg += 0.5f;
+                break;
+        }
+        
         PanelManager.ShowVangurrPanel();
     }
 

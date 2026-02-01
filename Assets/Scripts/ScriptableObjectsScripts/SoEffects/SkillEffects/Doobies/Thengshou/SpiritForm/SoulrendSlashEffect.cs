@@ -8,7 +8,7 @@ public class SoulrendSlashEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
+        int baseDmg = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg));
 
         int bonusDmg =+ (baseDmg / 2);
 

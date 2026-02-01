@@ -9,7 +9,7 @@ public class SpearImpaleEffect : SkillEffectSO
     {
         user.AddEffect(new Effect(EffectType.WeaponStrenghten, 2, false, 1));
 
-        int baseDmg = user.GetEffectiveWeaponDamage();
+        int baseDmg = Mathf.RoundToInt(user.GetEffectiveWeaponDamage());
 
         var (targetResult, actualTargetDmg) = target.TakeDamage(baseDmg, isSkill: true, skill: skill);
 

@@ -8,9 +8,9 @@ public class JaggedRockEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDmg = user.CurrentSkillDmg;
+        int baseDmg = Mathf.RoundToInt(user.CurrentSkillDmg);
 
-        int effectiveDmg = user.GetEffectiveSkillDamage(baseDmg);
+        int effectiveDmg = Mathf.RoundToInt(user.GetEffectiveSkillDamage(baseDmg));
 
         int halvedDmg = Mathf.Max(1, effectiveDmg / 2);
 

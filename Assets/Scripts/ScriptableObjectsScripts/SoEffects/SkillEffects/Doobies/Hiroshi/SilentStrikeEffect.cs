@@ -12,10 +12,10 @@ public class SilentStrikeEffect : SkillEffectSO
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         // Get the base damage (weapon or spell-defined)
-        int baseDamage = user.GetEffectiveWeaponDamage();
+        int baseDamage = Mathf.RoundToInt(user.GetEffectiveWeaponDamage());
 
         // Apply effects that modify outgoing damage
-        int finalDamage = user.GetEffectiveWeaponDamageAfterEffects(baseDamage);
+        int finalDamage = Mathf.RoundToInt(user.GetEffectiveWeaponDamageAfterEffects(baseDamage));
 
         // Deal damage
         int targetBefore = target.CurrentHealth;

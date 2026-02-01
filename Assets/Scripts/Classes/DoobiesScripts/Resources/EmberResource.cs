@@ -16,7 +16,7 @@ public class EmberResource : IResource
     public EmberResource(int max)
     {
         Max = max;
-        Current = max;
+        Current = 0;
     }
 
     public void Gain(int amount)
@@ -34,5 +34,10 @@ public class EmberResource : IResource
         if (Current < amount) return false;
         Current -= amount;
         return true;
+    }
+
+    public void Current5()
+    {
+        Current = 5;
     }
 }

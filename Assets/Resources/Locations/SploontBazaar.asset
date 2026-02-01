@@ -15,5 +15,6 @@ MonoBehaviour:
   locationName: Sploont Bazaar
   locationImage: {fileID: 21300000, guid: 0fa0d8425c512764ea12170da6dbba8d, type: 3}
   locationChance: 5
-  description: Gain 300 shiny Sploont.
+  description: Gain 300 shiny Sploont
+  allowedPools: 00000000
   effect: {fileID: 11400000, guid: c304c4615cf717e45b09aa46db2c8d36, type: 2}

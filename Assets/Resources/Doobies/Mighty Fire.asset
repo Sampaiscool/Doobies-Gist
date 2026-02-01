@@ -19,10 +19,12 @@ MonoBehaviour:
   doobieMainResource: 10
   resourceActionSO: {fileID: 11400000, guid: a71bf0df4a874084e96ed218107c0851, type: 2}
   doobieActionSO: {fileID: 0}
-  baseResourceMax: 30
+  baseResourceMax: 5
   skillDmg: 4
   healPower: 1
   baseDefence: 2.5
+  baseBurnLevel: 1
+  baseBurnDamage: 1
   characterPool: 20
   baseHealth: 10
   hasHealth: 1
@@ -52,7 +54,7 @@ MonoBehaviour:
     isCurse: 0
   - upgradeName: Ember Overflow
     description: If you gain ember while you are at your max; gain +1 max ember then
-      lose half your ember
+      lose all but 5 ember
     cost: 0
     icon: {fileID: 0}
     type: 72

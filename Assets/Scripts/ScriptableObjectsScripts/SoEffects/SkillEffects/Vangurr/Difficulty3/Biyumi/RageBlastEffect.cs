@@ -9,7 +9,7 @@ public class RageBlastEffect : SkillEffectSO
     {
         target.AddEffect(new Effect(EffectType.VampireCurse, 5, true, 1));
 
-        int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
+        int baseDmg = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg));
 
         var (r, damageDone) = target.TakeDamage(baseDmg, true, false, false, skill);
 

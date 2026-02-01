@@ -10,7 +10,7 @@ public class SinEffect : SkillEffectSO
         user.AddEffect(new Effect(EffectType.Bleed, 2, true, 5));
         user.AddEffect(new Effect(EffectType.DefenceDown, 2, true, 2));
 
-        int baseDamage = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
+        int baseDamage = Mathf.RoundToInt(user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage()));
 
         baseDamage *= 2;
 

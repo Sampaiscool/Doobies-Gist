@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e26c5de444a9c3c4d946432eb555fdab, type: 3}
-  m_Name: MetalNowhere
+  m_Name: HellishHole
   m_EditorClassIdentifier: Assembly-CSharp::LocationSO
-  locationName: Metal Nowhere
-  locationImage: {fileID: 21300000, guid: 7324cf3ed7146f6418ddf9db91a6a3b6, type: 3}
-  locationChance: 30
-  description: Gain +1 Defence
-  allowedPools: 00000000
-  effect: {fileID: 11400000, guid: 6229546117217e94897312dade4a6544, type: 2}
+  locationName: Hellish Hole
+  locationImage: {fileID: 21300000, guid: c676d5bdbe81bac40bcd135b95331f27, type: 3}
+  locationChance: 35
+  description: Upgrade your burn damage by 1
+  allowedPools: 14000000
+  effect: {fileID: 11400000, guid: 7d0efebc87a393349b57a88fb8caa689, type: 2}

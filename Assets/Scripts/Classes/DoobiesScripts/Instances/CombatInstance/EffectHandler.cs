@@ -105,7 +105,7 @@ public static class ShieldHandler
         if (blessedShieldEffect.intensity <= 0)
         {
             combatant.ActiveEffects.Remove(blessedShieldEffect);
-            combatant.AddEffect(new Effect(EffectType.HealingStrenghten, 5, false, combatant.CurrentHealPower));
+            combatant.AddEffect(new Effect(EffectType.HealingStrenghten, 5, false, (int)combatant.CurrentHealPower));
         }
         return true;
     }
@@ -294,7 +294,7 @@ public static class TimedBombHandler
     public static void Activate(CombatantInstance combatant, Effect expired)
     {
         CombatantInstance caster = combatant.GetOpponent();
-        int baseDmg = caster.GetEffectiveSkillDamage(caster.CurrentSkillDmg);
+        int baseDmg = (int)caster.GetEffectiveSkillDamage(caster.CurrentSkillDmg);
         baseDmg *= expired.intensity;
 
         combatant.TakeDamage(baseDmg, true, true);
@@ -428,7 +428,7 @@ public static class HealUpgradeHandler
     {
         if (combatant.CurrentHealth >= (combatant.MaxHealth / 2))
         {
-            combatant.AddEffect(new Effect(EffectType.HealingStrenghten, 3, false, upgrade.intensity));
+              combatant.AddEffect(new Effect(EffectType.HealingStrenghten, 3, false, (int)upgrade.intensity));
         }
     }
 }

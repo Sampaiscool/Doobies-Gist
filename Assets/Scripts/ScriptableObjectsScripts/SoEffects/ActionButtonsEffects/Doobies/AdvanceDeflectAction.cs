@@ -15,12 +15,12 @@ public class AdvanceDeflectAction : ScriptableObject, IDoobieAction
         if (deflectEffect == null)
         {
             BattleUIManager.Instance.AddLog($"{user.CharacterName} tries to deflect, but has no energy stored!");
-            return false; // FAIL, don’t end turn
+            return false; // FAIL, donï¿½t end turn
         }
 
         BattleUIManager.Instance.AddLog($"{user.CharacterName} consumes all his deflects to unleashing 3 powefull attacks!");
 
-        int weaponDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
+        int weaponDmg = Mathf.RoundToInt(user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage()));
         weaponDmg *= 2;
 
         var (result, damageDone) = target.TakeDamage(deflectEffect.intensity + weaponDmg, true);

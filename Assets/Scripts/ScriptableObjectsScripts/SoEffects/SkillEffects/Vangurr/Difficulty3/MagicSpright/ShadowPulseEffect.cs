@@ -5,7 +5,7 @@ public class ShadowPulseEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDmg = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
+        int baseDmg = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg));
         var (result, dmgDone) = target.TakeDamage(baseDmg * 2, true, false, false, skill);
 
         string log = $"{user.CharacterName} releases a pulse of dark energy, striking {target.CharacterName} for {dmgDone} damage!";

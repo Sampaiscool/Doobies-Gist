@@ -15,5 +15,6 @@ MonoBehaviour:
   locationName: Faturr
   locationImage: {fileID: 21300000, guid: 06cb387a9f620954fb6a7b20f649054e, type: 3}
   locationChance: 5
-  description: Pay 5 HP; Increase your skill dmg.
+  description: Pay 5 HP; Gain 2 spell damage
+  allowedPools: 00000000
   effect: {fileID: 11400000, guid: a90b78ec86b12c149af7ee3e05b0a988, type: 2}

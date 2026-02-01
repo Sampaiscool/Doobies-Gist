@@ -7,7 +7,7 @@ public class SapSiphonEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDamage = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
+        int baseDamage = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg));
 
         int halvedDmg = Mathf.Max(1, baseDamage / 2);
 
@@ -15,7 +15,7 @@ public class SapSiphonEffect : SkillEffectSO
 
         user.AddEffect(new Effect(EffectType.Regeneration, 2, false, halvedDmg));
 
-        int healAmount = (halvedDmg + user.CurrentHealPower) /2 ;
+        int healAmount = Mathf.RoundToInt((halvedDmg + user.CurrentHealPower) / 2f);
 
         user.HealCombatant(healAmount);
 

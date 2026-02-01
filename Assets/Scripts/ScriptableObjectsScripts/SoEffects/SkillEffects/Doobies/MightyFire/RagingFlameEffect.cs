@@ -7,7 +7,7 @@ public class RagingFlameEffect : SkillEffectSO
     {
         target.AddEffect(new Effect(EffectType.VanishedDefense, 3, true, 1));
 
-        int damage = user.GetEffectiveSkillDamage(user.CurrentSkillDmg * 4);
+        int damage = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg * 4));
 
         var (result, damageDone) = target.TakeDamage(damage, true, false, false, skill);
 

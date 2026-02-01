@@ -7,7 +7,7 @@ public class BurningMistEffect : SkillEffectSO
     {
         user.AddEffect(new Effect(EffectType.Hidden, 2, false, 1));
 
-        int spellDamage = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
+        int spellDamage = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg));
         
         target.AddEffect(new Effect(EffectType.Burn, 3, true, spellDamage));
         

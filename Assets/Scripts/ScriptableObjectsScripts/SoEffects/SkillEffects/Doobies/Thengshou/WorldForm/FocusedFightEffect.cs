@@ -7,7 +7,7 @@ public class FocusedFightEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int healPower = user.GetEffectiveHealPower(user.CurrentHealPower);
+        int healPower = Mathf.RoundToInt(user.GetEffectiveHealPower(user.CurrentHealPower));
 
         user.AddEffect(new Effect(EffectType.Shield, 5, false, healPower));
 

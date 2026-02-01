@@ -22,7 +22,9 @@ MonoBehaviour:
   baseResourceMax: 0
   skillDmg: 3
   healPower: 4
-  baseDefence: 1
+  baseDefence: 0.8
+  baseBurnLevel: 1
+  baseBurnDamage: 1
   characterPool: 7
   baseHealth: 25
   hasHealth: 1

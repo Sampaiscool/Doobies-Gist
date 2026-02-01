@@ -16,4 +16,5 @@ MonoBehaviour:
   locationImage: {fileID: 21300000, guid: 0382709f02bfe4945868f911508f73dd, type: 3}
   locationChance: 15
   description: Heal 10 HP
+  allowedPools: 00000000
   effect: {fileID: 11400000, guid: ecf4611ff5d947f469a11d85d1edbc03, type: 2}

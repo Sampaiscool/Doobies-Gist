@@ -7,7 +7,7 @@ public class SporeCloudEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDamage = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
+        int baseDamage = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg));
 
         int reduceAmount = baseDamage / 4;
 

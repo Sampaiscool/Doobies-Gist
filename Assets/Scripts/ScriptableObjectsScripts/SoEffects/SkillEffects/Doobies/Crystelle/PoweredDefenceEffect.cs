@@ -12,7 +12,7 @@ public class PoweredDefenceEffect : SkillEffectSO
             BattleUIManager.Instance.AddLog($"{user.CharacterName} uses their crystalline power to harden");
         }
 
-        int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
+        int baseDmg = Mathf.RoundToInt(user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage()));
 
         int roundedDefence = (int)user.CurrentDefence;
 

@@ -5,7 +5,7 @@ public class AshBlastEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int damage = user.GetEffectiveSkillDamage(user.CurrentSkillDmg * 2);
+        int damage = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg * 2));
         
         var (result, damageDone) = target.TakeDamage(damage, true, false, false, skill);
 

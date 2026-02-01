@@ -14,9 +14,10 @@ public abstract class CombatantInstance
     public abstract int CurrentHealth { get; set; }
     public abstract int MaxHealth { get; set; }
     public abstract float CurrentDefence { get; set; }
-    public abstract int CurrentSkillDmg { get; set; }
-    public abstract int CurrentHealPower { get; set; }
+    public abstract float CurrentSkillDmg { get; set; }
+    public abstract float CurrentHealPower { get; set; }
     public abstract int CurrentBurnLevel { get; set; }
+    public abstract int CurrentBurnDamage { get; set; }
     public abstract Transformations CurrentTransformation { get; set; }
     public abstract List<SkillSO> GetAllSkills();
 
@@ -47,7 +48,7 @@ public abstract class CombatantInstance
     protected DefenseController DefenseCtrl => _defenseController ??= new DefenseController(this);
 
     // Weapon properties
-    public int GetEffectiveWeaponDamage() => EquippedWeaponInstance?.GetEffectiveDamage() ?? 0;
+    public float GetEffectiveWeaponDamage() => EquippedWeaponInstance?.GetEffectiveDamage() ?? 0;
     public int GetEffectiveCritChance() => EquippedWeaponInstance?.GetEffectiveCritChance() ?? 0;
 
     // Public API methods delegate to controllers
@@ -59,28 +60,28 @@ public abstract class CombatantInstance
     public virtual string PerformBasicAttack(CombatantInstance target)
         => CombatCtrl.PerformBasicAttack(target);
 
-    public int ApplyCriticalHitEffects(int baseDamage)
+    public float ApplyCriticalHitEffects(float baseDamage)
         => CombatCtrl.ApplyCriticalHitEffects(baseDamage);
 
-    public int GetEffectiveWeaponDamageAfterEffects(int baseDamage)
+    public float GetEffectiveWeaponDamageAfterEffects(float baseDamage)
         => DamageCtrl.GetEffectiveWeaponDamageAfterEffects(baseDamage);
 
-    public int GetEffectiveWeaponDamageAfterEffectsForUI(int baseDamage)
+    public float GetEffectiveWeaponDamageAfterEffectsForUI(float baseDamage)
         => DamageCtrl.GetEffectiveWeaponDamageAfterEffectsForUI(baseDamage);
 
-    public int GetEffectiveSkillDamageAfterEffects(int baseDamage)
+    public float GetEffectiveSkillDamageAfterEffects(float baseDamage)
         => DamageCtrl.GetEffectiveSkillDamageAfterEffects(baseDamage);
 
     public int GetEffectiveCritChanceAfterEffects(int baseCrit)
         => CombatCtrl.GetEffectiveCritChanceAfterEffects(baseCrit);
 
-    public int GetEffectiveSkillDamage(int baseDmg)
+    public float GetEffectiveSkillDamage(float baseDmg)
         => DamageCtrl.GetEffectiveSkillDamage(baseDmg);
 
-    public int GetEffectiveSkillDamageForUI(int baseDmg)
+    public float GetEffectiveSkillDamageForUI(float baseDmg)
         => DamageCtrl.GetEffectiveSkillDamageForUI(baseDmg);
 
-    public int GetEffectiveHealPower(int baseHeal)
+    public float GetEffectiveHealPower(float baseHeal)
         => HealingCtrl.GetEffectiveHealPower(baseHeal);
 
     public float GetEffectiveDefence()

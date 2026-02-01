@@ -15,5 +15,6 @@ MonoBehaviour:
   locationName: Murngle Crags
   locationImage: {fileID: 21300000, guid: 255bab9d8b6aa1642b8f7ef218fa40ee, type: 3}
   locationChance: 20
-  description: Gain more weapon crit chance
+  description: Gain 15 weapon crit damage
+  allowedPools: 00000000
   effect: {fileID: 11400000, guid: 0839a4370fde2b04e950a3102de5d4aa, type: 2}

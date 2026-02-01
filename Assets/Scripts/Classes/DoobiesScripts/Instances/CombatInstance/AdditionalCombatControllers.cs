@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -22,10 +23,10 @@ public class CombatController
         if (CheckMiss())
             return $"{_combatant.CharacterName} swings at {target.CharacterName}, but misses!";
 
-        int damage = CalculateDamage(out bool isCrit);
-
+        float damage = CalculateDamage(out bool isCrit);
+        
         PlayAttackAnimation(target);
-        var (result, actualDamage) = target.TakeDamage(damage, false);
+        var (result, actualDamage) = target.TakeDamage((int)damage, false);
 
         ApplyPostAttackEffects(target);
 
@@ -38,12 +39,12 @@ public class CombatController
         return Random.value < _combatant.EquippedWeaponInstance.MissChance || blindEffect != null;
     }
 
-    private int CalculateDamage(out bool isCrit)
+    private float CalculateDamage(out bool isCrit)
     {
-        int attack = _combatant.EquippedWeaponInstance.GetEffectiveDamage();
+        float attack = _combatant.EquippedWeaponInstance.GetEffectiveDamage();
         float multiplier = Random.Range(0.5f, 1.5f);
-        int baseDamage = Mathf.RoundToInt(attack * multiplier);
-        int damageAfterEffects = _combatant.GetEffectiveWeaponDamageAfterEffects(baseDamage);
+        float baseDamage = attack * multiplier;
+        float damageAfterEffects = _combatant.GetEffectiveWeaponDamageAfterEffects(baseDamage);
 
         isCrit = Random.Range(0, 100) < GetEffectiveCritChanceAfterEffects(_combatant.GetEffectiveCritChance());
 
@@ -95,9 +96,9 @@ public class CombatController
         }
     }
 
-    public int ApplyCriticalHitEffects(int baseDamage)
+    public float ApplyCriticalHitEffects(float baseDamage)
     {
-        int modifiedDamage = baseDamage;
+        float modifiedDamage = baseDamage;
 
         foreach (var upgrade in _combatant.ActiveUpgrades)
         {
@@ -191,7 +192,7 @@ public class CombatController
 
     private int CalculateBarrelDamage(CombatantInstance owner, CombatantInstance attacker, Effect barrelEffect, bool isCrit, bool ownerIsBeingAttacked, bool cameFromPistolShot)
     {
-        int damage = barrelEffect.intensity + attacker.GetEffectiveWeaponDamageAfterEffects(attacker.GetEffectiveWeaponDamage());
+        float damage = barrelEffect.intensity + attacker.GetEffectiveWeaponDamageAfterEffects(attacker.GetEffectiveWeaponDamage());
 
         if (!ownerIsBeingAttacked)
         {
@@ -221,7 +222,7 @@ public class CombatController
             }
         }
 
-        return damage;
+        return (int)damage;
     }
 
     private void HandleCriticalBarrels(CombatantInstance owner, bool ownerIsBeingAttacked)
@@ -279,7 +280,7 @@ public class HealingController
     /// <returns>The actual amount healed</returns>
     public int HealCombatant(int amount)
     {
-        int effectiveHeal = GetEffectiveHealPower(amount);
+        float effectiveHeal = GetEffectiveHealPower(amount);
         effectiveHeal += _combatant.CurrentHealPower;
 
         int healAmount = CalculateActualHeal(effectiveHeal);
@@ -290,7 +291,7 @@ public class HealingController
             LogHeal(healAmount);
         }
 
-        CheckForOverheal(effectiveHeal);
+        CheckForOverheal((int)effectiveHeal);
 
         return healAmount;
     }
@@ -298,9 +299,9 @@ public class HealingController
     /// <summary>
     /// Calculate how much health can actually be restored
     /// </summary>
-    private int CalculateActualHeal(int effectiveHeal)
+    private int CalculateActualHeal(float effectiveHeal)
     {
-        return Mathf.Min(effectiveHeal, _combatant.MaxHealth - _combatant.CurrentHealth);
+        return Mathf.Min(Mathf.RoundToInt(effectiveHeal), _combatant.MaxHealth - _combatant.CurrentHealth);
     }
 
     /// <summary>
@@ -349,7 +350,7 @@ public class HealingController
     /// </summary>
     /// <param name="baseHeal">Base heal amount before modifiers</param>
     /// <returns>Modified heal amount</returns>
-    public int GetEffectiveHealPower(int baseHeal)
+    public float GetEffectiveHealPower(float baseHeal)
     {
         float modifiedHeal = baseHeal;
 
@@ -367,7 +368,7 @@ public class HealingController
             }
         }
 
-        return Mathf.Max(0, Mathf.RoundToInt(modifiedHeal));
+        return Mathf.Max(0f, modifiedHeal);
     }
 }
 

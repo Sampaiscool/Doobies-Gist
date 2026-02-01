@@ -6,7 +6,7 @@ public class CrimsonsHeartEffect : SkillEffectSO
 	public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
 	{
 		int baseDmg = 0;
-		int currentSkillPower = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
+		int currentSkillPower = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg));
 
 		int totalBurn = target.GetTotalEffectIntensity(EffectGroup.BurnLike);
 		if (totalBurn > 0)

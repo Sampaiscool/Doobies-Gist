@@ -7,7 +7,7 @@ public class BungusBlinkEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDmg = user.GetEffectiveWeaponDamage();
+        int baseDmg = Mathf.RoundToInt(user.GetEffectiveWeaponDamage());
 
         var (targetResult, actualTargetDmg) = target.TakeDamage(baseDmg, isSkill: true, skill: skill);
 

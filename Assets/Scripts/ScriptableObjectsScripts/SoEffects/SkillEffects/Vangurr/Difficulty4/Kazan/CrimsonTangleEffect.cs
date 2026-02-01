@@ -7,7 +7,7 @@ public class CrimsonTangleEffect : SkillEffectSO
 	{
 		target.AddEffect(new Effect(EffectType.Stun, 2, true, 1));
 
-		int baseDmg = user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage());
+		int baseDmg = Mathf.RoundToInt(user.GetEffectiveWeaponDamageAfterEffects(user.GetEffectiveWeaponDamage()));
 
 		var (result, damageDone) = target.TakeDamage(baseDmg, true, false, false, skill);
 

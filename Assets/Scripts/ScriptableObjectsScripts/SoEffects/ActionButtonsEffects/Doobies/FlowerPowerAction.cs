@@ -9,7 +9,7 @@ public class FlowerPowerAction : ScriptableObject, IDoobieAction
 
     public bool Execute(CombatantInstance user, CombatantInstance target)
     {
-        int baseDmg = user.GetEffectiveHealPower(user.CurrentHealPower);
+        int baseDmg = Mathf.RoundToInt(user.GetEffectiveHealPower(user.CurrentHealPower));
 
         var (result, damageDone) = target.TakeDamage(baseDmg, true);
 

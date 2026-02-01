@@ -198,7 +198,7 @@ public class ShopManager : MonoBehaviour
             if (frozenUpgrade == upgrade)
             {
                 btn.SetFrozenVisual(true);
-                btn.SetLocked(true); // locked so can’t be bought
+                btn.SetLocked(true); // locked so canï¿½t be bought
             }
         }
 
@@ -335,6 +335,34 @@ public class ShopManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void UpgradeBurn()
+    {
+        switch (GameManager.Instance.currentDoobie.CurrentBurnLevel)
+        {
+            case 1:
+                if (!GameManager.Instance.ChangeSploont(1000, false))
+                {
+                    Debug.Log("Not enough Sploont to buy burn upgrade");
+                    return;
+                }
+                
+                GameManager.Instance.currentDoobie.CurrentBurnLevel++;
+                break;
+            case 2:
+                if (!GameManager.Instance.ChangeSploont(2000, false))
+                {
+                    Debug.Log("Not enough Sploont to buy burn upgrade");
+                    return;
+                }
+                
+                GameManager.Instance.currentDoobie.CurrentBurnLevel++;
+                break;
+        }
+        GameManager.Instance.FindManagers();
+        GameManager.Instance.PanelManager.GetCorrectShopButton(GameManager.Instance.currentDoobie._so.characterPool);
+        
     }
 
 

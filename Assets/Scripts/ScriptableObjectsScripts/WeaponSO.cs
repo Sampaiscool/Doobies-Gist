@@ -9,7 +9,7 @@ public class WeaponSO : ScriptableObject
     public Sprite icon;
     public GameObject animation;
 
-    public int baseDamage;
+    public float baseDamage;
     public int baseCritChance;
 
     

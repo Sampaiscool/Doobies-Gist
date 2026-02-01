@@ -8,10 +8,10 @@ public class SuperBeamEffect : SkillEffectSO
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
         // Base skill damage before buffs/debuffs
-        int baseDmg = user.CurrentSkillDmg;
+        int baseDmg = Mathf.RoundToInt(user.CurrentSkillDmg);
 
         // Apply modifiers (Weaken, etc.)
-        int effectiveDmg = user.GetEffectiveSkillDamage(baseDmg);
+        int effectiveDmg = Mathf.RoundToInt(user.GetEffectiveSkillDamage(baseDmg));
 
         // Flat bonus for this skill
         int finalDmg = effectiveDmg + 3;

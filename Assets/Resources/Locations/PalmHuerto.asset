@@ -16,4 +16,5 @@ MonoBehaviour:
   locationImage: {fileID: 21300000, guid: 8f260a60d696f634d9e4e4cbeec8146e, type: 3}
   locationChance: 45
   description: Lose half of your HP; gain 600 sploont
+  allowedPools: 00000000
   effect: {fileID: 11400000, guid: 9f4019a2d5a246f4097c44339a167f17, type: 2}

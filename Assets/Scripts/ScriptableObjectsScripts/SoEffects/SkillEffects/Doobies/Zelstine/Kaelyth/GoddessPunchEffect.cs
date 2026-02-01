@@ -8,7 +8,7 @@ public class GoddessPunchEffect : SkillEffectSO
 {
     public override string ApplyEffect(CombatantInstance user, CombatantInstance target, SkillSO skill)
     {
-        int baseDamage = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
+        int baseDamage = Mathf.RoundToInt(user.GetEffectiveSkillDamage(user.CurrentSkillDmg));
 
         baseDamage += Mathf.FloorToInt(target.MaxHealth / 10);
 

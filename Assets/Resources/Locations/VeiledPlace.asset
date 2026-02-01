@@ -15,5 +15,6 @@ MonoBehaviour:
   locationName: Veiled Place
   locationImage: {fileID: 21300000, guid: c98db6b7c40b66445938890eb602a755, type: 3}
   locationChance: 5
-  description: Gain 1 Max HP.
+  description: Gain 1 Max HP
+  allowedPools: 00000000
   effect: {fileID: 11400000, guid: 26a156482eb325141b7a21d07b957cc9, type: 2}

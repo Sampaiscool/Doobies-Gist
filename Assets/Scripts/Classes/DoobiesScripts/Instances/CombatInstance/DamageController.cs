@@ -13,7 +13,7 @@ public class DamageController
         _combatant = combatant;
     }
 
-    public (DamageResult result, int actualDamage) TakeDamage(int amount, bool isSkill, bool isEffect = false, bool ignoreDefense = false, ScriptableObject skill = null)
+    public (DamageResult result, int actualDamage) TakeDamage(float amount, bool isSkill, bool isEffect = false, bool ignoreDefense = false, ScriptableObject skill = null)
     {
         if (HandleHidden())
         {
@@ -144,9 +144,9 @@ public class DamageController
         OnDamageHandler.Handle(_combatant, damage, isSkill, skill as SkillSO);
     }
 
-    public int GetEffectiveWeaponDamageAfterEffects(int baseDamage)
+    public float GetEffectiveWeaponDamageAfterEffects(float baseDamage)
     {
-        int modifiedDamage = baseDamage;
+        float modifiedDamage = baseDamage;
         var effectsSnapshot = new List<Effect>(_combatant.ActiveEffects);
 
         foreach (var effect in effectsSnapshot)
@@ -160,40 +160,40 @@ public class DamageController
             modifiedDamage = ApplyDamageModifier(modifiedDamage, effect);
         }
 
-        return Mathf.Max(modifiedDamage, 0);
+        return Mathf.Max(modifiedDamage, 0f);
     }
 
-    public int GetEffectiveWeaponDamageAfterEffectsForUI(int baseDamage)
+    public float GetEffectiveWeaponDamageAfterEffectsForUI(float baseDamage)
     {
-        int modifiedDamage = baseDamage;
+        float modifiedDamage = baseDamage;
 
         foreach (var effect in _combatant.ActiveEffects)
         {
             modifiedDamage = ApplyDamageModifier(modifiedDamage, effect);
         }
 
-        return Mathf.Max(modifiedDamage, 0);
+        return Mathf.Max(modifiedDamage, 0f);
     }
 
-    private int ApplyDamageModifier(int damage, Effect effect)
+    private float ApplyDamageModifier(float damage, Effect effect)
     {
         switch (effect.type)
         {
             case EffectType.WeaponWeaken:
                 for (int i = 0; i < effect.intensity; i++)
-                    damage = Mathf.FloorToInt(damage * 0.8f);
+                    damage = damage * 0.8f;
                 break;
             case EffectType.WeaponStrenghten:
                 for (int i = 0; i < effect.intensity; i++)
-                    damage = Mathf.CeilToInt(damage * 1.2f);
+                    damage = damage * 1.2f;
                 break;
         }
         return damage;
     }
 
-    public int GetEffectiveSkillDamageAfterEffects(int baseDamage)
+    public float GetEffectiveSkillDamageAfterEffects(float baseDamage)
     {
-        int modifiedDamage = baseDamage;
+        float modifiedDamage = baseDamage;
 
         foreach (var effect in _combatant.ActiveEffects)
         {
@@ -201,23 +201,23 @@ public class DamageController
             {
                 case EffectType.SpellWeaken:
                     for (int i = 0; i < effect.intensity; i++)
-                        modifiedDamage = Mathf.FloorToInt(modifiedDamage * 0.8f);
+                        modifiedDamage = (modifiedDamage * 0.8f);
                     break;
                 case EffectType.SpellStrenghten:
                     for (int i = 0; i < effect.intensity; i++)
-                        modifiedDamage = Mathf.CeilToInt(modifiedDamage * 1.2f);
+                        modifiedDamage = (modifiedDamage * 1.2f);
                     break;
             }
         }
 
         modifiedDamage = GetEffectiveSkillDamageAfterUpgrades(modifiedDamage);
 
-        return Mathf.Max(modifiedDamage, 0);
+        return Mathf.Max(modifiedDamage, 0f);
     }
 
-    public int GetEffectiveSkillDamageAfterUpgrades(int baseDamage)
+    public float GetEffectiveSkillDamageAfterUpgrades(float baseDamage)
     {
-        int modifiedDamage = baseDamage;
+        float modifiedDamage = baseDamage;
 
         foreach (Upgrade upgrade in _combatant.ActiveUpgrades)
         {
@@ -234,7 +234,7 @@ public class DamageController
                     {
                         for (int i = 0; i < upgrade.intensity; i++)
                         {
-                            modifiedDamage = Mathf.CeilToInt(modifiedDamage * 1.5f);
+                            modifiedDamage = modifiedDamage * 1.5f;
                         }
                     }
                     break;
@@ -242,20 +242,20 @@ public class DamageController
                     int opponentBurn2 = _combatant.Opponent.GetTotalEffectIntensity(EffectGroup.BurnLike);
                     
                     for (int i = 0; i < opponentBurn2; i++) 
-                        modifiedDamage = Mathf.FloorToInt(modifiedDamage + 1);
+                        modifiedDamage = modifiedDamage + 1;
                     break;
             }
         }
         return modifiedDamage;
     }
 
-    public int GetEffectiveSkillDamage(int baseDmg)
+    public float GetEffectiveSkillDamage(float baseDmg)
     {
         _combatant.CheckForSpelllOnUseEffects();
         return GetEffectiveSkillDamageAfterEffects(baseDmg);
     }
 
-    public int GetEffectiveSkillDamageForUI(int baseDmg)
+    public float GetEffectiveSkillDamageForUI(float baseDmg)
     {
         return GetEffectiveSkillDamageAfterEffects(baseDmg);
     }

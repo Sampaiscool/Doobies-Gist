@@ -587,10 +587,16 @@ public class CombatManager : MonoBehaviour
         // --- Burn ---
         if (combatant.HasEffect(EffectGroup.BurnLike))
         {
-            int burnDamage = combatant.GetTotalEffectIntensity(EffectGroup.BurnLike);
+            int burnLevel = combatant.GetTotalEffectIntensity(EffectGroup.BurnLike);
+
+            int baseBurnDamage = combatant.GetOpponent().CurrentBurnDamage;
+            int burnDamage = baseBurnDamage * burnLevel;
+
 
             var (result, damageDone) = combatant.TakeDamage(burnDamage, true, true);
-            BattleUIManager.Instance.AddLog($"{name} takes {damageDone} burn damage!");
+            BattleUIManager.Instance.AddLog(
+                $"{name} takes {damageDone} burn damage ({burnLevel} Burn)!"
+            );
 
             if (damageDone > 0)
             {
@@ -653,7 +659,7 @@ public class CombatManager : MonoBehaviour
                         break;
 
                     case UpgradeNames.HealtySupplies:
-                        combatant.HealCombatant(combatant.CurrentHealPower + upgrade.intensity);
+                        combatant.HealCombatant((int)combatant.CurrentHealPower + upgrade.intensity);
                         break;
 
                     case UpgradeNames.GremlinHunger:
