@@ -8,7 +8,6 @@ public abstract class CombatantInstance
 {
     public Transform animationAnchor;
     // Abstract properties
-    // This is the REAL test grah ragh hgarg
     public abstract ScriptableObject so { get; }
     public abstract string CharacterName { get; }
     public abstract Sprite CurrentImage { get; set; }
@@ -17,6 +16,7 @@ public abstract class CombatantInstance
     public abstract float CurrentDefence { get; set; }
     public abstract int CurrentSkillDmg { get; set; }
     public abstract int CurrentHealPower { get; set; }
+    public abstract int CurrentBurnLevel { get; set; }
     public abstract Transformations CurrentTransformation { get; set; }
     public abstract List<SkillSO> GetAllSkills();
 
@@ -86,8 +86,19 @@ public abstract class CombatantInstance
     public float GetEffectiveDefence()
         => DefenseCtrl.GetEffectiveDefence();
 
-    public void AddEffect(Effect newEffect)
-        => EffectCtrl.AddEffect(newEffect);
+    public void AddEffect(Effect newEffect, CombatantInstance source = null, int? sourceBurnLevel = null)
+    {
+        if (source != null)
+            newEffect.sourceCombatant = source;
+        else if (newEffect.type == EffectType.Burn)
+        {
+            // For burn effects in 1v1, default source is the opponent (who's attacking)
+            newEffect.sourceCombatant = GetOpponent();
+        }
+        if (sourceBurnLevel.HasValue)
+            newEffect.sourceBurnLevel = sourceBurnLevel;
+        EffectCtrl.AddEffect(newEffect);
+    }
 
     public void AddUpgrade(Upgrade newUpgrade)
         => UpgradeCtrl.AddUpgrade(newUpgrade);
@@ -134,6 +145,41 @@ public abstract class CombatantInstance
     public Effect GetEffect(EffectType type) => ActiveEffects.Find(e => e.type == type);
     public bool HasEffect(EffectType type) => ActiveEffects.Exists(e => e.type == type);
     public int GetEffectIntensity(EffectType type) => GetEffect(type)?.intensity ?? 0;
+
+    // Returns the total intensity for all effects whose enum name starts with the provided prefix
+    public int GetTotalEffectIntensityByPrefix(string prefix)
+    {
+        int sum = 0;
+        foreach (var e in ActiveEffects)
+        {
+            if (e.type.ToString().StartsWith(prefix))
+                sum += e.intensity;
+        }
+        return sum;
+    }
+
+    // Returns true if any active effect's enum name starts with the provided prefix
+    public bool HasEffectByPrefix(string prefix)
+    {
+        return ActiveEffects.Exists(e => e.type.ToString().StartsWith(prefix));
+    }
+
+    // Typed helpers using EffectGroup
+    public int GetTotalEffectIntensity(EffectGroup group)
+    {
+        int sum = 0;
+        foreach (var e in ActiveEffects)
+        {
+            if (e.type.ToGroup() == group)
+                sum += e.intensity;
+        }
+        return sum;
+    }
+
+    public bool HasEffect(EffectGroup group)
+    {
+        return ActiveEffects.Exists(e => e.type.ToGroup() == group);
+    }
 
     public Item GetItem(ItemType type) => ActiveItems.Find(i => i.type == type);
     public bool HasItem(ItemType type) => ActiveItems.Exists(i => i.type == type);

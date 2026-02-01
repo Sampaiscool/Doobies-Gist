@@ -8,10 +8,10 @@ public class CrimsonsHeartEffect : SkillEffectSO
 		int baseDmg = 0;
 		int currentSkillPower = user.GetEffectiveSkillDamage(user.CurrentSkillDmg);
 		
-		Effect burnEffect = target.ActiveEffects.Find(b => b.type == EffectType.Burn);
-		if (burnEffect != null)
+		int totalBurn = target.GetTotalEffectIntensityByPrefix("Burn");
+		if (totalBurn > 0)
 		{
-			baseDmg = burnEffect.intensity + currentSkillPower;
+			baseDmg = totalBurn + currentSkillPower;
 			var (result, damageDone) = target.TakeDamage(baseDmg, true, false, false, skill);
 			return $"{user.CharacterName} heart burns brightly, dealing {damageDone} to {target.CharacterName}!";
 		}

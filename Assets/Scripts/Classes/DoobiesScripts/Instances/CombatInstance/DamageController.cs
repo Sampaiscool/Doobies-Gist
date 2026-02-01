@@ -210,7 +210,7 @@ public class DamageController
             }
         }
 
-        GetEffectiveSkillDamageAfterUpgrades(modifiedDamage);
+        modifiedDamage = GetEffectiveSkillDamageAfterUpgrades(modifiedDamage);
 
         return Mathf.Max(modifiedDamage, 0);
     }
@@ -228,7 +228,7 @@ public class DamageController
                     requiredBurn = Mathf.Max(requiredBurn, 0);
 
                     CombatantInstance opponent = _combatant.Opponent;
-                    int opponentBurn1 = opponent.GetEffectIntensity(EffectType.Burn);
+                    int opponentBurn1 = opponent.GetTotalEffectIntensity(EffectGroup.BurnLike);
 
                     if (opponentBurn1 >= requiredBurn)
                     {
@@ -239,10 +239,10 @@ public class DamageController
                     }
                     break;
                 case UpgradeNames.FireMaster:
-                    int opponentBurn2 = _combatant.Opponent.GetEffectIntensity(EffectType.Burn);
+                    int opponentBurn2 = _combatant.Opponent.GetTotalEffectIntensity(EffectGroup.BurnLike);
                     
                     for (int i = 0; i < opponentBurn2; i++) 
-                        modifiedDamage = Mathf.FloorToInt(modifiedDamage * 1.2f);
+                        modifiedDamage = Mathf.FloorToInt(modifiedDamage + 1);
                     break;
             }
         }

@@ -33,6 +33,9 @@ public class YippieHibbelEffect : LocationEffectSO
             case ResourceType.Crystals:
                 GameManager.Instance.currentDoobie.MainResource.GainMax(2);
                 break;
+            case ResourceType.Ember:
+                GameManager.Instance.currentDoobie.MainResource.GainMax(20);
+                break;
             default:
                 break;
         }

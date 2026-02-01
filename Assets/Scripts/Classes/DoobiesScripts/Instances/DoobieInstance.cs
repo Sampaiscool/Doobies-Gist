@@ -16,6 +16,8 @@ public class DoobieInstance : CombatantInstance
 
     public override int CurrentSkillDmg { get; set; }
     public override int CurrentHealPower { get; set; }
+    private int _currentBurnLevel = 1;
+    public override int CurrentBurnLevel { get => _currentBurnLevel; set => _currentBurnLevel = value; }
     public override Transformations CurrentTransformation { get; set; }
 
     public IResource MainResource { get; private set; }
@@ -63,6 +65,8 @@ public class DoobieInstance : CombatantInstance
         CurrentSkillDmg = _so.skillDmg;
         CurrentHealPower = _so.healPower;
 
+        CurrentBurnLevel = 1;
+
         EquippedWeaponInstance = new WeaponInstance(_so.defaultWeapon);
 
         CurrentTransformation = _so.startingTransformation;
@@ -99,6 +103,11 @@ public class DoobieInstance : CombatantInstance
                 var crystals = new CrystalResource(_so.baseResourceMax);
                 crystals.OnCrystalGained += HandleCrystalGained;
                 MainResource = crystals;
+                break;
+            case ResourceType.Ember:
+                var ember = new EmberResource(_so.baseResourceMax);
+                ember.OnEmberGained += HandleEmberGained;
+                MainResource = ember;
                 break;
             default:
                 MainResource = null;
@@ -242,6 +251,26 @@ public class DoobieInstance : CombatantInstance
     private void HandleCrystalGained(int amount)
     {
 
+    }
+    
+    /// <summary>
+    /// Events that happen when you gain Crystals
+    /// </summary>
+    /// <param name="amount">The amount you gain</param>
+    private void HandleEmberGained(int amount)
+    {
+        if (MainResource.Current == MainResource.Max)
+        {
+            if (HasUpgrade(UpgradeNames.EmberOverflow))
+            {
+                int upgradeIntensity = GetUpgradeIntensity(UpgradeNames.EmberOverflow);
+                
+                for (int i = 0; i < upgradeIntensity; i++)
+                {
+                    MainResource.GainMax(1); 
+                }
+            }
+        }
     }
 
     /// <summary>

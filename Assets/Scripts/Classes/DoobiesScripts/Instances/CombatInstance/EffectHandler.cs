@@ -233,7 +233,7 @@ public static class OnDamageHandler
                     }
                     break;
                 case UpgradeNames.FlameOfMenta:
-                    if (isSkill && skill.isWeaponSkill == false && combatant.HasEffect(EffectType.Burn))
+                    if (isSkill && skill.isWeaponSkill == false && combatant.HasEffect(EffectGroup.BurnLike))
                     {
                         for (int i = 0; i < opponentUpgrade.intensity; i++)
                         {
@@ -565,11 +565,11 @@ public static class BurnDamageHandler
 {
     public static void HandleBurnDamage(CombatantInstance combatant, CombatantInstance opponent, int damage)
     {
-        HandleBurnUpgrades(opponent);
+        HandleBurnUpgrades(opponent, damage);
         HandleBurnItems(combatant, opponent);
     }
 
-    private static void HandleBurnUpgrades(CombatantInstance opponent)
+    private static void HandleBurnUpgrades(CombatantInstance opponent, int burndamage = 0)
     {
         foreach (var upgrade in opponent.ActiveUpgrades)
         {
@@ -579,6 +579,14 @@ public static class BurnDamageHandler
                     opponent.AddEffect(new Effect(EffectType.Barrel, 100, false, upgrade.intensity));
                     BattleUIManager.Instance.AddLog($"{opponent.CharacterName}'s Walk The Plank creates a Barrel!");
                     break;
+                case UpgradeNames.SparkingEmbers:
+                    if (opponent is DoobieInstance doobie)
+                    {
+                        int totalgain = burndamage * upgrade.intensity;
+                        
+                        doobie.MainResource.Gain(totalgain);
+                    }
+                    break;
             }
         }
     }
@@ -587,9 +595,9 @@ public static class BurnDamageHandler
     {
         foreach (Item item in opponent.ActiveItems)
         {
-            if (item.type == ItemType.Fuel)
+                if (item.type == ItemType.Fuel)
             {
-                var burnEffects = combatant.ActiveEffects.FindAll(e => e.type == EffectType.Burn);
+                var burnEffects = combatant.ActiveEffects.FindAll(e => e.type.ToGroup() == EffectGroup.BurnLike);
                 foreach (var burn in burnEffects)
                 {
                     burn.intensity *= 2;

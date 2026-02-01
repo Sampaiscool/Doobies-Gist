@@ -382,6 +382,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -518,6 +519,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1118,6 +1120,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1254,6 +1257,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1482,6 +1486,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1959,6 +1964,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -3291,10 +3297,12 @@ MonoBehaviour:
   InCombat: 0
   CurrentPlayerSploont: 0
   CurrentPlayerHP: 20
+  CurrentPlayerMaxHP: 20
   CurrentPlayerDzeef: 0
   CombatManager: {fileID: 0}
   damageAnimationPrefab: {fileID: 3277231419243905917, guid: fb1d3b6dc5160dc419114ab272462ba7, type: 3}
   uiCanvas: {fileID: 0}
+  nextLocationMultiplier: 1
   SettingsPanel: {fileID: 5843109968195185215, guid: 1eda7f3f6546e0b4b83ee5cb799c0412, type: 3}
   goddessButtonsPrefab: {fileID: 3067366795010647074, guid: 8346fe6cff87f394fb36975a3917decf, type: 3}
   debugMode: 0
@@ -3394,6 +3402,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -3626,7 +3635,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 776884009}
   m_Direction: 2
   m_Value: -0.00000178884
-  m_Size: 0.9269004
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

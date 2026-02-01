@@ -233,7 +233,7 @@ public static class OnDamageHandler
                     }
                     break;
                 case UpgradeNames.FlameOfMenta:
-                    if (isSkill && skill.isWeaponSkill == false && combatant.HasEffect(EffectType.Burn))
+                    if (isSkill && skill.isWeaponSkill == false && combatant.HasEffectByPrefix("Burn"))
                     {
                         for (int i = 0; i < opponentUpgrade.intensity; i++)
                         {
@@ -587,9 +587,9 @@ public static class BurnDamageHandler
     {
         foreach (Item item in opponent.ActiveItems)
         {
-            if (item.type == ItemType.Fuel)
+                if (item.type == ItemType.Fuel)
             {
-                var burnEffects = combatant.ActiveEffects.FindAll(e => e.type == EffectType.Burn);
+                var burnEffects = combatant.ActiveEffects.FindAll(e => e.type.ToString().StartsWith("Burn"));
                 foreach (var burn in burnEffects)
                 {
                     burn.intensity *= 2;

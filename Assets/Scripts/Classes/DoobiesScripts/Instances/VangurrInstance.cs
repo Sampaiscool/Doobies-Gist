@@ -12,6 +12,8 @@ public class VangurrInstance : CombatantInstance
     public override float CurrentDefence { get; set; }
     public override int CurrentSkillDmg { get; set; }
     public override int CurrentHealPower { get; set; }
+    private int _currentBurnLevel = 1;
+    public override int CurrentBurnLevel { get => _currentBurnLevel; set => _currentBurnLevel = value; }
 
     public override Transformations CurrentTransformation { get; set; }
 
@@ -34,6 +36,8 @@ public class VangurrInstance : CombatantInstance
         CurrentDefence = _so.baseDefence;
         CurrentSkillDmg = _so.skillDmg;
         CurrentHealPower = _so.healPower;
+        
+        CurrentBurnLevel = 1;
 
         // Weapon
         if (_so.defaultWeapon != null)

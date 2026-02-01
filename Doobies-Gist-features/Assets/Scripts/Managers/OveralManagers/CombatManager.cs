@@ -562,7 +562,7 @@ public class CombatManager : MonoBehaviour
         }
 
         // --- Burn ---
-        foreach (var burn in combatant.ActiveEffects.FindAll(e => e.type == EffectType.Burn))
+        foreach (var burn in combatant.ActiveEffects.FindAll(e => e.type.ToString().StartsWith("Burn")))
         {
             var (result, damageDone) = combatant.TakeDamage(burn.intensity, true);
             BattleUIManager.Instance.AddLog($"{combatant.CharacterName} takes {damageDone} burn damage!");

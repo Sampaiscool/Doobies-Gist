@@ -18,6 +18,25 @@ public class EffectController
     {
         BeforeEffectGain(newEffect);
 
+        if (newEffect.type == EffectType.Burn)
+        {
+            // If no source specified, try to infer: use receiver's burn level
+            // If source is specified (sourceCombatant or sourceBurnLevel), use that
+            int levelToUse = newEffect.sourceBurnLevel ?? (newEffect.sourceCombatant?.CurrentBurnLevel) ?? _combatant.CurrentBurnLevel;
+            switch (levelToUse)
+            {
+                case 1:
+                    break;
+                case 2:
+                    newEffect.type = EffectType.Burn2;
+                    break;
+                case 3:
+                    newEffect.type = EffectType.Burn3;
+                    break;
+            }
+        }
+        
+        // Stack Effect
         if (newEffect.type == EffectType.TargetLocked)
         {
             _combatant.ActiveEffects.Add(newEffect);

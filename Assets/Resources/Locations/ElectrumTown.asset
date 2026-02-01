@@ -15,5 +15,5 @@ MonoBehaviour:
   locationName: ElectrumTown
   locationImage: {fileID: 21300000, guid: e374190b788c4e04c88ed6cb13113754, type: 3}
   locationChance: 80
-  description: Your lext location effect has tripple the effect
+  description: Your next location effect has tripple the effect
   effect: {fileID: 11400000, guid: aacd5e5f66dc1574da1544adb056762b, type: 2}

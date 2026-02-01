@@ -228,7 +228,7 @@ public class DamageController
                     requiredBurn = Mathf.Max(requiredBurn, 0);
 
                     CombatantInstance opponent = _combatant.Opponent;
-                    int opponentBurn = opponent.GetEffectIntensity(EffectType.Burn);
+                    int opponentBurn = opponent.GetTotalEffectIntensityByPrefix("Burn");
 
                     if (opponentBurn >= requiredBurn)
                     {

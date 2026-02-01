@@ -122,5 +122,6 @@ public enum UpgradeNames
     FlameOfMenta,                         //None
     
     FireMaster,                           //Mighty Fire
-    
+    SparkingEmbers,                       //Mighty Fire
+    EmberOverflow,                        //Mighty Fire
 }

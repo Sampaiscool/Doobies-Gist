@@ -3047,6 +3047,18 @@ MonoBehaviour:
     type: 41
     icon: {fileID: 21300000, guid: 38bd4b4c36102ae4eb166d2b22a95dbf, type: 3}
     effectPrefab: {fileID: 0}
+  - label: Burn lv2
+    type: 42
+    icon: {fileID: 21300000, guid: e7ce009f4c475c949aa621179402e2ea, type: 3}
+    effectPrefab: {fileID: 162584487599433031, guid: c88d4203aa3d417429196efc5ff6548f, type: 3}
+  - label: Burn lv3
+    type: 43
+    icon: {fileID: 21300000, guid: cec55a09b16d2af42b88fce2395cff84, type: 3}
+    effectPrefab: {fileID: 162584487599433031, guid: c88d4203aa3d417429196efc5ff6548f, type: 3}
+  - label: Burn lv4
+    type: 44
+    icon: {fileID: 21300000, guid: f8aabfd8171b2aa48840c8b8a4a7c814, type: 3}
+    effectPrefab: {fileID: 162584487599433031, guid: c88d4203aa3d417429196efc5ff6548f, type: 3}
   TransformationVisuals:
   - label: SpiritForm Thengshou
     type: 2

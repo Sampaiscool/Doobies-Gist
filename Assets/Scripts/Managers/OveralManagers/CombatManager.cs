@@ -585,9 +585,9 @@ public class CombatManager : MonoBehaviour
         }
 
         // --- Burn ---
-        if (combatant.HasEffect(EffectType.Burn))
+        if (combatant.HasEffect(EffectGroup.BurnLike))
         {
-            int burnDamage = combatant.GetEffectIntensity(EffectType.Burn);
+            int burnDamage = combatant.GetTotalEffectIntensity(EffectGroup.BurnLike);
 
             var (result, damageDone) = combatant.TakeDamage(burnDamage, true, true);
             BattleUIManager.Instance.AddLog($"{name} takes {damageDone} burn damage!");
@@ -601,7 +601,7 @@ public class CombatManager : MonoBehaviour
         // --- Poison ---
         if (combatant.HasEffect(EffectType.Poison))
         {
-            int poisonDamage = combatant.GetEffectIntensity(EffectType.Poison);
+            int poisonDamage = combatant.GetTotalEffectIntensity(EffectGroup.PoisonLike);
             
             var (result, damageDone) = combatant.TakeDamage(poisonDamage, true, true, true);
             BattleUIManager.Instance.AddLog($"{name} takes {damageDone} poison damage!");

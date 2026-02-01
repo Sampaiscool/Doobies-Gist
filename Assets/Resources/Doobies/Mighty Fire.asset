@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7ad21a22b66852499065c8f4daaa60c, type: 3}
-  m_Name: MightyFire
+  m_Name: Mighty Fire
   m_EditorClassIdentifier: Assembly-CSharp::DoobieSO
   doobieName: Mighty Fire
   description: 
   portrait: {fileID: 21300000, guid: 9b7755741ac8e0147a098af0c4751772, type: 3}
   unlockedByDefault: 1
   doobieMainResource: 10
-  resourceActionSO: {fileID: 0}
+  resourceActionSO: {fileID: 11400000, guid: a71bf0df4a874084e96ed218107c0851, type: 2}
   doobieActionSO: {fileID: 0}
-  baseResourceMax: 100
+  baseResourceMax: 30
   skillDmg: 4
   healPower: 1
   baseDefence: 2.5
@@ -27,16 +27,37 @@ MonoBehaviour:
   baseHealth: 10
   hasHealth: 1
   startingTransformation: 0
-  baseSkills: []
+  baseSkills:
+  - {fileID: 11400000, guid: 5afa5ee1300ae5747be18aa1c80eafa0, type: 2}
+  - {fileID: 11400000, guid: 24c098236cc15994b9cc08da939f0354, type: 2}
+  - {fileID: 11400000, guid: 47f8cd38960fbe94f914b1791aefdbad, type: 2}
+  - {fileID: 11400000, guid: f15e3c845304d1c41b3ddebdd32f40d5, type: 2}
   defaultWeapon: {fileID: 11400000, guid: 83bc2af4614542548934cc650258489c, type: 2}
   startingUpgrades:
   - upgradeName: Fire Master
-    description: For each "Burn" on  the enemy; gain 1,2x spell damage
+    description: For each "Burn" on  the enemy; gain +1 spell damage
     cost: 0
     icon: {fileID: 0}
     type: 70
     Pool: 20
     intensity: 1
+    isCurse: 0
+  - upgradeName: Sparking Embers
+    description: For each burn damage your opponent takes; gain +1 ember
+    cost: 0
+    icon: {fileID: 0}
+    type: 71
+    Pool: 20
+    intensity: 2
+    isCurse: 0
+  - upgradeName: Ember Overflow
+    description: If you gain ember while you are at your max; gain +1 max ember then
+      lose half your ember
+    cost: 0
+    icon: {fileID: 0}
+    type: 72
+    Pool: 20
+    intensity: 5
     isCurse: 0
   startingItems: []
   canMulticast: 1

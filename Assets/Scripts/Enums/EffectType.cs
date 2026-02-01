@@ -51,4 +51,5 @@ public enum EffectType
     Confused,                   // Debuff - If you take damage from a basic attack; gain 2 "Stun" for each "Confused" intensity, Then remove all "Confused".
     Burn2,                      // Debuff - Takes damage each turn
     Burn3,                      // Debuff - Takes damage each turn
+    Burn4,                      // Debuff - Takes damage each turn
 }
