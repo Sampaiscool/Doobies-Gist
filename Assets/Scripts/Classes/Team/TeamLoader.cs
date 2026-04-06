@@ -12,7 +12,10 @@ public class TeamLoader : MonoBehaviour
         savePath = Path.Combine(Application.persistentDataPath, "doobies_save.json");
         LoadGame();
     }
-
+    
+    /// <summary>
+    /// Saves any changes made to the JSON
+    /// </summary>
     public void SaveGame()
     {
         string json = JsonUtility.ToJson(data, true);
@@ -25,7 +28,7 @@ public class TeamLoader : MonoBehaviour
 
         if (newName != "")
         {
-            SaveGame(); // Schrijf direct naar de .json file
+            SaveGame();
             Debug.Log("JSON geüpdatet met nieuwe Doobie: " + newName);
         }
     }
@@ -43,7 +46,6 @@ public class TeamLoader : MonoBehaviour
         }
         else
         {
-            // EERSTE KEER OOIT:
             data = new PlayerData(); 
             data.doobieProgressList = new List<DoobieProgress>();
             data.selectedDoobieName = "";
@@ -52,41 +54,52 @@ public class TeamLoader : MonoBehaviour
             Debug.Log("Nieuwe savefile aangemaakt met lege lijsten.");
         }
     }
-    
-    public void AddExperienceToDoobie(string name, int xpAmount)
+
+    public void AddSavedXP(int amount)
     {
-        // 1. Zoek of deze Doobie al in de lijst staat
-        DoobieProgress progress = data.doobieProgressList.Find(x => x.doobieName == name);
-
-        // 2. Als hij nog niet bestaat (eerste keer mee gespeeld), maak hem aan
-        if (progress == null)
-        {
-            progress = new DoobieProgress();
-            progress.doobieName = name;
-            progress.currentTitle = Titles.Rookie;
-            progress.isUnlocked = true;
-            data.doobieProgressList.Add(progress);
-        }
-
-        // 3. Voeg XP toe
-        progress.doobieXP += xpAmount;
-
-        // 4. Check voor Mastery Level Up (De 20/100 logica)
-        while (progress.doobieXP >= 100)
-        {
-            progress.doobieXP -= 100;
-            progress.doobieMastery++;
-            Debug.Log($"{name} is nu Mastery Level {progress.doobieMastery}!");
+        data.savedXP += amount;
+        SaveGame();
+    }
+    
+    public void AddExperienceTo(string name, int xpAmount, bool toDoobie)
+    {
+        GameManager.Instance.FindManagers();
+        int requiredXP = GameManager.Instance.InfoManager.XP_PER_MASTERY;
         
-            // Hier kun je eventueel titels checken:
-            // if(progress.doobieMastery == 10) progress.currentTitle = Titles.Expert;
-        }
+        if (toDoobie)
+        {
+            DoobieProgress progress = data.doobieProgressList.Find(x => x.doobieName == name);
 
-        // 5. Direct opslaan in de JSON
+            if (progress == null)
+            {
+                progress = new DoobieProgress();
+                progress.doobieName = name;
+                progress.currentTitle = Titles.Rookie;
+                progress.isUnlocked = true;
+                data.doobieProgressList.Add(progress);
+            }
+            progress.doobieXP += xpAmount;
+
+            while (progress.doobieXP >= requiredXP)
+            {
+                progress.doobieXP -= requiredXP;
+                progress.doobieMastery++;
+            }
+        }
+        else
+        {
+            data.playerXP += xpAmount;
+
+            while (data.playerXP >= requiredXP)
+            {
+                data.playerXP -= requiredXP;
+                data.playerMastery++;
+            }
+        }
+        
         SaveGame();
     }
 
-    // Deze methode vervangt je oude LoadTeamData
     public void InitializeSelectedDoobie()
     {
         if (string.IsNullOrEmpty(data.selectedDoobieName)) return;

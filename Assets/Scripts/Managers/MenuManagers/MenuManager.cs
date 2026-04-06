@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour
     public GameObject TownPanel;
     public GameObject TeamPanel;
     public GameObject InfoPanel;
+    public GameObject AddXPPanel;
     public GameObject DoobieSelectionPanel;
 
     private GameObject currentPanel;
@@ -78,6 +79,23 @@ public class MenuManager : MonoBehaviour
         GameManager.Instance.FindManagers();
         GameManager.Instance.TeamSelectUI.OpenDoobieSelection(); 
         ShowPanel(DoobieSelectionPanel);
+    }
+
+    public void OpenXPPanel(bool isForDoobie)
+    {
+        if (isForDoobie)
+        {
+            GameManager.Instance.InfoManager.hasChosenDoobie = true;
+        }
+        else
+        {
+            GameManager.Instance.InfoManager.hasChosenDoobie = false;
+        }
+        
+        GameManager.Instance.FindManagers();
+        GameManager.Instance.InfoManager.UpdateInfoPanel();
+        
+        ShowPanel(AddXPPanel);
     }
 
     public void StartGame()

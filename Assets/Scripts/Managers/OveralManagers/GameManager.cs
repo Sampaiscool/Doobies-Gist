@@ -212,6 +212,7 @@ public class GameManager : MonoBehaviour
     public void AfterFight(bool hasWonBattle)
     {
         InCombat = false;
+        currentDoobie.ActiveEffects.Clear();
 
         if (hasWonBattle)
         {
@@ -256,8 +257,7 @@ public class GameManager : MonoBehaviour
         FindManagers();
         string currentDoobie = loader.data.selectedDoobieName;
     
-        // Geef bijvoorbeeld 250 XP
-        loader.AddExperienceToDoobie(currentDoobie, 10);
+        loader.AddSavedXP(10);
         
         loader.SaveGame();
         

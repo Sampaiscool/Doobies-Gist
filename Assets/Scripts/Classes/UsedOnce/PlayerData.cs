@@ -6,6 +6,8 @@ public class PlayerData
 {
     public string selectedDoobieName = "";
     [FormerlySerializedAs("doobieTitle")] public Titles title;
+
+    public int savedXP = 0;
     
     // Global Player Stats
     public int playerXP = 0;

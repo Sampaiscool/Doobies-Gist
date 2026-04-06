@@ -7,6 +7,11 @@ public class InfoManager : MonoBehaviour
     [Header("Settings")]
     public int XP_PER_MASTERY = 100; // Hoeveel XP nodig is voor 1 level-up
 
+    public bool hasChosenDoobie;
+
+    [Header("Global Elements")] 
+    public TMP_Text savedXPText;
+
     [Header("Player UI Elements")]
     public TMP_Text playerFullNameText; // Voor "Title + PlayerName"
     public Image playerPortrait;
@@ -18,6 +23,15 @@ public class InfoManager : MonoBehaviour
     public Image doobiePortrait;
     public TMP_Text doobieXPText;       // Toont "20 / 100"
     public TMP_Text doobieMasteryText;  // Toont "Mastery: 5"
+
+    [Header("Add XP Panel Elements")]
+    public TMP_Text savedXPText2;
+    public TMP_Text chosenNameText;
+    public Image chosenPortrait;
+    public TMP_Text chosenXPText;
+    public TMP_Text chosenMasteryText;
+    public TMP_InputField xpAmountInput;
+    public Button confirmAddXPButton;
     
     private TeamLoader loader;
 
@@ -39,38 +53,31 @@ public class InfoManager : MonoBehaviour
             return;
         }
 
-        // --- 1. Algemene Speler Data ---
-        // We voegen de titel en de naam samen (bijv. "Legendary Sampa")
+        savedXPText.text = $"{data.savedXP} Saved XP";
+        
         playerFullNameText.text = $"{data.title} Player"; 
         playerMasteryText.text = $"Mastery: {data.playerMastery}";
         
-        // De 20/100 logica voor de speler
         playerXPText.text = $"XP: {data.playerXP} / {XP_PER_MASTERY}";
 
-        // --- 2. Geselecteerde Doobie Data ---
         if (!string.IsNullOrEmpty(data.selectedDoobieName))
         {
-            // Zoek de specifieke progressie van deze Doobie
             DoobieProgress progress = data.doobieProgressList.Find(x => x.doobieName == data.selectedDoobieName);
 
             if (progress != null)
             {
-                // De "Flex" naam: combineer Titel + Naam
                 doobieFullNameText.text = $"{progress.currentTitle} {data.selectedDoobieName}";
                 doobieMasteryText.text = $"Mastery: {progress.doobieMastery}";
                 
-                // De 20/100 logica voor de Doobie
                 doobieXPText.text = $"XP: {progress.doobieXP} / {XP_PER_MASTERY}";
             }
             else
             {
-                // Fallback als er nog geen progress is opgeslagen
                 doobieFullNameText.text = $"Novice {data.selectedDoobieName}";
                 doobieMasteryText.text = "Mastery: 0";
                 doobieXPText.text = $"XP: 0 / {XP_PER_MASTERY}";
             }
 
-            // --- 3. Doobie Image inladen ---
             DoobieSO so = Resources.Load<DoobieSO>($"Doobies/{data.selectedDoobieName}");
             if (so != null && doobiePortrait != null)
             {
@@ -82,6 +89,54 @@ public class InfoManager : MonoBehaviour
             doobieFullNameText.text = "No Doobie Selected";
             doobieXPText.text = "-";
             doobieMasteryText.text = "-";
+        }
+
+        savedXPText2.text = savedXPText.text;
+        
+        if (hasChosenDoobie)
+        {
+            chosenNameText.text = doobieFullNameText.text;
+            chosenPortrait.sprite = doobiePortrait.sprite;
+            chosenXPText.text = doobieXPText.text;
+            chosenMasteryText.text = doobieMasteryText.text;
+        }
+        else
+        {
+            chosenNameText.text = playerFullNameText.text;
+            chosenPortrait.sprite = playerPortrait.sprite;
+            chosenXPText.text = playerXPText.text;
+            chosenMasteryText.text = playerMasteryText.text;
+        }
+    }
+    
+    public void OnAddXPButtonClicked()
+    {
+        if (string.IsNullOrEmpty(xpAmountInput.text)) return;
+
+        if (int.TryParse(xpAmountInput.text, out int amountToSpend))
+        {
+            PlayerData data = loader.data;
+
+            if (amountToSpend > data.savedXP)
+            {
+                Debug.LogWarning("Niet genoeg Saved XP!");
+                
+                return; 
+            }
+
+            data.savedXP -= amountToSpend;
+
+            if (hasChosenDoobie)
+            {
+                loader.AddExperienceTo(data.selectedDoobieName, amountToSpend, true);
+            }
+            else
+            {
+                loader.AddExperienceTo("Player", amountToSpend, false);
+            }
+
+            UpdateInfoPanel();
+            xpAmountInput.text = "";
         }
     }
 }
