@@ -24,8 +24,10 @@ MonoBehaviour:
   skillDmg: 1
   healPower: 1
   baseDefence: 1.5
+  baseBurnLevel: 1
+  baseBurnDamage: 1
   characterPool: 18
-  baseHealth: 30
+  baseHealth: 60
   hasHealth: 1
   startingTransformation: 0
   baseSkills:
@@ -54,6 +56,7 @@ MonoBehaviour:
     intensity: 1
     isCurse: 0
   startingItems: []
+  canMulticast: 0
   skillSet1: []
   skillSet2: []
   skillSet3: []

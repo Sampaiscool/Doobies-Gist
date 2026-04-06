@@ -5,7 +5,7 @@ using UnityEngine;
 public class EmberAction : ScriptableObject, IResourceAction
 {
     public string ActionName => "Unleash Ember";
-    public string Description => "Gain 3 burn;\nGain 10/30 ember";
+    public string Description => "Gain 3 burn;\nGain 5/10 ember";
     public bool Execute(CombatantInstance user, CombatantInstance target)
     {
         // stamp this burn with the user's burn level so it respects the caster's level
@@ -13,7 +13,7 @@ public class EmberAction : ScriptableObject, IResourceAction
         initial.sourceBurnLevel = user.CurrentBurnLevel;
         user.AddEffect(initial);
         
-        int gainAmount = UnityEngine.Random.Range(10, 31);
+        int gainAmount = UnityEngine.Random.Range(5, 11);
         
         if (user is DoobieInstance doobie)
         {

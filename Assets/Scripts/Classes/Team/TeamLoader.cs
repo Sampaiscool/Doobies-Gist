@@ -1,76 +1,101 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class TeamLoader : MonoBehaviour
 {
-    private DoobieSO selectedDoobie;
+    public PlayerData data;
+    private string savePath;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        LoadTeamData();  // Load team data from PlayerPrefs
-        LogSelectedDoobie();  // Log the saved team to the console
+        savePath = Path.Combine(Application.persistentDataPath, "doobies_save.json");
+        LoadGame();
     }
 
-    // Load team data from PlayerPrefs
-    public void LoadTeamData()
+    public void SaveGame()
     {
-        string name = PlayerPrefs.GetString("SelectedDoobie_Name", "");
-        if (!string.IsNullOrEmpty(name))
-        {
-            selectedDoobie = Resources.Load<DoobieSO>($"Doobies/{name}");
+        string json = JsonUtility.ToJson(data, true);
+        File.WriteAllText(savePath, json);
+    }
+    
+    public void UpdateSelectedDoobie(string newName)
+    {
+        data.selectedDoobieName = newName;
 
-            if (selectedDoobie != null)
-            {
-                // Only create a new Doobie if one doesn't already exist
-                if (GameManager.Instance.currentDoobie == null)
-                {
-                    GameManager.Instance.currentDoobie = new DoobieInstance(selectedDoobie);
-                    Debug.Log("Created NEW DoobieInstance.");
-                }
-                else
-                {
-                    Debug.Log("Reusing existing DoobieInstance with current HP/Zurp.");
-                    GameManager.Instance.currentDoobie.ActiveEffects.Clear(); // Clear any existing buffs
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"Doobie '{name}' not found in Resources/Doobies!");
-            }
+        if (newName != "")
+        {
+            SaveGame(); // Schrijf direct naar de .json file
+            Debug.Log("JSON ge√ºpdatet met nieuwe Doobie: " + newName);
         }
     }
 
-    // Log the saved team in the console
-    void LogSelectedDoobie()
+    public void LoadGame()
     {
-        if (selectedDoobie == null)
+        if (File.Exists(savePath))
         {
-            Debug.Log("No Doobie selected.");
-            return;
-        }
+            string json = File.ReadAllText(savePath);
+            data = JsonUtility.FromJson<PlayerData>(json);
 
-        string log = $" Selected Doobie:\n" +
-                     $"- Name: {selectedDoobie.doobieName}\n" +
-                     $"- Resource : {selectedDoobie.baseResourceMax} {selectedDoobie.doobieMainResource.ToString()}\n" +
-                     $"- Base Health: {selectedDoobie.baseHealth}\n" +
-                     $"- Has Health?: {selectedDoobie.hasHealth}\n" +
-                     $"- Default Weapon: {(selectedDoobie.defaultWeapon != null ? selectedDoobie.defaultWeapon.weaponName : "None")}\n";
-
-        log += "- Base Skills:\n";
-        if (selectedDoobie.baseSkills != null && selectedDoobie.baseSkills.Count > 0)
-        {
-            foreach (SkillSO skill in selectedDoobie.baseSkills)
-            {
-                log += $"  ï {skill.skillName}\n";
-            }
+            // EXTRA CHECK: Als de file bestond maar de lijst was leeg/corrupt
+            if (data.doobieProgressList == null) 
+                data.doobieProgressList = new List<DoobieProgress>();
         }
         else
         {
-            log += "  ï None\n";
+            // EERSTE KEER OOIT:
+            data = new PlayerData(); 
+            data.doobieProgressList = new List<DoobieProgress>();
+            data.selectedDoobieName = "";
+        
+            SaveGame();
+            Debug.Log("Nieuwe savefile aangemaakt met lege lijsten.");
+        }
+    }
+    
+    public void AddExperienceToDoobie(string name, int xpAmount)
+    {
+        // 1. Zoek of deze Doobie al in de lijst staat
+        DoobieProgress progress = data.doobieProgressList.Find(x => x.doobieName == name);
+
+        // 2. Als hij nog niet bestaat (eerste keer mee gespeeld), maak hem aan
+        if (progress == null)
+        {
+            progress = new DoobieProgress();
+            progress.doobieName = name;
+            progress.currentTitle = Titles.Rookie;
+            progress.isUnlocked = true;
+            data.doobieProgressList.Add(progress);
         }
 
-        Debug.Log(log);
+        // 3. Voeg XP toe
+        progress.doobieXP += xpAmount;
+
+        // 4. Check voor Mastery Level Up (De 20/100 logica)
+        while (progress.doobieXP >= 100)
+        {
+            progress.doobieXP -= 100;
+            progress.doobieMastery++;
+            Debug.Log($"{name} is nu Mastery Level {progress.doobieMastery}!");
+        
+            // Hier kun je eventueel titels checken:
+            // if(progress.doobieMastery == 10) progress.currentTitle = Titles.Expert;
+        }
+
+        // 5. Direct opslaan in de JSON
+        SaveGame();
+    }
+
+    // Deze methode vervangt je oude LoadTeamData
+    public void InitializeSelectedDoobie()
+    {
+        if (string.IsNullOrEmpty(data.selectedDoobieName)) return;
+
+        DoobieSO so = Resources.Load<DoobieSO>($"Doobies/{data.selectedDoobieName}");
+        if (so != null)
+        {
+            GameManager.Instance.currentDoobie = new DoobieInstance(so);
+            Debug.Log($"Loaded {data.selectedDoobieName} from JSON!");
+        }
     }
 }

@@ -27,7 +27,7 @@ MonoBehaviour:
   baseBurnLevel: 1
   baseBurnDamage: 1
   characterPool: 8
-  baseHealth: 10
+  baseHealth: 30
   hasHealth: 1
   startingTransformation: 0
   baseSkills:

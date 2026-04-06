@@ -9,6 +9,6 @@ public class AddButton : MonoBehaviour
 
     public void OnAddClicked()
     {
-        TeamSelectUI.Instance.OpenDoobieSelection(teamSlotIndex);
+        TeamSelectUI.Instance.OpenDoobieSelection();
     }
 }

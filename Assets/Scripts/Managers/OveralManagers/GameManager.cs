@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
     public CombatManager CombatManager;
     public PanelManager PanelManager;
     public LocationManager locationManager;
+    public InfoManager InfoManager;
+    public TeamSelectUI TeamSelectUI;
     public GameObject damageAnimationPrefab;
     public Transform uiCanvas;
 
@@ -43,8 +46,12 @@ public class GameManager : MonoBehaviour
     public bool debugMode = false;
     public bool HasDoneTutorial = false;
 
+    public TeamLoader loader;
+
     private void Awake()
     {
+        FindManagers();
+        
         if (Instance == null)
         {
             Instance = this;
@@ -74,6 +81,10 @@ public class GameManager : MonoBehaviour
         CombatManager = FindFirstObjectByType<CombatManager>();
         PanelManager = FindFirstObjectByType<PanelManager>();
         locationManager = FindFirstObjectByType<LocationManager>();
+        InfoManager = FindFirstObjectByType<InfoManager>();
+        
+        loader = FindFirstObjectByType<TeamLoader>();
+        TeamSelectUI = FindFirstObjectByType<TeamSelectUI>();
     }
 
     public void ChangeHp(int hpAmount, bool isGain, bool maxHpIncrease)
@@ -116,6 +127,7 @@ public class GameManager : MonoBehaviour
             if (CurrentPlayerHP <= 0)
             {
                 CurrentPlayerHP = 0;
+                EndRun();
                 Debug.Log("Game Over! Player has run out of HP.");
             }
 
@@ -239,7 +251,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void EndRun()
+    {
+        FindManagers();
+        string currentDoobie = loader.data.selectedDoobieName;
     
+        // Geef bijvoorbeeld 250 XP
+        loader.AddExperienceToDoobie(currentDoobie, 10);
+        
+        loader.SaveGame();
+        
+        SceneManager.LoadScene("MenuScene");
+    }
 
     public void SpawnSettings()
     {

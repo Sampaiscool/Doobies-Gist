@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -25,8 +26,16 @@ public class DoobieButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private Coroutine animRoutine;
     private CanvasGroup hoverCanvasGroup;
 
+    private TeamSelectUI TeamSelectUI;
+
     private bool isTeamSlot;
     private int teamSlotIndex;
+
+    public void Awake()
+    {
+        GameManager.Instance.FindManagers();
+        TeamSelectUI = GameManager.Instance.TeamSelectUI;
+    }
 
     public void SetupButton(DoobieSO doobie, bool isTeamSlot = false, int teamSlotIndex = -1)
     {
@@ -42,14 +51,14 @@ public class DoobieButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         {
             button.onClick.AddListener(() =>
             {
-                TeamSelectUI.Instance.OpenDoobieSelection(teamSlotIndex);
+                TeamSelectUI.OpenDoobieSelection();
             });
         }
         else
         {
             button.onClick.AddListener(() =>
             {
-                TeamSelectUI.Instance.OnDoobieSelected(doobieData, TeamSelectUI.Instance.selectedSlot);
+                TeamSelectUI.OnDoobieSelected(doobieData);
             });
         }
 
