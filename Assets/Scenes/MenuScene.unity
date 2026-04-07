@@ -1067,7 +1067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d15c532005c9c04f8ca767765d0a634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfoManager
-  XP_PER_MASTERY: 100
+  xpPerMastery: 100
   hasChosenDoobie: 0
   savedXPText: {fileID: 2087268978}
   playerFullNameText: {fileID: 1057813984}
@@ -2750,6 +2750,10 @@ MonoBehaviour:
     selectedDoobieName: 
     title: 0
     savedXP: 0
+    turipSeeds: 0
+    doobieSeeds: 0
+    playerSeeds: 0
+    ravinTreeList: []
     playerXP: 0
     playerMastery: 0
     doobieProgressList: []
@@ -7128,8 +7132,8 @@ MonoBehaviour:
   MaxBattlesBeforeBoss: 3
   InCombat: 0
   CurrentPlayerSploont: 0
-  CurrentPlayerHP: 5
-  CurrentPlayerMaxHP: 5
+  CurrentPlayerHP: 20
+  CurrentPlayerMaxHP: 20
   CurrentPlayerDzeef: 0
   CombatManager: {fileID: 0}
   PanelManager: {fileID: 0}
@@ -7609,7 +7613,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 776884009}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9269003
+  m_Size: 0.00000013076347
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7688,7 +7692,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 93, y: -0.000061035156}
+  m_AnchoredPosition: {x: 93, y: 0}
   m_SizeDelta: {x: -1422.4, y: -673.2511}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2124059115

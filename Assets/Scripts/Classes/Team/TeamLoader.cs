@@ -64,7 +64,7 @@ public class TeamLoader : MonoBehaviour
     public void AddExperienceTo(string name, int xpAmount, bool toDoobie)
     {
         GameManager.Instance.FindManagers();
-        int requiredXP = GameManager.Instance.InfoManager.XP_PER_MASTERY;
+        int requiredXP = GameManager.Instance.InfoManager.xpPerMastery;
         
         if (toDoobie)
         {

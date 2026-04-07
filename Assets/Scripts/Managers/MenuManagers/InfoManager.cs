@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class InfoManager : MonoBehaviour
 {
-    [Header("Settings")]
-    public int XP_PER_MASTERY = 100; // Hoeveel XP nodig is voor 1 level-up
+    [FormerlySerializedAs("XP_PER_MASTERY")] [Header("Settings")]
+    public int xpPerMastery;
 
     public bool hasChosenDoobie;
 
@@ -58,7 +59,7 @@ public class InfoManager : MonoBehaviour
         playerFullNameText.text = $"{data.title} Player"; 
         playerMasteryText.text = $"Mastery: {data.playerMastery}";
         
-        playerXPText.text = $"XP: {data.playerXP} / {XP_PER_MASTERY}";
+        playerXPText.text = $"XP: {data.playerXP} / {xpPerMastery}";
 
         if (!string.IsNullOrEmpty(data.selectedDoobieName))
         {
@@ -69,13 +70,13 @@ public class InfoManager : MonoBehaviour
                 doobieFullNameText.text = $"{progress.currentTitle} {data.selectedDoobieName}";
                 doobieMasteryText.text = $"Mastery: {progress.doobieMastery}";
                 
-                doobieXPText.text = $"XP: {progress.doobieXP} / {XP_PER_MASTERY}";
+                doobieXPText.text = $"XP: {progress.doobieXP} / {xpPerMastery}";
             }
             else
             {
                 doobieFullNameText.text = $"Novice {data.selectedDoobieName}";
                 doobieMasteryText.text = "Mastery: 0";
-                doobieXPText.text = $"XP: 0 / {XP_PER_MASTERY}";
+                doobieXPText.text = $"XP: 0 / {xpPerMastery}";
             }
 
             DoobieSO so = Resources.Load<DoobieSO>($"Doobies/{data.selectedDoobieName}");
