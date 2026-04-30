@@ -18,10 +18,11 @@ public class GameManager : MonoBehaviour
 
     public bool InCombat = false;
 
-    public int CurrentPlayerSploont = 0; //The players current Money 
+    public int CurrentPlayerSploont = 0; //The players current Money
     public int CurrentPlayerHP = 20;
     public int CurrentPlayerMaxHP = 20;
     public int CurrentPlayerDzeef = 0;
+    public int CurrentHarvest = 0; //The players current Harvest earned during the run
     public CombatManager CombatManager;
     public PanelManager PanelManager;
     public LocationManager locationManager;
@@ -216,6 +217,7 @@ public class GameManager : MonoBehaviour
 
         if (hasWonBattle)
         {
+            CurrentHarvest++;
             ChangeSploont(50, true);
 
             bool isBossFight = BattlesFought >= MaxBattlesBeforeBoss;
@@ -256,12 +258,17 @@ public class GameManager : MonoBehaviour
     {
         FindManagers();
         string currentDoobie = loader.data.selectedDoobieName;
-    
+
         loader.AddSavedXP(10);
-        
+
+        // Transfer run Harvest to persistent data for spending on seeds
+        loader.data.harvest += CurrentHarvest;
+        CurrentHarvest = 0;
+
         loader.SaveGame();
-        
-        SceneManager.LoadScene("MenuScene");
+
+        // Load Harvest Shop scene instead of immediately going to menu
+        SceneManager.LoadScene("HarvestShopScene");
     }
 
     public void SpawnSettings()

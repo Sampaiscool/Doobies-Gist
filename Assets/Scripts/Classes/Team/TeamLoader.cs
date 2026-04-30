@@ -41,15 +41,20 @@ public class TeamLoader : MonoBehaviour
             data = JsonUtility.FromJson<PlayerData>(json);
 
             // EXTRA CHECK: Als de file bestond maar de lijst was leeg/corrupt
-            if (data.doobieProgressList == null) 
+            if (data.doobieProgressList == null)
                 data.doobieProgressList = new List<DoobieProgress>();
+
+            // Backward compatibility for new fields
+            if (data.ravinTreeList == null)
+                data.ravinTreeList = new List<RavinTree>();
         }
         else
         {
-            data = new PlayerData(); 
+            data = new PlayerData();
             data.doobieProgressList = new List<DoobieProgress>();
+            data.ravinTreeList = new List<RavinTree>();
             data.selectedDoobieName = "";
-        
+
             SaveGame();
             Debug.Log("Nieuwe savefile aangemaakt met lege lijsten.");
         }

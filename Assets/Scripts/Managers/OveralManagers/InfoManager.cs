@@ -10,8 +10,12 @@ public class InfoManager : MonoBehaviour
 
     public bool hasChosenDoobie;
 
-    [Header("Global Elements")] 
+    [Header("Global Elements")]
     public TMP_Text savedXPText;
+    public TMP_Text harvestText;
+    public TMP_Text turipSeedsText;
+    public TMP_Text doobieSeedsText;
+    public TMP_Text playerSeedsText;
 
     [Header("Player UI Elements")]
     public TMP_Text playerFullNameText; // Voor "Title + PlayerName"
@@ -55,6 +59,15 @@ public class InfoManager : MonoBehaviour
         }
 
         savedXPText.text = $"{data.savedXP} Saved XP";
+
+        if (harvestText != null)
+            harvestText.text = $"Harvest: {data.harvest}";
+        if (turipSeedsText != null)
+            turipSeedsText.text = $"Turip Seeds: {data.turipSeeds}";
+        if (doobieSeedsText != null)
+            doobieSeedsText.text = $"Doobie Seeds: {data.doobieSeeds}";
+        if (playerSeedsText != null)
+            playerSeedsText.text = $"Player Seeds: {data.playerSeeds}";
         
         playerFullNameText.text = $"{data.title} Player"; 
         playerMasteryText.text = $"Mastery: {data.playerMastery}";

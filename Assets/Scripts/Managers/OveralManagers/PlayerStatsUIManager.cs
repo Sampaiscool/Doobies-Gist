@@ -8,6 +8,7 @@ public class PlayerStatsUIManager : MonoBehaviour
     [SerializeField] private TMP_Text sploontText;
     [SerializeField] private TMP_Text DzeefText;
     [SerializeField] private TMP_Text hpText;
+    [SerializeField] private TMP_Text harvestText;
 
     public void UpdatePlayerInfo()
     {
@@ -17,5 +18,8 @@ public class PlayerStatsUIManager : MonoBehaviour
 
         hpText.text = $"HP: {GameManager.Instance.CurrentPlayerHP}\n" +
             $"Doobie HP: {GameManager.Instance.currentDoobie.CurrentHealth}";
+
+        if (harvestText != null)
+            harvestText.text = $"Harvest: {GameManager.Instance.CurrentHarvest}";
     }
 }

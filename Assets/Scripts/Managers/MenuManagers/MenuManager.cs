@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour
     public GameObject TownPanel;
     public GameObject TeamPanel;
     public GameObject InfoPanel;
+    public GameObject ForestPanel;
     public GameObject AddXPPanel;
     public GameObject DoobieSelectionPanel;
 
