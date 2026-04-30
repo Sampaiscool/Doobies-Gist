@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbfc10e7ba8736a43ad4b34a75fcce42, type: 3}
+  m_Name: FatedTraveler
+  m_EditorClassIdentifier: Assembly-CSharp::VangurrSO
+  vangurrName: Fated Traveler
+  portrait: {fileID: 7465929291211185303, guid: e081e3844d96fd24c97eced6dfdb3083, type: 3}
+  skillDmg: 3
+  healPower: 1
+  baseDefence: 5
+  baseHealth: 40
+  VangurrText: 
+  difficultyLevel: 4
+  skillChance: 80
+  isBoss: 0
+  characterPool: 0
+  startingTransformation: 0
+  baseSkills: []
+  defaultWeapon: {fileID: 11400000, guid: 62a7ca6ad343c1b5c8c2ceaa546d15e2, type: 2}
+  startingUpgrades:
+  - upgradeName: Spell Slinger
+    description: If you use a Spell-Style Skill; Deal +1 damage.
+    cost: 0
+    icon: {fileID: 0}
+    type: 1
+    Pool: 0
+    intensity: 5
+    isCurse: 0
+  - upgradeName: Power Spells
+    description: If you gain "Spell Strenghten"; remove +1 "Spell Weaken" Duration
+      and Intensity
+    cost: 0
+    icon: {fileID: 0}
+    type: 21
+    Pool: 0
+    intensity: 5
+    isCurse: 0
+  - upgradeName: Knowledge of the Books
+    description: Once you enter combat; Gain +1 "Spell Strengthen"
+    cost: 0
+    icon: {fileID: 0}
+    type: 64
+    Pool: 0
+    intensity: 3
+    isCurse: 0
+  startingItems: []
+  skillSet1: []
+  skillSet2: []
+  skillSet3: []
