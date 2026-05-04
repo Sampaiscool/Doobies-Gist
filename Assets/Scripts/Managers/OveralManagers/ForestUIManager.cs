@@ -8,9 +8,8 @@ public class ForestUIManager : MonoBehaviour
     public Transform treeContainer;
     public GameObject treeSlotPrefab;
 
-    public TMP_Text turipSeedsText;
-    public TMP_Text doobieSeedsText;
-    public TMP_Text playerSeedsText;
+    [Header("Resource Display")]
+    public TMP_Text harvestText; // We laten nu de harvest zien die je gebruikt om te planten
 
     private TeamLoader loader;
 
@@ -25,12 +24,9 @@ public class ForestUIManager : MonoBehaviour
         if (loader == null || loader.data == null) return;
         var data = loader.data;
 
-        if (turipSeedsText != null)
-            turipSeedsText.text = $"Turip Seeds: {data.turipSeeds}";
-        if (doobieSeedsText != null)
-            doobieSeedsText.text = $"Doobie Seeds: {data.doobieSeeds}";
-        if (playerSeedsText != null)
-            playerSeedsText.text = $"Player Seeds: {data.playerSeeds}";
+        // Laat zien hoeveel harvest de speler heeft om bomen te kopen
+        if (harvestText != null)
+            harvestText.text = $"Harvest: {data.harvest}";
 
         RenderTrees();
     }
@@ -39,7 +35,7 @@ public class ForestUIManager : MonoBehaviour
     {
         if (treeContainer == null || treeSlotPrefab == null) return;
 
-        // Clear existing slots
+        // Verwijder oude slots
         foreach (Transform child in treeContainer)
             Destroy(child.gameObject);
 
@@ -47,55 +43,59 @@ public class ForestUIManager : MonoBehaviour
 
         foreach (var tree in trees)
         {
+            // Verberg geclaimde bomen (of laat ze staan als 'leeg', afhankelijk van je smaak)
+            if (tree.isClaimed) continue;
+
             GameObject slot = Instantiate(treeSlotPrefab, treeContainer);
             TMP_Text label = slot.GetComponentInChildren<TMP_Text>();
-            Button visitBtn = slot.transform.Find("VisitButton")?.GetComponent<Button>();
             Button claimBtn = slot.transform.Find("ClaimButton")?.GetComponent<Button>();
 
-            string status = tree.isComplete ? "Complete" :
-                $"{tree.growthCurrent}/{tree.growthRequired}";
-            label.text = $"{tree.seedType} Tree - {status}";
-
-            if (visitBtn != null)
-            {
-                string id = tree.treeId;
-                visitBtn.onClick.AddListener(() =>
-                {
-                    ForestManager.Instance.VisitTree(id);
-                    RefreshUI();
-                });
-                visitBtn.interactable = !tree.isComplete;
-            }
+            // Status tekst
+            string status = tree.isComplete ? "<color=green>Ready to Harvest!</color>" :
+                $"Growth: {tree.growthCurrent}/{tree.growthRequired}";
+            
+            label.text = $"Ravin Tree\n{status}";
 
             if (claimBtn != null)
             {
                 string id = tree.treeId;
                 claimBtn.onClick.AddListener(() =>
                 {
-                    ForestManager.Instance.ClaimTree(id);
-                    RefreshUI();
+                    if (ForestManager.Instance.ClaimTree(id))
+                    {
+                        // Misschien hier een kleine popup/notificatie: "Item gevonden!"
+                        RefreshUI();
+                    }
                 });
-                claimBtn.interactable = tree.isComplete && !tree.isClaimed;
+                
+                // Knop is alleen klikbaar als de boom 100% is
+                claimBtn.interactable = tree.isComplete;
             }
         }
     }
 
-    // Call these from UI buttons
-    public void PlantTurip()
+    // Gekoppeld aan de "Plant New Tree" knop in je UI
+    public bool PlantTree(bool timeBased)
     {
-        if (ForestManager.Instance.PlantSeed(SeedType.Turip))
-            RefreshUI();
-    }
+        if (loader == null) loader = FindFirstObjectByType<TeamLoader>();
+        var data = loader.data;
 
-    public void PlantDoobie()
-    {
-        if (ForestManager.Instance.PlantSeed(SeedType.Doobie))
-            RefreshUI();
-    }
+        // Check de limiet van 3 bomen
+        if (data.ravinTreeList.Count >= 3) 
+        {
+            Debug.Log("Je bos is vol! Oogst eerst een boom.");
+            return false;
+        }
 
-    public void PlantPlayer()
-    {
-        if (ForestManager.Instance.PlantSeed(SeedType.Player))
-            RefreshUI();
+        int treeCost = 5; // De prijs in harvest
+        if (data.harvest < treeCost) return false;
+
+        data.harvest -= treeCost;
+    
+        // Maak de nieuwe boom aan met het gekozen type
+        data.ravinTreeList.Add(new RavinTree(timeBased));
+    
+        loader.SaveGame();
+        return true;
     }
 }

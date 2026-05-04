@@ -18,9 +18,6 @@ public class Settings : MonoBehaviour
     public int debugEffectDuration = 3;
     public bool debugEffectIsDebuff = false;
 
-    [Header("Item Debug Options")]
-    public ItemType debugItemType = ItemType.None;
-
     // === PANEL CONTROL ===
     public void SpawnEffectsPanel()
     {
@@ -100,21 +97,6 @@ public class Settings : MonoBehaviour
 
         target.AddUpgrade(newUpgrade);
         Debug.Log($"[Debug] Added upgrade '{debugUpgradeSO.upgradeName}' to {target.CharacterName}!");
-    }
-
-    [ContextMenu("Give Item")]
-    public void GiveItem()
-    {
-        CombatantInstance target = GetTarget();
-
-        if (target == null || debugItemType == ItemType.None)
-        {
-            Debug.LogWarning("[Debug] Missing Target or UpgradeSO!");
-            return;
-        }
-
-        target.AddItem(new Item(debugItemType.ToString(), debugItemType.ToString(), 0, debugItemType, CharacterPool.None, true));
-        Debug.Log($"[Debug] Added item " + debugItemType.ToString() + " to {target.CharacterName}!");
     }
 
     [ContextMenu("Give Effect")]

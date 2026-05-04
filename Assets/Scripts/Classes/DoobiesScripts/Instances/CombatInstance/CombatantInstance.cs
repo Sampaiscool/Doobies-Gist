@@ -26,7 +26,6 @@ public abstract class CombatantInstance
     public List<Effect> ActiveEffects { get; private set; } = new List<Effect>();
     public List<GameObject> ActiveEffectIcons = new List<GameObject>();
     public List<Upgrade> ActiveUpgrades { get; private set; } = new List<Upgrade>();
-    public List<Item> ActiveItems { get; private set; } = new List<Item>();
 
     // Controllers - Lazy initialization
     private DamageController _damageController;
@@ -104,9 +103,6 @@ public abstract class CombatantInstance
     public void AddUpgrade(Upgrade newUpgrade)
         => UpgradeCtrl.AddUpgrade(newUpgrade);
 
-    public void AddItem(Item newItem)
-        => UpgradeCtrl.AddItem(newItem);
-
     public void TickEffects()
         => EffectCtrl.TickEffects();
 
@@ -181,9 +177,6 @@ public abstract class CombatantInstance
     {
         return ActiveEffects.Exists(e => e.type.ToGroup() == group);
     }
-
-    public Item GetItem(ItemType type) => ActiveItems.Find(i => i.type == type);
-    public bool HasItem(ItemType type) => ActiveItems.Exists(i => i.type == type);
 
     // Convenience methods for common patterns
     public bool TryEffect(EffectType type, System.Action<Effect> action)

@@ -17,10 +17,8 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 
     private System.Action<Upgrade> onClickActionUpgrade;
-    private System.Action<Item> onClickActionItem;
 
     public Upgrade UpgradeData => upgradeData;
-    public Item ItemData { get; private set; }
 
     public void Setup(Upgrade upgrade, System.Action<Upgrade> onClick)
     {
@@ -39,18 +37,6 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         GetComponent<Button>().onClick.RemoveAllListeners();
         GetComponent<Button>().onClick.AddListener(() => onClickActionUpgrade?.Invoke(upgradeData));
     }
-    public void SetupAsItem(Item item, System.Action<Item> onBuy)
-    {
-        ItemData = item;
-        upgradeNameText.text = item.itemName;
-        upgradeImage.sprite = item.icon;
-        backgroundImage.color = Color.gray;
-        intensity.text = "";
-        onClickActionItem = onBuy;
-
-        GetComponent<Button>().onClick.RemoveAllListeners();
-        GetComponent<Button>().onClick.AddListener(() => onClickActionItem?.Invoke(ItemData));
-    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -58,11 +44,6 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             UpgradeDescriptionPanel.Instance?.ShowDescriptionUpgrade(upgradeData);
         }
-        else
-        {
-            UpgradeDescriptionPanel.Instance?.ShowDescriptionItem(ItemData);
-        }
-            
     }
 
     public void OnPointerExit(PointerEventData eventData)

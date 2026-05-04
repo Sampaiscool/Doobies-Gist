@@ -27,14 +27,6 @@ public class UpgradeDescriptionPanel : MonoBehaviour
             $"{upgrade.description}\n" +
             $"Cost: {upgrade.cost} Sploont";
     }
-    public void ShowDescriptionItem(Item item)
-    {
-        if (item == null) return;
-
-        descriptionText.text =
-            $"{item.description}\n" +
-            $"Cost: {item.cost} Dzeef";
-    }
 
     public void HideDescription()
     {

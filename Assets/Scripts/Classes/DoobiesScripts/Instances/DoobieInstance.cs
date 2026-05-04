@@ -133,22 +133,6 @@ public class DoobieInstance : CombatantInstance
                 icon = upgrade.icon
             });
         }
-        foreach (var item in _so.startingItems)
-        {
-            if (item == null) continue;
-
-            AddItem(new Item(
-                item.itemName,
-                item.description,
-                item.cost,
-                item.type,
-                item.Pool,
-                item.hasBeenPurchased
-            )
-            {
-                icon = item.icon
-            });
-        }
         switch (_so.characterPool)
         {
             case CharacterPool.Zelstine:

@@ -27,6 +27,8 @@ public class PlayerData
     public int playerXP = 0;
     public int playerMastery = 0;
 
+    public List<EquippableItem> inventory = new List<EquippableItem>();
+    
     public List<DoobieProgress> doobieProgressList = new List<DoobieProgress>();
 }
 
@@ -38,25 +40,61 @@ public class DoobieProgress
     public int doobieMastery;
     public Titles currentTitle;
     public bool isUnlocked;
+    
+    public List<string> equippedItemIds = new List<string>();
 }
 
 [System.Serializable]
 public class RavinTree
 {
     public string treeId;
-    public SeedType seedType;
-    public int growthRequired; // Total harvest needed to complete
-    public int growthCurrent;  // Current growth progress
+    public int growthRequired; 
+    public int growthCurrent;  
     public bool isComplete;
     public bool isClaimed;
+    
+    // Tijd-gebaseerde groei
+    public bool isTimeBased;
+    public long finishTimestamp; // UNIX timestamp wanneer hij klaar is
 
-    public RavinTree(SeedType type)
+    public RavinTree(bool timeBased)
     {
         treeId = System.Guid.NewGuid().ToString();
-        seedType = type;
-        growthRequired = 10;
-        growthCurrent = 0;
+        isTimeBased = timeBased;
         isComplete = false;
         isClaimed = false;
+
+        if (timeBased)
+        {
+            // Klaar over bijvoorbeeld 1 uur (3600 seconden)
+            finishTimestamp = System.DateTimeOffset.Now.ToUnixTimeSeconds() + 3600;
+        }
+        else
+        {
+            growthRequired = 5; // 5 Bosses
+            growthCurrent = 0;
+        }
+    }
+}
+
+[System.Serializable]
+public class ItemModifier
+{
+    public string modifierName;
+    public float statBonus; // Bijv. 1.2 voor 20% extra damage
+}
+
+[System.Serializable]
+public class EquippableItem
+{
+    public string itemId;
+    public string itemName;
+    public ItemType itemType;
+    public Rarity rarity;
+    public ItemModifier modifier;
+
+    public EquippableItem()
+    {
+        itemId = System.Guid.NewGuid().ToString();
     }
 }

@@ -174,37 +174,6 @@ public static class SpellUpgradeHandler
 }
 
 /// <summary>
-/// Handles spell item triggers
-/// </summary>
-public static class SpellItemHandler
-{
-    public static void HandleSpellItem(CombatantInstance combatant, Item item, List<Effect> effectsSnapshot)
-    {
-        switch (item.type)
-        {
-            case ItemType.BleedingSpirit:
-                HandleBleedingSpirit(combatant, effectsSnapshot);
-                break;
-            case ItemType.JarOfShadows:
-                combatant.AddEffect(new Effect(EffectType.Shadow, 5, false, 1));
-                break;
-        }
-    }
-
-    private static void HandleBleedingSpirit(CombatantInstance combatant, List<Effect> effectsSnapshot)
-    {
-        foreach (var effect in effectsSnapshot)
-        {
-            if (effect.type == EffectType.Bleed)
-            {
-                var (result, damageDone) = combatant.TakeDamage(effect.intensity, false, true);
-                BattleUIManager.Instance.AddLog($"{combatant.CharacterName} takes {damageDone} bleed damage!");
-            }
-        }
-    }
-}
-
-/// <summary>
 /// Handles weapon-based upgrade triggers
 /// </summary>
 public static class WeaponUpgradeHandler

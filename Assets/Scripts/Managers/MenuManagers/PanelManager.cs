@@ -161,27 +161,23 @@ public class PanelManager : MonoBehaviour
         {
             shopButton.SetActive(false);
         }
-        
-        BurnUpgradeButton.SetActive(true);
-        
+    
+        BurnUpgradeButton.SetActive(false);
+
+        // 2. Check de pool
         switch (currentPool)
         {
             case CharacterPool.MightyFire:
-                
-                switch (GameManager.Instance.currentDoobie.CurrentBurnLevel)
+                int burnLevel = GameManager.Instance.currentDoobie.CurrentBurnLevel;
+
+                if (burnLevel < 3)
                 {
-                    case 1:
-                        TMP_Text text1 = BurnUpgradeButton.GetComponentInChildren<TMP_Text>();
-                        text1.text = "Upgrade burn for 1000 sploont";
-                        break;
-                    case 2:
-                        TMP_Text text2 = BurnUpgradeButton.GetComponentInChildren<TMP_Text>();
-                        text2.text = "Upgrade burn for 2000 sploont";
-                        break;
-                    case 3:
-                        BurnUpgradeButton.SetActive(false);
-                        break;
-                }
+                    BurnUpgradeButton.SetActive(true);
+                    TMP_Text buttonText = BurnUpgradeButton.GetComponentInChildren<TMP_Text>();
+                
+                    int cost = (burnLevel == 1) ? 1000 : 2000;
+                    buttonText.text = $"Upgrade burn for {cost} sploont";
+                } 
                 break;
             default:
                 break;

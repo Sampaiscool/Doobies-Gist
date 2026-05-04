@@ -59,15 +59,7 @@ public static class DeflectionHandler
 
     private static void HandleDeflectionItems(CombatantInstance combatant)
     {
-        foreach (Item item in combatant.ActiveItems)
-        {
-            switch (item.type)
-            {
-                case ItemType.StrikingFlower:
-                    combatant.AddEffect(new Effect(EffectType.BloomBlossom, 2, false, 1));
-                    break;
-            }
-        }
+        
     }
 }
 
@@ -261,7 +253,6 @@ public static class TargetLockedHandler
         BattleUIManager.Instance.AddLog($"Target Locked activates! dealing {damageDone} damage!");
 
         HandleTargetGardenSynergy(combatant, expired);
-        HandleTargetScopedItem(combatant, expired);
     }
 
     private static void HandleTargetGardenSynergy(CombatantInstance combatant, Effect expired)
@@ -271,17 +262,6 @@ public static class TargetLockedHandler
         if (opponentUpgrade != null)
         {
             opponent.AddEffect(new Effect(EffectType.Regeneration, 2, true, opponentUpgrade.intensity));
-        }
-    }
-
-    private static void HandleTargetScopedItem(CombatantInstance combatant, Effect expired)
-    {
-        CombatantInstance opponent = combatant.GetOpponent();
-        var opponentTargetScoped = opponent.ActiveItems.Find(u => u.type == ItemType.TargetScoped);
-        if (opponentTargetScoped != null)
-        {
-            opponent.AddEffect(new Effect(EffectType.TargetLocked, expired.duration + 1, true, expired.intensity));
-            BattleUIManager.Instance.AddLog($"TargetScoped");
         }
     }
 }
@@ -566,7 +546,6 @@ public static class BurnDamageHandler
     public static void HandleBurnDamage(CombatantInstance combatant, CombatantInstance opponent, int damage)
     {
         HandleBurnUpgrades(opponent, damage);
-        HandleBurnItems(combatant, opponent);
     }
 
     private static void HandleBurnUpgrades(CombatantInstance opponent, int burndamage = 0)
@@ -587,22 +566,6 @@ public static class BurnDamageHandler
                         doobie.MainResource.Gain(totalgain);
                     }
                     break;
-            }
-        }
-    }
-
-    private static void HandleBurnItems(CombatantInstance combatant, CombatantInstance opponent)
-    {
-        foreach (Item item in opponent.ActiveItems)
-        {
-                if (item.type == ItemType.Fuel)
-            {
-                var burnEffects = combatant.ActiveEffects.FindAll(e => e.type.ToGroup() == EffectGroup.BurnLike);
-                foreach (var burn in burnEffects)
-                {
-                    burn.intensity *= 2;
-                }
-                BattleUIManager.Instance.AddLog($"{opponent.CharacterName}'s Fuel item doubles {combatant.CharacterName}'s burn intensity!");
             }
         }
     }

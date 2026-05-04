@@ -150,12 +150,6 @@ public class EffectController
         {
             SpellUpgradeHandler.HandleSpellUpgrade(_combatant, opponent, upgrade);
         }
-
-        var effectsSnapshot = new List<Effect>(_combatant.ActiveEffects);
-        foreach (Item item in _combatant.ActiveItems)
-        {
-            SpellItemHandler.HandleSpellItem(_combatant, item, effectsSnapshot);
-        }
     }
 
     public void CheckForWeaponOnUseEffects()

@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 74495537}
   - component: {fileID: 74495536}
   m_Layer: 5
-  m_Name: InfoButton (1)
+  m_Name: ForestButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2612,7 +2612,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1981, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &683125272
@@ -3270,6 +3270,7 @@ MonoBehaviour:
     ravinTreeList: []
     playerXP: 0
     playerMastery: 0
+    inventory: []
     doobieProgressList: []
 --- !u!1 &1015417962
 GameObject:
@@ -5287,6 +5288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1329739590}
   - component: {fileID: 1329739591}
+  - component: {fileID: 1329739592}
   m_Layer: 0
   m_Name: ForestManager
   m_TagString: Untagged
@@ -5322,9 +5324,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForestManager
   growthPerVisit: 1
-  turipSeedReward: 3
-  doobieSeedReward: 2
-  playerXPReward: 50
+--- !u!114 &1329739592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329739589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5356fc3fbd46d06a3c64b9550d7aef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ForestUIManager
+  treeContainer: {fileID: 0}
+  treeSlotPrefab: {fileID: 0}
+  harvestText: {fileID: 0}
 --- !u!1 &1379305833
 GameObject:
   m_ObjectHideFlags: 0
@@ -5729,7 +5743,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Visit
 
-    Forrest'
+    Forest'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6188,7 +6202,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 68.23999}
+  m_AnchoredPosition: {x: 0, y: 68.23993}
   m_SizeDelta: {x: 0, y: 933.52}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1529649243
@@ -7041,7 +7055,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1140}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1676379851
@@ -8605,8 +8619,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 776884010}
   m_HandleRect: {fileID: 776884009}
   m_Direction: 2
-  m_Value: 0.0000008944184
-  m_Size: 0
+  m_Value: 0.0000008944192
+  m_Size: 0.9269003
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -12,12 +12,6 @@ public class StatsUpgradeDescriptionPanel : MonoBehaviour
 
         descriptionText.text = upgrade.description;
     }
-    public void ShowDescriptionItem(Item item)
-    {
-        if (item == null) return;
-
-        descriptionText.text = item.description;
-    }
 
     public void HideDescription()
     {

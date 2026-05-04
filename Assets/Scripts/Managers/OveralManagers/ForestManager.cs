@@ -8,82 +8,58 @@ public class ForestManager : MonoBehaviour
     [Header("Tree Growth Per Visit")]
     public int growthPerVisit = 1;
 
-    [Header("Tree Rewards")]
-    public int turipSeedReward = 3;
-    public int doobieSeedReward = 2;
-    public int playerXPReward = 50;
-
     private TeamLoader loader;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if (Instance == null) Instance = this;
+        else { Destroy(gameObject); return; }
 
         loader = FindFirstObjectByType<TeamLoader>();
     }
 
     /// <summary>
-    /// Plant a seed of the given type. Consumes the seed and creates a new RavinTree.
+    /// Plant een nieuwe Ravin Tree. Kost nu 'Harvest' valuta direct.
     /// </summary>
-    public bool PlantSeed(SeedType seedType)
+    public bool PlantTree(bool timeBased)
     {
-        if (loader == null) loader = FindFirstObjectByType<TeamLoader>();
         var data = loader.data;
+        if (data.ravinTreeList.Count >= 3) return false; // MAX 3 BOMEN
+    
+        int treeCost = 5;
+        if (data.harvest < treeCost) return false;
 
-        switch (seedType)
-        {
-            case SeedType.Turip:
-                if (data.turipSeeds <= 0) return false;
-                data.turipSeeds--;
-                break;
-            case SeedType.Doobie:
-                if (data.doobieSeeds <= 0) return false;
-                data.doobieSeeds--;
-                break;
-            case SeedType.Player:
-                if (data.playerSeeds <= 0) return false;
-                data.playerSeeds--;
-                break;
-        }
-
-        data.ravinTreeList.Add(new RavinTree(seedType));
+        data.harvest -= treeCost;
+        data.ravinTreeList.Add(new RavinTree(timeBased));
         loader.SaveGame();
         return true;
     }
 
     /// <summary>
-    /// Visit a tree and grow it. Returns true if the tree is now complete.
+    /// Wordt aangeroepen na het verslaan van een baas/vangurr.
     /// </summary>
-    public bool VisitTree(string treeId)
+    public void GrowAllTrees()
     {
         if (loader == null) loader = FindFirstObjectByType<TeamLoader>();
         var data = loader.data;
 
-        var tree = data.ravinTreeList.Find(t => t.treeId == treeId);
-        if (tree == null || tree.isComplete) return false;
-
-        tree.growthCurrent += growthPerVisit;
-
-        if (tree.growthCurrent >= tree.growthRequired)
+        foreach (var tree in data.ravinTreeList)
         {
-            tree.growthCurrent = tree.growthRequired;
-            tree.isComplete = true;
+            if (!tree.isComplete)
+            {
+                tree.growthCurrent += growthPerVisit;
+                if (tree.growthCurrent >= tree.growthRequired)
+                {
+                    tree.growthCurrent = tree.growthRequired;
+                    tree.isComplete = true;
+                }
+            }
         }
-
         loader.SaveGame();
-        return tree.isComplete;
     }
 
     /// <summary>
-    /// Claim a completed tree's reward. Applies reward based on seed type.
+    /// Oogst de boom en geeft een item via de ItemManager.
     /// </summary>
     public bool ClaimTree(string treeId)
     {
@@ -93,61 +69,26 @@ public class ForestManager : MonoBehaviour
         var tree = data.ravinTreeList.Find(t => t.treeId == treeId);
         if (tree == null || !tree.isComplete || tree.isClaimed) return false;
 
-        tree.isClaimed = true;
-
-        // Apply reward based on seed type
-        switch (tree.seedType)
+        // Genereer item beloning
+        if (ItemManager.Instance != null)
         {
-            case SeedType.Turip:
-                data.turipSeeds += turipSeedReward;
-                break;
-            case SeedType.Doobie:
-                data.doobieSeeds += doobieSeedReward;
-                break;
-            case SeedType.Player:
-                data.savedXP += playerXPReward;
-                break;
+            EquippableItem newItem = ItemManager.Instance.GenerateRandomItem();
+            ItemManager.Instance.AddToInventory(newItem);
+            
+            // Markeer als geclaimd of verwijder de boom uit de lijst
+            tree.isClaimed = true; 
+            // Optioneel: data.ravinTreeList.Remove(tree); als de plek weer vrij moet komen.
+            
+            loader.SaveGame();
+            return true;
         }
 
-        loader.SaveGame();
-        return true;
+        return false;
     }
 
-    /// <summary>
-    /// Get all trees in the forest.
-    /// </summary>
     public List<RavinTree> GetAllTrees()
     {
         if (loader == null) loader = FindFirstObjectByType<TeamLoader>();
         return loader.data.ravinTreeList;
-    }
-
-    /// <summary>
-    /// Buy seeds using Harvest currency. Returns true if purchase succeeded.
-    /// </summary>
-    public bool BuySeed(SeedType seedType)
-    {
-        if (loader == null) loader = FindFirstObjectByType<TeamLoader>();
-        var data = loader.data;
-
-        if (data.harvest <= 0) return false;
-
-        data.harvest--;
-
-        switch (seedType)
-        {
-            case SeedType.Turip:
-                data.turipSeeds++;
-                break;
-            case SeedType.Doobie:
-                data.doobieSeeds++;
-                break;
-            case SeedType.Player:
-                data.playerSeeds++;
-                break;
-        }
-
-        loader.SaveGame();
-        return true;
     }
 }

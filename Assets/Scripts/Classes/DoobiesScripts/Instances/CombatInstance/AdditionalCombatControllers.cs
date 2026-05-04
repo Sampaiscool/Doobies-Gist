@@ -250,15 +250,7 @@ public class CombatController
 
     private void HandleDualBarrels(CombatantInstance owner, Effect barrelEffect, bool ownerIsBeingAttacked)
     {
-        if (ownerIsBeingAttacked)
-        {
-            bool hasDualBarrels = owner.ActiveItems.Any(i => i.type == ItemType.DualBarrels);
-            if (hasDualBarrels)
-            {
-                owner.AddEffect(new Effect(EffectType.Barrel, 100, false, barrelEffect.intensity));
-                BattleUIManager.Instance.AddLog($"{owner.CharacterName}'s Dual Barrels rebuild themselves after the explosion!");
-            }
-        }
+        
     }
 }
 /// <summary>
@@ -554,18 +546,5 @@ public class UpgradeController
         {
             _combatant.ActiveUpgrades.Add(newUpgrade);
         }
-    }
-
-    public void AddItem(Item newItem)
-    {
-        Item existing = _combatant.ActiveItems.Find(i => i.type == newItem.type);
-        if (existing != null)
-        {
-            Debug.Log($"Already owns item: {newItem.itemName}");
-            return;
-        }
-
-        _combatant.ActiveItems.Add(newItem);
-        Debug.Log($"Added active item: {newItem.itemName}");
     }
 }

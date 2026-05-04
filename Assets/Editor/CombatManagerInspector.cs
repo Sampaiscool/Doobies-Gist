@@ -275,17 +275,6 @@ public class CombatManagerInspector : Editor
                     Repaint();
                 }
             }
-            else if (elem is Item it)
-            {
-                var newType = (ItemType)EditorGUILayout.EnumPopup(it.type, GUILayout.Width(120));
-                if (newType != it.type)
-                {
-                    Undo.RecordObject(target as UnityEngine.Object, "Edit Item");
-                    it.type = newType;
-                    EditorUtility.SetDirty(target);
-                    Repaint();
-                }
-            }
             else if (elem is UnityEngine.Object uobj)
             {
                 UnityEngine.Object nv = EditorGUILayout.ObjectField(uobj, elemType, true);
@@ -308,7 +297,6 @@ public class CombatManagerInspector : Editor
             object newElem = null;
             if (elemType == typeof(Effect)) newElem = new Effect(EffectType.Burn, 3, true, 1);
             else if (elemType == typeof(Upgrade)) newElem = new Upgrade("ya", "BABA", 0, UpgradeNames.WeaponMastery, CharacterPool.None, 1, false);
-            else if (elemType == typeof(Item)) newElem = new Item("erm", "is he real?!", 123, ItemType.None, CharacterPool.None, true);
             else if (typeof(UnityEngine.Object).IsAssignableFrom(elemType)) newElem = null;
             else
             {

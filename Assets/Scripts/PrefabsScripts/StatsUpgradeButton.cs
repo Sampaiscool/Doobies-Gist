@@ -10,7 +10,6 @@ public class StatsUpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerE
     public TMP_Text intensity;
 
     private Upgrade upgradeData;
-    private Item itemData;
 
     public void SetupUpgrade(Upgrade upgrade)
     {
@@ -22,16 +21,6 @@ public class StatsUpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 
         intensity.text = upgrade.intensity.ToString();
     }
-    public void SetupItem(Item item)
-    {
-        itemData = item;
-        upgradeNameText.text = item.itemName;
-
-        if (item.icon != null)
-            upgradeImage.sprite = item.icon;
-
-        intensity.text = "";
-    }
 
     public void OnPointerEnter(UnityEngine.EventSystems.PointerEventData eventData)
     {
@@ -40,10 +29,6 @@ public class StatsUpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (upgradeData != null)
         {
             statsUpgradeDescriptionPanel.ShowDescriptionUpgrade(upgradeData);
-        }
-        else if (itemData != null)
-        {
-            statsUpgradeDescriptionPanel.ShowDescriptionItem(itemData);
         }
     }
 

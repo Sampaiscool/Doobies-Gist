@@ -68,24 +68,6 @@ public class VangurrInstance : CombatantInstance
             });
         }
 
-        // Items
-        foreach (var item in _so.startingItems)
-        {
-            if (item == null) continue;
-
-            AddItem(new Item(
-                item.itemName,
-                item.description,
-                item.cost,
-                item.type,
-                item.Pool,
-                item.hasBeenPurchased
-            )
-            {
-                icon = item.icon
-            });
-        }
-
         // Transformation skills 
         if (_so.characterPool == CharacterPool.Biyumi)
         {
