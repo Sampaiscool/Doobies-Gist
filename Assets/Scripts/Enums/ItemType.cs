@@ -10,4 +10,5 @@ public enum ItemType
     Bow,
     Book,
     Aura,
+    Charm
 }

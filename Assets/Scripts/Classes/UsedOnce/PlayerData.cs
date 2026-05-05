@@ -21,14 +21,13 @@ public class PlayerData
     public int turipSeeds;
     public int doobieSeeds;
     public int playerSeeds;
-    public List<RavinTree> ravinTreeList;
 
     // Global Player Stats
     public int playerXP = 0;
     public int playerMastery = 0;
 
+    public List<RavinTree> ravinTreeList = new List<RavinTree>();
     public List<EquippableItem> inventory = new List<EquippableItem>();
-    
     public List<DoobieProgress> doobieProgressList = new List<DoobieProgress>();
 }
 

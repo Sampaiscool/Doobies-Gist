@@ -11,6 +11,7 @@ public class MenuManager : MonoBehaviour
     public GameObject TeamPanel;
     public GameObject InfoPanel;
     public GameObject ForestPanel;
+    public GameObject EquipmentPanel;
     public GameObject AddXPPanel;
     public GameObject DoobieSelectionPanel;
 

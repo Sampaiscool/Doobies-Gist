@@ -85,6 +85,33 @@ public class ForestManager : MonoBehaviour
 
         return false;
     }
+    
+    public void GrowBattleTrees(int amount)
+    {
+        if (loader == null || loader.data == null) return;
+
+        bool anyTreeGrew = false;
+        foreach (var tree in loader.data.ravinTreeList)
+        {
+            // Alleen bomen die niet tijd-gebaseerd zijn en nog niet klaar zijn groeien
+            if (!tree.isTimeBased && !tree.isComplete && !tree.isClaimed)
+            {
+                tree.growthCurrent += amount;
+                if (tree.growthCurrent >= tree.growthRequired)
+                {
+                    tree.growthCurrent = tree.growthRequired;
+                    tree.isComplete = true;
+                    Debug.Log($"A Battle Tree is now ready to harvest!");
+                }
+                anyTreeGrew = true;
+            }
+        }
+
+        if (anyTreeGrew)
+        {
+            loader.SaveGame();
+        }
+    }
 
     public List<RavinTree> GetAllTrees()
     {

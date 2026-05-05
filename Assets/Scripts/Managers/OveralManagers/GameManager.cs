@@ -234,17 +234,36 @@ public class GameManager : MonoBehaviour
                 CurrentDifficulty++;
                 ChangeDzeef(1, true);
 
+                // --- NIEUW: Beloning naar JSON op basis van difficulty ---
+                if (loader != null && loader.data != null)
+                {
+                    // Beloning: 5 harvest per difficulty level
+                    int bossBonus = CurrentDifficulty * 5;
+                    loader.data.harvest += bossBonus;
+                    Debug.Log($"Boss defeated! Gained {bossBonus} persistent harvest.");
+                }
+
+                // --- NIEUW: Laat bomen groeien na een Boss ---
+                // We checken eerst of de ForestManager bestaat
+                if (ForestManager.Instance != null)
+                {
+                    ForestManager.Instance.GrowBattleTrees(1);
+                }
+
                 int healAmount = Mathf.Min(10, currentDoobie.MaxHealth - currentDoobie.CurrentHealth);
                 currentDoobie.CurrentHealth += healAmount;
+            
+                // Sla de progressie direct op
+                loader.SaveGame();
             }
         }
         else
         {
             // Penalties for losing
             ChangeSploont(25, true);
-            ChangeHp(10, false, false); // Lose 10 Player HP
-            currentDoobie.MaxHealth -= 5; // Lose 5 doobie max HP
-            currentDoobie.CurrentHealth = currentDoobie.MaxHealth / 2; // Survive with half doobie HP
+            ChangeHp(10, false, false); 
+            currentDoobie.MaxHealth -= 5; 
+            currentDoobie.CurrentHealth = currentDoobie.MaxHealth / 2; 
         }
 
         PlayerStatsUIManager playerStatsUIManager = FindFirstObjectByType<PlayerStatsUIManager>();
