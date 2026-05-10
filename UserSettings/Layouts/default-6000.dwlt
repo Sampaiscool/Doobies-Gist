@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2560
     height: 1397
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Game
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -694,14 +694,7 @@ MonoBehaviour:
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
-      - m_Data: -13072
-      - m_Data: -11916
-      - m_Data: -11130
-      - m_Data: -3192
-      - m_Data: -1406
-      - m_Data: 41950
-      - m_Data: 42094
-      - m_Data: 42356
+      - m_Data: -1312
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1336,9 +1329,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 2067.151, y: 1260.8357, z: -6.5280313}
+    m_Target: {x: 1536.4326, y: 918.9939, z: -16.528738}
     speed: 2
-    m_Value: {x: 2067.151, y: 1260.8357, z: -6.5280313}
+    m_Value: {x: 1536.4326, y: 918.9939, z: -16.528738}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1388,9 +1381,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 366.9877
+    m_Target: 1367.0587
     speed: 2
-    m_Value: 366.9877
+    m_Value: 1367.0587
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1528,7 +1521,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets/Scripts/Managers/OveralManagers
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1538,39 +1531,39 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 53
   m_LastFolders:
-  - Assets/Prefabs
+  - Assets/Scripts/Managers/OveralManagers
   m_LastFoldersGridSize: 53
   m_LastProjectPath: C:\Users\Sem\Documents\UnityProjects\Doobies Gist\Doobies-Gist
   m_LockTracker:
     m_IsLocked: 0
   m_LastLocalAssetsSearchArea: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
+    scrollPos: {x: 0, y: 641}
     m_SelectedIDs:
-    - m_Data: 42500
+    - m_Data: 41386
     m_LastClickedID:
-      m_Data: 42500
+      m_Data: 41386
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 42484
-    - m_Data: 42486
-    - m_Data: 42488
-    - m_Data: 42490
-    - m_Data: 42492
-    - m_Data: 42494
-    - m_Data: 42496
-    - m_Data: 42498
-    - m_Data: 42500
-    - m_Data: 42502
-    - m_Data: 42504
-    - m_Data: 42506
-    - m_Data: 42508
-    - m_Data: 42510
-    - m_Data: 42512
-    - m_Data: 42514
-    - m_Data: 42516
-    - m_Data: 42518
-    - m_Data: 42520
+    - m_Data: 41172
+    - m_Data: 41174
+    - m_Data: 41176
+    - m_Data: 41178
+    - m_Data: 41180
+    - m_Data: 41182
+    - m_Data: 41184
+    - m_Data: 41186
+    - m_Data: 41188
+    - m_Data: 41190
+    - m_Data: 41192
+    - m_Data: 41194
+    - m_Data: 41196
+    - m_Data: 41198
+    - m_Data: 41200
+    - m_Data: 41202
+    - m_Data: 41204
+    - m_Data: 41206
+    - m_Data: 41208
     - m_Data: 1000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1604,25 +1597,25 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 42484
-    - m_Data: 42486
-    - m_Data: 42488
-    - m_Data: 42490
-    - m_Data: 42492
-    - m_Data: 42494
-    - m_Data: 42496
-    - m_Data: 42498
-    - m_Data: 42500
-    - m_Data: 42502
-    - m_Data: 42504
-    - m_Data: 42506
-    - m_Data: 42508
-    - m_Data: 42510
-    - m_Data: 42512
-    - m_Data: 42514
-    - m_Data: 42516
-    - m_Data: 42518
-    - m_Data: 42520
+    - m_Data: 41172
+    - m_Data: 41174
+    - m_Data: 41176
+    - m_Data: 41178
+    - m_Data: 41180
+    - m_Data: 41182
+    - m_Data: 41184
+    - m_Data: 41186
+    - m_Data: 41188
+    - m_Data: 41190
+    - m_Data: 41192
+    - m_Data: 41194
+    - m_Data: 41196
+    - m_Data: 41198
+    - m_Data: 41200
+    - m_Data: 41202
+    - m_Data: 41204
+    - m_Data: 41206
+    - m_Data: 41208
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1651,7 +1644,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: []
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs:
     - m_Data: 38550
     m_RenameOverlay:

@@ -3686,7 +3686,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1992, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &683125272
@@ -5539,7 +5539,6 @@ GameObject:
   - component: {fileID: 1085772774}
   - component: {fileID: 1085772773}
   - component: {fileID: 1085772772}
-  - component: {fileID: 1085772771}
   m_Layer: 5
   m_Name: EquipmentPanel
   m_TagString: Untagged
@@ -5568,21 +5567,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1992, y: 1147}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1085772771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1085772769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef5356fc3fbd46d06a3c64b9550d7aef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ForestUIManager
-  treeContainer: {fileID: 0}
-  treeSlotPrefab: {fileID: 2567416839322135623, guid: 3c5fa5e6229992048868359c9b7d7938, type: 3}
-  harvestText: {fileID: 0}
 --- !u!225 &1085772772
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -7392,7 +7376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6be40c8165d69e2fb9acf500e3f21981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForestManager
-  growthPerVisit: 1
+  treeGrowth: 1
 --- !u!1 &1379305833
 GameObject:
   m_ObjectHideFlags: 0
@@ -9354,7 +9338,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 1142}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1676379851
@@ -11408,7 +11392,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 776884009}
   m_Direction: 2
   m_Value: -0.0000035776768
-  m_Size: 0.9269003
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

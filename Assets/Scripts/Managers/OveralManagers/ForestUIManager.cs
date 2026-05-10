@@ -152,9 +152,12 @@ public class ForestUIManager : MonoBehaviour
         {
             if (btnText != null) btnText.text = "Harvest";
             btn.interactable = true;
+        
             btn.onClick.AddListener(() => {
-                ForestManager.Instance.ClaimTree(tree.treeId);
-                RefreshUI();
+                if (ForestManager.Instance.ClaimTree(tree.treeId))
+                {
+                    RefreshUI(); // Update de UI direct na het claimen
+                }
             });
         }
         else
@@ -174,7 +177,6 @@ public class ForestUIManager : MonoBehaviour
         
         btn.interactable = true;
         btn.onClick.AddListener(() => {
-            // We kiezen hier standaard voor een Battle Tree (false)
             if(PlantTree(false)) RefreshUI(); 
         });
     }

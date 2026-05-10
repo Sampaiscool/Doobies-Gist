@@ -5,8 +5,7 @@ public class ForestManager : MonoBehaviour
 {
     public static ForestManager Instance;
 
-    [Header("Tree Growth Per Visit")]
-    public int growthPerVisit = 1;
+    public int treeGrowth = 1;
 
     private TeamLoader loader;
 
@@ -47,7 +46,7 @@ public class ForestManager : MonoBehaviour
         {
             if (!tree.isComplete)
             {
-                tree.growthCurrent += growthPerVisit;
+                tree.growthCurrent += treeGrowth;
                 if (tree.growthCurrent >= tree.growthRequired)
                 {
                     tree.growthCurrent = tree.growthRequired;
@@ -66,20 +65,23 @@ public class ForestManager : MonoBehaviour
         if (loader == null) loader = FindFirstObjectByType<TeamLoader>();
         var data = loader.data;
 
+        // Zoek de boom
         var tree = data.ravinTreeList.Find(t => t.treeId == treeId);
-        if (tree == null || !tree.isComplete || tree.isClaimed) return false;
+    
+        // Check of de boom bestaat en klaar is
+        if (tree == null || !tree.isComplete) return false;
 
         // Genereer item beloning
         if (ItemManager.Instance != null)
         {
             EquippableItem newItem = ItemManager.Instance.GenerateRandomItem();
             ItemManager.Instance.AddToInventory(newItem);
-            
-            // Markeer als geclaimd of verwijder de boom uit de lijst
-            tree.isClaimed = true; 
-            // Optioneel: data.ravinTreeList.Remove(tree); als de plek weer vrij moet komen.
-            
+        
+            // FIX: Verwijder de boom uit de lijst zodat de plek vrijkomt!
+            data.ravinTreeList.Remove(tree); 
+        
             loader.SaveGame();
+            Debug.Log("Tree claimed and removed from list. Item added to inventory.");
             return true;
         }
 
