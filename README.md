@@ -31,3 +31,11 @@
 1. Clone de repository:  
    ```bash
    git clone https://github.com/Sampaiscool/Doobies-Gist.git
+
+2. Installeer de Unity plugins via "Window -> Package Management -> Package Manager -> Unity Registery"
+   - 2D
+   - Burst
+   - Collections
+   - Input system
+   - Mathematics
+   - Visual Scripting
